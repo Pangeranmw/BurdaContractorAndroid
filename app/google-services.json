@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "522699406443",
+    "firebase_url": "https://burda-contraco-default-rtdb.firebaseio.com",
+    "project_id": "burda-contraco",
+    "storage_bucket": "burda-contraco.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522699406443:android:bbbae6b117391a4930c52e",
+        "android_client_info": {
+          "package_name": "com.android.burdacontractor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522699406443-0j7ap9tsfq8ec9m2iqbcpsuna6a8g51s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.burdacontractor",
+            "certificate_hash": "25b74d066109ee7f8134f34fa28495c3eac71286"
+          }
+        },
+        {
+          "client_id": "522699406443-g83jq657il06qm4mbfjoqa2a44t9pmgl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC1DrfUnhV1xuXQ1zUVvEbkTHqL37LoFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522699406443-g83jq657il06qm4mbfjoqa2a44t9pmgl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
