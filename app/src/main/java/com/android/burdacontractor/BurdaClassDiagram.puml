@@ -1,0 +1,154 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class SuratJalanInteractor implements SuratJalanUseCase
+class SuratJalanInteractor extends SuratJalanRepository
+interface SuratJalanUseCase
+interface ISuratJalanRepository
+class SuratJalanRepository implements ISuratJalanRepository
+class SuratJalanRepository extends SuratJalanRemoteDataSource
+class SuratJalanRemoteDataSource
+
+class AuthViewModel {
+    +loginResponse
+    +messageResponse
+    +state
+    +loginUser()
+    +loginWithPin()
+    +register()
+    +logout()
+}
+
+class UserViewModel{
+    +profileResponse
+    +ttd
+    +photo
+    +messageResponse
+    +state
+    +getProfile()
+    +updateProfile()
+    +updatePassword()
+    +uploadPhoto()
+    +getPhoto()
+    +uploadTTD()
+    +getTTD()
+}
+
+class SuratJalanViewModel extends SuratJalanInteractor{
+    +state
+    +allSuratJalanResponse
+    +suratJalanDetailResponse
+    +pantauSuratJalanResponse
+    +messageResponse
+    +getAllSuratJalan()
+    +getSuratJalanById()
+    +addSuratJalanPengirimanPp()
+    +addSuratJalanPengembalian()
+    +updateSuratJalanPengirimanGp()
+    +updateSuratJalanPengirimanGp()
+    +updateSuratJalanPengembalian()
+    +deleteSuratJalan()
+    +changeStatusSuratJalan()
+    +uploadFotoBukti()
+    +pantauSuratJalan()
+}
+
+class DeliveryOrderViewModel {
+    +state
+    +allDeliveryOrderResponse
+    +deliveryOrderDetailResponse
+    +pantauDeliveryOrderResponse
+    +messageResponse
+    +getAllDeliveryOrder()
+    +getDeliveryOrderById()
+    +addDeliveryOrder()
+    +deleteDeliveryOrder()
+    +changeStatusDeliveryOrder()
+    +uploadFotoBukti()
+    +pantauDeliveryOrder()
+}
+
+class PerusahaanViewModel {
+    +state
+    +allPerusahaanResponse
+    +perusahaanDetailResponse
+    +messageResponse
+    +getAllPerusahaan()
+    +getPerusahaanById()
+    +addPerusahaan()
+    +deletePerusahaan()
+    +updatePerusahaan()
+}
+
+class GudangViewModel {
+    +state
+    +allGudangResponse
+    +gudangDetailResponse
+    +messageResponse
+    +getAllGudang()
+    +getGudangById()
+    +addGudang()
+    +deletePerusahaan()
+    +updatePerusahaan()
+}
+
+enum UserRole {
+ADMIN
+ADMIN_GUDANG
+SUPERVISOR
+LOGISTIC
+PURCHASING
+PROJECT_MANAGER
+UMUM
+}
+
+enum SuratJalanStatus {
+    MENUNGGU_KONFIRMASI_DRIVER
+    DRIVER_DALAM_PERJALANAN
+    SELESAI
+}
+
+enum PengembalianStatus {
+    MENUNGGU_PENGEMBALIAN
+    SEDANG_DIKEMBALIKAN
+    SELESAI
+}
+enum PeminjamanTipe {
+    GUDANG_PROYEK
+    PROYEK_PROYEK
+}
+enum SuratJalanTipe {
+    PENGIRIMAN_PROYEK_PROYEK
+    PENGIRIMAN_GUDANG_PROYEK
+    PENGEMBALIAN
+}
+enum PeminjamanStatus {
+    MENUNGGU_AKSES
+    AKSES_DITOLAK
+    MENUNGGU_PENGIRIMAN
+    SEDANG_DIKIRIM
+    DIPINJAM
+    SELESAI
+}
+
+enum PeminjamanDetailStatus {
+    MENUNGGU_AKSES
+    DIGUNAKAN
+    TIDAK_DIGUNAKAN
+    DIPINJAM_PROYEK_LAIN
+    DIKEMBALIKAN
+}
+
+enum BarangTidakHabisPakaiKondisi {
+    BARU
+    BEKAS
+}
+
+enum DeliveryOrderStatus {
+    MENUNGGU_KONFIRMASI_ADMIN_GUDANG
+    MENUNGGU_KONFIRMASI_DRIVER
+    DRIVER_DALAM_PERJALANAN
+    SELESAI
+}
+
+@enduml

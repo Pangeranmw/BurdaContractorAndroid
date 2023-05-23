@@ -49,7 +49,7 @@ interface SuratJalanUseCase {
         peminjamanId: String
     ): Flow<Resource<AddSuratJalanResponse>>
 
-    suspend fun updateSuratJalanPengirimanGp(
+    suspend fun updateSuratJalanPengirimanPp(
         adminGudangId: String,
         logisticId: String,
         kendaraanId: String,

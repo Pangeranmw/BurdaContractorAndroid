@@ -1,8 +1,11 @@
 package com.android.burdacontractor.core.domain.usecase
 
+import com.android.burdacontractor.core.data.Resource
+import com.android.burdacontractor.core.data.source.remote.response.AddSuratJalanResponse
 import com.android.burdacontractor.core.domain.model.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.SuratJalanTipe
 import com.android.burdacontractor.core.domain.repository.ISuratJalanRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SuratJalanInteractor @Inject constructor(private val suratJalanRepository: ISuratJalanRepository):
@@ -47,14 +50,15 @@ class SuratJalanInteractor @Inject constructor(private val suratJalanRepository:
         peminjamanId: String
     )=suratJalanRepository.updateSuratJalanPengirimanGp(adminGudangId, logisticId,kendaraanId,peminjamanId)
 
-    override suspend fun updateSuratJalanPengirimanGp(
+    override suspend fun updateSuratJalanPengirimanPp(
         adminGudangId: String,
         logisticId: String,
         kendaraanId: String,
         peminjamanAsalId: String,
         peminjamanTujuanId: String
-    )=suratJalanRepository.updateSuratJalanPengirimanGp(adminGudangId, logisticId,kendaraanId,peminjamanAsalId,peminjamanTujuanId)
-
+    ): Flow<Resource<AddSuratJalanResponse>> {
+        TODO("Not yet implemented")
+    }
     override suspend fun updateSuratJalanPengembalian(
         adminGudangId: String,
         logisticId: String,

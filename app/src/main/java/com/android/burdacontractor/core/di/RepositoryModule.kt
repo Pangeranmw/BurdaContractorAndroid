@@ -2,7 +2,7 @@ package com.android.burdacontractor.core.di
 
 import com.android.burdacontractor.core.data.LogisticRepository
 import com.android.burdacontractor.core.data.SuratJalanRepository
-import com.android.burdacontractor.core.data.TourismRepository
+import com.android.burdacontractor.presentation.test.TourismRepository
 import com.android.burdacontractor.core.domain.repository.ILogisticRepository
 import com.android.burdacontractor.core.domain.repository.ISuratJalanRepository
 import com.android.burdacontractor.core.domain.repository.ITourismRepository
