@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/beranda_sv_pm" android:icon="@drawable/ic_beranda" android:title="@string/beranda"/>
+    <item android:id="@+id/surat_jalan_gp_sv_pm" android:icon="@drawable/ic_send_req" android:title="@string/surat_jalan_gp"/>
+    <item android:id="@+id/surat_jalan_pp_sv_pm" android:icon="@drawable/ic_send_req" android:title="@string/surat_jalan_pp"/>
+    <item android:id="@+id/surat_jalan_pengembalian_sv_pm" android:icon="@drawable/ic_return_req" android:title="@string/surat_jalan_pengembalian"/>
+</menu>

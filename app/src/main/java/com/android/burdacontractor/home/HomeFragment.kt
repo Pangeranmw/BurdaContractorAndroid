@@ -38,9 +38,9 @@ class HomeFragment : Fragment() {
         if (activity != null) {
 
             val tourismAdapter = TourismAdapter()
-            tourismAdapter.onItemClick = { selectedData ->
+            tourismAdapter.onItemClick = {
                 val intent = Intent(activity, DetailTourismActivity::class.java)
-                intent.putExtra(DetailTourismActivity.EXTRA_DATA, selectedData)
+                intent.putExtra(DetailTourismActivity.EXTRA_DATA, it)
                 startActivity(intent)
             }
 

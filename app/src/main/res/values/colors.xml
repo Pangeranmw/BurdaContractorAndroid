@@ -5,6 +5,43 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
+    <color name="black">#545454</color>
+    <color name="black_trans">#70000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="shadow_gray_smooth">#FAFAFA</color>
+    <color name="shadow_pink_smooth">#FFDCE8</color>
+    <color name="gray_light">#F6F6F6</color>
+    <color name="gray">#A8A8A8</color>
+    <color name="input">#F4F4F4</color>
+
+    <color name="green_dark_half">#169147</color>
+
+    <color name="primary_main">#1F4844</color>
+    <color name="primary_second">#36716C</color>
+    <color name="primary_light_full">#61B6AE</color>
+    <color name="primary_light_half">#4B9F97</color>
+    <color name="primary_dark_full">#143C38</color>
+    <color name="primary_dark_half">#1E514C</color>
+
+    <color name="secondary_main">#8EC03D</color>
+    <color name="secondary_light_full">#DDF1BC</color>
+    <color name="secondary_light_half">#AFC58A</color>
+    <color name="secondary_dark_full">#5E8029</color>
+    <color name="secondary_dark_half">#78A335</color>
+
+    <color name="green_light_full">#4FE88C</color>
+    <color name="green_light_half">#B4F5CE</color>
+    <color name="green_dark_full">#0E5D2E</color>
+
+    <color name="pink_light">#FFF5F8</color>
+    <color name="pink_light_bg">#FFF4F4</color>
+
+    <color name="yellow_light_full">#FFE350</color>
+    <color name="yellow_light_half">#F5EBB4</color>
+    <color name="yellow_dark_full">#605100</color>
+
+    <color name="orange_light_full">#FF9F48</color>
+    <color name="orange_light_half">#FF7A00</color>
+    <color name="orange_dark_full">#C55E00</color>
 </resources>

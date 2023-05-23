@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/beranda_purchasing" android:icon="@drawable/ic_beranda" android:title="@string/beranda"/>
+    <item android:id="@+id/delivery_order_purchasing" android:icon="@drawable/ic_delivery_order" android:title="@string/delivery_order"/>
+    <item android:id="@+id/perusahaan_purchasing" android:icon="@drawable/ic_perusahaan" android:title="@string/perusahaan"/>
+</menu>

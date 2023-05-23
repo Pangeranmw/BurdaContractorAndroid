@@ -14,4 +14,37 @@
     <string name="title_activity_detail_home">DetailHomeActivity</string>
     <string name="no_data">Empty data</string>
     <string name="something_wrong">Oops.. something went wrong</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="cancel">Batalkan</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register">Registrasi</string>
+    <string name="beranda">Beranda</string>
+    <string name="surat_jalan">Surat Jalan</string>
+    <string name="delivery_order">Delivery Order</string>
+    <string name="kendaraan">Kendaraan</string>
+    <string name="gudang">Gudang</string>
+    <string name="surat_jalan_gp">Pengiriman Gud-Pro</string>
+    <string name="surat_jalan_pp">Pengiriman Pro-Pro</string>
+    <string name="surat_jalan_pengembalian">Pengembalian</string>
+    <string name="perusahaan">Perusahaan</string>
+    <string name="see_all">Lihat Semua</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="placeholder_email">Masukan Email</string>
+    <string name="password">Password</string>
+    <string name="placeholder_pw">Masukan Password</string>
+    <string name="no_account">Belum Punya Akun?</string>
+    <string name="cd_logo">Logo</string>
+    <string name="no_internet">Internet Tidak Tersedia</string>
+    <string name="connected">Terhubung ke Jaringan</string>
 </resources>

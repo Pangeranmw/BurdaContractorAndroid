@@ -4,8 +4,7 @@ import com.android.burdacontractor.core.data.source.remote.response.AddSuratJala
 import com.android.burdacontractor.core.data.source.remote.response.AllSuratJalanResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.data.source.remote.response.SuratJalanDetailResponse
-import com.android.burdacontractor.core.data.source.remote.response2.ListTourismResponse
-import com.android.burdacontractor.core.domain.model.enum.SuratJalanTipe
+import com.android.burdacontractor.core.domain.model.SuratJalanTipe
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

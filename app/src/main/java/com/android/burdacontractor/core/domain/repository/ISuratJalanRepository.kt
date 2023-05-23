@@ -6,8 +6,8 @@ import com.android.burdacontractor.core.data.source.remote.response.AddSuratJala
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.data.source.remote.response.SuratJalanDetailItem
 import com.android.burdacontractor.core.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.core.domain.model.enum.SuratJalanStatus
-import com.android.burdacontractor.core.domain.model.enum.SuratJalanTipe
+import com.android.burdacontractor.core.domain.model.SuratJalanStatus
+import com.android.burdacontractor.core.domain.model.SuratJalanTipe
 import kotlinx.coroutines.flow.Flow
 
 interface ISuratJalanRepository {

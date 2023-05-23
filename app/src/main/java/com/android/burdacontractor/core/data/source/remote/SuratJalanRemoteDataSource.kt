@@ -4,15 +4,14 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.Resource
-import com.android.burdacontractor.core.data.source.local.storage.SessionManager
+import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.network.SuratJalanService
 import com.android.burdacontractor.core.data.source.remote.response.AddSuratJalanResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.data.source.remote.response.SuratJalanDetailItem
 import com.android.burdacontractor.core.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.core.domain.model.enum.SuratJalanStatus
-import com.android.burdacontractor.core.domain.model.enum.SuratJalanTipe
-import com.google.firebase.database.DatabaseReference
+import com.android.burdacontractor.core.domain.model.SuratJalanStatus
+import com.android.burdacontractor.core.domain.model.SuratJalanTipe
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -21,10 +20,8 @@ import javax.inject.Singleton
 @Singleton
 class SuratJalanRemoteDataSource @Inject constructor(
     private val suratJalanService: SuratJalanService,
-    private val sessionManager: SessionManager,
-    private val databaseReference: DatabaseReference,
+    private val storageDataSource: StorageDataSource,
 ) {
-
     suspend fun getAllSuratJalan(
         tipe: SuratJalanTipe,
         status: SuratJalanStatus,
@@ -33,13 +30,13 @@ class SuratJalanRemoteDataSource @Inject constructor(
         size: Int = 5,
         search: String? = null,
     ): Flow<PagingData<SuratJalanItem>> {
-        val token = sessionManager.getFromPreference(SessionManager.KEY_TOKEN)
+        val token = storageDataSource.getToken()
         return Pager(
             config = PagingConfig(
                 pageSize = size
             ),
             pagingSourceFactory = {
-                SuratJalanPagingSource(suratJalanService, token.toString(), tipe.name, status.name, date_start, date_end, size, search)
+                SuratJalanPagingSource(suratJalanService, token, tipe.name, status.name, date_start, date_end, size, search)
             }
         ).flow
     }

@@ -11,8 +11,12 @@ data class LoginResponse(
 	val message: String,
 
 	@field:SerializedName("user")
-	val user: LoginItem
-)
+	val user: LoginItem? = null
+){
+	constructor(): this(
+		false, "", null
+	)
+}
 
 data class LoginItem(
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_auth"
+    app:startDestination="@+id/login_fragment">
+
+    <fragment
+        android:id="@+id/login_fragment"
+        android:name="com.android.burdacontractor.presentation.auth.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_createAccountFragment"
+            app:destination="@id/register_fragment">
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/register_fragment"
+        android:name="com.android.burdacontractor.presentation.auth.RegisterFragment"
+        android:label="RegisterFragment">
+    </fragment>
+
+</navigation>

@@ -1,17 +1,8 @@
 package com.android.burdacontractor.core.domain.usecase
 
-import com.android.burdacontractor.core.data.Resource
-import com.android.burdacontractor.core.data.source.remote.response.AddSuratJalanResponse
-import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.data.source.remote.response.SuratJalanDetailItem
-import com.android.burdacontractor.core.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.core.domain.model.LogisticCoordinate
-import com.android.burdacontractor.core.domain.model.Tourism
-import com.android.burdacontractor.core.domain.model.enum.SuratJalanStatus
-import com.android.burdacontractor.core.domain.model.enum.SuratJalanTipe
+import com.android.burdacontractor.core.domain.model.SuratJalanStatus
+import com.android.burdacontractor.core.domain.model.SuratJalanTipe
 import com.android.burdacontractor.core.domain.repository.ISuratJalanRepository
-import com.android.burdacontractor.core.domain.repository.ITourismRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SuratJalanInteractor @Inject constructor(private val suratJalanRepository: ISuratJalanRepository):
