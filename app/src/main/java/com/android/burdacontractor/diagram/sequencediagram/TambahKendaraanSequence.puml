@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Admin Gudang Tambah Kendaraaan
+    actor       AdminGudang
+    boundary    fragment_add_kendaraan
+    control     AddKendaraaanFragment
+
+    AdminGudang -> fragment_add_kendaraan : 1. Memasukan data kendaraan
+    activate fragment_add_kendaraan
+    AdminGudang -> fragment_add_kendaraan : 2. Click tambah kendaraan
+
+    fragment_add_kendaraan -> AddKendaraaanFragment : 3. validateAddKendaraaan()
+    deactivate fragment_add_kendaraan
+
+    activate AddKendaraaanFragment
+    AddKendaraaanFragment -> KendaraaanViewModel : 4. addKendaraaan()
+    activate KendaraaanViewModel
+
+    control KendaraaanActivity
+    KendaraaanViewModel -> KendaraaanActivity : 5.1 onCreate() <<Response.Success>>
+    activate KendaraaanActivity
+
+    KendaraaanViewModel -> KendaraaanViewModel : 5.2 <<Response.Error>>
+    activate KendaraaanViewModel
+    AddKendaraaanFragment <-- KendaraaanViewModel
+    deactivate KendaraaanViewModel
+    deactivate KendaraaanViewModel
+
+    AdminGudang <-- AddKendaraaanFragment : <font color=red>Mendapatkan pesan error tambah kendaraan
+    deactivate AddKendaraaanFragment
+
+    AdminGudang <-- KendaraaanActivity :  <font color=green>Mendapatkan pesan berhasil tambah kendaraan
+    deactivate KendaraaanActivity
+end
+@enduml

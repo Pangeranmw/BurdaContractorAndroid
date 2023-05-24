@@ -1,0 +1,35 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Admin Gudang Hapus Gudang
+    actor       AdminGudang
+    boundary    fragment_detail_gudang
+    control     DetailGudangFragment
+
+    AdminGudang -> fragment_detail_gudang : 1. Click icon delete
+    activate fragment_detail_gudang
+
+    fragment_detail_gudang -> DetailGudangFragment : 2. deleteGudang()
+    deactivate fragment_detail_gudang
+
+    activate DetailGudangFragment
+    DetailGudangFragment -> GudangViewModel : 3. deleteGudang()
+    activate GudangViewModel
+    GudangViewModel -> GudangViewModel : 4.1 <<Response.Success>>
+    activate GudangViewModel
+    DetailGudangFragment <-- GudangViewModel
+    AdminGudang <-- DetailGudangFragment :  <font color=green>Mendapatkan pesan berhasil hapus gudang
+    deactivate GudangViewModel
+
+    GudangViewModel -> GudangViewModel : 4.2 <<Response.Error>>
+    activate GudangViewModel
+
+    DetailGudangFragment <-- GudangViewModel
+
+    deactivate GudangViewModel
+    deactivate GudangViewModel
+
+    AdminGudang <-- DetailGudangFragment : <font color=red>Mendapatkan pesan error hapus gudang
+
+end
+@enduml

@@ -6,6 +6,7 @@ import com.android.burdacontractor.presentation.test.TourismRepository
 import com.android.burdacontractor.core.domain.repository.ILogisticRepository
 import com.android.burdacontractor.core.domain.repository.ISuratJalanRepository
 import com.android.burdacontractor.core.domain.repository.ITourismRepository
+import com.android.burdacontractor.presentation.test.DatabaseModule
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

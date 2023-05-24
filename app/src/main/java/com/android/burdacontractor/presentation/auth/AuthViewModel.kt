@@ -8,6 +8,7 @@ import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.data.source.remote.response.LoginItem
 import com.android.burdacontractor.core.data.source.remote.response.LoginResponse
+import com.android.burdacontractor.core.domain.model.Event
 import com.android.burdacontractor.core.domain.model.StateResponse
 import com.android.burdacontractor.core.domain.model.UserRole
 import com.android.burdacontractor.core.domain.usecase.AuthUseCase
@@ -32,8 +33,8 @@ class AuthViewModel @Inject constructor(val liveNetworkChecker: LiveNetworkCheck
     private val _loginResponse = MutableLiveData<LoginItem?>()
     val loginResponse : LiveData<LoginItem?> = _loginResponse
 
-    private val _loginMessageResponse = MutableLiveData<String?>()
-    val loginMessageResponse : LiveData<String?> = _loginMessageResponse
+    private val _loginMessageResponse = MutableLiveData<Event<String?>>()
+    val loginMessageResponse : LiveData<Event<String?>> = _loginMessageResponse
 
     fun loginUser(userId:String, token: String, role: UserRole) {
         storageUseCase.loginUser(
@@ -74,12 +75,12 @@ class AuthViewModel @Inject constructor(val liveNetworkChecker: LiveNetworkCheck
                         val data = it.data
                         if(data?.user != null){
                             _loginResponse.value = data.user
-                            _loginMessageResponse.value = data.message
+                            _loginMessageResponse.value = Event(data.message)
                         }
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
-                        _loginMessageResponse.value = it.message
+                        _loginMessageResponse.value = Event(it.message)
                     }
                 }
             }
@@ -95,12 +96,12 @@ class AuthViewModel @Inject constructor(val liveNetworkChecker: LiveNetworkCheck
                         _state.value = StateResponse.SUCCESS
                         val data = it.data
                         if(data != null){
-                            _loginMessageResponse.value = data.message
+                            _loginMessageResponse.value = Event(data.message)
                         }
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
-                        _loginMessageResponse.value = it.message
+                        _loginMessageResponse.value = Event(it.message)
                     }
                 }
             }
@@ -116,12 +117,12 @@ class AuthViewModel @Inject constructor(val liveNetworkChecker: LiveNetworkCheck
                         _state.value = StateResponse.SUCCESS
                         val data = it.data
                         if(data != null){
-                            _loginMessageResponse.value = data.message
+                            _loginMessageResponse.value = Event(data.message)
                         }
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
-                        _loginMessageResponse.value = it.message
+                        _loginMessageResponse.value = Event(it.message)
                     }
                 }
             }

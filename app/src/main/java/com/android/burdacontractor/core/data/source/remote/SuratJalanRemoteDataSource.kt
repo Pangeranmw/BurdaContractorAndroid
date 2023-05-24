@@ -20,9 +20,9 @@ import javax.inject.Singleton
 @Singleton
 class SuratJalanRemoteDataSource @Inject constructor(
     private val suratJalanService: SuratJalanService,
-    private val storageDataSource: StorageDataSource,
 ) {
     suspend fun getAllSuratJalan(
+        token: String,
         tipe: SuratJalanTipe,
         status: SuratJalanStatus,
         date_start: String? = null,
@@ -30,7 +30,6 @@ class SuratJalanRemoteDataSource @Inject constructor(
         size: Int = 5,
         search: String? = null,
     ): Flow<PagingData<SuratJalanItem>> {
-        val token = storageDataSource.getToken()
         return Pager(
             config = PagingConfig(
                 pageSize = size

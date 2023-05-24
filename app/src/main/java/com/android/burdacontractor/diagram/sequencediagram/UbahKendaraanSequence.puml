@@ -1,0 +1,35 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Admin Gudang Ubah Kendaraaan
+    actor       AdminGudang
+    boundary    fragment_detail_kendaraan
+    control     DetailKendaraaanFragment
+
+    AdminGudang -> fragment_detail_kendaraan : 1. Click tombol ubah
+    activate fragment_detail_kendaraan
+
+    fragment_detail_kendaraan -> DetailKendaraaanFragment : 2. updateKendaraaan()
+    deactivate fragment_detail_kendaraan
+
+    activate DetailKendaraaanFragment
+    DetailKendaraaanFragment -> KendaraaanViewModel : 3. updateKendaraaan()
+    activate KendaraaanViewModel
+    KendaraaanViewModel -> KendaraaanViewModel : 4.1 <<Response.Success>>
+    activate KendaraaanViewModel
+    DetailKendaraaanFragment <-- KendaraaanViewModel
+    AdminGudang <-- DetailKendaraaanFragment :  <font color=green>Mendapatkan pesan berhasil ubah kendaraan
+    deactivate KendaraaanViewModel
+
+    KendaraaanViewModel -> KendaraaanViewModel : 4.2 <<Response.Error>>
+    activate KendaraaanViewModel
+
+    DetailKendaraaanFragment <-- KendaraaanViewModel
+
+    deactivate KendaraaanViewModel
+    deactivate KendaraaanViewModel
+
+    AdminGudang <-- DetailKendaraaanFragment : <font color=red>Mendapatkan pesan error ubah kendaraan
+
+end
+@enduml

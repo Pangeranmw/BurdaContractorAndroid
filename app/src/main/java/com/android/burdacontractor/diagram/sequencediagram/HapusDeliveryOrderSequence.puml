@@ -1,0 +1,35 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Purchasing Hapus DeliveryOrder
+    actor       Purchasing
+    boundary    fragment_detail_delivery_order
+    control     DetailDeliveryOrderFragment
+
+    Purchasing -> fragment_detail_delivery_order : 1. Click icon delete
+    activate fragment_detail_delivery_order
+
+    fragment_detail_delivery_order -> DetailDeliveryOrderFragment : 2. deleteDeliveryOrder()
+    deactivate fragment_detail_delivery_order
+
+    activate DetailDeliveryOrderFragment
+    DetailDeliveryOrderFragment -> DeliveryOrderViewModel : 3. deleteDeliveryOrder()
+    activate DeliveryOrderViewModel
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 4.1 <<Response.Success>>
+    activate DeliveryOrderViewModel
+    DetailDeliveryOrderFragment <-- DeliveryOrderViewModel
+    Purchasing <-- DetailDeliveryOrderFragment :  <font color=green>Mendapatkan pesan berhasil hapus delivery order
+    deactivate DeliveryOrderViewModel
+
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 4.2 <<Response.Error>>
+    activate DeliveryOrderViewModel
+
+    DetailDeliveryOrderFragment <-- DeliveryOrderViewModel
+
+    deactivate DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+
+    Purchasing <-- DetailDeliveryOrderFragment : <font color=red>Mendapatkan pesan error hapus delivery order
+
+end
+@enduml

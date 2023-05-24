@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Admin Gudang Tambah Gudang
+    actor       AdminGudang
+    boundary    fragment_add_gudang
+    control     AddGudangFragment
+
+    AdminGudang -> fragment_add_gudang : 1. Memasukan data gudang
+    activate fragment_add_gudang
+    AdminGudang -> fragment_add_gudang : 2. Click tambah gudang
+
+    fragment_add_gudang -> AddGudangFragment : 3. validateAddGudang()
+    deactivate fragment_add_gudang
+
+    activate AddGudangFragment
+    AddGudangFragment -> GudangViewModel : 4. addGudang()
+    activate GudangViewModel
+
+    control GudangActivity
+    GudangViewModel -> GudangActivity : 5.1 onCreate() <<Response.Success>>
+    activate GudangActivity
+
+    GudangViewModel -> GudangViewModel : 5.2 <<Response.Error>>
+    activate GudangViewModel
+    AddGudangFragment <-- GudangViewModel
+    deactivate GudangViewModel
+    deactivate GudangViewModel
+
+    AdminGudang <-- AddGudangFragment : <font color=red>Mendapatkan pesan error tambah gudang
+    deactivate AddGudangFragment
+
+    AdminGudang <-- GudangActivity :  <font color=green>Mendapatkan pesan berhasil tambah gudang
+    deactivate GudangActivity
+end
+@enduml

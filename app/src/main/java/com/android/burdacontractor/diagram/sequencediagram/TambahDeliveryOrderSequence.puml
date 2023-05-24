@@ -1,0 +1,57 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Purchasing Tambah Delivery Order
+    actor       Purchasing
+    boundary    fragment_add_delivery_order
+    control     AddDeliveryOrderFragment
+
+    Purchasing -> fragment_add_delivery_order : 1. Memasukan data delivery order
+    activate fragment_add_delivery_order
+    Purchasing -> fragment_add_delivery_order : 2. Click tambah delivery order
+
+    fragment_add_delivery_order -> AddDeliveryOrderFragment : 3. validateAddDeliveryOrder()
+    deactivate fragment_add_delivery_order
+
+    activate AddDeliveryOrderFragment
+    AddDeliveryOrderFragment -> DeliveryOrderViewModel : 4. addDeliveryOrder()
+    activate DeliveryOrderViewModel
+
+    control AddPreOrderFragment
+    DeliveryOrderViewModel -> AddPreOrderFragment : 5.1 onCreateView() <<Response.Success>>
+    activate AddPreOrderFragment
+
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 5.2 <<Response.Error>>
+    activate DeliveryOrderViewModel
+    AddDeliveryOrderFragment <-- DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+
+    Purchasing <-- AddDeliveryOrderFragment : <font color=red>Mendapatkan pesan error tambah delivery order
+    deactivate AddDeliveryOrderFragment
+
+    boundary    fragment_add_pre_order
+    AddPreOrderFragment -> fragment_add_pre_order :  6.initUI()
+    activate fragment_add_pre_order
+    Purchasing -> fragment_add_pre_order :  7.Menambahkan material pre order
+    Purchasing -> fragment_add_pre_order :  8. Click tambah pre order
+
+    AddPreOrderFragment <-- fragment_add_pre_order : 9. validatePreOrder()
+    deactivate fragment_add_pre_order
+
+    AddPreOrderFragment -> PreOrderViewModel: 10. addPreOrder()
+    deactivate AddPreOrderFragment
+
+    activate PreOrderViewModel
+    control DeliveryOrderActivity
+    PreOrderViewModel -> DeliveryOrderActivity : 11.1 onCreate() <<Response.Success>>
+    activate DeliveryOrderActivity
+    PreOrderViewModel -> PreOrderViewModel : 11.2 <<Response.Error>>
+    activate PreOrderViewModel
+    Purchasing <-- PreOrderViewModel : <font color=red>Mendapatkan pesan error tambah pre order
+    deactivate PreOrderViewModel
+    deactivate PreOrderViewModel
+    Purchasing <-- DeliveryOrderActivity :  <font color=green>Mendapatkan pesan berhasil tambah delivery order dan pre order
+    deactivate AddPreOrderFragment
+end
+@enduml

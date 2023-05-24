@@ -1,10 +1,14 @@
 package com.android.burdacontractor.core.utils
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
-import com.android.burdacontractor.core.data.source.remote.response.DistanceMatrixResponse
+import androidx.fragment.app.Fragment
 import com.android.burdacontractor.core.data.source.remote.response.Routes
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
-import com.google.android.material.snackbar.Snackbar
 
 // Extension For Distance Matrix Response
 fun List<Routes>.getDuration(): String{
@@ -41,4 +45,26 @@ fun View.setGone() {
 
 fun View.setVisible() {
     this.visibility = View.VISIBLE
+}
+
+// Lambda with receiver (extras: Bundle.() -> Unit = {})
+fun <T> Context.openActivityWithExtras(it: Class<T>, extras: Bundle.() -> Unit = {}, activity: Activity) {
+    val intent = Intent(this, it)
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+    intent.putExtras(Bundle().apply(extras))
+    startActivity(intent)
+    activity.overridePendingTransition(0, 0)
+}
+fun <T> Context.openActivity(it: Class<T>, activity: Activity) {
+    val intent = Intent(this, it)
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+    startActivity(intent)
+    activity.overridePendingTransition(0, 0)
+}
+fun setParcelable(fragment: Fragment, parcelable: Bundle.() -> Unit = {}) {
+    val bundle = Bundle()
+    bundle.apply(parcelable)
+    fragment.arguments = bundle
 }

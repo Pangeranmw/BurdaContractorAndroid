@@ -1,6 +1,7 @@
 package com.android.burdacontractor.core.data
 
 import androidx.paging.PagingData
+import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.SuratJalanRemoteDataSource
 import com.android.burdacontractor.core.data.source.remote.response.AddSuratJalanResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
@@ -15,7 +16,8 @@ import javax.inject.Singleton
 
 @Singleton
 class SuratJalanRepository @Inject constructor(
-    private val suratJalanRemoteDataSource: SuratJalanRemoteDataSource
+    private val suratJalanRemoteDataSource: SuratJalanRemoteDataSource,
+    private val storageDataSource: StorageDataSource
 ) : ISuratJalanRepository {
 
     override suspend fun getAllSuratJalan(
@@ -27,7 +29,7 @@ class SuratJalanRepository @Inject constructor(
         search: String?
     ): Flow<PagingData<SuratJalanItem>> =
         suratJalanRemoteDataSource.getAllSuratJalan(
-            tipe,status,date_start,date_end,size,search
+            storageDataSource.getToken() ,tipe,status,date_start,date_end,size,search
         )
 
     override suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetailItem>> {

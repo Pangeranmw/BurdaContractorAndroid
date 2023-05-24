@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Purchasing Tambah Perusahaan
+    actor       Purchasing
+    boundary    fragment_add_perusahaan
+    control     AddPerusahaanFragment
+
+    Purchasing -> fragment_add_perusahaan : 1. Memasukan data perusahaan
+    activate fragment_add_perusahaan
+    Purchasing -> fragment_add_perusahaan : 2. Click tambah perusahaan
+
+    fragment_add_perusahaan -> AddPerusahaanFragment : 3. validateAddPerusahaan()
+    deactivate fragment_add_perusahaan
+
+    activate AddPerusahaanFragment
+    AddPerusahaanFragment -> PerusahaanViewModel : 4. addPerusahaan()
+    activate PerusahaanViewModel
+
+    control PerusahaanActivity
+    PerusahaanViewModel -> PerusahaanActivity : 5.1 onCreate() <<Response.Success>>
+    activate PerusahaanActivity
+
+    PerusahaanViewModel -> PerusahaanViewModel : 5.2 <<Response.Error>>
+    activate PerusahaanViewModel
+    AddPerusahaanFragment <-- PerusahaanViewModel
+    deactivate PerusahaanViewModel
+    deactivate PerusahaanViewModel
+
+    Purchasing <-- AddPerusahaanFragment : <font color=red>Mendapatkan pesan error tambah perusahaan
+    deactivate AddPerusahaanFragment
+
+    Purchasing <-- PerusahaanActivity :  <font color=green>Mendapatkan pesan berhasil tambah perusahaan
+    deactivate PerusahaanActivity
+end
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+actor       Pengguna
+boundary    fragment_register
+control     RegisterFragment
+
+Pengguna -> fragment_register : 1. Memasukan data register
+activate fragment_register
+Pengguna -> fragment_register : 2. Click register
+
+fragment_register -> RegisterFragment : 3. validateRegister()
+deactivate fragment_register
+
+activate RegisterFragment
+RegisterFragment -> AuthViewModel : 4. register()
+activate AuthViewModel
+
+control LoginFragment
+AuthViewModel -> LoginFragment : 5.1 onCreateView() <<Response.Success>>
+activate LoginFragment
+
+AuthViewModel -> AuthViewModel : 5.2 <<Response.Error>>
+activate AuthViewModel
+RegisterFragment <-- AuthViewModel
+deactivate AuthViewModel
+deactivate AuthViewModel
+
+Pengguna <-- RegisterFragment : <font color=red>Mendapatkan pesan error register
+deactivate RegisterFragment
+
+Pengguna <-- LoginFragment :  <font color=green>Mendapatkan pesan berhasil register
+deactivate LoginFragment
+
+@enduml

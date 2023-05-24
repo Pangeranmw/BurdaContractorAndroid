@@ -1,6 +1,9 @@
 package com.android.burdacontractor.core.domain.model
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.PrimaryKey
+import com.android.burdacontractor.core.data.source.local.entity.TourismEntity
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -13,5 +16,5 @@ data class Tourism(
     val longitude: Double,
     val like: Int,
     val image: String,
-    val isFavorite: Boolean
+    val isFavorite: Boolean,
 ) : Parcelable

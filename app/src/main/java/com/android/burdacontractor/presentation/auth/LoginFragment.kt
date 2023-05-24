@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.android.burdacontractor.R
@@ -22,7 +23,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
-    private val authViewModel: AuthViewModel by viewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private var snackbar: Snackbar? = null
@@ -43,8 +44,12 @@ class LoginFragment : Fragment() {
 
     private fun initObserver(){
         authViewModel.loginMessageResponse.observe(viewLifecycleOwner){
-            if(it!=null){
-                Snackbar.make(binding.root,it ,Snackbar.LENGTH_INDEFINITE).show()
+            it.getContentIfNotHandled()?.let { messageResponse ->
+                Snackbar.make(
+                    binding.root,
+                    messageResponse,
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
         authViewModel.state.observe(viewLifecycleOwner){

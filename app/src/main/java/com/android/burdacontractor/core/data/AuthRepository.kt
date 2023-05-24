@@ -42,7 +42,13 @@ class AuthRepository @Inject constructor(
     override suspend fun login(email: String, password: String): Flow<Resource<LoginResponse>> = flow{
         when(val response = authRemoteDataSource.login(email,password).first()){
             is ApiResponse.Empty -> emit(Resource.Loading())
-            is ApiResponse.Success -> emit(Resource.Success(response.data))
+            is ApiResponse.Success -> {
+                emit(Resource.Success(response.data))
+                val user = response.data.user
+                if(user!=null){
+                    storageDataSource.loginUser(user.id, user.token, user.role)
+                }
+            }
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
     }

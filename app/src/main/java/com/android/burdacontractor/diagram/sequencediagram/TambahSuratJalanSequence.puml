@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Admin Gudang Tambah Surat Jalan
+    actor       AdminGudang
+    boundary    fragment_add_surat_jalan
+    control     AddSuratJalanFragment
+
+    AdminGudang -> fragment_add_surat_jalan : 1. Memasukan data surat jalan
+    activate fragment_add_surat_jalan
+    AdminGudang -> fragment_add_surat_jalan : 2. Click tambah surat jalan
+
+    fragment_add_surat_jalan -> AddSuratJalanFragment : 3. validateAddSuratJalan()
+    deactivate fragment_add_surat_jalan
+
+    activate AddSuratJalanFragment
+    AddSuratJalanFragment -> SuratJalanViewModel : 4. addSuratJalan()
+    activate SuratJalanViewModel
+
+    control SuratJalanActivity
+    SuratJalanViewModel -> SuratJalanActivity : 5.1 onCreate() <<Response.Success>>
+    activate SuratJalanActivity
+
+    SuratJalanViewModel -> SuratJalanViewModel : 5.2 <<Response.Error>>
+    activate SuratJalanViewModel
+    AddSuratJalanFragment <-- SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    deactivate SuratJalanViewModel
+
+    AdminGudang <-- AddSuratJalanFragment : <font color=red>Mendapatkan pesan error tambah surat jalan
+    deactivate AddSuratJalanFragment
+
+    AdminGudang <-- SuratJalanActivity :  <font color=green>Mendapatkan pesan berhasil tambah surat jalan
+    deactivate SuratJalanActivity
+end
+@enduml

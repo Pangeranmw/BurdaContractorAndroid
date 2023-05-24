@@ -1,0 +1,35 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Admin Gudang Ubah SuratJalan
+    actor       AdminGudang
+    boundary    fragment_detail_surat_jalan
+    control     DetailSuratJalanFragment
+
+    AdminGudang -> fragment_detail_surat_jalan : 1. Click tombol ubah
+    activate fragment_detail_surat_jalan
+
+    fragment_detail_surat_jalan -> DetailSuratJalanFragment : 2. updateSuratJalan()
+    deactivate fragment_detail_surat_jalan
+
+    activate DetailSuratJalanFragment
+    DetailSuratJalanFragment -> SuratJalanViewModel : 3. updateSuratJalan()
+    activate SuratJalanViewModel
+    SuratJalanViewModel -> SuratJalanViewModel : 4.1 <<Response.Success>>
+    activate SuratJalanViewModel
+    DetailSuratJalanFragment <-- SuratJalanViewModel
+    AdminGudang <-- DetailSuratJalanFragment :  <font color=green>Mendapatkan pesan berhasil ubah surat jalan
+    deactivate SuratJalanViewModel
+
+    SuratJalanViewModel -> SuratJalanViewModel : 4.2 <<Response.Error>>
+    activate SuratJalanViewModel
+
+    DetailSuratJalanFragment <-- SuratJalanViewModel
+
+    deactivate SuratJalanViewModel
+    deactivate SuratJalanViewModel
+
+    AdminGudang <-- DetailSuratJalanFragment : <font color=red>Mendapatkan pesan error ubah surat jalan
+
+end
+@enduml

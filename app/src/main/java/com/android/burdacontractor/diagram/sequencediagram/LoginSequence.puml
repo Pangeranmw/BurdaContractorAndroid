@@ -1,0 +1,35 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+group User Login
+actor       Pengguna
+boundary    fragment_login
+control     LoginFragment
+
+Pengguna -> fragment_login : 1. Memasukan data login
+activate fragment_login
+Pengguna -> fragment_login : 2. Click login
+
+fragment_login -> LoginFragment : 3. validateLogin()
+deactivate fragment_login
+
+activate LoginFragment
+LoginFragment -> AuthViewModel : 4. login()
+activate AuthViewModel
+
+control BerandaActivity
+AuthViewModel -> BerandaActivity : 5.1 onCreate() <<Response.Success>>
+activate BerandaActivity
+
+AuthViewModel -> AuthViewModel : 5.2 <<Response.Error>>
+activate AuthViewModel
+LoginFragment <-- AuthViewModel
+deactivate AuthViewModel
+deactivate AuthViewModel
+
+Pengguna <-- LoginFragment : <font color=red>Mendapatkan pesan error login
+deactivate LoginFragment
+
+Pengguna <-- BerandaActivity :  <font color=green>Mendapatkan pesan berhasil login
+deactivate BerandaActivity
+end
+@enduml

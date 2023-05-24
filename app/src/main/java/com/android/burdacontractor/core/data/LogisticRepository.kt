@@ -9,13 +9,15 @@ import javax.inject.Singleton
 
 @Singleton
 class LogisticRepository @Inject constructor(
-    private val logisticRemoteDataSource: LogisticRemoteDataSource
+    private val logisticRemoteDataSource: LogisticRemoteDataSource,
+//    private val userRemoteDataSource: UserRemoteDataSource,
 ) : ILogisticRepository {
 
     override suspend fun getCoordinate(logisticId: String): Flow<Resource<LogisticCoordinate>> = logisticRemoteDataSource.getCoordinate(logisticId)
 
     override suspend fun setCoordinate(logisticId: String, logisticCoordinate: LogisticCoordinate) {
         logisticRemoteDataSource.setCoordinate(logisticId, logisticCoordinate)
+//        userRemoteDataSource.setCoordinate(logisticId, logisticCoordinate)
     }
 
 }

@@ -1,0 +1,35 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Purchasing Hapus Perusahaan
+    actor       Purchasing
+    boundary    fragment_detail_perusahaan
+    control     DetailPerusahaanFragment
+
+    Purchasing -> fragment_detail_perusahaan : 1. Click icon delete
+    activate fragment_detail_perusahaan
+
+    fragment_detail_perusahaan -> DetailPerusahaanFragment : 2. deletePerusahaan()
+    deactivate fragment_detail_perusahaan
+
+    activate DetailPerusahaanFragment
+    DetailPerusahaanFragment -> PerusahaanViewModel : 3. deletePerusahaan()
+    activate PerusahaanViewModel
+    PerusahaanViewModel -> PerusahaanViewModel : 4.1 <<Response.Success>>
+    activate PerusahaanViewModel
+    DetailPerusahaanFragment <-- PerusahaanViewModel
+    Purchasing <-- DetailPerusahaanFragment :  <font color=green>Mendapatkan pesan berhasil hapus perusahaan
+    deactivate PerusahaanViewModel
+
+    PerusahaanViewModel -> PerusahaanViewModel : 4.2 <<Response.Error>>
+    activate PerusahaanViewModel
+
+    DetailPerusahaanFragment <-- PerusahaanViewModel
+
+    deactivate PerusahaanViewModel
+    deactivate PerusahaanViewModel
+
+    Purchasing <-- DetailPerusahaanFragment : <font color=red>Mendapatkan pesan error hapus perusahaan
+
+end
+@enduml
