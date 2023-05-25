@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Pengguna Cetak/Unduh Surat Jalan
+    actor       Pengguna
+    boundary fragment_detail_delivery_order
+    control DetailDeliveryOrderFragment
+    boundary fragment_cetak_delivery_order
+    control CetakDeliveryOrderFragment
+    entity CetakDeliveryOrder
+    entity PreOrder
+
+    Pengguna -> fragment_detail_delivery_order : 1. Click icon unduh delivery order
+    activate fragment_detail_delivery_order
+    fragment_detail_delivery_order -> DetailDeliveryOrderFragment : 2. navigateToCetakDeliveryOrder()
+    deactivate fragment_detail_delivery_order
+
+    activate DetailDeliveryOrderFragment
+    DetailDeliveryOrderFragment -> fragment_cetak_delivery_order
+    deactivate DetailDeliveryOrderFragment
+    activate fragment_cetak_delivery_order
+    fragment_cetak_delivery_order -> CetakDeliveryOrderFragment : 3. onCreateView()
+    activate CetakDeliveryOrderFragment
+
+
+    CetakDeliveryOrderFragment -> CetakDeliveryOrderFragment : 4. getDeliveryOrder()
+    activate CetakDeliveryOrderFragment
+    CetakDeliveryOrderFragment -> CetakDeliveryOrder : 5. <<create>>
+    activate CetakDeliveryOrder
+    CetakDeliveryOrder --> CetakDeliveryOrderFragment
+    deactivate CetakDeliveryOrder
+
+    CetakDeliveryOrderFragment -> PreOrder : 6. <<create>>
+    activate PreOrder
+    PreOrder --> CetakDeliveryOrderFragment
+    deactivate PreOrder
+    deactivate CetakDeliveryOrderFragment
+
+    Pengguna -> fragment_cetak_delivery_order : 7.1 Click Unduh
+    fragment_cetak_delivery_order -> CetakDeliveryOrderFragment : 7.1.1 download()
+    Pengguna -> fragment_cetak_delivery_order : 7.2 Click Cetak
+    fragment_cetak_delivery_order -> CetakDeliveryOrderFragment : 7.2.1 print()
+    deactivate fragment_cetak_delivery_order
+    Pengguna <-- CetakDeliveryOrderFragment
+    activate Pengguna
+end
+@enduml

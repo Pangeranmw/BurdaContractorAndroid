@@ -1,0 +1,75 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Admin Gudang, Supervisor, Project Manager & Logistic Lihat Daftar & Detail SuratJalan
+    actor       Pengguna
+    boundary    item_surat_jalan
+    control     SuratJalanFragment
+    boundary fragment_detail_surat_jalan
+    control DetailSuratJalanFragment
+    Pengguna -> item_surat_jalan : 1. Click menu surat jalan
+    activate item_surat_jalan
+
+    item_surat_jalan -> SuratJalanFragment : 2. onCreateView()
+    deactivate item_surat_jalan
+    activate SuratJalanFragment
+
+    SuratJalanFragment -> SuratJalanViewModel : 3. getAllSuratJalan()
+    activate SuratJalanViewModel
+    SuratJalanViewModel -> SuratJalanViewModel : 4.1 <<Response.Error>>
+    activate SuratJalanViewModel
+    SuratJalanFragment <-- SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    activate SuratJalanFragment
+    Pengguna <-- SuratJalanFragment : <font color=red>Mendapatkan pesan gagal mendapatkan daftar surat jalan
+    activate Pengguna
+    deactivate SuratJalanFragment
+    deactivate Pengguna
+    SuratJalanViewModel -> SuratJalanViewModel : 4.2 <<Response.Success>>
+    activate SuratJalanViewModel
+    SuratJalanFragment <-- SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    activate SuratJalanFragment
+    SuratJalanFragment -> SuratJalanAdapter : 5. <<create>>
+    activate SuratJalanAdapter
+    SuratJalanAdapter --> SuratJalanFragment
+    deactivate SuratJalanAdapter
+    Pengguna <-- SuratJalanFragment :  <font color=green>Mendapatkan data & pesan berhasil mendapatkan daftar surat jalan
+    activate Pengguna
+    deactivate SuratJalanFragment
+    deactivate Pengguna
+    Pengguna -> SuratJalanFragment : 6. Click item surat jalan
+    SuratJalanFragment -> SuratJalanFragment : 7. navigateToDetail()
+    activate SuratJalanFragment
+    SuratJalanFragment -> fragment_detail_surat_jalan
+    deactivate SuratJalanFragment
+    deactivate SuratJalanFragment
+    activate fragment_detail_surat_jalan
+    fragment_detail_surat_jalan -> DetailSuratJalanFragment : 8. onCreateView()
+    deactivate fragment_detail_surat_jalan
+    activate DetailSuratJalanFragment
+
+    DetailSuratJalanFragment -> SuratJalanViewModel : 9. getSuratJalanById()
+    activate SuratJalanViewModel
+    SuratJalanViewModel -> SuratJalanViewModel : 10.1 <<Response.Error>>
+    activate SuratJalanViewModel
+    DetailSuratJalanFragment <-- SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    activate DetailSuratJalanFragment
+    Pengguna <-- DetailSuratJalanFragment : <font color=red>Mendapatkan pesan gagal mendapatkan detail surat jalan
+    activate Pengguna
+    deactivate DetailSuratJalanFragment
+    deactivate Pengguna
+    SuratJalanViewModel -> SuratJalanViewModel : 10.2 <<Response.Success>>
+    activate SuratJalanViewModel
+    DetailSuratJalanFragment <-- SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    activate DetailSuratJalanFragment
+    Pengguna <-- DetailSuratJalanFragment :  <font color=green>Mendapatkan data & pesan berhasil mendapatkan detail surat jalan
+    activate Pengguna
+    deactivate DetailSuratJalanFragment
+    deactivate Pengguna
+end
+@enduml

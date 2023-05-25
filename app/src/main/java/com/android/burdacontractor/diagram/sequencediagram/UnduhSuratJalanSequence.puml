@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Pengguna Cetak/Unduh Surat Jalan
+    actor       Pengguna
+    boundary fragment_detail_surat_jalan
+    control DetailSuratJalanFragment
+    boundary fragment_cetak_surat_jalan
+    control CetakSuratJalanFragment
+    entity CetakSuratJalan
+    entity BarangTidakHabisPakai
+    entity BarangHabisPakai
+
+    Pengguna -> fragment_detail_surat_jalan : 1. Click icon unduh surat jalan
+    activate fragment_detail_surat_jalan
+    fragment_detail_surat_jalan -> DetailSuratJalanFragment : 2. navigateToCetakSuratJalan()
+    deactivate fragment_detail_surat_jalan
+
+    activate DetailSuratJalanFragment
+    DetailSuratJalanFragment -> fragment_cetak_surat_jalan
+    deactivate DetailSuratJalanFragment
+    activate fragment_cetak_surat_jalan
+    fragment_cetak_surat_jalan -> CetakSuratJalanFragment : 3. onCreateView()
+    activate CetakSuratJalanFragment
+
+
+    CetakSuratJalanFragment -> CetakSuratJalanFragment : 4. getSuratJalan()
+    activate CetakSuratJalanFragment
+    CetakSuratJalanFragment -> CetakSuratJalan : 5. <<create>>
+    activate CetakSuratJalan
+    CetakSuratJalan --> CetakSuratJalanFragment
+    deactivate CetakSuratJalan
+
+    CetakSuratJalanFragment -> BarangTidakHabisPakai : 6. <<create>>
+    activate BarangTidakHabisPakai
+    BarangTidakHabisPakai --> CetakSuratJalanFragment
+    deactivate BarangTidakHabisPakai
+
+    CetakSuratJalanFragment -> BarangHabisPakai : 7. <<create>>
+    activate BarangHabisPakai
+    BarangHabisPakai --> CetakSuratJalanFragment
+    deactivate BarangHabisPakai
+    deactivate CetakSuratJalanFragment
+
+    Pengguna -> fragment_cetak_surat_jalan : 8.1 Click Unduh
+    fragment_cetak_surat_jalan -> CetakSuratJalanFragment : 8.1.1 download()
+    Pengguna -> fragment_cetak_surat_jalan : 8.2 Click Cetak
+    fragment_cetak_surat_jalan -> CetakSuratJalanFragment : 8.2.1 print()
+    deactivate fragment_cetak_surat_jalan
+    Pengguna <-- CetakSuratJalanFragment
+    activate Pengguna
+end
+@enduml

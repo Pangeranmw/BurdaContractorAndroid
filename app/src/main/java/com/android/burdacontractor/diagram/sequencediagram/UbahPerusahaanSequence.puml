@@ -5,31 +5,48 @@ group Purchasing Ubah Perusahaan
     actor       Purchasing
     boundary    fragment_detail_perusahaan
     control     DetailPerusahaanFragment
+    boundary    fragment_update_perusahaan
+    control     UpdatePerusahaanFragment
 
-    Purchasing -> fragment_detail_perusahaan : 1. Click tombol ubah
+    Purchasing -> fragment_detail_perusahaan : 1. Click tombol ubah perusahaan
+
     activate fragment_detail_perusahaan
-
-    fragment_detail_perusahaan -> DetailPerusahaanFragment : 2. updatePerusahaan()
+    fragment_detail_perusahaan -> DetailPerusahaanFragment : 2. navigateToUpdatePerusahaan()
     deactivate fragment_detail_perusahaan
 
     activate DetailPerusahaanFragment
-    DetailPerusahaanFragment -> PerusahaanViewModel : 3. updatePerusahaan()
+    DetailPerusahaanFragment -> fragment_update_perusahaan
+    deactivate DetailPerusahaanFragment
+    activate fragment_update_perusahaan
+    fragment_update_perusahaan -> UpdatePerusahaanFragment : 3. onCreateView()
+    activate UpdatePerusahaanFragment
+    Purchasing -> fragment_update_perusahaan : 4. Mengubah data perusahaan
+    fragment_update_perusahaan -> UpdatePerusahaanFragment : 5. validateUpdatePerusahaan()
+    deactivate fragment_update_perusahaan
+
+    UpdatePerusahaanFragment -> PerusahaanViewModel : 6. updatePerusahaan()
     activate PerusahaanViewModel
-    PerusahaanViewModel -> PerusahaanViewModel : 4.1 <<Response.Success>>
+    PerusahaanViewModel -> PerusahaanViewModel : 7.1 <<Response.Success>>
     activate PerusahaanViewModel
-    DetailPerusahaanFragment <-- PerusahaanViewModel
-    Purchasing <-- DetailPerusahaanFragment :  <font color=green>Mendapatkan pesan berhasil ubah perusahaan
+    UpdatePerusahaanFragment <-- PerusahaanViewModel
     deactivate PerusahaanViewModel
+    activate UpdatePerusahaanFragment
+    Purchasing <-- UpdatePerusahaanFragment :  <font color=green>Mendapatkan pesan berhasil ubah perusahaan
+    activate Purchasing
+    deactivate Purchasing
+    deactivate UpdatePerusahaanFragment
 
-    PerusahaanViewModel -> PerusahaanViewModel : 4.2 <<Response.Error>>
+    PerusahaanViewModel -> PerusahaanViewModel : 7.2 <<Response.Error>>
     activate PerusahaanViewModel
 
-    DetailPerusahaanFragment <-- PerusahaanViewModel
+    UpdatePerusahaanFragment <-- PerusahaanViewModel
 
     deactivate PerusahaanViewModel
     deactivate PerusahaanViewModel
-
-    Purchasing <-- DetailPerusahaanFragment : <font color=red>Mendapatkan pesan error ubah perusahaan
-
+    activate UpdatePerusahaanFragment
+    Purchasing <-- UpdatePerusahaanFragment : <font color=red>Mendapatkan pesan error ubah perusahaan
+    activate Purchasing
+    deactivate Purchasing
+    deactivate UpdatePerusahaanFragment
 end
 @enduml

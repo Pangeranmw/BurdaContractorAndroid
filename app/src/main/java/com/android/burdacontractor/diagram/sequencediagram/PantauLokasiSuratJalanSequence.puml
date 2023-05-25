@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Admin Gudang, Supervisor, Project Manager Pantau Lokasi Surat Jalan
+    actor       Pengguna
+    boundary fragment_detail_surat_jalan
+    control DetailDeliveryOrderFragment
+    boundary fragment_pantau_lokasi
+    control PantauLokasiFragment
+
+    Pengguna -> fragment_detail_surat_jalan : 1. Click tombol pantau lokasi surat jalan
+    activate fragment_detail_surat_jalan
+    fragment_detail_surat_jalan -> DetailDeliveryOrderFragment : 2. navigateToPantauLokasi()
+    deactivate fragment_detail_surat_jalan
+
+    activate DetailDeliveryOrderFragment
+    DetailDeliveryOrderFragment -> fragment_pantau_lokasi
+    deactivate DetailDeliveryOrderFragment
+    activate fragment_pantau_lokasi
+    fragment_pantau_lokasi -> PantauLokasiFragment : 3. onCreateView()
+    deactivate fragment_pantau_lokasi
+    activate PantauLokasiFragment
+
+    PantauLokasiFragment -> SuratJalanViewModel : 9. pantauLokasiSuratJalan()
+    activate SuratJalanViewModel
+    SuratJalanViewModel -> SuratJalanViewModel : 10.1 <<Response.Error>>
+    activate SuratJalanViewModel
+    PantauLokasiFragment <-- SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    activate PantauLokasiFragment
+    Pengguna <-- PantauLokasiFragment : <font color=red>Mendapatkan pesan gagal pantau lokasi surat jalan
+    activate Pengguna
+    deactivate Pengguna
+    SuratJalanViewModel -> SuratJalanViewModel : 10.2 <<Response.Success>>
+    activate SuratJalanViewModel
+    PantauLokasiFragment <-- SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    Pengguna <-- PantauLokasiFragment :  <font color=green>Mendapatkan data pemantauan lokasi surat jalan
+    activate Pengguna
+    deactivate Pengguna
+    deactivate PantauLokasiFragment
+end
+@enduml

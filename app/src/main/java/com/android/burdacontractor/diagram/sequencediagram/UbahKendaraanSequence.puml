@@ -1,35 +1,52 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-group Admin Gudang Ubah Kendaraaan
+group Admin Gudang Ubah Kendaraan
     actor       AdminGudang
-    boundary    fragment_detail_kendaraan
-    control     DetailKendaraaanFragment
+    boundary    fragment_detail_kendaran
+    control     DetailKendaraanFragment
+    boundary    fragment_update_kendaran
+    control     UpdateKendaraanFragment
 
-    AdminGudang -> fragment_detail_kendaraan : 1. Click tombol ubah
-    activate fragment_detail_kendaraan
+    AdminGudang -> fragment_detail_kendaran : 1. Click tombol ubah kendaran
 
-    fragment_detail_kendaraan -> DetailKendaraaanFragment : 2. updateKendaraaan()
-    deactivate fragment_detail_kendaraan
+    activate fragment_detail_kendaran
+    fragment_detail_kendaran -> DetailKendaraanFragment : 2. navigateToUpdateKendaraan()
+    deactivate fragment_detail_kendaran
 
-    activate DetailKendaraaanFragment
-    DetailKendaraaanFragment -> KendaraaanViewModel : 3. updateKendaraaan()
-    activate KendaraaanViewModel
-    KendaraaanViewModel -> KendaraaanViewModel : 4.1 <<Response.Success>>
-    activate KendaraaanViewModel
-    DetailKendaraaanFragment <-- KendaraaanViewModel
-    AdminGudang <-- DetailKendaraaanFragment :  <font color=green>Mendapatkan pesan berhasil ubah kendaraan
-    deactivate KendaraaanViewModel
+    activate DetailKendaraanFragment
+    DetailKendaraanFragment -> fragment_update_kendaran
+    deactivate DetailKendaraanFragment
+    activate fragment_update_kendaran
+    fragment_update_kendaran -> UpdateKendaraanFragment : 3. onCreateView()
+    activate UpdateKendaraanFragment
+    AdminGudang -> fragment_update_kendaran : 4. Mengubah data kendaran
+    fragment_update_kendaran -> UpdateKendaraanFragment : 5. validateUpdateKendaraan()
+    deactivate fragment_update_kendaran
 
-    KendaraaanViewModel -> KendaraaanViewModel : 4.2 <<Response.Error>>
-    activate KendaraaanViewModel
+    UpdateKendaraanFragment -> KendaraanViewModel : 6. updateKendaraan()
+    activate KendaraanViewModel
+    KendaraanViewModel -> KendaraanViewModel : 7.1 <<Response.Success>>
+    activate KendaraanViewModel
+    UpdateKendaraanFragment <-- KendaraanViewModel
+    deactivate KendaraanViewModel
+    activate UpdateKendaraanFragment
+    AdminGudang <-- UpdateKendaraanFragment :  <font color=green>Mendapatkan pesan berhasil ubah kendaran
+    activate AdminGudang
+    deactivate AdminGudang
+    deactivate UpdateKendaraanFragment
 
-    DetailKendaraaanFragment <-- KendaraaanViewModel
+    KendaraanViewModel -> KendaraanViewModel : 7.2 <<Response.Error>>
+    activate KendaraanViewModel
 
-    deactivate KendaraaanViewModel
-    deactivate KendaraaanViewModel
+    UpdateKendaraanFragment <-- KendaraanViewModel
 
-    AdminGudang <-- DetailKendaraaanFragment : <font color=red>Mendapatkan pesan error ubah kendaraan
-
+    deactivate KendaraanViewModel
+    deactivate KendaraanViewModel
+    activate UpdateKendaraanFragment
+    AdminGudang <-- UpdateKendaraanFragment : <font color=red>Mendapatkan pesan error ubah kendaran
+    activate AdminGudang
+    deactivate AdminGudang
+    deactivate UpdateKendaraanFragment
 end
 @enduml

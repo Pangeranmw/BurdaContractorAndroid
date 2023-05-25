@@ -17,9 +17,9 @@ group Admin Gudang Tambah Surat Jalan
     AddSuratJalanFragment -> SuratJalanViewModel : 4. addSuratJalan()
     activate SuratJalanViewModel
 
-    control SuratJalanActivity
-    SuratJalanViewModel -> SuratJalanActivity : 5.1 onCreate() <<Response.Success>>
-    activate SuratJalanActivity
+    control SuratJalanFragment
+    SuratJalanViewModel -> SuratJalanFragment : 5.1 onCreate() <<Response.Success>>
+    activate SuratJalanFragment
 
     SuratJalanViewModel -> SuratJalanViewModel : 5.2 <<Response.Error>>
     activate SuratJalanViewModel
@@ -28,9 +28,13 @@ group Admin Gudang Tambah Surat Jalan
     deactivate SuratJalanViewModel
 
     AdminGudang <-- AddSuratJalanFragment : <font color=red>Mendapatkan pesan error tambah surat jalan
+    activate AdminGudang
+    deactivate AdminGudang
     deactivate AddSuratJalanFragment
 
-    AdminGudang <-- SuratJalanActivity :  <font color=green>Mendapatkan pesan berhasil tambah surat jalan
-    deactivate SuratJalanActivity
+    AdminGudang <-- SuratJalanFragment :  <font color=green>Mendapatkan pesan berhasil tambah surat jalan
+    activate AdminGudang
+    deactivate AdminGudang
+    deactivate SuratJalanFragment
 end
 @enduml

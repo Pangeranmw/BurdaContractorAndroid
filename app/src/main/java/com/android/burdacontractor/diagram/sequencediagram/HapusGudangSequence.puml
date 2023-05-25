@@ -18,8 +18,12 @@ group Admin Gudang Hapus Gudang
     GudangViewModel -> GudangViewModel : 4.1 <<Response.Success>>
     activate GudangViewModel
     DetailGudangFragment <-- GudangViewModel
-    AdminGudang <-- DetailGudangFragment :  <font color=green>Mendapatkan pesan berhasil hapus gudang
     deactivate GudangViewModel
+    activate DetailGudangFragment
+    AdminGudang <-- DetailGudangFragment :  <font color=green>Mendapatkan pesan berhasil hapus gudang
+    activate AdminGudang
+    deactivate DetailGudangFragment
+    deactivate AdminGudang
 
     GudangViewModel -> GudangViewModel : 4.2 <<Response.Error>>
     activate GudangViewModel
@@ -28,8 +32,10 @@ group Admin Gudang Hapus Gudang
 
     deactivate GudangViewModel
     deactivate GudangViewModel
-
+    activate DetailGudangFragment
     AdminGudang <-- DetailGudangFragment : <font color=red>Mendapatkan pesan error hapus gudang
-
+    activate AdminGudang
+    deactivate DetailGudangFragment
+    deactivate AdminGudang
 end
 @enduml

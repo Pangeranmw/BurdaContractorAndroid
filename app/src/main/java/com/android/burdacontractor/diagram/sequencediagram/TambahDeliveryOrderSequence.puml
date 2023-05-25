@@ -28,6 +28,8 @@ group Purchasing Tambah Delivery Order
     deactivate DeliveryOrderViewModel
 
     Purchasing <-- AddDeliveryOrderFragment : <font color=red>Mendapatkan pesan error tambah delivery order
+    activate Purchasing
+    deactivate Purchasing
     deactivate AddDeliveryOrderFragment
 
     boundary    fragment_add_pre_order
@@ -43,15 +45,19 @@ group Purchasing Tambah Delivery Order
     deactivate AddPreOrderFragment
 
     activate PreOrderViewModel
-    control DeliveryOrderActivity
-    PreOrderViewModel -> DeliveryOrderActivity : 11.1 onCreate() <<Response.Success>>
-    activate DeliveryOrderActivity
+    control DeliveryOrderFragment
+    PreOrderViewModel -> DeliveryOrderFragment : 11.1 onCreate() <<Response.Success>>
+    activate DeliveryOrderFragment
     PreOrderViewModel -> PreOrderViewModel : 11.2 <<Response.Error>>
     activate PreOrderViewModel
     Purchasing <-- PreOrderViewModel : <font color=red>Mendapatkan pesan error tambah pre order
+    activate Purchasing
+    deactivate Purchasing
     deactivate PreOrderViewModel
     deactivate PreOrderViewModel
-    Purchasing <-- DeliveryOrderActivity :  <font color=green>Mendapatkan pesan berhasil tambah delivery order dan pre order
-    deactivate AddPreOrderFragment
+    Purchasing <-- DeliveryOrderFragment :  <font color=green>Mendapatkan pesan berhasil tambah delivery order dan pre order
+    activate Purchasing
+    deactivate Purchasing
+    deactivate DeliveryOrderFragment
 end
 @enduml

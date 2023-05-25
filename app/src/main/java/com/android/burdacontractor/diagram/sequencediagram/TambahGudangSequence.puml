@@ -17,9 +17,9 @@ group Admin Gudang Tambah Gudang
     AddGudangFragment -> GudangViewModel : 4. addGudang()
     activate GudangViewModel
 
-    control GudangActivity
-    GudangViewModel -> GudangActivity : 5.1 onCreate() <<Response.Success>>
-    activate GudangActivity
+    control GudangFragment
+    GudangViewModel -> GudangFragment : 5.1 onCreate() <<Response.Success>>
+    activate GudangFragment
 
     GudangViewModel -> GudangViewModel : 5.2 <<Response.Error>>
     activate GudangViewModel
@@ -28,9 +28,13 @@ group Admin Gudang Tambah Gudang
     deactivate GudangViewModel
 
     AdminGudang <-- AddGudangFragment : <font color=red>Mendapatkan pesan error tambah gudang
+    activate AdminGudang
+    deactivate AdminGudang
     deactivate AddGudangFragment
 
-    AdminGudang <-- GudangActivity :  <font color=green>Mendapatkan pesan berhasil tambah gudang
-    deactivate GudangActivity
+    AdminGudang <-- GudangFragment :  <font color=green>Mendapatkan pesan berhasil tambah gudang
+    activate AdminGudang
+    deactivate AdminGudang
+    deactivate GudangFragment
 end
 @enduml

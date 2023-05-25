@@ -1,41 +1,38 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-group Purchasing Hapus DeliveryOrder
+group Purchasing Menandai Selesai Delivery Order
     actor       Purchasing
-    boundary    fragment_detail_delivery_order
-    control     DetailDeliveryOrderFragment
+    boundary fragment_detail_delivery_order
+    control DetailDeliveryOrderFragment
 
-    Purchasing -> fragment_detail_delivery_order : 1. Click icon delete
+    Purchasing -> fragment_detail_delivery_order : 1. Click tombol tandai selesai delivery order
     activate fragment_detail_delivery_order
-
-    fragment_detail_delivery_order -> DetailDeliveryOrderFragment : 2. deleteDeliveryOrder()
+    fragment_detail_delivery_order -> DetailDeliveryOrderFragment : 2. markAsDone()
     deactivate fragment_detail_delivery_order
-
     activate DetailDeliveryOrderFragment
-    DetailDeliveryOrderFragment -> DeliveryOrderViewModel : 3. deleteDeliveryOrder()
+    DetailDeliveryOrderFragment -> DeliveryOrderViewModel : 3. markCompleteDeliveryOrder()
     activate DeliveryOrderViewModel
-    DeliveryOrderViewModel -> DeliveryOrderViewModel : 4.1 <<Response.Success>>
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 4.1 <<Response.Error>>
     activate DeliveryOrderViewModel
     DetailDeliveryOrderFragment <-- DeliveryOrderViewModel
     deactivate DeliveryOrderViewModel
     activate DetailDeliveryOrderFragment
-    Purchasing <-- DetailDeliveryOrderFragment :  <font color=green>Mendapatkan pesan berhasil hapus delivery order
+    Purchasing <-- DetailDeliveryOrderFragment : <font color=red>Mendapatkan pesan gagal tandai selesai delivery order
     activate Purchasing
     deactivate DetailDeliveryOrderFragment
     deactivate Purchasing
-
-    DeliveryOrderViewModel -> DeliveryOrderViewModel : 4.2 <<Response.Error>>
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 4.2 <<Response.Success>>
     activate DeliveryOrderViewModel
-
     DetailDeliveryOrderFragment <-- DeliveryOrderViewModel
 
     deactivate DeliveryOrderViewModel
     deactivate DeliveryOrderViewModel
     activate DetailDeliveryOrderFragment
-    Purchasing <-- DetailDeliveryOrderFragment : <font color=red>Mendapatkan pesan error hapus delivery order
+    Purchasing <-- DetailDeliveryOrderFragment :  <font color=green>Mendapatkan pesan berhasil tandai selesai delivery order
     activate Purchasing
     deactivate DetailDeliveryOrderFragment
     deactivate Purchasing
+
 end
 @enduml

@@ -25,10 +25,17 @@ RegisterFragment <-- AuthViewModel
 deactivate AuthViewModel
 deactivate AuthViewModel
 
+activate RegisterFragment
 Pengguna <-- RegisterFragment : <font color=red>Mendapatkan pesan error register
+activate Pengguna
+deactivate Pengguna
+deactivate RegisterFragment
 deactivate RegisterFragment
 
 Pengguna <-- LoginFragment :  <font color=green>Mendapatkan pesan berhasil register
+activate Pengguna
+deactivate Pengguna
+deactivate LoginFragment
 deactivate LoginFragment
 
 @enduml

@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Admin Gudang, Supervisor, Project Manager Pantau Lokasi Delivery Order
+    actor       Pengguna
+    boundary fragment_detail_delivery_order
+    control DetailDeliveryOrderFragment
+    boundary fragment_pantau_lokasi
+    control PantauLokasiFragment
+
+    Pengguna -> fragment_detail_delivery_order : 1. Click tombol pantau lokasi delivery order
+    activate fragment_detail_delivery_order
+    fragment_detail_delivery_order -> DetailDeliveryOrderFragment : 2. navigateToPantauLokasi()
+    deactivate fragment_detail_delivery_order
+
+    activate DetailDeliveryOrderFragment
+    DetailDeliveryOrderFragment -> fragment_pantau_lokasi
+    deactivate DetailDeliveryOrderFragment
+    activate fragment_pantau_lokasi
+    fragment_pantau_lokasi -> PantauLokasiFragment : 3. onCreateView()
+    deactivate fragment_pantau_lokasi
+    activate PantauLokasiFragment
+
+    PantauLokasiFragment -> DeliveryOrderViewModel : 9. pantauLokasiDeliveryOrder()
+    activate DeliveryOrderViewModel
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 10.1 <<Response.Error>>
+    activate DeliveryOrderViewModel
+    PantauLokasiFragment <-- DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+    activate PantauLokasiFragment
+    Pengguna <-- PantauLokasiFragment : <font color=red>Mendapatkan pesan gagal pantau lokasi delivery order
+    activate Pengguna
+    deactivate Pengguna
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 10.2 <<Response.Success>>
+    activate DeliveryOrderViewModel
+    PantauLokasiFragment <-- DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+    Pengguna <-- PantauLokasiFragment :  <font color=green>Mendapatkan data pemantauan lokasi delivery order
+    activate Pengguna
+    deactivate Pengguna
+    deactivate PantauLokasiFragment
+end
+@enduml

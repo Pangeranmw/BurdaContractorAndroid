@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+header Sequence Diagram
+footer Supervisor Memberikan Tanda Tangan Surat Jalan
+
+group Supervisor Memberikan Tanda Tangan Surat Jalan
+    actor       Supervisor
+    boundary fragment_detail_surat_jalan
+    control DetailSuratJalanFragment
+
+    Supervisor -> fragment_detail_surat_jalan : 1. Click tombol tambah ttd surat jalan
+    activate fragment_detail_surat_jalan
+    fragment_detail_surat_jalan -> DetailSuratJalanFragment : 2. giveTTD()
+    deactivate fragment_detail_surat_jalan
+    activate DetailSuratJalanFragment
+    DetailSuratJalanFragment -> SuratJalanViewModel : 3. addTTDSuratJalan()
+    activate SuratJalanViewModel
+    SuratJalanViewModel -> SuratJalanViewModel : 4.1 <<Response.Error>>
+    activate SuratJalanViewModel
+    DetailSuratJalanFragment <-- SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    activate DetailSuratJalanFragment
+    Supervisor <-- DetailSuratJalanFragment : <font color=red>Mendapatkan pesan gagal tambah surat jalan
+    activate Supervisor
+    deactivate DetailSuratJalanFragment
+    deactivate Supervisor
+    SuratJalanViewModel -> SuratJalanViewModel : 4.2 <<Response.Success>>
+    activate SuratJalanViewModel
+    DetailSuratJalanFragment <-- SuratJalanViewModel
+
+    deactivate SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    activate DetailSuratJalanFragment
+    Supervisor <-- DetailSuratJalanFragment :  <font color=green>Mendapatkan pesan berhasil tambah surat jalan
+    activate Supervisor
+    deactivate DetailSuratJalanFragment
+    deactivate Supervisor
+end
+
+header Sequence Diagram
+footer Supervisor Memberikan Tanda Tangan Surat Jalan
+
+@enduml

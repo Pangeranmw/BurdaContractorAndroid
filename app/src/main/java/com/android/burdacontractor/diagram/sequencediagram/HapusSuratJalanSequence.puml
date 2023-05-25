@@ -18,8 +18,12 @@ group Admin Gudang Hapus SuratJalan
     SuratJalanViewModel -> SuratJalanViewModel : 4.1 <<Response.Success>>
     activate SuratJalanViewModel
     DetailSuratJalanFragment <-- SuratJalanViewModel
-    AdminGudang <-- DetailSuratJalanFragment :  <font color=green>Mendapatkan pesan berhasil hapus surat jalan
     deactivate SuratJalanViewModel
+    activate DetailSuratJalanFragment
+    AdminGudang <-- DetailSuratJalanFragment :  <font color=green>Mendapatkan pesan berhasil hapus surat jalan
+    activate AdminGudang
+    deactivate DetailSuratJalanFragment
+    deactivate AdminGudang
 
     SuratJalanViewModel -> SuratJalanViewModel : 4.2 <<Response.Error>>
     activate SuratJalanViewModel
@@ -29,7 +33,10 @@ group Admin Gudang Hapus SuratJalan
     deactivate SuratJalanViewModel
     deactivate SuratJalanViewModel
 
+    activate DetailSuratJalanFragment
     AdminGudang <-- DetailSuratJalanFragment : <font color=red>Mendapatkan pesan error hapus surat jalan
-
+    activate AdminGudang
+    deactivate DetailSuratJalanFragment
+    deactivate AdminGudang
 end
 @enduml

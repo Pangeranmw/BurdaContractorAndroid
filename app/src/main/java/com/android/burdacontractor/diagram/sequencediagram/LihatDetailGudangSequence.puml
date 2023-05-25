@@ -1,0 +1,75 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Admin Gudang Lihat Daftar & Detail Gudang
+    actor       AdminGudang
+    boundary    item_gudang
+    control     GudangFragment
+    boundary fragment_detail_gudang
+    control DetailGudangFragment
+    AdminGudang -> item_gudang : 1. Click menu gudang
+    activate item_gudang
+
+    item_gudang -> GudangFragment : 2. onCreateView()
+    deactivate item_gudang
+    activate GudangFragment
+
+    GudangFragment -> GudangViewModel : 3. getAllGudang()
+    activate GudangViewModel
+    GudangViewModel -> GudangViewModel : 4.1 <<Response.Error>>
+    activate GudangViewModel
+    GudangFragment <-- GudangViewModel
+    deactivate GudangViewModel
+    activate GudangFragment
+    AdminGudang <-- GudangFragment : <font color=red>Mendapatkan pesan gagal mendapatkan daftar gudang
+    activate AdminGudang
+    deactivate GudangFragment
+    deactivate AdminGudang
+    GudangViewModel -> GudangViewModel : 4.2 <<Response.Success>>
+    activate GudangViewModel
+    GudangFragment <-- GudangViewModel
+    deactivate GudangViewModel
+    deactivate GudangViewModel
+    activate GudangFragment
+    GudangFragment -> GudangAdapter : 5. <<create>>
+    activate GudangAdapter
+    GudangAdapter --> GudangFragment
+    deactivate GudangAdapter
+    AdminGudang <-- GudangFragment :  <font color=green>Mendapatkan data & pesan berhasil mendapatkan daftar gudang
+    activate AdminGudang
+    deactivate GudangFragment
+    deactivate AdminGudang
+    AdminGudang -> GudangFragment : 6. Click item gudang
+    GudangFragment -> GudangFragment : 7. navigateToDetail()
+    activate GudangFragment
+    GudangFragment -> fragment_detail_gudang
+    deactivate GudangFragment
+    deactivate GudangFragment
+    activate fragment_detail_gudang
+    fragment_detail_gudang -> DetailGudangFragment : 8. onCreateView()
+    deactivate fragment_detail_gudang
+    activate DetailGudangFragment
+
+    DetailGudangFragment -> GudangViewModel : 9. getGudangById()
+    activate GudangViewModel
+    GudangViewModel -> GudangViewModel : 10.1 <<Response.Error>>
+    activate GudangViewModel
+    DetailGudangFragment <-- GudangViewModel
+    deactivate GudangViewModel
+    activate DetailGudangFragment
+    AdminGudang <-- DetailGudangFragment : <font color=red>Mendapatkan pesan gagal mendapatkan detail gudang
+    activate AdminGudang
+    deactivate DetailGudangFragment
+    deactivate AdminGudang
+    GudangViewModel -> GudangViewModel : 11.2 <<Response.Success>>
+    activate GudangViewModel
+    DetailGudangFragment <-- GudangViewModel
+    deactivate GudangViewModel
+    deactivate GudangViewModel
+    activate DetailGudangFragment
+    AdminGudang <-- DetailGudangFragment :  <font color=green>Mendapatkan data & pesan berhasil mendapatkan detail gudang
+    activate AdminGudang
+    deactivate DetailGudangFragment
+    deactivate AdminGudang
+end
+@enduml

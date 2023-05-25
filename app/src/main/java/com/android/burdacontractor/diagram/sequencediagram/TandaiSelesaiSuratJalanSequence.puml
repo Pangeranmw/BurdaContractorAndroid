@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Admin Gudang, Supervisor Menandai Selesai Surat Jalan
+    actor       Pengguna
+    boundary fragment_detail_surat_jalan
+    control DetailSuratJalanFragment
+
+    Pengguna -> fragment_detail_surat_jalan : 1. Click tombol tandai selesai surat jalan
+    activate fragment_detail_surat_jalan
+    fragment_detail_surat_jalan -> DetailSuratJalanFragment : 2. markAsDone()
+    deactivate fragment_detail_surat_jalan
+    activate DetailSuratJalanFragment
+    DetailSuratJalanFragment -> SuratJalanViewModel : 3. markCompleteSuratJalan()
+    activate SuratJalanViewModel
+    SuratJalanViewModel -> SuratJalanViewModel : 4.1 <<Response.Error>>
+    activate SuratJalanViewModel
+    DetailSuratJalanFragment <-- SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    activate DetailSuratJalanFragment
+    Pengguna <-- DetailSuratJalanFragment : <font color=red>Mendapatkan pesan gagal tandai selesai surat jalan
+    activate Pengguna
+    deactivate DetailSuratJalanFragment
+    deactivate Pengguna
+    SuratJalanViewModel -> SuratJalanViewModel : 4.2 <<Response.Success>>
+    activate SuratJalanViewModel
+    DetailSuratJalanFragment <-- SuratJalanViewModel
+
+    deactivate SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    activate DetailSuratJalanFragment
+    Pengguna <-- DetailSuratJalanFragment :  <font color=green>Mendapatkan pesan berhasil tandai selesai surat jalan
+    activate Pengguna
+    deactivate DetailSuratJalanFragment
+    deactivate Pengguna
+
+end
+@enduml

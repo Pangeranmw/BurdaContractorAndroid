@@ -1,0 +1,75 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Purchasing Lihat Daftar & Detail Kendaraan
+    actor       Purchasing
+    boundary    item_kendaraan
+    control     KendaraanFragment
+    boundary fragment_detail_kendaraan
+    control DetailKendaraanFragment
+    Purchasing -> item_kendaraan : 1. Click menu kendaraan
+    activate item_kendaraan
+
+    item_kendaraan -> KendaraanFragment : 2. onCreateView()
+    deactivate item_kendaraan
+    activate KendaraanFragment
+
+    KendaraanFragment -> KendaraanViewModel : 3. getAllKendaraan()
+    activate KendaraanViewModel
+    KendaraanViewModel -> KendaraanViewModel : 4.1 <<Response.Error>>
+    activate KendaraanViewModel
+    KendaraanFragment <-- KendaraanViewModel
+    deactivate KendaraanViewModel
+    activate KendaraanFragment
+    Purchasing <-- KendaraanFragment : <font color=red>Menampilkan pesan gagal mendapatkan daftar kendaraan
+    activate Purchasing
+    deactivate KendaraanFragment
+    deactivate Purchasing
+    KendaraanViewModel -> KendaraanViewModel : 4.2 <<Response.Success>>
+    activate KendaraanViewModel
+    KendaraanFragment <-- KendaraanViewModel
+    deactivate KendaraanViewModel
+    deactivate KendaraanViewModel
+    activate KendaraanFragment
+    KendaraanFragment -> KendaraanAdapter : 5. <<create>>
+    activate KendaraanAdapter
+    KendaraanAdapter --> KendaraanFragment
+    deactivate KendaraanAdapter
+    Purchasing <-- KendaraanFragment :  <font color=green>Mendapatkan data & pesan berhasil mendapatkan daftar kendaraan
+    activate Purchasing
+    deactivate KendaraanFragment
+    deactivate Purchasing
+    Purchasing -> KendaraanFragment : 6. Click item kendaraan
+    KendaraanFragment -> KendaraanFragment : 7. navigateToDetail()
+    activate KendaraanFragment
+    KendaraanFragment -> fragment_detail_kendaraan
+    deactivate KendaraanFragment
+    deactivate KendaraanFragment
+    activate fragment_detail_kendaraan
+    fragment_detail_kendaraan -> DetailKendaraanFragment : 8. onCreateView()
+    deactivate fragment_detail_kendaraan
+    activate DetailKendaraanFragment
+
+    DetailKendaraanFragment -> KendaraanViewModel : 9. getKendaraanById()
+    activate KendaraanViewModel
+    KendaraanViewModel -> KendaraanViewModel : 10.1 <<Response.Error>>
+    activate KendaraanViewModel
+    DetailKendaraanFragment <-- KendaraanViewModel
+    deactivate KendaraanViewModel
+    activate DetailKendaraanFragment
+    Purchasing <-- DetailKendaraanFragment : <font color=red>Menampilkan pesan gagal mendapatkan detail kendaraan
+    activate Purchasing
+    deactivate DetailKendaraanFragment
+    deactivate Purchasing
+    KendaraanViewModel -> KendaraanViewModel : 10.2 <<Response.Success>>
+    activate KendaraanViewModel
+    DetailKendaraanFragment <-- KendaraanViewModel
+    deactivate KendaraanViewModel
+    deactivate KendaraanViewModel
+    activate DetailKendaraanFragment
+    Purchasing <-- DetailKendaraanFragment :  <font color=green>Mendapatkan data & pesan berhasil mendapatkan detail kendaraan
+    activate Purchasing
+    deactivate DetailKendaraanFragment
+    deactivate Purchasing
+end
+@enduml

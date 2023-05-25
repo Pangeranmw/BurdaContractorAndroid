@@ -1,0 +1,48 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Pengguna Membuat TTD
+    actor       Pengguna
+    boundary fragment_user
+    control UserFragment
+    boundary fragment_tambah_ttd
+    control TambahTTDFragment
+
+    Pengguna -> fragment_user : 1. Click icon ttd
+    activate fragment_user
+    fragment_user -> UserFragment : 2. navigateToTambahTTD()
+    deactivate fragment_user
+
+    activate UserFragment
+    UserFragment -> fragment_tambah_ttd
+    deactivate UserFragment
+    activate fragment_tambah_ttd
+    fragment_tambah_ttd -> TambahTTDFragment : 3. onCreateView()
+    activate TambahTTDFragment
+
+    Pengguna -> fragment_tambah_ttd  : 4. Membuat TTD
+    Pengguna -> fragment_tambah_ttd  : 5. Click icon checklist
+    fragment_tambah_ttd -> TambahTTDFragment : 6. sendTTD()
+    deactivate fragment_tambah_ttd
+
+    TambahTTDFragment -> SuratJalanViewModel : 7. uploadTTD()
+    activate SuratJalanViewModel
+    SuratJalanViewModel -> SuratJalanViewModel : 8.1 <<Response.Error>>
+    activate SuratJalanViewModel
+    TambahTTDFragment <-- SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    activate TambahTTDFragment
+    Pengguna <-- TambahTTDFragment : <font color=red>Mendapatkan pesan gagal upload ttd
+    activate Pengguna
+    deactivate Pengguna
+    SuratJalanViewModel -> SuratJalanViewModel : 8.2 <<Response.Success>>
+    activate SuratJalanViewModel
+    TambahTTDFragment <-- SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    Pengguna <-- TambahTTDFragment :  <font color=green>Mendapatkan pesan berhasil upload ttd
+    deactivate TambahTTDFragment
+    activate Pengguna
+    deactivate Pengguna
+end
+@enduml

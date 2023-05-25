@@ -5,31 +5,48 @@ group Purchasing Ubah Delivery Order
     actor       Purchasing
     boundary    fragment_detail_delivery_order
     control     DetailDeliveryOrderFragment
+    boundary    fragment_update_delivery_order
+    control     UpdateDeliveryOrderFragment
 
-    Purchasing -> fragment_detail_delivery_order : 1. Click tombol ubah
+    Purchasing -> fragment_detail_delivery_order : 1. Click tombol ubah delivery order
+
     activate fragment_detail_delivery_order
-
-    fragment_detail_delivery_order -> DetailDeliveryOrderFragment : 2. updateDeliveryOrder()
+    fragment_detail_delivery_order -> DetailDeliveryOrderFragment : 2. navigateToUpdateDeliveryOrder()
     deactivate fragment_detail_delivery_order
 
     activate DetailDeliveryOrderFragment
-    DetailDeliveryOrderFragment -> DeliveryOrderViewModel : 3. updateDeliveryOrder()
+    DetailDeliveryOrderFragment -> fragment_update_delivery_order
+    deactivate DetailDeliveryOrderFragment
+    activate fragment_update_delivery_order
+    fragment_update_delivery_order -> UpdateDeliveryOrderFragment : 3. onCreateView()
+    activate UpdateDeliveryOrderFragment
+    Purchasing -> fragment_update_delivery_order : 4. Mengubah data delivery order
+    fragment_update_delivery_order -> UpdateDeliveryOrderFragment : 5. validateUpdateDeliveryOrder()
+    deactivate fragment_update_delivery_order
+
+    UpdateDeliveryOrderFragment -> DeliveryOrderViewModel : 6. updateDeliveryOrder()
     activate DeliveryOrderViewModel
-    DeliveryOrderViewModel -> DeliveryOrderViewModel : 4.1 <<Response.Success>>
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 7.1 <<Response.Success>>
     activate DeliveryOrderViewModel
-    DetailDeliveryOrderFragment <-- DeliveryOrderViewModel
-    Purchasing <-- DetailDeliveryOrderFragment :  <font color=green>Mendapatkan pesan berhasil ubah delivery order
+    UpdateDeliveryOrderFragment <-- DeliveryOrderViewModel
     deactivate DeliveryOrderViewModel
+    activate UpdateDeliveryOrderFragment
+    Purchasing <-- UpdateDeliveryOrderFragment :  <font color=green>Mendapatkan pesan berhasil ubah delivery order
+    activate Purchasing
+    deactivate Purchasing
+    deactivate UpdateDeliveryOrderFragment
 
-    DeliveryOrderViewModel -> DeliveryOrderViewModel : 4.2 <<Response.Error>>
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 7.2 <<Response.Error>>
     activate DeliveryOrderViewModel
 
-    DetailDeliveryOrderFragment <-- DeliveryOrderViewModel
+    UpdateDeliveryOrderFragment <-- DeliveryOrderViewModel
 
     deactivate DeliveryOrderViewModel
     deactivate DeliveryOrderViewModel
-
-    Purchasing <-- DetailDeliveryOrderFragment : <font color=red>Mendapatkan pesan error ubah delivery order
-
+    activate UpdateDeliveryOrderFragment
+    Purchasing <-- UpdateDeliveryOrderFragment : <font color=red>Mendapatkan pesan error ubah delivery order
+    activate Purchasing
+    deactivate Purchasing
+    deactivate UpdateDeliveryOrderFragment
 end
 @enduml

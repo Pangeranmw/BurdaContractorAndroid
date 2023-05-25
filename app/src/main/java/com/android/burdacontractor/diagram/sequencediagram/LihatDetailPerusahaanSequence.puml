@@ -1,0 +1,76 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Purchasing Lihat Daftar & Detail Perusahaan
+    actor       Purchasing
+    boundary    item_perusahaan
+    control     PerusahaanFragment
+    boundary fragment_detail_perusahaan
+    control DetailPerusahaanFragment
+    Purchasing -> item_perusahaan : 1. Click menu perusahaan
+    activate item_perusahaan
+
+    item_perusahaan -> PerusahaanFragment : 2. onCreateView()
+    deactivate item_perusahaan
+
+    activate PerusahaanFragment
+    PerusahaanFragment -> PerusahaanViewModel : 3. getAllPerusahaan()
+    activate PerusahaanViewModel
+    PerusahaanViewModel -> PerusahaanViewModel : 4.1 <<Response.Error>>
+    activate PerusahaanViewModel
+    PerusahaanFragment <-- PerusahaanViewModel
+    deactivate PerusahaanViewModel
+    activate PerusahaanFragment
+    Purchasing <-- PerusahaanFragment : <font color=red>Mendapatkan pesan gagal mendapatkan daftar perusahaan
+    activate Purchasing
+    deactivate PerusahaanFragment
+    deactivate Purchasing
+    PerusahaanViewModel -> PerusahaanViewModel : 4.2 <<Response.Success>>
+    activate PerusahaanViewModel
+    PerusahaanFragment <-- PerusahaanViewModel
+    deactivate PerusahaanViewModel
+    deactivate PerusahaanViewModel
+    activate PerusahaanFragment
+    PerusahaanFragment -> PerusahaanAdapter : 5. <<create>>
+    activate PerusahaanAdapter
+    PerusahaanAdapter --> PerusahaanFragment
+    deactivate PerusahaanAdapter
+    Purchasing <-- PerusahaanFragment :  <font color=green>Mendapatkan data & pesan berhasil mendapatkan daftar perusahaan
+    activate Purchasing
+    deactivate PerusahaanFragment
+    deactivate Purchasing
+    Purchasing -> PerusahaanFragment : 6. Click item perusahaan
+    PerusahaanFragment -> PerusahaanFragment : 7. navigateToDetail()
+    activate PerusahaanFragment
+    deactivate PerusahaanFragment
+    PerusahaanFragment -> fragment_detail_perusahaan
+    deactivate PerusahaanFragment
+    deactivate PerusahaanFragment
+    activate fragment_detail_perusahaan
+    fragment_detail_perusahaan -> DetailPerusahaanFragment : 8. onCreateView()
+    deactivate fragment_detail_perusahaan
+    activate DetailPerusahaanFragment
+
+    DetailPerusahaanFragment -> PerusahaanViewModel : 9. getPerusahaanById()
+    activate PerusahaanViewModel
+    PerusahaanViewModel -> PerusahaanViewModel : 10.1 <<Response.Error>>
+    activate PerusahaanViewModel
+    DetailPerusahaanFragment <-- PerusahaanViewModel
+    deactivate PerusahaanViewModel
+    activate DetailPerusahaanFragment
+    Purchasing <-- DetailPerusahaanFragment : <font color=red>Mendapatkan pesan gagal mendapatkan detail perusahaan
+    activate Purchasing
+    deactivate DetailPerusahaanFragment
+    deactivate Purchasing
+    PerusahaanViewModel -> PerusahaanViewModel : 10.2 <<Response.Success>>
+    activate PerusahaanViewModel
+    DetailPerusahaanFragment <-- PerusahaanViewModel
+    deactivate PerusahaanViewModel
+    deactivate PerusahaanViewModel
+    activate DetailPerusahaanFragment
+    Purchasing <-- DetailPerusahaanFragment :  <font color=green>Mendapatkan data & pesan berhasil mendapatkan detail perusahaan
+    activate Purchasing
+    deactivate DetailPerusahaanFragment
+    deactivate Purchasing
+end
+@enduml

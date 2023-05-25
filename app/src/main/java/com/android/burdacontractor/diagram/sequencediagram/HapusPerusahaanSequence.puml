@@ -18,8 +18,10 @@ group Purchasing Hapus Perusahaan
     PerusahaanViewModel -> PerusahaanViewModel : 4.1 <<Response.Success>>
     activate PerusahaanViewModel
     DetailPerusahaanFragment <-- PerusahaanViewModel
-    Purchasing <-- DetailPerusahaanFragment :  <font color=green>Mendapatkan pesan berhasil hapus perusahaan
     deactivate PerusahaanViewModel
+    Purchasing <-- DetailPerusahaanFragment :  <font color=green>Mendapatkan pesan berhasil hapus perusahaan
+    activate Purchasing
+    deactivate Purchasing
 
     PerusahaanViewModel -> PerusahaanViewModel : 4.2 <<Response.Error>>
     activate PerusahaanViewModel
@@ -30,6 +32,8 @@ group Purchasing Hapus Perusahaan
     deactivate PerusahaanViewModel
 
     Purchasing <-- DetailPerusahaanFragment : <font color=red>Mendapatkan pesan error hapus perusahaan
-
+    activate Purchasing
+    deactivate Purchasing
+    deactivate DetailPerusahaanFragment
 end
 @enduml

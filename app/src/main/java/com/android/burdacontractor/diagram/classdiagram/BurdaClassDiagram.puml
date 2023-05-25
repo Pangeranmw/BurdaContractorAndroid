@@ -8,9 +8,9 @@ interface burdacontracor.core.domain.usecase.SuratJalanUseCase
 interface burdacontracor.core.domain.repository.ISuratJalanRepository
 interface burdacontracor.core.data.source.remote.network.SuratJalanService
 class burdacontracor.core.data.SuratJalanRepository implements burdacontracor.core.domain.repository.ISuratJalanRepository
-burdacontracor.core.data.SuratJalanRepository -u burdacontracor.core.data.source.remote.SuratJalanRemoteDataSource
-burdacontracor.core.data.SuratJalanRepository -l> burdacontracor.core.data.source.remote.StorageDataSource
-burdacontracor.core.domain.usecase.SuratJalanInteractor -> burdacontracor.core.data.SuratJalanRepository
+burdacontracor.core.data.SuratJalanRepository -u> burdacontracor.core.data.source.remote.SuratJalanRemoteDataSource
+burdacontracor.core.data.SuratJalanRepository -u> burdacontracor.core.data.source.remote.StorageDataSource
+burdacontracor.core.domain.usecase.SuratJalanInteractor -d> burdacontracor.core.data.SuratJalanRepository
 burdacontracor.presentation.suratjalan.SuratJalanViewModel -l> burdacontracor.core.domain.usecase.SuratJalanUseCase
 burdacontracor.core.data.source.remote.SuratJalanRemoteDataSource -l> burdacontracor.core.data.source.remote.network.SuratJalanService
 class burdacontracor.presentation.suratjalan.SuratJalanViewModel<HiltViewModel> {
@@ -30,18 +30,19 @@ class burdacontracor.presentation.suratjalan.SuratJalanViewModel<HiltViewModel> 
     +changeStatusSuratJalan()
     +uploadFotoBukti()
     +pantauSuratJalan()
+    +telusuriSuratJalan()
 }
 class burdacontracor.presentation.suratjalan.SuratJalanActivity{
     -binding
-    -navController
     onCreate()
     onNavigationItemSelected()
 }
 class burdacontracor.presentation.suratjalan.SuratJalanFragment{
     -binding
-    -navController
     onCreateView()
     onViewCreated()
+    validateAddSuratJalan()
+    validateAddSuratJalan()
 
 }
 class SuratJalanCreateFragment{

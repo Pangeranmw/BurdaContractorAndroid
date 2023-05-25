@@ -5,31 +5,48 @@ group Admin Gudang Ubah Gudang
     actor       AdminGudang
     boundary    fragment_detail_gudang
     control     DetailGudangFragment
+    boundary    fragment_update_gudang
+    control     UpdateGudangFragment
 
-    AdminGudang -> fragment_detail_gudang : 1. Click tombol ubah
+    AdminGudang -> fragment_detail_gudang : 1. Click tombol ubah gudang
+
     activate fragment_detail_gudang
-
-    fragment_detail_gudang -> DetailGudangFragment : 2. updateGudang()
+    fragment_detail_gudang -> DetailGudangFragment : 2. navigateToUpdateGudang()
     deactivate fragment_detail_gudang
 
     activate DetailGudangFragment
-    DetailGudangFragment -> GudangViewModel : 3. updateGudang()
+    DetailGudangFragment -> fragment_update_gudang
+    deactivate DetailGudangFragment
+    activate fragment_update_gudang
+    fragment_update_gudang -> UpdateGudangFragment : 3. onCreateView()
+    activate UpdateGudangFragment
+    AdminGudang -> fragment_update_gudang : 4. Mengubah data gudang
+    fragment_update_gudang -> UpdateGudangFragment : 5. validateUpdateGudang()
+    deactivate fragment_update_gudang
+
+    UpdateGudangFragment -> GudangViewModel : 6. updateGudang()
     activate GudangViewModel
-    GudangViewModel -> GudangViewModel : 4.1 <<Response.Success>>
+    GudangViewModel -> GudangViewModel : 7.1 <<Response.Success>>
     activate GudangViewModel
-    DetailGudangFragment <-- GudangViewModel
-    AdminGudang <-- DetailGudangFragment :  <font color=green>Mendapatkan pesan berhasil ubah gudang
+    UpdateGudangFragment <-- GudangViewModel
     deactivate GudangViewModel
+    activate UpdateGudangFragment
+    AdminGudang <-- UpdateGudangFragment :  <font color=green>Mendapatkan pesan berhasil ubah gudang
+    activate AdminGudang
+    deactivate AdminGudang
+    deactivate UpdateGudangFragment
 
-    GudangViewModel -> GudangViewModel : 4.2 <<Response.Error>>
+    GudangViewModel -> GudangViewModel : 7.2 <<Response.Error>>
     activate GudangViewModel
 
-    DetailGudangFragment <-- GudangViewModel
+    UpdateGudangFragment <-- GudangViewModel
 
     deactivate GudangViewModel
     deactivate GudangViewModel
-
-    AdminGudang <-- DetailGudangFragment : <font color=red>Mendapatkan pesan error ubah gudang
-
+    activate UpdateGudangFragment
+    AdminGudang <-- UpdateGudangFragment : <font color=red>Mendapatkan pesan error ubah gudang
+    activate AdminGudang
+    deactivate AdminGudang
+    deactivate UpdateGudangFragment
 end
 @enduml

@@ -1,0 +1,63 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Logistic Telusuri Lokasi Delivery Order
+    actor       Logistic
+    boundary fragment_detail_delivery_order
+    control DetailDeliveryOrderFragment
+    boundary fragment_telusuri_lokasi
+    control TelusuriLokasiFragment
+
+    Logistic -> fragment_detail_delivery_order : 1. Click tombol telusuri lokasi delivery order
+    activate fragment_detail_delivery_order
+    fragment_detail_delivery_order -> DetailDeliveryOrderFragment : 2. navigateToTelusuriLokasi()
+    deactivate fragment_detail_delivery_order
+
+    activate DetailDeliveryOrderFragment
+    DetailDeliveryOrderFragment -> fragment_telusuri_lokasi
+    deactivate DetailDeliveryOrderFragment
+    activate fragment_telusuri_lokasi
+    fragment_telusuri_lokasi -> TelusuriLokasiFragment : 3. onCreateView()
+    activate TelusuriLokasiFragment
+
+    TelusuriLokasiFragment -> DeliveryViewModel : 4. telusuriLokasiDelivery()
+    activate DeliveryViewModel
+    DeliveryViewModel -> DeliveryViewModel : 5.1 <<Response.Error>>
+    activate DeliveryViewModel
+    TelusuriLokasiFragment <-- DeliveryViewModel
+    deactivate DeliveryViewModel
+    activate TelusuriLokasiFragment
+    fragment_telusuri_lokasi <-- TelusuriLokasiFragment
+    Logistic <-- fragment_telusuri_lokasi : <font color=red>Mendapatkan pesan gagal telusuri lokasi delivery order
+    activate Logistic
+    deactivate TelusuriLokasiFragment
+    deactivate Logistic
+    DeliveryViewModel -> DeliveryViewModel : 5.2 <<Response.Success>>
+    activate DeliveryViewModel
+    TelusuriLokasiFragment <-- DeliveryViewModel
+
+    deactivate DeliveryViewModel
+    deactivate DeliveryViewModel
+    activate TelusuriLokasiFragment
+    fragment_telusuri_lokasi <-- TelusuriLokasiFragment
+    Logistic <-- fragment_telusuri_lokasi :  <font color=green>Mendapatkan data penelusuran lokasi delivery order
+    activate Logistic
+    deactivate Logistic
+    deactivate TelusuriLokasiFragment
+
+    Logistic -> fragment_telusuri_lokasi : 6.1 Icon telusuri tujuan aktif
+    fragment_telusuri_lokasi -> TelusuriLokasiFragment : telusuriLokasiTujuan()
+    fragment_telusuri_lokasi <-- TelusuriLokasiFragment
+    Logistic <-- fragment_telusuri_lokasi :  Menelusuri lokasi tujuan
+    activate Logistic
+    deactivate Logistic
+
+    Logistic -> fragment_telusuri_lokasi : 6.2 Icon telusuri asal aktif
+    fragment_telusuri_lokasi -> TelusuriLokasiFragment : telusuriLokasiAsal()
+    fragment_telusuri_lokasi <-- TelusuriLokasiFragment
+    Logistic <-- fragment_telusuri_lokasi :  Menelusuri lokasi asal
+    activate Logistic
+    deactivate Logistic
+    deactivate fragment_telusuri_lokasi
+end
+@enduml

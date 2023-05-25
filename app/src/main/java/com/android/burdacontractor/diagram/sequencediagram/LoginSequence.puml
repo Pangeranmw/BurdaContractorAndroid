@@ -26,10 +26,17 @@ LoginFragment <-- AuthViewModel
 deactivate AuthViewModel
 deactivate AuthViewModel
 
+activate LoginFragment
 Pengguna <-- LoginFragment : <font color=red>Mendapatkan pesan error login
+activate Pengguna
+deactivate LoginFragment
+deactivate Pengguna
 deactivate LoginFragment
 
+
 Pengguna <-- BerandaActivity :  <font color=green>Mendapatkan pesan berhasil login
+activate Pengguna
+deactivate Pengguna
 deactivate BerandaActivity
 end
 @enduml

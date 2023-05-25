@@ -1,0 +1,75 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Purchasing Logistic & Admin Gudang Lihat Daftar & Detail Delivery Order
+    actor       Pengguna
+    boundary    item_delivery_order
+    control     DeliveryOrderFragment
+    boundary fragment_detail_delivery_order
+    control DetailDeliveryOrderFragment
+    Pengguna -> item_delivery_order : 1. Click menu delivery order
+    activate item_delivery_order
+
+    item_delivery_order -> DeliveryOrderFragment : 2. onCreateView()
+    deactivate item_delivery_order
+    activate DeliveryOrderFragment
+
+    DeliveryOrderFragment -> DeliveryOrderViewModel : 3. getAllDeliveryOrder()
+    activate DeliveryOrderViewModel
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 4.1 <<Response.Error>>
+    activate DeliveryOrderViewModel
+    DeliveryOrderFragment <-- DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+    activate DeliveryOrderFragment
+    Pengguna <-- DeliveryOrderFragment : <font color=red>Mendapatkan pesan gagal mendapatkan daftar delivery order
+    activate Pengguna
+    deactivate DeliveryOrderFragment
+    deactivate Pengguna
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 4.2 <<Response.Success>>
+    activate DeliveryOrderViewModel
+    DeliveryOrderFragment <-- DeliveryOrderViewModel
+    activate DeliveryOrderFragment
+    deactivate DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+    DeliveryOrderFragment -> DeliveryOrderAdapter : 5. <<create>>
+    activate DeliveryOrderAdapter
+    DeliveryOrderAdapter --> DeliveryOrderFragment
+    deactivate DeliveryOrderAdapter
+    Pengguna <-- DeliveryOrderFragment :  <font color=green>Mendapatkan data & pesan berhasil mendapatkan daftar delivery order
+    activate Pengguna
+    deactivate DeliveryOrderFragment
+    deactivate Pengguna
+    Pengguna -> DeliveryOrderFragment : 6. Click item delivery order
+    DeliveryOrderFragment -> DeliveryOrderFragment : 7. navigateToDetail()
+    activate DeliveryOrderFragment
+    DeliveryOrderFragment -> fragment_detail_delivery_order
+    deactivate DeliveryOrderFragment
+    deactivate DeliveryOrderFragment
+    activate fragment_detail_delivery_order
+    fragment_detail_delivery_order -> DetailDeliveryOrderFragment : 8. onCreateView()
+    deactivate fragment_detail_delivery_order
+    activate DetailDeliveryOrderFragment
+
+    DetailDeliveryOrderFragment -> DeliveryOrderViewModel : 9. getDeliveryOrderById()
+    activate DeliveryOrderViewModel
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 10.1 <<Response.Error>>
+    activate DeliveryOrderViewModel
+    DetailDeliveryOrderFragment <-- DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+    activate DetailDeliveryOrderFragment
+    Pengguna <-- DetailDeliveryOrderFragment : <font color=red>Mendapatkan pesan gagal mendapatkan detail delivery order
+    activate Pengguna
+    deactivate DetailDeliveryOrderFragment
+    deactivate Pengguna
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 10.2 <<Response.Success>>
+    activate DeliveryOrderViewModel
+    DetailDeliveryOrderFragment <-- DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+    activate DetailDeliveryOrderFragment
+    Pengguna <-- DetailDeliveryOrderFragment :  <font color=green>Mendapatkan data & pesan berhasil mendapatkan detail delivery order
+    activate Pengguna
+    deactivate Pengguna
+    deactivate DetailDeliveryOrderFragment
+end
+@enduml

@@ -17,9 +17,9 @@ group Admin Gudang Tambah Kendaraaan
     AddKendaraaanFragment -> KendaraaanViewModel : 4. addKendaraaan()
     activate KendaraaanViewModel
 
-    control KendaraaanActivity
-    KendaraaanViewModel -> KendaraaanActivity : 5.1 onCreate() <<Response.Success>>
-    activate KendaraaanActivity
+    control KendaraaanFragment
+    KendaraaanViewModel -> KendaraaanFragment : 5.1 onCreate() <<Response.Success>>
+    activate KendaraaanFragment
 
     KendaraaanViewModel -> KendaraaanViewModel : 5.2 <<Response.Error>>
     activate KendaraaanViewModel
@@ -28,9 +28,13 @@ group Admin Gudang Tambah Kendaraaan
     deactivate KendaraaanViewModel
 
     AdminGudang <-- AddKendaraaanFragment : <font color=red>Mendapatkan pesan error tambah kendaraan
+    activate AdminGudang
+    deactivate AdminGudang
     deactivate AddKendaraaanFragment
 
-    AdminGudang <-- KendaraaanActivity :  <font color=green>Mendapatkan pesan berhasil tambah kendaraan
-    deactivate KendaraaanActivity
+    AdminGudang <-- KendaraaanFragment :  <font color=green>Mendapatkan pesan berhasil tambah kendaraan
+    activate AdminGudang
+    deactivate AdminGudang
+    deactivate KendaraaanFragment
 end
 @enduml

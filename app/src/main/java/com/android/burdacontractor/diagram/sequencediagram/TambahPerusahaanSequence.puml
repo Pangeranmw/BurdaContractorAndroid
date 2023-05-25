@@ -17,9 +17,9 @@ group Purchasing Tambah Perusahaan
     AddPerusahaanFragment -> PerusahaanViewModel : 4. addPerusahaan()
     activate PerusahaanViewModel
 
-    control PerusahaanActivity
-    PerusahaanViewModel -> PerusahaanActivity : 5.1 onCreate() <<Response.Success>>
-    activate PerusahaanActivity
+    control PerusahaanFragment
+    PerusahaanViewModel -> PerusahaanFragment : 5.1 onCreate() <<Response.Success>>
+    activate PerusahaanFragment
 
     PerusahaanViewModel -> PerusahaanViewModel : 5.2 <<Response.Error>>
     activate PerusahaanViewModel
@@ -28,9 +28,13 @@ group Purchasing Tambah Perusahaan
     deactivate PerusahaanViewModel
 
     Purchasing <-- AddPerusahaanFragment : <font color=red>Mendapatkan pesan error tambah perusahaan
+    activate Purchasing
+    deactivate Purchasing
     deactivate AddPerusahaanFragment
 
-    Purchasing <-- PerusahaanActivity :  <font color=green>Mendapatkan pesan berhasil tambah perusahaan
-    deactivate PerusahaanActivity
+    Purchasing <-- PerusahaanFragment :  <font color=green>Mendapatkan pesan berhasil tambah perusahaan
+    activate Purchasing
+    deactivate Purchasing
+    deactivate PerusahaanFragment
 end
 @enduml

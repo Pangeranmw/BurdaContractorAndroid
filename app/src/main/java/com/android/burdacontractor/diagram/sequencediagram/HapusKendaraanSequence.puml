@@ -18,8 +18,12 @@ group Admin Gudang Hapus Kendaraaan
     KendaraaanViewModel -> KendaraaanViewModel : 4.1 <<Response.Success>>
     activate KendaraaanViewModel
     DetailKendaraaanFragment <-- KendaraaanViewModel
-    AdminGudang <-- DetailKendaraaanFragment :  <font color=green>Mendapatkan pesan berhasil hapus kendaraan
     deactivate KendaraaanViewModel
+    activate DetailKendaraaanFragment
+    AdminGudang <-- DetailKendaraaanFragment :  <font color=green>Mendapatkan pesan berhasil hapus kendaraan
+    activate AdminGudang
+    deactivate DetailKendaraaanFragment
+    deactivate AdminGudang
 
     KendaraaanViewModel -> KendaraaanViewModel : 4.2 <<Response.Error>>
     activate KendaraaanViewModel
@@ -28,8 +32,10 @@ group Admin Gudang Hapus Kendaraaan
 
     deactivate KendaraaanViewModel
     deactivate KendaraaanViewModel
-
+    activate DetailKendaraaanFragment
     AdminGudang <-- DetailKendaraaanFragment : <font color=red>Mendapatkan pesan error hapus kendaraan
-
+    activate AdminGudang
+    deactivate DetailKendaraaanFragment
+    deactivate AdminGudang
 end
 @enduml
