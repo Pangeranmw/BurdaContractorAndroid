@@ -7,13 +7,15 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.android.burdacontractor.R
 import com.android.burdacontractor.databinding.ActivityLoginBinding
+import com.android.burdacontractor.presentation.LogisticViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    val viewModel: AuthViewModel by viewModels()
+    val authViewModel: AuthViewModel by viewModels()
+    val logisticViewModel: LogisticViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

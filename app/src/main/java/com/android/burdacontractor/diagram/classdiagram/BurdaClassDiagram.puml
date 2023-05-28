@@ -9,9 +9,9 @@ interface burdacontracor.core.domain.repository.ISuratJalanRepository
 interface burdacontracor.core.data.source.remote.network.SuratJalanService
 class burdacontracor.core.data.SuratJalanRepository implements burdacontracor.core.domain.repository.ISuratJalanRepository
 burdacontracor.core.data.SuratJalanRepository -u> burdacontracor.core.data.source.remote.SuratJalanRemoteDataSource
-burdacontracor.core.data.SuratJalanRepository -u> burdacontracor.core.data.source.remote.StorageDataSource
-burdacontracor.core.domain.usecase.SuratJalanInteractor -d> burdacontracor.core.data.SuratJalanRepository
-burdacontracor.presentation.suratjalan.SuratJalanViewModel -l> burdacontracor.core.domain.usecase.SuratJalanUseCase
+burdacontracor.core.data.SuratJalanRepository -> burdacontracor.core.data.source.remote.StorageDataSource
+burdacontracor.core.domain.usecase.SuratJalanInteractor --d> burdacontracor.core.data.SuratJalanRepository
+burdacontracor.presentation.suratjalan.SuratJalanViewModel --d> burdacontracor.core.domain.usecase.SuratJalanUseCase
 burdacontracor.core.data.source.remote.SuratJalanRemoteDataSource -l> burdacontracor.core.data.source.remote.network.SuratJalanService
 class burdacontracor.presentation.suratjalan.SuratJalanViewModel<HiltViewModel> {
     +state

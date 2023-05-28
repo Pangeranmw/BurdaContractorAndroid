@@ -47,4 +47,7 @@
     <string name="cd_logo">Logo</string>
     <string name="no_internet">Internet Tidak Tersedia</string>
     <string name="connected">Terhubung ke Jaringan</string>
+    <string name="default_notification_channel_id">1234</string>
+    <string name="default_notification_channel_name">FCM</string>
+    <string name="msg_token_fmt">FCM registration Token: %s</string>
 </resources>

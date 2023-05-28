@@ -1,10 +1,6 @@
 package com.android.burdacontractor.core.data.source.local
 
-import com.android.burdacontractor.core.data.source.local.entity.TourismEntity
-import com.android.burdacontractor.core.data.source.local.room.TourismDao
 import com.android.burdacontractor.core.data.source.local.storage.SessionManager
-import com.android.burdacontractor.core.domain.model.UserRole
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,6 +14,11 @@ class StorageDataSource @Inject constructor(private val sessionManager: SessionM
         sessionManager.saveToPreference(SessionManager.KEY_TOKEN, token)
     }
 
+    fun setDeviceToken(token: String) {
+        sessionManager.saveToPreference(SessionManager.KEY_DEVICE_TOKEN, token)
+    }
+
+    fun getDeviceToken() = sessionManager.getFromPreference(SessionManager.KEY_DEVICE_TOKEN).toString()
     fun getUserId() = sessionManager.getFromPreference(SessionManager.KEY_USER_ID).toString()
 
     fun getToken() = sessionManager.getFromPreference(SessionManager.KEY_TOKEN).toString()

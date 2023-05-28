@@ -1,11 +1,14 @@
 package com.android.burdacontractor.core.data.source.remote
 
+import android.util.Log
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.callbackFlow
@@ -17,17 +20,16 @@ class LogisticRemoteDataSource @Inject constructor(
     private var databaseReference: DatabaseReference,
 ) {
     fun getCoordinate(logisticId: String) = callbackFlow<Resource<LogisticCoordinate>> {
-        databaseReference.child(logisticId)
+        databaseReference = Firebase.database
+            .getReference("logistic")
+            .child(logisticId)
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var logisticCoordinate = LogisticCoordinate()
                 if(dataSnapshot.exists()){
-                    for (e in dataSnapshot.children){
-                        val item = e.getValue(LogisticCoordinate::class.java)
-                        if(item != null){
-                            logisticCoordinate = LogisticCoordinate(item.latitude, item.longitude)
-                        }
-                    }
+                    Log.d("AHAHAH", dataSnapshot.children.toString())
+                    val lat = dataSnapshot.child("latitude").getValue(Double::class.java).toString()
+                    val lon = dataSnapshot.child("longitude").getValue(Double::class.java).toString()
+                    val logisticCoordinate = LogisticCoordinate(lat.toDouble(), lon.toDouble())
                     this@callbackFlow.trySendBlocking(Resource.Success(logisticCoordinate))
                 }
             }
@@ -43,6 +45,7 @@ class LogisticRemoteDataSource @Inject constructor(
     }
 
     fun setCoordinate(logisticId: String, coordinate: LogisticCoordinate) {
+        databaseReference = Firebase.database.getReference("logistic")
         databaseReference.child(logisticId).setValue(coordinate)
     }
 }

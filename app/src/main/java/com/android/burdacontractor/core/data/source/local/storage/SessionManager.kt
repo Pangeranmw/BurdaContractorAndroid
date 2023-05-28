@@ -8,6 +8,7 @@ class SessionManager(context: Context) {
         const val KEY_TOKEN = "token"
         const val KEY_USER_ID = "userId"
         const val KEY_ROLE = "role"
+        const val KEY_DEVICE_TOKEN = "deviceToken"
     }
 
     private var pref: SharedPreferences = context.getSharedPreferences("Session", Context.MODE_PRIVATE)

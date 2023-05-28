@@ -2,7 +2,6 @@ package com.android.burdacontractor.core.data.source.remote.network
 
 import com.android.burdacontractor.core.data.source.remote.response.AllSuratJalanResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.data.source.remote.response2.ListTourismResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Field

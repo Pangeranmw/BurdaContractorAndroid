@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface IStorageRepository {
     fun loginUser(userId: String, token: String, role: String)
+    fun setDeviceToken(token: String)
+    fun getDeviceToken(): String
 
     fun getUserId(): String
 

@@ -3,14 +3,18 @@ package com.android.burdacontractor.core.data
 import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.SuratJalanRemoteDataSource
-import com.android.burdacontractor.core.data.source.remote.response.AddSuratJalanResponse
+import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
+import com.android.burdacontractor.core.data.source.remote.response.AddUpdateResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.data.source.remote.response.SuratJalanDetailItem
-import com.android.burdacontractor.core.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.core.domain.model.SuratJalanStatus
-import com.android.burdacontractor.core.domain.model.SuratJalanTipe
+import com.android.burdacontractor.core.data.source.remote.response.sjDetailtoDomain
+import com.android.burdacontractor.core.domain.model.AllSuratJalan
+import com.android.burdacontractor.core.domain.model.SuratJalanDetail
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.repository.ISuratJalanRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,13 +31,17 @@ class SuratJalanRepository @Inject constructor(
         date_end: String?,
         size: Int,
         search: String?
-    ): Flow<PagingData<SuratJalanItem>> =
+    ): Flow<PagingData<AllSuratJalan>> =
         suratJalanRemoteDataSource.getAllSuratJalan(
             storageDataSource.getToken() ,tipe,status,date_start,date_end,size,search
         )
 
-    override suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetailItem>> {
-        TODO("Not yet implemented")
+    override suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetail>> = flow{
+        when(val response = suratJalanRemoteDataSource.getSuratJalanById(storageDataSource.getToken(), id).first()){
+            is ApiResponse.Empty -> emit(Resource.Loading())
+            is ApiResponse.Success -> emit(Resource.Success(response.data.suratJalan.sjDetailtoDomain()))
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+        }
     }
 
     override suspend fun addSuratJalanPengirimanGp(
@@ -41,7 +49,7 @@ class SuratJalanRepository @Inject constructor(
         logisticId: String,
         kendaraanId: String,
         peminjamanId: String
-    ): Flow<Resource<AddSuratJalanResponse>> {
+    ): Flow<Resource<AddUpdateResponse>> {
         TODO("Not yet implemented")
     }
 
@@ -51,7 +59,7 @@ class SuratJalanRepository @Inject constructor(
         kendaraanId: String,
         peminjamanAsalId: String,
         peminjamanTujuanId: String
-    ): Flow<Resource<AddSuratJalanResponse>> {
+    ): Flow<Resource<AddUpdateResponse>> {
         TODO("Not yet implemented")
     }
 
@@ -60,7 +68,7 @@ class SuratJalanRepository @Inject constructor(
         logisticId: String,
         kendaraanId: String,
         pengembalianId: String
-    ): Flow<Resource<AddSuratJalanResponse>> {
+    ): Flow<Resource<AddUpdateResponse>> {
         TODO("Not yet implemented")
     }
 
@@ -69,7 +77,7 @@ class SuratJalanRepository @Inject constructor(
         logisticId: String,
         kendaraanId: String,
         peminjamanId: String
-    ): Flow<Resource<AddSuratJalanResponse>> {
+    ): Flow<Resource<AddUpdateResponse>> {
         TODO("Not yet implemented")
     }
 
@@ -79,7 +87,7 @@ class SuratJalanRepository @Inject constructor(
         kendaraanId: String,
         peminjamanAsalId: String,
         peminjamanTujuanId: String
-    ): Flow<Resource<AddSuratJalanResponse>> {
+    ): Flow<Resource<AddUpdateResponse>> {
         TODO("Not yet implemented")
     }
 
@@ -88,7 +96,7 @@ class SuratJalanRepository @Inject constructor(
         logisticId: String,
         kendaraanId: String,
         pengembalianId: String
-    ): Flow<Resource<AddSuratJalanResponse>> {
+    ): Flow<Resource<AddUpdateResponse>> {
         TODO("Not yet implemented")
     }
 

@@ -17,24 +17,24 @@ class LogisticViewModel @Inject constructor(private val logisticUseCase: Logisti
     private val _logisticCoordinate = MutableLiveData<Resource<LogisticCoordinate>>()
     val logisticCoordinate: LiveData<Resource<LogisticCoordinate>> = _logisticCoordinate
 
-    @ExperimentalCoroutinesApi
-    suspend fun getCoordinate(logisticId: String){
-        logisticUseCase.getCoordinate(logisticId).collect {
-            var logisticCoordinate = LogisticCoordinate(0.0,0.0)
-            _logisticCoordinate.postValue(Resource.Loading(null))
-            when(it) {
-                is Resource.Loading -> {}
-                is Resource.Success -> {
-                    it.data?.let { data ->
-                        _logisticCoordinate.postValue(Resource.Success(data))
+    fun getCoordinate(logisticId: String){
+        viewModelScope.launch {
+            logisticUseCase.getCoordinate(logisticId).collect {
+                when(it) {
+                    is Resource.Loading -> {
+                        _logisticCoordinate.postValue(Resource.Loading(null))
                     }
+                    is Resource.Success -> {
+                        it.data?.let { data ->
+                            _logisticCoordinate.postValue(Resource.Success(data))
+                        }
+                    }
+                    is Resource.Error -> {  _logisticCoordinate.postValue(Resource.Error("Failed to grab items from Firebase", null)) }
                 }
-                is Resource.Error -> {  _logisticCoordinate.postValue(Resource.Error("Failed to grab items from Firebase", logisticCoordinate)) }
             }
         }
     }
-    @ExperimentalCoroutinesApi
-    suspend fun setCoordinate(logisticId: String, logisticCoordinate: LogisticCoordinate){
+    fun setCoordinate(logisticId: String, logisticCoordinate: LogisticCoordinate){
         viewModelScope.launch {
             logisticUseCase.setCoordinate(logisticId, logisticCoordinate)
         }

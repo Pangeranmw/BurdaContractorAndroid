@@ -1,18 +1,20 @@
 package com.android.burdacontractor.core.di
 
 import com.android.burdacontractor.core.data.LogisticRepository
+import com.android.burdacontractor.core.data.StorageRepository
 import com.android.burdacontractor.core.data.SuratJalanRepository
-import com.android.burdacontractor.presentation.test.TourismRepository
 import com.android.burdacontractor.core.domain.repository.ILogisticRepository
+import com.android.burdacontractor.core.domain.repository.IStorageRepository
 import com.android.burdacontractor.core.domain.repository.ISuratJalanRepository
-import com.android.burdacontractor.core.domain.repository.ITourismRepository
-import com.android.burdacontractor.presentation.test.DatabaseModule
+import com.android.burdacontractor.presentation.test.locationtracker.location_service.location_client.DefaultLocationClient
+import com.android.burdacontractor.presentation.test.locationtracker.location_service.location_client.LocationClient
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-@Module(includes = [NetworkModule::class, DatabaseModule::class, StorageModule::class])
+@Module(includes = [NetworkModule::class, StorageModule::class])
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
@@ -20,10 +22,14 @@ abstract class RepositoryModule {
     abstract fun provideSuratJalanRepository(suratJalanRepository: SuratJalanRepository): ISuratJalanRepository
 
     @Binds
-    abstract fun provideTourismRepository(tourismRepository: TourismRepository): ITourismRepository
+    abstract fun provideLogisticRepository(logisticRepository: LogisticRepository): ILogisticRepository
 
     @Binds
-    abstract fun provideLogisticRepository(logisticRepository: LogisticRepository): ILogisticRepository
+    abstract fun provideStorageRepository(storageRepository: StorageRepository): IStorageRepository
+
+    @Singleton
+    @Binds
+    abstract fun providesLocationClient(defaultLocationClient: DefaultLocationClient): LocationClient
 
 //    @Binds
 //    abstract fun provideDeliveryOrderRepository(deliveryOrderRepository: DeliveryOrderRepository): IDeliveryOrderRepository

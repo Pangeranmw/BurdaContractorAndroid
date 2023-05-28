@@ -5,6 +5,6 @@ import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import kotlinx.coroutines.flow.Flow
 
 interface LogisticUseCase {
-    suspend fun getCoordinate(logisticId: String): Flow<Resource<LogisticCoordinate>>
-    suspend fun setCoordinate(logisticId: String, logisticCoordinate: LogisticCoordinate)
+    fun getCoordinate(logisticId: String): Flow<Resource<LogisticCoordinate>>
+    fun setCoordinate(logisticId: String, logisticCoordinate: LogisticCoordinate)
 }

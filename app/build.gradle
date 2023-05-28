@@ -27,7 +27,6 @@ android {
     buildTypes {
         debug {
             buildConfigField("String", "BASE_URL", "\"" + localProperties['BASE_URL'] + "\"")
-            buildConfigField("String", "GOOGLE_MAPS_KEY", "\"" + localProperties['GOOGLE_MAPS_KEY'] + "\"")
         }
         release {
             minifyEnabled false
@@ -67,6 +66,7 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:$legacy_support_version"
     implementation 'androidx.annotation:annotation:1.6.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"

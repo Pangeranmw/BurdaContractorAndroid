@@ -1,10 +1,10 @@
 package com.android.burdacontractor.core.data.source.remote.network
 
-import com.android.burdacontractor.core.data.source.remote.response.AddSuratJalanResponse
+import com.android.burdacontractor.core.data.source.remote.response.AddUpdateResponse
 import com.android.burdacontractor.core.data.source.remote.response.AllSuratJalanResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.data.source.remote.response.SuratJalanDetailResponse
-import com.android.burdacontractor.core.domain.model.SuratJalanTipe
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -44,7 +44,7 @@ interface SuratJalanService {
         @Field("kendaraan_id") kendaraanId: String,
         @Field("peminjaman_id") peminjamanId: String,
         @Field("tipe") tipe: String = SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK.name,
-    ): AddSuratJalanResponse
+    ): AddUpdateResponse
 
     @FormUrlEncoded
     @POST("surat-jalan")
@@ -56,7 +56,7 @@ interface SuratJalanService {
         @Field("peminjaman_asal_id") peminjamanAsalId: String,
         @Field("peminjaman_tujuan_id") peminjamanTujuanId: String,
         @Field("tipe") tipe: String = SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK.name,
-    ): AddSuratJalanResponse
+    ): AddUpdateResponse
 
     @FormUrlEncoded
     @POST("surat-jalan")
@@ -67,7 +67,7 @@ interface SuratJalanService {
         @Field("kendaraan_id") kendaraanId: String,
         @Field("pengembalian_id") pengembalianId: String,
         @Field("tipe") tipe: String = SuratJalanTipe.PENGEMBALIAN.name,
-    ): AddSuratJalanResponse
+    ): AddUpdateResponse
 
     @FormUrlEncoded
     @POST("surat-jalan")
@@ -78,7 +78,7 @@ interface SuratJalanService {
         @Field("kendaraan_id") kendaraanId: String,
         @Field("peminjaman_id") peminjamanId: String,
         @Field("tipe") tipe: String = SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK.name,
-    ): AddSuratJalanResponse
+    ): AddUpdateResponse
 
     @FormUrlEncoded
     @POST("surat-jalan")
@@ -90,7 +90,7 @@ interface SuratJalanService {
         @Field("peminjaman_asal_id") peminjamanAsalId: String,
         @Field("peminjaman_tujuan_id") peminjamanTujuanId: String,
         @Field("tipe") tipe: String = SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK.name,
-    ): AddSuratJalanResponse
+    ): AddUpdateResponse
 
     @FormUrlEncoded
     @POST("surat-jalan")
@@ -101,7 +101,7 @@ interface SuratJalanService {
         @Field("kendaraan_id") kendaraanId: String,
         @Field("pengembalian_id") pengembalianId: String,
         @Field("tipe") tipe: String = SuratJalanTipe.PENGEMBALIAN.name,
-    ): AddSuratJalanResponse
+    ): AddUpdateResponse
 
     @FormUrlEncoded
     @DELETE("surat-jalan/{surat_jalan_id}")

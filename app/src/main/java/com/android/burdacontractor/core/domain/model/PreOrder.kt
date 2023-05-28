@@ -13,5 +13,6 @@ data class PreOrder(
     var keterangan: String? = null,
     var jumlah: String? = null,
     var deliveryOrderId: String? = null,
+    var deliveryOrder: DeliveryOrder? = null,
 ): Parcelable
 

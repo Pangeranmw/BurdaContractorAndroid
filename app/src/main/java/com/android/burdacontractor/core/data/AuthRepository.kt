@@ -1,19 +1,11 @@
 package com.android.burdacontractor.core.data
 
-import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.AuthRemoteDataSource
-import com.android.burdacontractor.core.data.source.remote.SuratJalanRemoteDataSource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
-import com.android.burdacontractor.core.data.source.remote.response.AddSuratJalanResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.data.source.remote.response.LoginResponse
-import com.android.burdacontractor.core.data.source.remote.response.SuratJalanDetailItem
-import com.android.burdacontractor.core.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.core.domain.model.SuratJalanStatus
-import com.android.burdacontractor.core.domain.model.SuratJalanTipe
 import com.android.burdacontractor.core.domain.repository.IAuthRepository
-import com.android.burdacontractor.core.domain.repository.ISuratJalanRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow

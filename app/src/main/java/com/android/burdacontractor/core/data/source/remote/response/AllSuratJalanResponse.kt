@@ -1,5 +1,6 @@
 package com.android.burdacontractor.core.data.source.remote.response
 
+import com.android.burdacontractor.core.domain.model.AllSuratJalan
 import com.google.gson.annotations.SerializedName
 
 data class AllSuratJalanResponse(
@@ -13,7 +14,20 @@ data class AllSuratJalanResponse(
 	@field:SerializedName("surat_jalan")
 	val suratJalan: List<SuratJalanItem>? = null
 )
-
+fun List<SuratJalanItem>.allSjToDomain(): List<AllSuratJalan>{
+	return this.map{
+		AllSuratJalan(
+			id = it.id,
+			kodeSurat = it.kodeSurat,
+			status = it.status,
+			namaTempatAsal = it.namaTempatAsal,
+			alamatTempatAsal = it.alamatTempatAsal,
+			coordinateTempatAsal = it.coordinateTempatAsal,
+			namaTempatTujuan = it.namaTempatTujuan,
+			alamatTempatTujuan = it.alamatTempatTujuan
+		)
+	}
+}
 data class SuratJalanItem(
 	@field:SerializedName("id")
 	val id: String? = null,

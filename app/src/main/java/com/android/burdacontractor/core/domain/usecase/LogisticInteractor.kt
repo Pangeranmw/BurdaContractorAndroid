@@ -9,9 +9,9 @@ import javax.inject.Inject
 class LogisticInteractor @Inject constructor(private val logisticRepository: LogisticRepository):
     LogisticUseCase {
 
-    override suspend fun setCoordinate(logisticId: String, logisticCoordinate: LogisticCoordinate) {
+    override fun setCoordinate(logisticId: String, logisticCoordinate: LogisticCoordinate) {
         logisticRepository.setCoordinate(logisticId, logisticCoordinate)
     }
-    override suspend fun getCoordinate(logisticId: String): Flow<Resource<LogisticCoordinate>> = logisticRepository.getCoordinate(logisticId)
+    override fun getCoordinate(logisticId: String): Flow<Resource<LogisticCoordinate>> = logisticRepository.getCoordinate(logisticId)
 
 }

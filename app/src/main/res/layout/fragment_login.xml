@@ -28,7 +28,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_login"
             />
 
-        <com.android.burdacontractor.presentation.customview.CustomTextInputLayout
+        <com.android.burdacontractor.core.ui.customview.CustomTextInputLayout
             android:id="@+id/et_email_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_email" />
 
-        </com.android.burdacontractor.presentation.customview.CustomTextInputLayout>
+        </com.android.burdacontractor.core.ui.customview.CustomTextInputLayout>
 
         <TextView
             android:id="@+id/tv_password"
@@ -55,7 +55,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_email_layout" />
 
-        <com.android.burdacontractor.presentation.customview.CustomTextInputLayout
+        <com.android.burdacontractor.core.ui.customview.CustomTextInputLayout
             android:id="@+id/et_password_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                 style="@style/CustomEditText"
                 android:hint="@string/placeholder_pw"
                 android:inputType="textPassword" />
-        </com.android.burdacontractor.presentation.customview.CustomTextInputLayout>
+        </com.android.burdacontractor.core.ui.customview.CustomTextInputLayout>
 
         <ProgressBar
             android:id="@+id/progress_bar"

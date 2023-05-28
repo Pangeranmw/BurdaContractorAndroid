@@ -1,10 +1,10 @@
-//package com.android.burdacontractor.presentation.test
-//
-//import android.location.Location
-//import kotlinx.coroutines.flow.Flow
-//
-//interface LocationClient {
-//    fun getLocationUpdates(interval: Long): Flow<Location>
-//
-//    class LocationException(message: String): Exception()
-//}
+package com.android.burdacontractor.presentation.test
+
+import android.location.Location
+import kotlinx.coroutines.flow.Flow
+
+interface LocationClient {
+    fun getLocationUpdates(interval: Long): Flow<Location>
+
+    class LocationException(message: String): Exception()
+}

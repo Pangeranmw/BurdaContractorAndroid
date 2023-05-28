@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import com.android.burdacontractor.BuildConfig
 import com.android.burdacontractor.core.data.source.remote.network.AksesBarangService
-import com.android.burdacontractor.core.data.source.remote.network.ApiService
 import com.android.burdacontractor.core.data.source.remote.network.AuthService
 import com.android.burdacontractor.core.data.source.remote.network.BarangService
 import com.android.burdacontractor.core.data.source.remote.network.DeliveryOrderService
@@ -31,7 +30,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -77,10 +75,6 @@ class NetworkModule {
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()
-    }
-    @Provides
-    fun provideApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
     }
 
     @Provides

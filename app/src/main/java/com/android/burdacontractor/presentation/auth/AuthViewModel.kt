@@ -5,21 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.burdacontractor.core.data.Resource
-import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.data.source.remote.response.LoginItem
-import com.android.burdacontractor.core.data.source.remote.response.LoginResponse
 import com.android.burdacontractor.core.domain.model.Event
-import com.android.burdacontractor.core.domain.model.StateResponse
-import com.android.burdacontractor.core.domain.model.UserRole
+import com.android.burdacontractor.core.domain.model.enums.StateResponse
+import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.domain.usecase.AuthUseCase
 import com.android.burdacontractor.core.domain.usecase.StorageUseCase
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,8 +26,8 @@ class AuthViewModel @Inject constructor(val liveNetworkChecker: LiveNetworkCheck
     private val _loginResponse = MutableLiveData<LoginItem?>()
     val loginResponse : LiveData<LoginItem?> = _loginResponse
 
-    private val _loginMessageResponse = MutableLiveData<Event<String?>>()
-    val loginMessageResponse : LiveData<Event<String?>> = _loginMessageResponse
+    private val _messageResponse = MutableLiveData<Event<String?>>()
+    val messageResponse : LiveData<Event<String?>> = _messageResponse
 
     fun loginUser(userId:String, token: String, role: UserRole) {
         storageUseCase.loginUser(
@@ -75,12 +68,13 @@ class AuthViewModel @Inject constructor(val liveNetworkChecker: LiveNetworkCheck
                         val data = it.data
                         if(data?.user != null){
                             _loginResponse.value = data.user
-                            _loginMessageResponse.value = Event(data.message)
+                            _messageResponse.value = Event(data.message)
+                            loginUser(data.user.id,data.user.token,UserRole.valueOf(data.user.role))
                         }
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
-                        _loginMessageResponse.value = Event(it.message)
+                        _messageResponse.value = Event(it.message)
                     }
                 }
             }
@@ -96,12 +90,12 @@ class AuthViewModel @Inject constructor(val liveNetworkChecker: LiveNetworkCheck
                         _state.value = StateResponse.SUCCESS
                         val data = it.data
                         if(data != null){
-                            _loginMessageResponse.value = Event(data.message)
+                            _messageResponse.value = Event(data.message)
                         }
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
-                        _loginMessageResponse.value = Event(it.message)
+                        _messageResponse.value = Event(it.message)
                     }
                 }
             }
@@ -117,12 +111,12 @@ class AuthViewModel @Inject constructor(val liveNetworkChecker: LiveNetworkCheck
                         _state.value = StateResponse.SUCCESS
                         val data = it.data
                         if(data != null){
-                            _loginMessageResponse.value = Event(data.message)
+                            _messageResponse.value = Event(data.message)
                         }
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
-                        _loginMessageResponse.value = Event(it.message)
+                        _messageResponse.value = Event(it.message)
                     }
                 }
             }

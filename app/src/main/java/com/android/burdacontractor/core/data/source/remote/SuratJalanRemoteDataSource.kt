@@ -4,14 +4,14 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.Resource
-import com.android.burdacontractor.core.data.source.local.StorageDataSource
+import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.network.SuratJalanService
-import com.android.burdacontractor.core.data.source.remote.response.AddSuratJalanResponse
+import com.android.burdacontractor.core.data.source.remote.response.AddUpdateResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.data.source.remote.response.SuratJalanDetailItem
-import com.android.burdacontractor.core.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.core.domain.model.SuratJalanStatus
-import com.android.burdacontractor.core.domain.model.SuratJalanTipe
+import com.android.burdacontractor.core.data.source.remote.response.SuratJalanDetailResponse
+import com.android.burdacontractor.core.domain.model.AllSuratJalan
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -29,7 +29,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         date_end: String? = null,
         size: Int = 5,
         search: String? = null,
-    ): Flow<PagingData<SuratJalanItem>> {
+    ): Flow<PagingData<AllSuratJalan>> {
         return Pager(
             config = PagingConfig(
                 pageSize = size
@@ -40,8 +40,14 @@ class SuratJalanRemoteDataSource @Inject constructor(
         ).flow
     }
 
-    suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetailItem>> = flow{
-
+    suspend fun getSuratJalanById(token:String, id: String): Flow<ApiResponse<SuratJalanDetailResponse>> = flow{
+        emit(ApiResponse.Empty)
+        val response = suratJalanService.getSuratJalanById(token, id)
+        if(!response.error){
+            emit(ApiResponse.Success(response))
+        }else{
+            emit(ApiResponse.Error(response.message))
+        }
     }
 
     suspend fun addSuratJalanPengirimanGp(
@@ -49,7 +55,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         logisticId: String,
         kendaraanId: String,
         peminjamanId: String
-    ): Flow<Resource<AddSuratJalanResponse>> = flow{
+    ): Flow<Resource<AddUpdateResponse>> = flow{
 
     }
 
@@ -59,7 +65,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         kendaraanId: String,
         peminjamanAsalId: String,
         peminjamanTujuanId: String,
-    ): Flow<Resource<AddSuratJalanResponse>> = flow{
+    ): Flow<Resource<AddUpdateResponse>> = flow{
 
     }
 
@@ -68,7 +74,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         logisticId: String,
         kendaraanId: String,
         pengembalianId: String,
-    ): Flow<Resource<AddSuratJalanResponse>> = flow {
+    ): Flow<Resource<AddUpdateResponse>> = flow {
 
     }
 
@@ -77,7 +83,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         logisticId: String,
         kendaraanId: String,
         peminjamanId: String
-    ): Flow<Resource<AddSuratJalanResponse>> = flow{
+    ): Flow<Resource<AddUpdateResponse>> = flow{
 
     }
 
@@ -87,7 +93,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         kendaraanId: String,
         peminjamanAsalId: String,
         peminjamanTujuanId: String,
-    ): Flow<Resource<AddSuratJalanResponse>> = flow{
+    ): Flow<Resource<AddUpdateResponse>> = flow{
 
     }
 
@@ -96,7 +102,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         logisticId: String,
         kendaraanId: String,
         pengembalianId: String,
-    ): Flow<Resource<AddSuratJalanResponse>> = flow{
+    ): Flow<Resource<AddUpdateResponse>> = flow{
 
     }
 

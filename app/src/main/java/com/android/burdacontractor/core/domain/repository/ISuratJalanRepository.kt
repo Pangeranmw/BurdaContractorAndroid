@@ -2,12 +2,12 @@ package com.android.burdacontractor.core.domain.repository
 
 import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.Resource
-import com.android.burdacontractor.core.data.source.remote.response.AddSuratJalanResponse
+import com.android.burdacontractor.core.data.source.remote.response.AddUpdateResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.data.source.remote.response.SuratJalanDetailItem
-import com.android.burdacontractor.core.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.core.domain.model.SuratJalanStatus
-import com.android.burdacontractor.core.domain.model.SuratJalanTipe
+import com.android.burdacontractor.core.domain.model.AllSuratJalan
+import com.android.burdacontractor.core.domain.model.SuratJalanDetail
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import kotlinx.coroutines.flow.Flow
 
 interface ISuratJalanRepository {
@@ -19,16 +19,16 @@ interface ISuratJalanRepository {
         date_end: String? = null,
         size: Int = 5,
         search: String? = null,
-    ): Flow<PagingData<SuratJalanItem>>
+    ): Flow<PagingData<AllSuratJalan>>
 
-    suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetailItem>>
+    suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetail>>
 
     suspend fun addSuratJalanPengirimanGp(
         adminGudangId: String,
         logisticId: String,
         kendaraanId: String,
         peminjamanId: String
-    ): Flow<Resource<AddSuratJalanResponse>>
+    ): Flow<Resource<AddUpdateResponse>>
 
     suspend fun addSuratJalanPengirimanPp(
         adminGudangId: String,
@@ -36,21 +36,21 @@ interface ISuratJalanRepository {
         kendaraanId: String,
         peminjamanAsalId: String,
         peminjamanTujuanId: String,
-    ): Flow<Resource<AddSuratJalanResponse>>
+    ): Flow<Resource<AddUpdateResponse>>
 
     suspend fun addSuratJalanPengembalian(
         adminGudangId: String,
         logisticId: String,
         kendaraanId: String,
         pengembalianId: String,
-    ): Flow<Resource<AddSuratJalanResponse>>
+    ): Flow<Resource<AddUpdateResponse>>
 
     suspend fun updateSuratJalanPengirimanGp(
         adminGudangId: String,
         logisticId: String,
         kendaraanId: String,
         peminjamanId: String
-    ): Flow<Resource<AddSuratJalanResponse>>
+    ): Flow<Resource<AddUpdateResponse>>
 
     suspend fun updateSuratJalanPengirimanGp(
         adminGudangId: String,
@@ -58,14 +58,14 @@ interface ISuratJalanRepository {
         kendaraanId: String,
         peminjamanAsalId: String,
         peminjamanTujuanId: String,
-    ): Flow<Resource<AddSuratJalanResponse>>
+    ): Flow<Resource<AddUpdateResponse>>
 
     suspend fun updateSuratJalanPengembalian(
         adminGudangId: String,
         logisticId: String,
         kendaraanId: String,
         pengembalianId: String,
-    ): Flow<Resource<AddSuratJalanResponse>>
+    ): Flow<Resource<AddUpdateResponse>>
 
     suspend fun deleteSuratJalan(
         suratJalanId: String,

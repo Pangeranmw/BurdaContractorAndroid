@@ -13,9 +13,9 @@ class LogisticRepository @Inject constructor(
 //    private val userRemoteDataSource: UserRemoteDataSource,
 ) : ILogisticRepository {
 
-    override suspend fun getCoordinate(logisticId: String): Flow<Resource<LogisticCoordinate>> = logisticRemoteDataSource.getCoordinate(logisticId)
+    override fun getCoordinate(logisticId: String) = logisticRemoteDataSource.getCoordinate(logisticId)
 
-    override suspend fun setCoordinate(logisticId: String, logisticCoordinate: LogisticCoordinate) {
+    override fun setCoordinate(logisticId: String, logisticCoordinate: LogisticCoordinate) {
         logisticRemoteDataSource.setCoordinate(logisticId, logisticCoordinate)
 //        userRemoteDataSource.setCoordinate(logisticId, logisticCoordinate)
     }

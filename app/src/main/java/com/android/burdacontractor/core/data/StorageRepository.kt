@@ -15,7 +15,11 @@ class StorageRepository @Inject constructor(
     override fun loginUser(userId: String, token: String, role: String) {
         storageDataSource.loginUser(userId, token, role)
     }
+    override fun setDeviceToken(token: String) {
+        storageDataSource.setDeviceToken(token)
+    }
 
+    override fun getDeviceToken() = storageDataSource.getDeviceToken()
     override fun getUserId() = storageDataSource.getUserId()
 
     override fun getToken() = storageDataSource.getToken()

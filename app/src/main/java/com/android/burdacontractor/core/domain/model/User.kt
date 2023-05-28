@@ -10,10 +10,8 @@ data class User (
     val email: String,
     val foto: String,
     val ttd: String,
-    val pin: String,
     val noHp: String,
     val role: String,
     val createdAt: String,
     val updatedAt: String,
-    val deletedAt: String
 ): Parcelable

@@ -3,25 +3,11 @@ package com.android.burdacontractor.presentation.deliveryorder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.android.burdacontractor.core.data.Resource
-import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.data.source.remote.response.LoginItem
-import com.android.burdacontractor.core.data.source.remote.response.LoginResponse
 import com.android.burdacontractor.core.domain.model.Event
 import com.android.burdacontractor.core.domain.model.PreOrder
-import com.android.burdacontractor.core.domain.model.StateResponse
-import com.android.burdacontractor.core.domain.model.UserRole
-import com.android.burdacontractor.core.domain.usecase.AuthUseCase
-import com.android.burdacontractor.core.domain.usecase.StorageUseCase
+import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
