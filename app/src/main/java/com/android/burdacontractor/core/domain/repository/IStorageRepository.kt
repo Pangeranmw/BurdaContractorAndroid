@@ -13,6 +13,11 @@ interface IStorageRepository {
 
     fun getToken(): String
 
+    fun getLatitude(): String
+    fun getLongitude(): String
+
+    fun setCoordinate(latitude: String, longitude: String)
+
     fun getRole(): String
 
     fun isUserLogin(): Boolean

@@ -13,8 +13,10 @@ interface StorageUseCase {
     fun getUserId(): String
 
     fun getToken(): String
-
+    fun getLatitude(): String
+    fun getLongitude(): String
     fun getRole(): String
+    fun setCoordinate(latitude: String, longitude: String)
 
     fun isUserLogin(): Boolean
 

@@ -21,7 +21,14 @@ class StorageDataSource @Inject constructor(private val sessionManager: SessionM
     fun getDeviceToken() = sessionManager.getFromPreference(SessionManager.KEY_DEVICE_TOKEN).toString()
     fun getUserId() = sessionManager.getFromPreference(SessionManager.KEY_USER_ID).toString()
 
-    fun getToken() = sessionManager.getFromPreference(SessionManager.KEY_TOKEN).toString()
+    fun getToken() = "Bearer ${sessionManager.getFromPreference(SessionManager.KEY_TOKEN).toString()}"
+
+    fun setCoordinate(latitude: String, longitude: String) {
+        sessionManager.saveToPreference(SessionManager.KEY_LATITUDE, latitude)
+        sessionManager.saveToPreference(SessionManager.KEY_LONGITUDE, longitude)
+    }
+    fun getLatitude() = sessionManager.getFromPreference(SessionManager.KEY_LATITUDE).toString()
+    fun getLongitude() = sessionManager.getFromPreference(SessionManager.KEY_LONGITUDE).toString()
 
     fun getRole() = sessionManager.getFromPreference(SessionManager.KEY_ROLE).toString()
 

@@ -10,9 +10,10 @@
     <color name="white">#000000</color>
 
     <color name="shadow_gray_smooth">#FAFAFA</color>
-    <color name="shadow_pink_smooth">#FFDCE8</color>
-    <color name="gray_light">#F6F6F6</color>
-    <color name="gray">#A8A8A8</color>
+    <color name="shadow_green_smooth">#DCFFE4</color>
+    <color name="gray_light">#4C4C4C</color>
+    <color name="gray_dark">#DDDDDD</color>
+    <color name="gray">#787878</color>
     <color name="input">#272727</color>
 
     <color name="green_dark_half">#169147</color>

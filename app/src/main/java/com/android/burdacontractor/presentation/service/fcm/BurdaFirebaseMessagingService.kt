@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.StorageRepository
+import com.android.burdacontractor.presentation.beranda.BerandaActivity
 import com.android.burdacontractor.presentation.splashscreen.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -29,12 +30,12 @@ class BurdaFirebaseMessagingService: FirebaseMessagingService() {
     @Inject lateinit var storageRepository: StorageRepository
 
     override fun onNewToken(token: String) {
-//        super.onNewToken(token)
+        super.onNewToken(token)
         Log.d(TAG ,"Refreshed token $token")
         storageRepository.setDeviceToken(token)
     }
     override fun onMessageReceived(message: RemoteMessage) {
-//        super.onMessageReceived(message)
+        super.onMessageReceived(message)
         if(message.data.isNotEmpty()){
             Log.d(TAG, "onMessageReceived: "+ message.data.toString())
             sendNotification(message.notification?.title, message.notification?.body, message.notification?.imageUrl.toString())

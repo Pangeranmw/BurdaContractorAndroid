@@ -50,4 +50,20 @@
     <string name="default_notification_channel_id">1234</string>
     <string name="default_notification_channel_name">FCM</string>
     <string name="msg_token_fmt">FCM registration Token: %s</string>
+
+    <string name="permission_location_required">Akses lokasi diperlukan untuk menggunakan aplikasi.</string>
+    <string name="ok">OK</string>
+    <string name="permission_location_granted">Akses lokasi diberikan. Anda dapat menggunakan aplikasi.</string>
+    <string name="unknown_address">Alamat Tidak Diketahui</string>
+    <string name="password_less_6">Password Kurang Dari 6 Karakter</string>
+    <string name="number_less_10">Nomor Hape Kurang dari 10 Digit</string>
+    <string name="empty_form">Input Tidak Boleh Kosong</string>
+    <string name="email_incorrect">Email Tidak Valid</string>
+    <string name="have_account">Sudah Punya Akun?</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="device_token">Device Token</string>
+    <string name="token">Token</string>
+    <string name="role">Role</string>
+    <string name="user_id">User Id</string>
 </resources>

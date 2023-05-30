@@ -2,6 +2,29 @@ package com.android.burdacontractor.core.data.source.remote.response
 
 import com.google.gson.annotations.SerializedName
 
+//data class LoginResponse(
+//
+//	@field:SerializedName("error")
+//	val error: Boolean,
+//
+//	@field:SerializedName("message")
+//	val message: String,
+//
+//	@field:SerializedName("loginResult")
+//	val user: LoginResult
+//)
+//data class LoginResult(
+//
+//	@field:SerializedName("userId")
+//	val userId: String,
+//
+//	@field:SerializedName("name")
+//	val name: String,
+//
+//	@field:SerializedName("user")
+//	val token: String
+//)
+
 data class LoginResponse(
 
 	@field:SerializedName("error")
@@ -12,11 +35,7 @@ data class LoginResponse(
 
 	@field:SerializedName("user")
 	val user: LoginItem? = null
-){
-	constructor(): this(
-		false, "", null
-	)
-}
+)
 
 data class LoginItem(
 

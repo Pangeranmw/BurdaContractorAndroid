@@ -18,11 +18,16 @@ class StorageRepository @Inject constructor(
     override fun setDeviceToken(token: String) {
         storageDataSource.setDeviceToken(token)
     }
-
     override fun getDeviceToken() = storageDataSource.getDeviceToken()
     override fun getUserId() = storageDataSource.getUserId()
 
     override fun getToken() = storageDataSource.getToken()
+    override fun getLatitude() = storageDataSource.getLatitude()
+
+    override fun getLongitude() = storageDataSource.getLongitude()
+    override fun setCoordinate(latitude: String, longitude: String) {
+        storageDataSource.setCoordinate(latitude,longitude)
+    }
 
     override fun getRole() = storageDataSource.getRole()
 

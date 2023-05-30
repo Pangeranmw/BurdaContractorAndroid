@@ -9,6 +9,8 @@ class SessionManager(context: Context) {
         const val KEY_USER_ID = "userId"
         const val KEY_ROLE = "role"
         const val KEY_DEVICE_TOKEN = "deviceToken"
+        const val KEY_LATITUDE = "latitude"
+        const val KEY_LONGITUDE = "longitude"
     }
 
     private var pref: SharedPreferences = context.getSharedPreferences("Session", Context.MODE_PRIVATE)
@@ -20,8 +22,15 @@ class SessionManager(context: Context) {
     }
 
     fun logout() {
-        editor.clear()
-        editor.commit()
+        editor.remove(KEY_USER_ID)
+        editor.remove(KEY_TOKEN)
+        editor.remove(KEY_LOGIN)
+        editor.remove(KEY_ROLE)
+        editor.remove(KEY_LATITUDE)
+        editor.remove(KEY_LONGITUDE)
+        editor.apply()
+//        editor.clear()
+//        editor.commit()
     }
 
     val isLogin: Boolean = pref.getBoolean(KEY_LOGIN, false)

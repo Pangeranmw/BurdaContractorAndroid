@@ -6,8 +6,8 @@ import com.android.burdacontractor.core.data.SuratJalanRepository
 import com.android.burdacontractor.core.domain.repository.ILogisticRepository
 import com.android.burdacontractor.core.domain.repository.IStorageRepository
 import com.android.burdacontractor.core.domain.repository.ISuratJalanRepository
-import com.android.burdacontractor.presentation.test.locationtracker.location_service.location_client.DefaultLocationClient
-import com.android.burdacontractor.presentation.test.locationtracker.location_service.location_client.LocationClient
+import com.android.burdacontractor.presentation.service.location.DefaultLocationClient
+import com.android.burdacontractor.presentation.service.location.LocationClient
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

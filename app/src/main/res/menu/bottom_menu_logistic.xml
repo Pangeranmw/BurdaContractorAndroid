@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/beranda_logistic" android:icon="@drawable/ic_beranda" android:title="@string/beranda"/>
-    <item android:id="@+id/surat_jalan_gp_logistic" android:icon="@drawable/ic_send_req" android:title="@string/surat_jalan_gp"/>
-    <item android:id="@+id/surat_jalan_pp_logistic" android:icon="@drawable/ic_send_req" android:title="@string/surat_jalan_pp"/>
-    <item android:id="@+id/surat_jalan_pengembalian_logistic" android:icon="@drawable/ic_return_req" android:title="@string/surat_jalan_pengembalian"/>
+    <item android:id="@+id/surat_jalan_logistic" android:icon="@drawable/ic_send_req" android:title="@string/surat_jalan"/>
     <item android:id="@+id/delivery_order_logistic" android:icon="@drawable/ic_delivery_order" android:title="@string/delivery_order"/>
 </menu>

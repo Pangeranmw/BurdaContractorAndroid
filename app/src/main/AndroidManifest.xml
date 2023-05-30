@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
         android:name=".BurdaApp"
         android:allowBackup="true"
@@ -16,7 +17,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.App.Starting"
+        android:theme="@style/Theme.BurdaContractor"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <!-- [START fcm_default_icon] -->
         <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
@@ -37,15 +39,25 @@
         <!-- [END fcm_default_channel] -->
         <activity
             android:name=".presentation.deliveryorder.DeliveryOrderActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".presentation.beranda.BerandaActivity"
-            android:exported="false" />
+            android:exported="true" />
+        <activity
+            android:name=".presentation.kendaraan.KendaraanActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.gudang.GudangActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.perusahaan.PerusahaanActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.suratjalan.SuratJalanActivity"
+            android:exported="true" />
         <activity
             android:name=".presentation.auth.LoginActivity"
-            android:exported="false"
-            android:label="@string/title_activity_login"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:exported="true"/>
         <activity
             android:name=".presentation.splashscreen.MainActivity"
             android:exported="true">
@@ -62,6 +74,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <service android:name=".presentation.service.location.LocationService" android:foregroundServiceType="location" />
     </application>
 
 </manifest>

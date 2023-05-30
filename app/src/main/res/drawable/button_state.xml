@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/primary_main" android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/primary_main"/>
+            <corners android:radius="500dp"/>
+        </shape>
+    </item>
+    <item android:drawable="@color/gray_dark" android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/gray_dark"/>
+            <corners android:radius="500dp"/>
+        </shape>
+    </item>
+    <!-- default state-->
+    <item android:drawable="@color/primary_main">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/primary_main"/>
+            <corners android:radius="500dp"/>
+        </shape>
+    </item>
+</selector>

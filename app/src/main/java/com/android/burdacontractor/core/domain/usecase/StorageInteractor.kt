@@ -13,6 +13,10 @@ class StorageInteractor @Inject constructor(private val storageRepository: Stora
         storageRepository.setDeviceToken(token)
     }
 
+    override fun setCoordinate(latitude: String, longitude: String) {
+        storageRepository.setCoordinate(latitude,longitude)
+    }
+
     override fun getDeviceToken()  = storageRepository.getDeviceToken()
 
     override fun loginUser(userId: String, token: String, role: String) {
@@ -22,6 +26,9 @@ class StorageInteractor @Inject constructor(private val storageRepository: Stora
     override fun getUserId() = storageRepository.getUserId()
 
     override fun getToken() = storageRepository.getToken()
+    override fun getLatitude() = storageRepository.getLatitude()
+
+    override fun getLongitude() = storageRepository.getLongitude()
 
     override fun getRole() = storageRepository.getRole()
 

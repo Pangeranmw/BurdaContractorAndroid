@@ -33,7 +33,7 @@ class SuratJalanRepository @Inject constructor(
         search: String?
     ): Flow<PagingData<AllSuratJalan>> =
         suratJalanRemoteDataSource.getAllSuratJalan(
-            storageDataSource.getToken() ,tipe,status,date_start,date_end,size,search
+            storageDataSource.getToken(),tipe,status,date_start,date_end,size,search
         )
 
     override suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetail>> = flow{

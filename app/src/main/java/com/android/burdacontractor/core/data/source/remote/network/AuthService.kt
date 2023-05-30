@@ -6,12 +6,13 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface AuthService {
 
     @FormUrlEncoded
-    @GET("register")
+    @POST("register")
     suspend fun register(
         @Field("nama") nama: String,
         @Field("no_hp") noHp: String,
@@ -20,19 +21,20 @@ interface AuthService {
     ): ErrorMessageResponse
 
     @FormUrlEncoded
-    @GET("login")
+    @POST("login")
     suspend fun login(
         @Field("email") email: String,
         @Field("password") password: String,
+        @Field("device_token") deviceToken: String,
     ): LoginResponse
 
     @FormUrlEncoded
-    @GET("login/pin")
+    @POST("login/pin")
     suspend fun loginWithPin(
         @Field("pin") pin: String,
     ): ErrorMessageResponse
 
-    @FormUrlEncoded
+    @Headers("Accept: application/json")
     @POST("logout")
     suspend fun logout(
         @Header("Authorization") token: String,

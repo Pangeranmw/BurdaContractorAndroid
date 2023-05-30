@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.burdacontractor.core.data.Resource
-import com.android.burdacontractor.core.data.source.remote.response.LoginItem
+import com.android.burdacontractor.core.data.source.remote.response.LoginResponse
 import com.android.burdacontractor.core.domain.model.Event
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
@@ -17,25 +17,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(val liveNetworkChecker: LiveNetworkChecker,private val authUseCase: AuthUseCase, private val storageUseCase: StorageUseCase) : ViewModel() {
-    val isUserLogin = storageUseCase.isUserLogin()
+class AuthViewModel @Inject constructor(val liveNetworkChecker: LiveNetworkChecker,private val authUseCase: AuthUseCase) : ViewModel() {
 
     private val _state = MutableLiveData<StateResponse?>()
     val state: LiveData<StateResponse?> = _state
 
-    private val _loginResponse = MutableLiveData<LoginItem?>()
-    val loginResponse : LiveData<LoginItem?> = _loginResponse
+    private val _loginResponse = MutableLiveData<LoginResponse?>()
+    val loginResponse : LiveData<LoginResponse?> = _loginResponse
 
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse : LiveData<Event<String?>> = _messageResponse
-
-    fun loginUser(userId:String, token: String, role: UserRole) {
-        storageUseCase.loginUser(
-            userId,
-            token,
-            role.name
-        )
-    }
 
     fun register(
         nama: String,
@@ -67,9 +58,8 @@ class AuthViewModel @Inject constructor(val liveNetworkChecker: LiveNetworkCheck
                         _state.value = StateResponse.SUCCESS
                         val data = it.data
                         if(data?.user != null){
-                            _loginResponse.value = data.user
+                            _loginResponse.value = data
                             _messageResponse.value = Event(data.message)
-                            loginUser(data.user.id,data.user.token,UserRole.valueOf(data.user.role))
                         }
                     }
                     is Resource.Error -> {
