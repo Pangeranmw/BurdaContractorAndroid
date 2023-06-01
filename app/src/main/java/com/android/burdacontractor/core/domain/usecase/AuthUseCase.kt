@@ -2,8 +2,7 @@ package com.android.burdacontractor.core.domain.usecase
 
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.data.source.remote.response.LoginResponse
-import com.android.burdacontractor.core.domain.model.LogisticCoordinate
+import com.android.burdacontractor.feature.auth.domain.model.UserLogin
 import kotlinx.coroutines.flow.Flow
 
 interface AuthUseCase {
@@ -14,7 +13,7 @@ interface AuthUseCase {
         password: String,
     ): Flow<Resource<ErrorMessageResponse>>
 
-    suspend fun login(email: String, password: String): Flow<Resource<LoginResponse>>
+    suspend fun login(email: String, password: String): Flow<Resource<UserLogin>>
 
     suspend fun loginWithPin(pin: String): Flow<Resource<ErrorMessageResponse>>
 

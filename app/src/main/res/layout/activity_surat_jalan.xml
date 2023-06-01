@@ -5,7 +5,7 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.suratjalan.SuratJalanActivity">
+    tools:context=".feature.suratjalan.presentation.SuratJalanActivity">
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"

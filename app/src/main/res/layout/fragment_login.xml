@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.auth.LoginFragment"
+    tools:context=".feature.auth.presentation.LoginFragment"
     android:background="@color/white"
     android:paddingHorizontal="20dp"
     android:paddingVertical="30dp"
@@ -27,7 +27,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_login"
             />
 
-        <com.android.burdacontractor.core.ui.customview.CustomTextInputLayout
+        <com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout
             android:id="@+id/et_email_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_email" />
 
-        </com.android.burdacontractor.core.ui.customview.CustomTextInputLayout>
+        </com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout>
 
         <TextView
             android:id="@+id/tv_password"
@@ -54,7 +54,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_email_layout" />
 
-        <com.android.burdacontractor.core.ui.customview.CustomTextInputLayout
+        <com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout
             android:id="@+id/et_password_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 style="@style/CustomEditText"
                 android:hint="@string/placeholder_pw"
                 android:inputType="textPassword" />
-        </com.android.burdacontractor.core.ui.customview.CustomTextInputLayout>
+        </com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout>
 
         <ProgressBar
             android:id="@+id/progress_bar"

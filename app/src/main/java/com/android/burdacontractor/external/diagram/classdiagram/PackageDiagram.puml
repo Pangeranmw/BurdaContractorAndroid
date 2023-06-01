@@ -1,0 +1,337 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+header App Package
+
+package "app" {
+    package "src" {
+
+    }
+    package "res" {
+
+    }
+}
+newpage
+header Source Package
+package "src" {
+    package "core"{
+        package "data"{
+            package "source"{
+                package "local"{
+                    class "StorageDataSource"
+                    package "storage"{
+                        class "SessionManager"
+                    }
+                }
+                package "remote"{
+                    package "network"{
+                        class "ApiResponse"
+                    }
+                    package "response"{
+                        class "_Response"
+                    }
+                    class "_RemoteDataSource"
+                }
+            }
+            class "_Repository"
+        }
+        package "domain"{
+            package "model"{
+            }
+            package "repository"{
+                interface "I_Repository"
+            }
+            package "usecase"{
+                interface "_UseCase"
+                class "_Interactor"
+            }
+        }
+        package "presentation"{
+            class "_Activity/Fragment"
+            class "_Adapter"
+            class "_ViewModel"
+            class "_CustomView"
+        }
+        package "di"{
+            class "NetworkModule"{
+
+            }
+            class "StorageModule"{
+
+            }
+            class "RepositoryModule"{
+
+            }
+        }
+        package "service"{
+            package "fcm"{
+                class "BurdaFirebaseMessagingService"{
+
+                }
+            }
+            package "location"{
+                class "DefaultLocationClient"{
+
+                }
+                class "LocationClient"{
+
+                }
+                class "LocationService"{
+
+                }
+            }
+        }
+        package "utils"{
+            object DataMapper
+            class Helpers
+            class LiveNetworkChecker
+        }
+    }
+    package "di"{
+        class "AppModule"
+    }
+    package "feature"{
+        package "auth"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "beranda"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "suratjalan"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "deliveryorder"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "gudang"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "kendaraan"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "perusahaan"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "profile"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+    }
+}
+src.di -[hidden]d- src.feature
+src.feature.auth .[hidden]l. src.feature.beranda
+src.feature.beranda .[hidden]d. src.feature.suratjalan
+src.feature.suratjalan .[hidden]l. src.feature.deliveryorder
+src.feature.deliveryorder .[hidden]d. src.feature.gudang
+src.feature.gudang .[hidden]l. src.feature.kendaraan
+src.feature.kendaraan .[hidden]d. src.feature.perusahaan
+src.feature.perusahaan .[hidden]l. src.feature.profile
+src.core.di.RepositoryModule -[hidden]r- src.core.di.StorageModule
+src.core.service.location.LocationService -[hidden]r- src.core.service.location.LocationClient
+src.core.di -[hidden]d- src.core.domain
+src.core.di -[hidden]u- src.core.utils
+src.core.utils.DataMapper -[hidden]l- src.core.utils.LiveNetworkChecker
+src.core.data -[hidden]d-- src.core.service
+src.core.data.source.local -[hidden]d- src.core.data.source.remote
+src.core.domain -[hidden]d- src.core.data
+newpage
+header Core Package
+package "core"{
+    package "domain"{
+
+    }
+    package "data"{
+
+    }
+    package "di"{
+
+    }
+    package "ui"{
+
+    }
+    package "utils"{
+
+    }
+}
+newpage
+header Domain Package
+package "domain"{
+    package "model"{
+
+    }
+    package "repository"{
+
+    }
+    package "usecase"{
+
+    }
+}
+newpage
+header User Interface Package
+package "ui"{
+    package "adapter"{
+
+    }
+    package "customview"{
+
+    }
+}
+newpage
+header Utility Package
+package "utils"{
+
+}
+newpage
+header Presentation Package
+package "presentation"{
+    package "Activity/Fragment"{
+
+    }
+    package "viewmodel"{
+
+    }
+    package "service"{
+
+    }
+}
+
+newpage
+header Resource Package
+package "res" {
+    package "drawable"{
+
+    }
+    package "layout"{
+
+    }
+    package "font"{
+
+    }
+    package "menu"{
+
+    }
+    package "navigation"{
+
+    }
+    package "mipmap"{
+
+    }
+    package "color"{
+
+    }
+    package "values"{
+
+    }
+}
+
+newpage
+header Surat Jalan Class Diagram
+class src.core.domain.usecase.SuratJalanInteractor implements src.core.domain.usecase.SuratJalanUseCase
+class src.core.data.source.remote.SuratJalanRemoteDataSource
+class src.core.data.source.remote.SuratJalanRemoteDataSource
+interface src.core.domain.usecase.SuratJalanUseCase
+interface src.core.domain.repository.ISuratJalanRepository
+interface src.core.data.source.remote.network.SuratJalanService
+class src.core.data.SuratJalanRepository implements src.core.domain.repository.ISuratJalanRepository
+src.core.data.SuratJalanRepository -u> src.core.data.source.remote.SuratJalanRemoteDataSource
+src.core.data.SuratJalanRepository -> src.core.data.source.remote.StorageDataSource
+src.core.domain.usecase.SuratJalanInteractor --d> src.core.data.SuratJalanRepository
+src.presentation.suratjalan.SuratJalanViewModel --d> src.core.domain.usecase.SuratJalanUseCase
+src.core.data.source.remote.SuratJalanRemoteDataSource -l> src.core.data.source.remote.network.SuratJalanService
+class src.presentation.suratjalan.SuratJalanViewModel<HiltViewModel> {
+}
+class src.presentation.suratjalan.SuratJalanActivity {
+}
+class src.presentation.suratjalan.SuratJalanFragment {
+}
+class src.presentation.suratjalan.DetailSuratJalanFragment {
+}
+class src.presentation.suratjalan.CetakSuratJalanFragment {
+}
+src.presentation.suratjalan.SuratJalanFragment -> src.presentation.suratjalan.SuratJalanViewModel
+src.presentation.suratjalan.SuratJalanFragment -> src.presentation.suratjalan.SuratJalanActivity
+src.presentation.suratjalan.DetailSuratJalanFragment --> src.presentation.suratjalan.SuratJalanViewModel
+src.presentation.suratjalan.DetailSuratJalanFragment -> src.presentation.suratjalan.SuratJalanActivity
+src.presentation.suratjalan.CetakSuratJalanFragment -> src.presentation.suratjalan.SuratJalanViewModel
+src.presentation.suratjalan.CetakSuratJalanFragment --> src.presentation.suratjalan.SuratJalanActivity
+
+newpage
+header Delivery Order Class Diagram
+class src.core.domain.usecase.DeliveryOrderInteractor implements src.core.domain.usecase.DeliveryOrderUseCase
+class src.core.data.source.remote.DeliveryOrderRemoteDataSource
+class src.core.data.source.remote.DeliveryOrderRemoteDataSource
+interface src.core.domain.usecase.DeliveryOrderUseCase
+interface src.core.domain.repository.IDeliveryOrderRepository
+interface src.core.data.source.remote.network.DeliveryOrderService
+class src.core.data.DeliveryOrderRepository implements src.core.domain.repository.IDeliveryOrderRepository
+src.core.data.DeliveryOrderRepository -u> src.core.data.source.remote.DeliveryOrderRemoteDataSource
+src.core.data.DeliveryOrderRepository -> src.core.data.source.remote.StorageDataSource
+src.core.domain.usecase.DeliveryOrderInteractor --d> src.core.data.DeliveryOrderRepository
+src.presentation.deliveryorder.DeliveryOrderViewModel --d> src.core.domain.usecase.DeliveryOrderUseCase
+src.core.data.source.remote.DeliveryOrderRemoteDataSource -l> src.core.data.source.remote.network.DeliveryOrderService
+class src.presentation.deliveryorder.DeliveryOrderViewModel<HiltViewModel> {
+}
+class src.presentation.deliveryorder.DeliveryOrderActivity {
+}
+class src.presentation.deliveryorder.DeliveryOrderFragment {
+}
+class src.presentation.deliveryorder.DetailDeliveryOrderFragment {
+}
+class src.presentation.deliveryorder.CetakDeliveryOrderFragment {
+}
+src.presentation.deliveryorder.DeliveryOrderFragment -> src.presentation.deliveryorder.DeliveryOrderViewModel
+src.presentation.deliveryorder.DeliveryOrderFragment -> src.presentation.deliveryorder.DeliveryOrderActivity
+src.presentation.deliveryorder.DetailDeliveryOrderFragment --> src.presentation.deliveryorder.DeliveryOrderViewModel
+src.presentation.deliveryorder.DetailDeliveryOrderFragment -> src.presentation.deliveryorder.DeliveryOrderActivity
+src.presentation.deliveryorder.CetakDeliveryOrderFragment -> src.presentation.deliveryorder.DeliveryOrderViewModel
+src.presentation.deliveryorder.CetakDeliveryOrderFragment --> src.presentation.deliveryorder.DeliveryOrderActivity
+
+newpage
+header Surat Jalan Class Diagram
+class src.core.domain.usecase.SuratJalanInteractor implements src.core.domain.usecase.SuratJalanUseCase
+class src.core.data.source.remote.SuratJalanRemoteDataSource
+class src.core.data.source.remote.SuratJalanRemoteDataSource
+interface src.core.domain.usecase.SuratJalanUseCase
+interface src.core.domain.repository.ISuratJalanRepository
+interface src.core.data.source.remote.network.SuratJalanService
+class src.core.data.SuratJalanRepository implements src.core.domain.repository.ISuratJalanRepository
+src.core.data.SuratJalanRepository -u> src.core.data.source.remote.SuratJalanRemoteDataSource
+src.core.data.SuratJalanRepository -> src.core.data.source.remote.StorageDataSource
+src.core.domain.usecase.SuratJalanInteractor --d> src.core.data.SuratJalanRepository
+src.presentation.suratjalan.SuratJalanViewModel --d> src.core.domain.usecase.SuratJalanUseCase
+src.core.data.source.remote.SuratJalanRemoteDataSource -l> src.core.data.source.remote.network.SuratJalanService
+class src.presentation.suratjalan.SuratJalanViewModel<HiltViewModel> {
+    +state
+    +allSuratJalanResponse: LiveData<AllSuratJalan>
+    +suratJalanDetailResponse: LiveData<SuratJalanDetail>
+    +pantauSuratJalanResponse:
+    +messageResponse
+    +getAllSuratJalan()
+    +getSuratJalanById()
+    +addSuratJalanPengirimanPp()
+    +addSuratJalanPengembalian()
+    +updateSuratJalanPengirimanGp()
+    +updateSuratJalanPengirimanGp()
+    +updateSuratJalanPengembalian()
+    +deleteSuratJalan()
+    +changeStatusSuratJalan()
+    +uploadFotoBukti()
+    +pantauSuratJalan()
+    +telusuriSuratJalan()
+}
+@enduml

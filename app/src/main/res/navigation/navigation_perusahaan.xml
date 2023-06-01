@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/perusahaan_fragment"
-        android:name="com.android.burdacontractor.presentation.perusahaan.PerusahaanFragment"
+        android:name="com.android.burdacontractor.feature.perusahaan.presentation.PerusahaanFragment"
         android:label="PerusahaanFragment" >
     </fragment>
 

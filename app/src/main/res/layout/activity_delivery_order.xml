@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.deliveryorder.DeliveryOrderActivity">
+    tools:context=".feature.deliveryorder.presentation.DeliveryOrderActivity">
     <FrameLayout
         android:id="@+id/activity_delivery_order_frame_nav"
         android:layout_width="match_parent"

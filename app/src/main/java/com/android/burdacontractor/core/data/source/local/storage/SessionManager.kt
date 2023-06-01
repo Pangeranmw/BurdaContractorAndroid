@@ -8,6 +8,7 @@ class SessionManager(context: Context) {
         const val KEY_TOKEN = "token"
         const val KEY_USER_ID = "userId"
         const val KEY_ROLE = "role"
+        const val KEY_TTD = "ttd"
         const val KEY_DEVICE_TOKEN = "deviceToken"
         const val KEY_LATITUDE = "latitude"
         const val KEY_LONGITUDE = "longitude"
@@ -28,6 +29,7 @@ class SessionManager(context: Context) {
         editor.remove(KEY_ROLE)
         editor.remove(KEY_LATITUDE)
         editor.remove(KEY_LONGITUDE)
+        editor.remove(KEY_TTD)
         editor.apply()
 //        editor.clear()
 //        editor.commit()

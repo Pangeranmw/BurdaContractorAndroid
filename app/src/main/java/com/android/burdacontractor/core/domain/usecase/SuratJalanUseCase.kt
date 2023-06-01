@@ -2,12 +2,11 @@ package com.android.burdacontractor.core.domain.usecase
 
 import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.Resource
-import com.android.burdacontractor.core.data.source.remote.response.AddUpdateResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.domain.model.AllSuratJalan
-import com.android.burdacontractor.core.domain.model.SuratJalanDetail
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
+import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
+import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetail
 import kotlinx.coroutines.flow.Flow
 
 interface SuratJalanUseCase {
@@ -25,7 +24,7 @@ interface SuratJalanUseCase {
         logisticId: String,
         kendaraanId: String,
         peminjamanId: String
-    ): Flow<Resource<AddUpdateResponse>>
+    ): Flow<Resource<ErrorMessageResponse>>
 
     suspend fun addSuratJalanPengirimanPp(
         adminGudangId: String,
@@ -33,21 +32,21 @@ interface SuratJalanUseCase {
         kendaraanId: String,
         peminjamanAsalId: String,
         peminjamanTujuanId: String,
-    ): Flow<Resource<AddUpdateResponse>>
+    ): Flow<Resource<ErrorMessageResponse>>
 
     suspend fun addSuratJalanPengembalian(
         adminGudangId: String,
         logisticId: String,
         kendaraanId: String,
         pengembalianId: String,
-    ): Flow<Resource<AddUpdateResponse>>
+    ): Flow<Resource<ErrorMessageResponse>>
 
     suspend fun updateSuratJalanPengirimanGp(
         adminGudangId: String,
         logisticId: String,
         kendaraanId: String,
         peminjamanId: String
-    ): Flow<Resource<AddUpdateResponse>>
+    ): Flow<Resource<ErrorMessageResponse>>
 
     suspend fun updateSuratJalanPengirimanPp(
         adminGudangId: String,
@@ -55,14 +54,14 @@ interface SuratJalanUseCase {
         kendaraanId: String,
         peminjamanAsalId: String,
         peminjamanTujuanId: String,
-    ): Flow<Resource<AddUpdateResponse>>
+    ): Flow<Resource<ErrorMessageResponse>>
 
     suspend fun updateSuratJalanPengembalian(
         adminGudangId: String,
         logisticId: String,
         kendaraanId: String,
         pengembalianId: String,
-    ): Flow<Resource<AddUpdateResponse>>
+    ): Flow<Resource<ErrorMessageResponse>>
 
     suspend fun deleteSuratJalan(
         suratJalanId: String,

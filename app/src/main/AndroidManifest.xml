@@ -38,28 +38,28 @@
             android:value="@string/default_notification_channel_id" />
         <!-- [END fcm_default_channel] -->
         <activity
-            android:name=".presentation.deliveryorder.DeliveryOrderActivity"
+            android:name=".feature.deliveryorder.presentation.DeliveryOrderActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.beranda.BerandaActivity"
+            android:name=".feature.beranda.presentation.BerandaActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.kendaraan.KendaraanActivity"
+            android:name=".feature.kendaraan.presentation.KendaraanActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.gudang.GudangActivity"
+            android:name=".feature.gudang.presentation.GudangActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.perusahaan.PerusahaanActivity"
+            android:name=".feature.perusahaan.presentation.PerusahaanActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.suratjalan.SuratJalanActivity"
+            android:name=".feature.suratjalan.presentation.SuratJalanActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.auth.LoginActivity"
+            android:name=".feature.auth.presentation.LoginActivity"
             android:exported="true"/>
         <activity
-            android:name=".presentation.splashscreen.MainActivity"
+            android:name=".core.presentation.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,13 +68,13 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".presentation.service.fcm.BurdaFirebaseMessagingService"
+        <service android:name=".core.service.fcm.BurdaFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".presentation.service.location.LocationService" android:foregroundServiceType="location" />
+        <service android:name=".core.service.location.LocationService" android:foregroundServiceType="location" />
     </application>
 
 </manifest>

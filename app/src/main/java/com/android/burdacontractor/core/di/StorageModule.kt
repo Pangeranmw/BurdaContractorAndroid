@@ -2,7 +2,7 @@ package com.android.burdacontractor.core.di
 
 import android.content.Context
 import com.android.burdacontractor.core.data.source.local.storage.SessionManager
-import com.android.burdacontractor.presentation.service.location.DefaultLocationClient
+import com.android.burdacontractor.core.service.location.DefaultLocationClient
 import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides

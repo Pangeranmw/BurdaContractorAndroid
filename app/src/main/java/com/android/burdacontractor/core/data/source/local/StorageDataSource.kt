@@ -7,10 +7,11 @@ import javax.inject.Singleton
 @Singleton
 class StorageDataSource @Inject constructor(private val sessionManager: SessionManager) {
 
-    fun loginUser(userId: String, token: String, role: String) {
+    fun loginUser(userId: String, token: String, role: String, ttd: String) {
         sessionManager.createLoginSession()
         sessionManager.saveToPreference(SessionManager.KEY_USER_ID, userId)
         sessionManager.saveToPreference(SessionManager.KEY_ROLE, role)
+        sessionManager.saveToPreference(SessionManager.KEY_TTD, ttd)
         sessionManager.saveToPreference(SessionManager.KEY_TOKEN, token)
     }
 
@@ -31,6 +32,10 @@ class StorageDataSource @Inject constructor(private val sessionManager: SessionM
     fun getLongitude() = sessionManager.getFromPreference(SessionManager.KEY_LONGITUDE).toString()
 
     fun getRole() = sessionManager.getFromPreference(SessionManager.KEY_ROLE).toString()
+    fun getTTD() = sessionManager.getFromPreference(SessionManager.KEY_TTD).toString()
+    fun setTTD(ttd: String) {
+        sessionManager.saveToPreference(SessionManager.KEY_TTD, ttd)
+    }
 
     fun isUserLogin() = sessionManager.isLogin
 

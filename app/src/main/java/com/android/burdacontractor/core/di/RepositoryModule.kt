@@ -2,12 +2,12 @@ package com.android.burdacontractor.core.di
 
 import com.android.burdacontractor.core.data.LogisticRepository
 import com.android.burdacontractor.core.data.StorageRepository
-import com.android.burdacontractor.core.data.SuratJalanRepository
 import com.android.burdacontractor.core.domain.repository.ILogisticRepository
 import com.android.burdacontractor.core.domain.repository.IStorageRepository
-import com.android.burdacontractor.core.domain.repository.ISuratJalanRepository
-import com.android.burdacontractor.presentation.service.location.DefaultLocationClient
-import com.android.burdacontractor.presentation.service.location.LocationClient
+import com.android.burdacontractor.core.service.location.DefaultLocationClient
+import com.android.burdacontractor.core.service.location.LocationClient
+import com.android.burdacontractor.feature.suratjalan.data.SuratJalanRepository
+import com.android.burdacontractor.feature.suratjalan.domain.repository.ISuratJalanRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,0 +1,141 @@
+@startuml
+'https://plantuml.com/class-diagram
+header Source Package
+package "src" {
+    package "core"{
+        package "data"{
+            package "source"{
+                package "local"{
+                    class "StorageDataSource"
+                    package "storage"{
+                        class "SessionManager"
+                    }
+                }
+                package "remote"{
+                    package "network"{
+                        class "ApiResponse"
+                    }
+                    package "response"{
+                        class "_Response"
+                    }
+                    class "_RemoteDataSource"
+                }
+            }
+            class "_Repository"
+        }
+        package "domain"{
+            package "model"{
+            }
+            package "repository"{
+                interface "I_Repository"
+            }
+            package "usecase"{
+                interface "_UseCase"
+                class "_Interactor"
+            }
+        }
+        package "presentation"{
+            class "_Activity/Fragment"
+            class "_Adapter"
+            class "_ViewModel"
+            class "_CustomView"
+        }
+        package "di"{
+            class "NetworkModule"{
+
+            }
+            class "StorageModule"{
+
+            }
+            class "RepositoryModule"{
+
+            }
+        }
+        package "service"{
+            package "fcm"{
+                class "BurdaFirebaseMessagingService"{
+
+                }
+            }
+            package "location"{
+                class "DefaultLocationClient"{
+
+                }
+                class "LocationClient"{
+
+                }
+                class "LocationService"{
+
+                }
+            }
+        }
+        package "utils"{
+            object DataMapper
+            class Helpers
+            class LiveNetworkChecker
+        }
+    }
+    package "di"{
+        class "AppModule"
+    }
+    package "feature"{
+        package "auth"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "beranda"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "suratjalan"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "deliveryorder"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "gudang"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "kendaraan"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "perusahaan"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+        package "profile"{
+            package "domain"{}
+            package "data"{}
+            package "presentation"{}
+        }
+    }
+}
+src.di -[hidden]d- src.feature
+src.feature.auth .[hidden]l. src.feature.beranda
+src.feature.beranda .[hidden]d. src.feature.suratjalan
+src.feature.suratjalan .[hidden]l. src.feature.deliveryorder
+src.feature.deliveryorder .[hidden]d. src.feature.gudang
+src.feature.gudang .[hidden]l. src.feature.kendaraan
+src.feature.kendaraan .[hidden]d. src.feature.perusahaan
+src.feature.perusahaan .[hidden]l. src.feature.profile
+src.core.di.RepositoryModule -[hidden]r- src.core.di.StorageModule
+src.core.service.location.LocationService -[hidden]r- src.core.service.location.LocationClient
+src.core.di -[hidden]d- src.core.domain
+src.core.di -[hidden]u- src.core.utils
+src.core.utils.DataMapper -[hidden]l- src.core.utils.LiveNetworkChecker
+src.core.data -[hidden]d-- src.core.service
+src.core.data.source.local -[hidden]d- src.core.data.source.remote
+src.core.domain -[hidden]d- src.core.data
+
+@enduml

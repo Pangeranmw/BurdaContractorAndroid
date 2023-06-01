@@ -1,11 +1,10 @@
 package com.android.burdacontractor.core.domain.usecase
 
-import com.android.burdacontractor.core.data.AuthRepository
-import com.android.burdacontractor.core.data.LogisticRepository
+import com.android.burdacontractor.feature.auth.data.source.AuthRepository
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.data.source.remote.response.LoginResponse
-import com.android.burdacontractor.core.domain.model.LogisticCoordinate
+import com.android.burdacontractor.feature.auth.data.source.remote.response.LoginResponse
+import com.android.burdacontractor.feature.auth.domain.model.UserLogin
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -19,7 +18,7 @@ class AuthInteractor @Inject constructor(private val authRepository: AuthReposit
         password: String
     ): Flow<Resource<ErrorMessageResponse>> = authRepository.register(nama,noHp,email,password)
 
-    override suspend fun login(email: String, password: String): Flow<Resource<LoginResponse>> = authRepository.login(email,password)
+    override suspend fun login(email: String, password: String): Flow<Resource<UserLogin>> = authRepository.login(email,password)
 
     override suspend fun loginWithPin(pin: String): Flow<Resource<ErrorMessageResponse>> = authRepository.loginWithPin(pin)
 

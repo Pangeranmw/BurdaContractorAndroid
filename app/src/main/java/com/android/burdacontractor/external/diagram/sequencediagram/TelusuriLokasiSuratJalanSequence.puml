@@ -1,0 +1,63 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Logistic Telusuri Lokasi Surat Jalan
+    actor       Pengguna
+    boundary fragment_detail_surat_jalan
+    control DetailSuratJalanFragment
+    boundary fragment_telusuri_lokasi
+    control TelusuriLokasiFragment
+
+    Pengguna -> fragment_detail_surat_jalan : 1. Click tombol telusuri lokasi surat jalan
+    activate fragment_detail_surat_jalan
+    fragment_detail_surat_jalan -> DetailSuratJalanFragment : 2. navigateToTelusuriLokasi()
+    deactivate fragment_detail_surat_jalan
+
+    activate DetailSuratJalanFragment
+    DetailSuratJalanFragment -> fragment_telusuri_lokasi
+    deactivate DetailSuratJalanFragment
+    activate fragment_telusuri_lokasi
+    fragment_telusuri_lokasi -> TelusuriLokasiFragment : 3. onCreateView()
+    activate TelusuriLokasiFragment
+
+    TelusuriLokasiFragment -> SuratJalanViewModel : 4. telusuriLokasiSuratJalan()
+    activate SuratJalanViewModel
+    SuratJalanViewModel -> SuratJalanViewModel : 5.1 <<Response.Error>>
+    activate SuratJalanViewModel
+    TelusuriLokasiFragment <-- SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    activate TelusuriLokasiFragment
+    fragment_telusuri_lokasi <-- TelusuriLokasiFragment
+    Pengguna <-- fragment_telusuri_lokasi : <font color=red>Mendapatkan pesan gagal telusuri lokasi surat jalan
+    activate Pengguna
+    deactivate TelusuriLokasiFragment
+    deactivate Pengguna
+    SuratJalanViewModel -> SuratJalanViewModel : 5.2 <<Response.Success>>
+    activate SuratJalanViewModel
+    TelusuriLokasiFragment <-- SuratJalanViewModel
+
+    deactivate SuratJalanViewModel
+    deactivate SuratJalanViewModel
+    activate TelusuriLokasiFragment
+    fragment_telusuri_lokasi <-- TelusuriLokasiFragment
+    Pengguna <-- fragment_telusuri_lokasi :  <font color=green>Mendapatkan data penelusuran lokasi surat jalan
+    activate Pengguna
+    deactivate TelusuriLokasiFragment
+    deactivate Pengguna
+
+    Pengguna -> fragment_telusuri_lokasi : 6.1 Icon telusuri tujuan aktif
+    fragment_telusuri_lokasi -> TelusuriLokasiFragment : telusuriLokasiTujuan()
+    fragment_telusuri_lokasi <-- TelusuriLokasiFragment
+    Pengguna <-- fragment_telusuri_lokasi :  Menelusuri lokasi tujuan
+    activate Pengguna
+    deactivate Pengguna
+
+    Pengguna -> fragment_telusuri_lokasi : 6.2 Icon telusuri asal aktif
+    fragment_telusuri_lokasi -> TelusuriLokasiFragment : telusuriLokasiAsal()
+    fragment_telusuri_lokasi <-- TelusuriLokasiFragment
+    Pengguna <-- fragment_telusuri_lokasi :  Menelusuri lokasi asal
+    activate Pengguna
+    deactivate Pengguna
+    deactivate fragment_telusuri_lokasi
+end
+@enduml

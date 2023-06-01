@@ -7,18 +7,18 @@
 
     <fragment
         android:id="@+id/sj_pengiriman_gp_fragment"
-        android:name="com.android.burdacontractor.presentation.suratjalan.SjPengirimanGpFragment"
+        android:name="com.android.burdacontractor.feature.suratjalan.presentation.SjPengirimanGpFragment"
         android:label="SjPengirimanGpFragment" >
     </fragment>
 
     <fragment
         android:id="@+id/sj_pengiriman_pp_fragment"
-        android:name="com.android.burdacontractor.presentation.suratjalan.SjPengirimanPpFragment"
+        android:name="com.android.burdacontractor.feature.suratjalan.presentation.SjPengirimanPpFragment"
         android:label="SjPengirimanPpFragment" >
     </fragment>
     <fragment
         android:id="@+id/sj_pengembalian_fragment"
-        android:name="com.android.burdacontractor.presentation.suratjalan.SjPengembalianFragment"
+        android:name="com.android.burdacontractor.feature.suratjalan.presentation.SjPengembalianFragment"
         android:label="SjPengembalianFragment" >
     </fragment>
 

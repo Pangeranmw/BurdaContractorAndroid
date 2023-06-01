@@ -1,10 +1,6 @@
 package com.android.burdacontractor.core.domain.usecase
 
-import com.android.burdacontractor.core.data.LogisticRepository
-import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.StorageRepository
-import com.android.burdacontractor.core.domain.model.LogisticCoordinate
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class StorageInteractor @Inject constructor(private val storageRepository: StorageRepository):
@@ -19,10 +15,12 @@ class StorageInteractor @Inject constructor(private val storageRepository: Stora
 
     override fun getDeviceToken()  = storageRepository.getDeviceToken()
 
-    override fun loginUser(userId: String, token: String, role: String) {
-        storageRepository.loginUser(userId, token, role)
+    override fun loginUser(userId: String, token: String, role: String, ttd: String) {
+        storageRepository.loginUser(userId, token, role, ttd)
     }
-
+    override fun setTTD(ttd: String) {
+        storageRepository.setTTD(ttd)
+    }
     override fun getUserId() = storageRepository.getUserId()
 
     override fun getToken() = storageRepository.getToken()
@@ -31,6 +29,7 @@ class StorageInteractor @Inject constructor(private val storageRepository: Stora
     override fun getLongitude() = storageRepository.getLongitude()
 
     override fun getRole() = storageRepository.getRole()
+    override fun getTTD() = storageRepository.getTTD()
 
     override fun isUserLogin() = storageRepository.isUserLogin()
 

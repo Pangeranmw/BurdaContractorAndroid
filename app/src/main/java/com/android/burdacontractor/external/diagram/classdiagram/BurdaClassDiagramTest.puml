@@ -1,0 +1,111 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class auth.data.source.remote.AuthRemoteDataSource{
+    - authService: AuthService
+    +register(nama, noHp, email, password): Flow<ApiResponse<ErrorMessageResponse>>
+    +login(email, password): Flow<ApiResponse<LoginResponse>>
+    +logout(token): Flow<ApiResponse<ErrorMessageResponse>>
+}
+
+class auth.domain.usecase.LoginInteractor implements auth.domain.usecase.LoginUseCase{
+    -authRepository: AuthRepository
+    +execute(email, password): Flow<Resource<UserLogin>
+}
+interface auth.domain.usecase.LoginUseCase{
+    +execute(email, password): Flow<Resource<UserLogin>
+}
+
+interface auth.domain.repository.IAuthRepository{
+    + register(nama, noHp, email, password): Flow<Resource<ErrorMessageResponse>>
+    + login(email, password): Flow<Resource<UserLogin>>
+    + logout(): Flow<Resource<ErrorMessageResponse>>
+}
+interface auth.data.source.remote.network.AuthService{
+    +register(nama, noHp, email, password): ErrorMessageResponse
+    +login(email, password): LoginResponse
+    +logout(token): ErrorMessageResponse
+}
+entity auth.data.source.remote.response.LoginResponse{
+    +error: Boolean
+    +message: String
+    +user: LoginItem
+}
+entity auth.data.source.remote.response.LoginItem{
+    +id: String
+    +role: String
+    +nama: String
+    +foto: String
+    +noHp: String
+    +ttd: String
+    +email: String
+    +token: String
+    +createdAt: Long
+    +updatedAt: Long
+}
+auth.data.source.remote.response.LoginResponse -d> auth.data.source.remote.network.AuthService
+class auth.data.AuthRepository implements auth.domain.repository.IAuthRepository{
+    - authRemoteDataSource: AuthRemoteDataSource
+    - storageDataSource: StorageDataSource
+    + register(nama, noHp, email, password): Flow<Resource<ErrorMessageResponse>>
+    +login(email, password): Flow<Resource<UserLogin>>
+    +logout(): Flow<Resource<ErrorMessageResponse>>
+}
+auth.data.AuthRepository -u> auth.data.source.remote.AuthRemoteDataSource
+auth.data.AuthRepository -> auth.data.source.remote.StorageDataSource
+auth.domain.usecase.LoginInteractor --d> auth.data.AuthRepository
+auth.presentation.AuthViewModel --d> auth.domain.usecase.LoginUseCase
+auth.data.source.remote.AuthRemoteDataSource --d> auth.data.source.remote.network.AuthService
+class auth.presentation.AuthViewModel<HiltViewModel>{
+    - liveNetworkChecker: LiveNetworkChecker
+    - loginUseCase: LoginUseCase
+    - logoutUseCase: LogoutUseCase
+    - registerUseCase: RegisterUseCase
+    +login(email, password)
+    +register(nama, noHp, email, password)
+    +logout()
+}
+entity auth.domain.model.UserLogin {
+    +id: String
+    +role: String
+    +nama: String
+    +foto: String
+    +noHp: String
+    +ttd: String
+    +email: String
+    +token: String
+    +createdAt: Long
+    +updatedAt: Long
+}
+class auth.presentation.LoginActivity {
+    -binding
+    -requestPermissionLauncher
+    -onCreate()
+}
+class auth.presentation.LoginFragment{
+    -binding
+    -authViewModel: AuthViewModel
+    -onCreateView()
+    -onViewCreated()
+    -initObserver()
+    -initUI()
+    -navigateToRegister()
+}
+class auth.data.source.remote.StorageDataSource{
+    -sessionManager: SessionManager
+    +loginUser(userId, token, role, ttd)
+    +setDeviceToken(token)
+    +getDeviceToken()
+    +setDeviceToken(token)
+    +getUserId()
+    +getToken()
+    +setCoordinate(latitude, longitude)
+    +getLatitude()
+    +getLongitude()
+    +getRole()
+    +setTTD(ttd)
+    +isUserLogin()
+    +logoutUser()
+}
+
+@enduml

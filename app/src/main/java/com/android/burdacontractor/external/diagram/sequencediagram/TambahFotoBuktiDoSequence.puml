@@ -1,0 +1,56 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+group Logistic Tambah Foto Bukti Delivery Order
+    actor       Logistic
+    boundary fragment_detail_delivery_order
+    control DetailDeliveryOrderFragment
+    boundary fragment_tambah_foto_bukti
+    control TambahFotoBuktiFragment
+
+    Logistic -> fragment_detail_delivery_order : 1. Click tombol tambah foto bukti delivery order
+    activate fragment_detail_delivery_order
+    fragment_detail_delivery_order -> DetailDeliveryOrderFragment : 2. navigateToTambahFotoBukti()
+    deactivate fragment_detail_delivery_order
+
+    activate DetailDeliveryOrderFragment
+    DetailDeliveryOrderFragment -> fragment_tambah_foto_bukti
+    deactivate DetailDeliveryOrderFragment
+    activate fragment_tambah_foto_bukti
+    fragment_tambah_foto_bukti -> TambahFotoBuktiFragment : 3. onCreateView()
+    activate TambahFotoBuktiFragment
+
+    Logistic -> fragment_tambah_foto_bukti  : 4. Click icon camera
+    fragment_tambah_foto_bukti -> TambahFotoBuktiFragment: 5. takePicture()
+    TambahFotoBuktiFragment --> fragment_tambah_foto_bukti
+    fragment_tambah_foto_bukti --> Logistic : 6. Menampilkan hasil foto
+    activate Logistic
+    deactivate Logistic
+    Logistic -> fragment_tambah_foto_bukti  : 7. Click icon checklist
+    fragment_tambah_foto_bukti -> TambahFotoBuktiFragment : 8. sendPhoto()
+    deactivate fragment_tambah_foto_bukti
+
+    TambahFotoBuktiFragment -> DeliveryOrderViewModel : 9. uploadFotoBukti()
+    activate DeliveryOrderViewModel
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 10.1 <<Response.Error>>
+    activate DeliveryOrderViewModel
+    TambahFotoBuktiFragment <-- DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+    activate TambahFotoBuktiFragment
+    Logistic <-- TambahFotoBuktiFragment : <font color=red>Mendapatkan pesan gagal upload foto bukti
+    deactivate TambahFotoBuktiFragment
+    activate Logistic
+    deactivate Logistic
+    DeliveryOrderViewModel -> DeliveryOrderViewModel : 10.2 <<Response.Success>>
+    activate DeliveryOrderViewModel
+    TambahFotoBuktiFragment <-- DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+    deactivate DeliveryOrderViewModel
+    activate TambahFotoBuktiFragment
+    Logistic <-- TambahFotoBuktiFragment :  <font color=green>Mendapatkan pesan berhasil upload foto bukti
+    deactivate TambahFotoBuktiFragment
+    activate Logistic
+    deactivate Logistic
+    deactivate TambahFotoBuktiFragment
+end
+@enduml

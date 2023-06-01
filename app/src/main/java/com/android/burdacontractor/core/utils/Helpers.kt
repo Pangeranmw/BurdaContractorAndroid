@@ -7,7 +7,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -25,8 +24,9 @@ import androidx.fragment.app.Fragment
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.source.remote.response.Routes
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
-import com.android.burdacontractor.core.ui.customview.CustomTextInputLayout
+import com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.snackbar.Snackbar
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -101,6 +101,18 @@ fun setParcelable(fragment: Fragment, parcelable: Bundle.() -> Unit = {}) {
     val bundle = Bundle()
     bundle.apply(parcelable)
     fragment.arguments = bundle
+}
+fun Context.checkConnection(state: Boolean, layout: View, nextListener: () -> Unit){
+    val snackbar=Snackbar.make(layout, R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
+    if(!state){
+        snackbar.setBackgroundTint(ContextCompat.getColor(this,R.color.error_color))
+        snackbar.show()
+    }else{
+        snackbar.setText(R.string.connected)
+        snackbar.setBackgroundTint(ContextCompat.getColor(this,R.color.green_light_full))
+        snackbar.dismiss()
+        nextListener()
+    }
 }
 
 fun Context.hasLocationPermission(): Boolean {
