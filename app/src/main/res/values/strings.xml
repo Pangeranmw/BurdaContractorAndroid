@@ -66,4 +66,19 @@
     <string name="token">Token</string>
     <string name="role">Role</string>
     <string name="user_id">User Id</string>
+    <string name="kode_surat">Kode Surat</string>
+    <string name="status">Status</string>
+    <string name="icon_jenis">Icon Jenis</string>
+    <string name="nama_asal">Nama Asal</string>
+    <string name="alamat_asal">Alamat Asal</string>
+    <string name="nama_tujuan">Nama Tujuan</string>
+    <string name="alamat_tujuan">Alamat Tujuan</string>
+    <string name="nama_user">Nama User</string>
+    <string name="tanggal_update">Tanggal Update</string>
+    <string name="cari_kode_surat_jalan">Cari Kode Surat Jalan</string>
+    <string name="menunggu_admin_gudang">Menunggu\nAdmin Gudang</string>
+    <string name="menunggu_driver">Menunggu\nDriver</string>
+    <string name="selesai">Selesai</string>
+    <string name="icon_filter">Icon Filter</string>
+    <string name="dalam_nperjalanan">Dalam\nPerjalanan</string>
 </resources>

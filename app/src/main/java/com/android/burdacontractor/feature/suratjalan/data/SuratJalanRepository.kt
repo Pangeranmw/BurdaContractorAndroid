@@ -24,7 +24,7 @@ class SuratJalanRepository @Inject constructor(
     private val storageDataSource: StorageDataSource
 ) : ISuratJalanRepository {
 
-    override suspend fun getAllSuratJalan(
+    override fun getAllSuratJalan(
         tipe: SuratJalanTipe,
         status: SuratJalanStatus,
         date_start: String?,
@@ -106,6 +106,5 @@ class SuratJalanRepository @Inject constructor(
     override suspend fun deleteSuratJalan(suratJalanId: String): Flow<Resource<ErrorMessageResponse>> {
         TODO("Not yet implemented")
     }
-
 }
 

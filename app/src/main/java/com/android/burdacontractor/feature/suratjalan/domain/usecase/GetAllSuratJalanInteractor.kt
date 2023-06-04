@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetAllSuratJalanInteractor @Inject constructor(private val suratJalanRepository: ISuratJalanRepository):
     GetAllSuratJalanUseCase
 {
-    override suspend fun execute(
+    override fun execute(
         tipe: SuratJalanTipe,
         status: SuratJalanStatus,
         date_start: String?,

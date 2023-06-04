@@ -20,7 +20,7 @@ import javax.inject.Singleton
 class SuratJalanRemoteDataSource @Inject constructor(
     private val suratJalanService: SuratJalanService,
 ) {
-    suspend fun getAllSuratJalan(
+    fun getAllSuratJalan(
         token: String,
         tipe: SuratJalanTipe,
         status: SuratJalanStatus,
@@ -54,7 +54,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         logisticId: String,
         kendaraanId: String,
         peminjamanId: String
-    ): Flow<Resource<AddUpdateResponse>> = flow{
+    ): Flow<Resource<ErrorMessageResponse>> = flow{
 
     }
 
@@ -64,7 +64,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         kendaraanId: String,
         peminjamanAsalId: String,
         peminjamanTujuanId: String,
-    ): Flow<Resource<AddUpdateResponse>> = flow{
+    ): Flow<Resource<ErrorMessageResponse>> = flow{
 
     }
 
@@ -73,7 +73,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         logisticId: String,
         kendaraanId: String,
         pengembalianId: String,
-    ): Flow<Resource<AddUpdateResponse>> = flow {
+    ): Flow<Resource<ErrorMessageResponse>> = flow {
 
     }
 
@@ -82,7 +82,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         logisticId: String,
         kendaraanId: String,
         peminjamanId: String
-    ): Flow<Resource<AddUpdateResponse>> = flow{
+    ): Flow<Resource<ErrorMessageResponse>> = flow{
 
     }
 
@@ -92,7 +92,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         kendaraanId: String,
         peminjamanAsalId: String,
         peminjamanTujuanId: String,
-    ): Flow<Resource<AddUpdateResponse>> = flow{
+    ): Flow<Resource<ErrorMessageResponse>> = flow{
 
     }
 
@@ -101,7 +101,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         logisticId: String,
         kendaraanId: String,
         pengembalianId: String,
-    ): Flow<Resource<AddUpdateResponse>> = flow{
+    ): Flow<Resource<ErrorMessageResponse>> = flow{
 
     }
 

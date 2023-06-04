@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ISuratJalanRepository {
 
-    suspend fun getAllSuratJalan(
+    fun getAllSuratJalan(
         tipe: SuratJalanTipe,
         status: SuratJalanStatus,
         date_start: String? = null,

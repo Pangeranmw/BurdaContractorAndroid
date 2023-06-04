@@ -2,24 +2,45 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_auth"
     app:startDestination="@+id/sj_pengiriman_gp_fragment">
 
     <fragment
+        android:id="@+id/surat_jalan_fragment"
+        tools:layout="@layout/fragment_surat_jalan"
+        android:name="com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanFragment">
+        <action
+            android:id="@+id/action_surat_jalan_fragment_to_detailSuratJalanFragment"
+            app:destination="@id/detailSuratJalanFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/sj_pengiriman_gp_fragment"
         android:name="com.android.burdacontractor.feature.suratjalan.presentation.SjPengirimanGpFragment"
-        android:label="SjPengirimanGpFragment" >
+        android:label="SjPengirimanGpFragment"
+        tools:layout="@layout/fragment_sj_pengiriman_gp"
+        >
     </fragment>
 
     <fragment
         android:id="@+id/sj_pengiriman_pp_fragment"
         android:name="com.android.burdacontractor.feature.suratjalan.presentation.SjPengirimanPpFragment"
-        android:label="SjPengirimanPpFragment" >
+        android:label="SjPengirimanPpFragment"
+        tools:layout="@layout/fragment_sj_pengiriman_pp"
+        >
     </fragment>
     <fragment
         android:id="@+id/sj_pengembalian_fragment"
         android:name="com.android.burdacontractor.feature.suratjalan.presentation.SjPengembalianFragment"
-        android:label="SjPengembalianFragment" >
+        android:label="SjPengembalianFragment"
+        tools:layout="@layout/fragment_sj_pengembalian"
+        >
     </fragment>
+    <fragment
+        android:id="@+id/detailSuratJalanFragment"
+        android:name="com.android.burdacontractor.feature.suratjalan.presentation.DetailSuratJalanFragment"
+        android:label="fragment_detail_surat_jalan"
+        tools:layout="@layout/fragment_detail_surat_jalan" />
 
 </navigation>

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.UserRole
@@ -17,7 +16,6 @@ import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.PerusahaanActivity
 import com.google.android.material.navigation.NavigationBarView
-import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,12 +37,6 @@ class SuratJalanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
             UserRole.PROJECT_MANAGER.name, UserRole.SUPERVISOR.name ->
                 setBottomNavigationMenu(R.menu.bottom_menu_sv_pm, R.id.surat_jalan_sv_pm)
         }
-
-        val sectionsPagerAdapter = SuratJalanPagerAdapter(this)
-        binding.viewPager.adapter = sectionsPagerAdapter
-        TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
-            tab.text = resources.getString(TAB_TITLES[position])
-        }.attach()
     }
     private fun setBottomNavigationMenu(menu: Int, item: Int){
         binding.suratJalanBottomNavigation.inflateMenu(menu)
@@ -73,13 +65,5 @@ class SuratJalanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
             }
         }
         return true
-    }
-    companion object {
-        @StringRes
-        private val TAB_TITLES = intArrayOf(
-            R.string.surat_jalan_gp,
-            R.string.surat_jalan_pp,
-            R.string.surat_jalan_pengembalian
-        )
     }
 }

@@ -3,25 +3,24 @@ package com.android.burdacontractor.feature.beranda.presentation
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.core.app.ActivityCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.UserRole
+import com.android.burdacontractor.core.presentation.StorageViewModel
+import com.android.burdacontractor.core.service.location.LocationService
 import com.android.burdacontractor.core.utils.openActivity
 import com.android.burdacontractor.databinding.ActivityBerandaBinding
 import com.android.burdacontractor.feature.deliveryorder.presentation.DeliveryOrderActivity
 import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.PerusahaanActivity
-import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanActivity
-import com.android.burdacontractor.core.service.location.LocationService
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,16 +46,6 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
         }
         startService()
         setContentView(binding.root)
-    }
-    private fun requestLocationPermission() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-            ),
-            0
-        )
     }
     private fun setBottomNavigationMenu(menu: Int, item: Int){
         binding.berandaBottomNavigation.inflateMenu(menu)
