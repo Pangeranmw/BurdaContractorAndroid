@@ -61,16 +61,11 @@ class SjPengirimanGpFragment : Fragment() {
         setAdapter()
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // on below line we are checking
-                // if query exist or not.
                 setAdapter(search = query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // if query text is change in that case we
-                // are filtering our adapter with
-                // new text on below line.
                 return false
             }
         })
