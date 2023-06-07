@@ -276,9 +276,14 @@ abstract RepositoryModule<SingletonComponent> {
     +provideDeliveryOrderRepository()
 }
 abstract AppModule<ViewModelComponent> {
-    +provideSuratJalanUseCase()
     +provideGetAllSuratJalanUseCase(getAllSuratJalanInteractor): GetAllSuratJalanUseCase
     +provideGetSuratJalanByIdUseCase(getSuratJalanByIdInteractor): GetSuratJalanByIdUseCase
+    +provideUpdateSuratJalanPengirimanPpUseCase(updateSuratJalanPengirimanPpInteractor): UpdateSuratJalanPengirimanPpUseCase
+    +provideUpdateSuratJalanPengirimanGpUseCase(updateSuratJalanPengirimanGpInteractor): UpdateSuratJalanPengirimanGpUseCase
+    +provideUpdateSuratJalanPengembalianUseCase(updateSuratJalanPengembalianInteractor): UpdateSuratJalanPengembalianUseCase
+    +provideAddSuratJalanPengirimanPpUseCase(addSuratJalanPengirimanPpInteractor): AddSuratJalanPengirimanPpUseCase
+    +provideAddSuratJalanPengirimanGpUseCase(addSuratJalanPengirimanGpInteractor): AddSuratJalanPengirimanGpUseCase
+    +provideAddSuratJalanPengembalianUseCase(addSuratJalanPengembalianInteractor): AddSuratJalanPengembalianUseCase
     +provideAuthUseCase()
     +provideLogisticUseCase()
     +provideStorageUseCase()
