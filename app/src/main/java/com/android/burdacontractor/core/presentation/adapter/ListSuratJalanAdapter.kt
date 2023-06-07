@@ -34,7 +34,6 @@ class ListSuratJalanAdapter(val listener: (AllSuratJalan) -> Unit): PagingDataAd
             binding.tvAlamatAsal.text = itemData.alamatTempatAsal
             binding.tvAlamatTujuan.text = itemData.alamatTempatTujuan
             binding.tvKode.text = itemData.kodeSurat
-
 //            Glide.with(itemView.context)
 //                .load(itemData.fotoAdminGudang)
 //                .into(binding.ivItemImage)

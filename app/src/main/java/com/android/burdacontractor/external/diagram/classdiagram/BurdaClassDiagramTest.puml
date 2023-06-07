@@ -7,7 +7,6 @@ class auth.data.source.remote.AuthRemoteDataSource{
     +login(email, password): Flow<ApiResponse<LoginResponse>>
     +logout(token): Flow<ApiResponse<ErrorMessageResponse>>
 }
-
 class auth.domain.usecase.LoginInteractor implements auth.domain.usecase.LoginUseCase{
     -authRepository: AuthRepository
     +execute(email, password): Flow<Resource<UserLogin>
@@ -15,7 +14,6 @@ class auth.domain.usecase.LoginInteractor implements auth.domain.usecase.LoginUs
 interface auth.domain.usecase.LoginUseCase{
     +execute(email, password): Flow<Resource<UserLogin>
 }
-
 interface auth.domain.repository.IAuthRepository{
     + register(nama, noHp, email, password): Flow<Resource<ErrorMessageResponse>>
     + login(email, password): Flow<Resource<UserLogin>>
@@ -107,5 +105,4 @@ class auth.data.source.remote.StorageDataSource{
     +isUserLogin()
     +logoutUser()
 }
-
 @enduml

@@ -78,67 +78,6 @@ class SessionManager {
     +getFromPreference()
 }
 
-abstract NetworkModule<SingletonComponent> {
-    +provideFirebaseReference()
-    +provideConnectivityManager()
-    +provideOkHttpClient()
-    +provideDistanceMatrixService()
-    +provideRetrofit()
-    +provideApiService()
-    +provideAuthService()
-    +provideUserService()
-    +provideBarangService()
-    +provideDeliveryOrderService()
-    +provideProyekService()
-    +providePerusahaanService()
-    +provideGudangService()
-    +providePeminjamanService()
-    +providePengembalianService()
-    +provideAksesBarangService()
-    +provideKendaraanService()
-    +providePreOrderService()
-    +provideSuratJalanService()
-}
-abstract StorageModule<SingletonComponent> {
-    +provideSessionManager()
-}
-
-abstract RepositoryModule<SingletonComponent> {
-    +provideSuratJalanRepository()
-    +provideTourismRepository()
-    +provideLogisticRepository()
-    +provideLogisticRepository()
-    +provideStorageRepository()
-    +provideKendaraanRepository()
-    +providePeminjamanRepository()
-    +providePengembalianRepository()
-    +providePerusahaanRepository()
-    +provideGudangRepository()
-    +provideProyekRepository()
-    +provideBarangRepository()
-    +provideAksesBarangRepository()
-    +provideDeliveryOrderRepository()
-}
-abstract AppModule<ViewModelComponent> {
-    +provideTourismUseCase()
-    +provideSuratJalanUseCase()
-    +provideAuthUseCase()
-    +provideLogisticUseCase()
-    +provideStorageUseCase()
-    +provideKendaraanUseCase()
-    +providePeminjamanUseCase()
-    +providePengembalianUseCase()
-    +providePerusahaanUseCase()
-    +provideGudangUseCase()
-    +provideProyekUseCase()
-    +provideBarangUseCase()
-    +provideAksesBarangUseCase()
-    +provideDeliveryOrderUseCase()
-    +providePreOrderUseCase()
-    +provideUserUseCase()
-    +provideDistanceMatrixUseCase()
-}
-
 class AuthViewModel<HiltViewModel> {
     +loginResponse
     +messageResponse
@@ -292,4 +231,70 @@ class SuratJalanViewModel<HiltViewModel> {
     +pantauSuratJalan()
     +telusuriSuratJalan()
 }
+
+newpage
+header "Module"
+abstract NetworkModule<SingletonComponent> {
+    +provideFirebaseReference()
+    +provideConnectivityManager()
+    +provideOkHttpClient()
+    +provideDistanceMatrixService()
+    +provideRetrofit()
+    +provideApiService()
+    +provideAuthService()
+    +provideUserService()
+    +provideBarangService()
+    +provideDeliveryOrderService()
+    +provideProyekService()
+    +providePerusahaanService()
+    +provideGudangService()
+    +providePeminjamanService()
+    +providePengembalianService()
+    +provideAksesBarangService()
+    +provideKendaraanService()
+    +providePreOrderService()
+    +provideSuratJalanService()
+}
+abstract StorageModule<SingletonComponent> {
+    +provideSessionManager()
+}
+
+abstract RepositoryModule<SingletonComponent> {
+    +provideSuratJalanRepository()
+    +provideTourismRepository()
+    +provideLogisticRepository()
+    +provideLogisticRepository()
+    +provideStorageRepository()
+    +provideKendaraanRepository()
+    +providePeminjamanRepository()
+    +providePengembalianRepository()
+    +providePerusahaanRepository()
+    +provideGudangRepository()
+    +provideProyekRepository()
+    +provideBarangRepository()
+    +provideAksesBarangRepository()
+    +provideDeliveryOrderRepository()
+}
+abstract AppModule<ViewModelComponent> {
+    +provideSuratJalanUseCase()
+    +provideGetAllSuratJalanUseCase(getAllSuratJalanInteractor): GetAllSuratJalanUseCase
+    +provideGetSuratJalanByIdUseCase(getSuratJalanByIdInteractor): GetSuratJalanByIdUseCase
+    +provideAuthUseCase()
+    +provideLogisticUseCase()
+    +provideStorageUseCase()
+    +provideKendaraanUseCase()
+    +providePeminjamanUseCase()
+    +providePengembalianUseCase()
+    +providePerusahaanUseCase()
+    +provideGudangUseCase()
+    +provideProyekUseCase()
+    +provideBarangUseCase()
+    +provideAksesBarangUseCase()
+    +provideDeliveryOrderUseCase()
+    +providePreOrderUseCase()
+    +provideUserUseCase()
+    +provideDistanceMatrixUseCase()
+}
+NetworkModule -[hidden]r- AppModule
+StorageModule -[hidden]u- RepositoryModule
 @enduml

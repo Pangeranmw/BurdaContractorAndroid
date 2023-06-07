@@ -56,6 +56,6 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun provideLoginWithPinUseCase(registerInteractor: LoginWithPinInteractor): LoginWithPinUseCase
+    abstract fun provideLoginWithPinUseCase(loginWithPinInteractor: LoginWithPinInteractor): LoginWithPinUseCase
 
 }
