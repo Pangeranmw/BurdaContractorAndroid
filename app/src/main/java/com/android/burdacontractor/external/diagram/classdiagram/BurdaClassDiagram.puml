@@ -284,9 +284,22 @@ abstract AppModule<ViewModelComponent> {
     +provideAddSuratJalanPengirimanPpUseCase(addSuratJalanPengirimanPpInteractor): AddSuratJalanPengirimanPpUseCase
     +provideAddSuratJalanPengirimanGpUseCase(addSuratJalanPengirimanGpInteractor): AddSuratJalanPengirimanGpUseCase
     +provideAddSuratJalanPengembalianUseCase(addSuratJalanPengembalianInteractor): AddSuratJalanPengembalianUseCase
-    +provideAuthUseCase()
-    +provideLogisticUseCase()
-    +provideStorageUseCase()
+    +provideSendSuratJalanUseCase(sendSuratJalanInteractor): SendSuratJalanUseCase
+    +provideAddTtdSuratJalanUseCase(addTtdSuratJalanInteractor): AddTtdSuratJalanUseCase
+    +provideMarkCompleteSuratJalanUseCase(markCompleteSuratJalanInteractor): MarkCompleteSuratJalanUseCase
+    +provideUploadFotoBuktiSuratJalanUseCase(uploadFotoBuktiSuratJalanInteractor): UploadFotoBuktiSuratJalanUseCase
+
+    +provideLoginUseCase(loginInteractor): LoginUseCase
+    +provideRegisterUseCase(registerInteractor): RegisterUseCase
+    +provideLogoutUseCase(logoutInteractor): LogoutUseCase
+
+    +provideGetLogisticCoordinateUseCase(getLogisticCoordinateInteractor): GetLogisticCoordinateUseCase
+    +provideSetLogisticCoordinateUseCase(setLogisticCoordinateInteractor): SetLogisticCoordinateUseCase
+
+    +provideGetAllPeminjamanDoesntHaveSuratJalanUseCase(setLogisticCoordinateInteractor): GetAllPeminjamanDoesntHaveSuratJalanUseCase
+
+    +provideGetAllPengembalianDoesntHaveSuratJalanUseCase(setLogisticCoordinateInteractor): GetAllPengembalianDoesntHaveSuratJalanUseCase
+
     +provideKendaraanUseCase()
     +providePeminjamanUseCase()
     +providePengembalianUseCase()

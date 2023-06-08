@@ -135,7 +135,7 @@ interface SuratJalanService {
 
     @Multipart
     @POST("surat-jalan/{surat_jalan_id}/upload-foto")
-    suspend fun uploadFotoBukti(
+    suspend fun uploadFotoBuktiSuratJalan(
         @Header("Authorization") token: String,
         @Part("foto") foto: MultipartBody.Part,
     ): ErrorMessageResponse
