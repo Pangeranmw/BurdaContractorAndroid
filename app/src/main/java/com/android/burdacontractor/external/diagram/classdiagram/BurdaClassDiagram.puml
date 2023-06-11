@@ -1,59 +1,6 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class suratjalan.domain.usecase.SuratJalanInteractor implements suratjalan.domain.usecase.SuratJalanUseCase
-class suratjalan.data.source.remote.SuratJalanRemoteDataSource
-interface suratjalan.domain.usecase.SuratJalanUseCase
-
-class suratjalan.domain.usecase.GetAllSuratJalanInteractor implements suratjalan.domain.usecase.GetAllSuratJalanUseCase
-interface suratjalan.domain.usecase.GetAllSuratJalanUseCase
-
-class suratjalan.domain.usecase.AddSuratJalanPengirimanGpInteractor implements suratjalan.domain.usecase.AddSuratJalanPengirimanGpUseCase
-interface suratjalan.domain.usecase.AddSuratJalanPengirimanGpUseCase
-
-class suratjalan.domain.usecase.AddSuratJalanPengembalianInteractor implements suratjalan.domain.usecase.AddSuratJalanPengembalianUseCase
-interface suratjalan.domain.usecase.AddSuratJalanPengembalianUseCase
-
-class suratjalan.domain.usecase.AddSuratJalanPengirimanPpInteractor implements suratjalan.domain.usecase.AddSuratJalanPengirimanPpUseCase
-interface suratjalan.domain.usecase.AddSuratJalanPengirimanPpUseCase
-
-class suratjalan.domain.usecase.DeleteSuratJalanInteractor implements suratjalan.domain.usecase.DeleteSuratJalanUseCase
-interface suratjalan.domain.usecase.DeleteSuratJalanUseCase
-
-class suratjalan.domain.usecase.GetAllSuratJalanInteractor
-interface suratjalan.domain.usecase.GetAllSuratJalanUseCase
-
-class suratjalan.domain.usecase.GetSuratJalanByIdInteractor
-interface suratjalan.domain.usecase.GetSuratJalanByIdUseCase
-
-class suratjalan.domain.usecase.UpdateSuratJalanPengembalianInteractor
-interface suratjalan.domain.usecase.UpdateSuratJalanPengembalianUseCase
-
-class suratjalan.domain.usecase.UpdateSuratJalanPengirimanGpInteractor
-interface suratjalan.domain.usecase.UpdateSuratJalanPengirimanGpUseCase
-
-class suratjalan.domain.usecase.UpdateSuratJalanPengirimanPpInteractor
-interface suratjalan.domain.usecase.UpdateSuratJalanPengirimanPpUseCase
-
-class suratjalan.domain.usecase.UploadFotoBuktiSuratJalanInteractor
-interface suratjalan.domain.usecase.UploadFotoBuktiSuratJalanUseCase
-
-interface suratjalan.domain.repository.ISuratJalanRepository
-interface suratjalan.data.source.remote.network.SuratJalanService
-class suratjalan.data.SuratJalanRepository implements suratjalan.domain.repository.ISuratJalanRepository
-suratjalan.data.SuratJalanRepository -u> suratjalan.data.source.remote.SuratJalanRemoteDataSource
-suratjalan.data.SuratJalanRepository -> suratjalan.data.source.remote.StorageDataSource
-suratjalan.domain.usecase.SuratJalanInteractor --d> suratjalan.data.SuratJalanRepository
-suratjalan.presentation.SuratJalanViewModel -d> suratjalan.domain.usecase
-suratjalan.data.source.remote.SuratJalanRemoteDataSource -l> suratjalan.data.source.remote.network.SuratJalanService
-class suratjalan.presentation.SuratJalanViewModel<HiltViewModel>
-class suratjalan.presentation.SuratJalanActivity
-class suratjalan.presentation.SuratJalanFragment
-class suratjalan.presentation.AddSuratJalanFragment
-class suratjalan.presentation.DetailFragment
-class suratjalan.presentation.CetakSuratJalanFragment
-
-
 class SuratJalanCreateFragment{
     -binding
     -navController
@@ -296,9 +243,10 @@ abstract AppModule<ViewModelComponent> {
     +provideGetLogisticCoordinateUseCase(getLogisticCoordinateInteractor): GetLogisticCoordinateUseCase
     +provideSetLogisticCoordinateUseCase(setLogisticCoordinateInteractor): SetLogisticCoordinateUseCase
 
-    +provideGetAllPeminjamanDoesntHaveSuratJalanUseCase(setLogisticCoordinateInteractor): GetAllPeminjamanDoesntHaveSuratJalanUseCase
+    +provideGetAllPeminjamanGpDoesntHaveSuratJalanUseCase(getAllPeminjamanGpDoesntHaveSuratJalanInteractor): GetAllPeminjamanGpDoesntHaveSuratJalanUseCase
+    +provideGetAllPeminjamanPpDoesntHaveSuratJalanUseCase(getAllPeminjamanPpDoesntHaveSuratJalanInteractor): GetAllPeminjamaPpDoesntHaveSuratJalanUseCase
 
-    +provideGetAllPengembalianDoesntHaveSuratJalanUseCase(setLogisticCoordinateInteractor): GetAllPengembalianDoesntHaveSuratJalanUseCase
+    +provideGetAllPengembalianDoesntHaveSuratJalanUseCase(getAllPengembalianDoesntHaveSuratJalanInteractor): GetAllPengembalianDoesntHaveSuratJalanUseCase
 
     +provideKendaraanUseCase()
     +providePeminjamanUseCase()
@@ -315,4 +263,582 @@ abstract AppModule<ViewModelComponent> {
 }
 NetworkModule -[hidden]r- AppModule
 StorageModule -[hidden]u- RepositoryModule
+
+newpage
+header "Use Case"
+
+    interface GetAllSuratJalanUseCase{
+        +execute(tipe, status, dateStart, dateEnd, size, search)
+    }
+    interface GetSuratJalanByIdUseCase{
+        +execute(suratJalanId)
+    }
+    interface UpdateSuratJalanPengirimanPpUseCase{
+        +execute(suratJalanId, peminjamanId, logisticId, kendaraanId, ttdAdmin)
+    }
+    interface UpdateSuratJalanPengirimanGpUseCase{
+        +execute(suratJalanId, peminjamanId, logisticId, kendaraanId, ttdAdmin)
+    }
+    interface UpdateSuratJalanPengembalianUseCase{
+        +execute(suratJalanId, pengembalianId, logisticId, kendaraanId, ttdAdmin)
+    }
+    interface AddSuratJalanPengirimanPpUseCase{
+        +execute(peminjamanId, logisticId, kendaraanId, ttdAdmin)
+    }
+    interface AddSuratJalanPengirimanGpUseCase{
+        +execute(peminjamanId, logisticId, kendaraanId, ttdAdmin)
+    }
+    interface AddSuratJalanPengembalianUseCase{
+        +execute(pengembalianId, logisticId, kendaraanId, ttdAdmin)
+    }
+    interface SendSuratJalanUseCase{
+        +execute(suratJalanId)
+    }
+    interface AddTtdSuratJalanUseCase{
+        +execute(suratJalanId)
+    }
+    interface MarkCompleteSuratJalanUseCase{
+        +execute(suratJalanId)
+    }
+    interface UploadFotoBuktiSuratJalanUseCase{
+        +execute(suratJalanId, foto)
+    }
+    interface DeleteSuratJalanUseCase{
+        +execute(suratJalanId)
+    }
+
+    interface LoginUseCase{
+        +execute(email, password)
+    }
+    interface LoginWithPinUseCase{
+        +execute(pin)
+    }
+    interface RegisterUseCase{
+        +execute(nama, noHp, email, password)
+    }
+    interface LogoutUseCase{
+        +execute()
+    }
+
+    interface GetAllLogisticUseCase{
+        +execute(search)
+    }
+    interface GetLogisticCoordinateUseCase{
+        +execute(logisticId)
+    }
+    interface SetLogisticCoordinateUseCase{
+        +execute(logisticId, logisticCoordinate)
+    }
+
+    interface GetAllPeminjamanGpDoesntHaveSuratJalanUseCase{
+        +execute(search)
+    }
+    interface GetAllPeminjamanPpDoesntHaveSuratJalanUseCase{
+        +execute(search)
+    }
+    interface GetAllPengembalianDoesntHaveSuratJalanUseCase{
+        +execute(search)
+    }
+
+    interface GetAllKendaraanUseCase{
+       +execute(jenis, search)
+    }
+    interface GetKendaraanByIdUseCase{
+       +execute(kendaraanId)
+    }
+    interface AddKendaraanUseCase{
+        +execute(merk, platNomor, jenis, gudangId, foto)
+    }
+    interface UpdateKendaraanUseCase{
+        +execute(kendaraanId, merk, platNomor, jenis, gudangId, foto)
+    }
+    interface DeleteKendaraanUseCase{
+        +execute(kendaraanId)
+    }
+    interface DeletePengendaraUseCase{
+        +execute(kendaraanId)
+    }
+
+    interface GetAllPerusahaanUseCase{
+       +execute(search)
+    }
+    interface GetPerusahaanByIdUseCase{
+       +execute(perusahaanId)
+    }
+    interface AddPerusahaanUseCase{
+        +execute(nama, alamat, kota, provinsi, latitude, longitude, foto)
+    }
+    interface UpdatePerusahaanUseCase{
+        +execute(perusahaanId, nama, alamat, kota, provinsi, latitude, longitude, foto)
+    }
+    interface DeletePerusahaanUseCase{
+        +execute(perusahaanId)
+    }
+
+    interface GetAllGudangUseCase{
+       +execute(search)
+    }
+    interface GetGudangByIdUseCase{
+       +execute()
+    }
+    interface AddGudangUseCase{
+        +execute()
+    }
+    interface UpdateGudangUseCase{
+        +execute()
+    }
+    interface DeleteGudangUseCase{
+        +execute()
+    }
+    interface TempatiGudangUseCase{
+        +execute(gudangId)
+    }
+
+    interface GetAllDeliveryOrderUseCase{
+        +execute(status, date_start, date_end, size, search)
+    }
+    interface GetDeliveryOrderByIdUseCase{
+        +execute(id)
+    }
+    interface UpdateDeliveryOrderUseCase{
+        +execute(deliveryOrderId, perusahaanId, gudangId, perihal, untukPerhatian, tanggalPengambilan, ttdPurchasing)
+    }
+    interface DeleteDeliveryOrderUseCase{
+        +execute(deliveryOrderId)
+    }
+    interface AddDeliveryOrderUseCase{
+        +execute(perusahaanId, gudangId, perihal, untukPerhatian, tanggalPengambilan, ttdPurchasing)
+    }
+    interface SendDeliveryOrderUseCase{
+        +execute(deliveryOrderId)
+    }
+    interface MarkCompleteDeliveryOrderUseCase{
+        +execute(deliveryOrderId)
+    }
+    interface UploadFotoBuktiDeliveryOrderUseCase{
+        +execute(deliveryOrderId, foto)
+    }
+
+    interface GetAllPreOrderByDeliveryOrderIdUseCase{
+        +execute(deliveryOrderId)
+    }
+    interface GetPreOrderByIdUseCase{
+        +execute(preOrderId)
+    }
+    interface AddPreOrderUseCase{
+        +execute(namaMaterial, ukuran, satuan, jumlah, keterangan)
+    }
+    interface UpdatePreOrderUseCase{
+        +execute(preOrderId, namaMaterial, ukuran, satuan, jumlah, keterangan)
+    }
+    interface DeletePreOrderUseCase{
+        +execute(preOrderId)
+    }
+
+    interface GetUserByIdUseCase{
+        +execute(userId)
+    }
+    interface GetUserTtdUseCase{
+        +execute(userId)
+    }
+    interface UpdateUserProfileUseCase{
+        +execute(userId, nama, email, noHp)
+    }
+    interface UpdateUserPasswordUseCase{
+        +execute(userId, oldPassword, newPassword)
+    }
+    interface UpdateUserPinUseCase{
+        +execute(userId, oldPin, newPin)
+    }
+    interface UploadUserPhotoUseCase{
+        +execute(userId, photo)
+    }
+    interface UploadUserTtdUseCase{
+        +execute(userId, ttd)
+    }
+
+    interface GetDistanceMatrixUseCase{
+        +execute(coordinates)
+    }
+
+newpage
+
+header "Use Case Interactor"
+
+'    GetAllSuratJalanInteractor -[hidden]r- GetSuratJalanByIdInteractor
+'    GetSuratJalanByIdInteractor -[hidden]r- UpdateSuratJalanPengirimanPpInteractor
+'    UpdateSuratJalanPengirimanPpInteractor -[hidden]r- UpdateSuratJalanPengirimanGpInteractor
+'    UpdateSuratJalanPengembalianInteractor -[hidden]u- GetAllSuratJalanInteractor
+'    UpdateSuratJalanPengembalianInteractor -[hidden]r- AddSuratJalanPengirimanPpInteractor
+'    AddSuratJalanPengirimanPpInteractor -[hidden]r- AddSuratJalanPengirimanGpInteractor
+'    AddSuratJalanPengirimanGpInteractor -[hidden]r- RegisterInteractor
+'    AddSuratJalanPengembalianInteractor -[hidden]u- UpdateSuratJalanPengembalianInteractor
+
+    class GetAllSuratJalanInteractor{
+        +suratJalanRepository
+        +execute(tipe, status, dateStart, dateEnd, size, search)
+    }
+    class GetSuratJalanByIdInteractor{
+        +suratJalanRepository
+        +execute(suratJalanId)
+    }
+    class UpdateSuratJalanPengirimanPpInteractor{
+        +suratJalanRepository
+        +execute(suratJalanId, peminjamanId, logisticId, kendaraanId, ttdAdmin)
+    }
+    class UpdateSuratJalanPengirimanGpInteractor{
+        +suratJalanRepository
+        +execute(suratJalanId, peminjamanId, logisticId, kendaraanId, ttdAdmin)
+    }
+    class UpdateSuratJalanPengembalianInteractor{
+        +suratJalanRepository
+        +execute(suratJalanId, pengembalianId, logisticId, kendaraanId, ttdAdmin)
+    }
+    class AddSuratJalanPengirimanPpInteractor{
+        +suratJalanRepository
+        +execute(peminjamanId, logisticId, kendaraanId, ttdAdmin)
+    }
+    class AddSuratJalanPengirimanGpInteractor{
+        +suratJalanRepository
+        +execute(peminjamanId, logisticId, kendaraanId, ttdAdmin)
+    }
+
+    class AddSuratJalanPengembalianInteractor{
+        +suratJalanRepository
+        +execute(pengembalianId, logisticId, kendaraanId, ttdAdmin)
+    }
+    class SendSuratJalanInteractor{
+        +suratJalanRepository
+        +execute(suratJalanId)
+    }
+    class AddTtdSuratJalanInteractor{
+        +suratJalanRepository
+        +execute(suratJalanId)
+    }
+    class MarkCompleteSuratJalanInteractor{
+        +suratJalanRepository
+        +execute(suratJalanId)
+    }
+    class UploadFotoBuktiSuratJalanInteractor{
+        +suratJalanRepository
+        +execute(suratJalanId, foto)
+    }
+    class DeleteSuratJalanInteractor{
+        +suratJalanRepository
+        +execute(suratJalanId)
+    }
+
+    class LoginInteractor{
+        +authRepository
+        +execute(email, password)
+    }
+    class LoginWithPinInteractor{
+        +authRepository
+        +execute(pin)
+    }
+    class RegisterInteractor{
+        +authRepository
+        +execute(nama, noHp, email, password)
+    }
+    class LogoutInteractor{
+        +authRepository
+        +execute()
+    }
+
+    class GetAllLogisticInteractor{
+        +logisticRepository
+        +execute(search)
+    }
+    class GetLogisticCoordinateInteractor{
+        +logisticRepository
+        +execute(logisticId)
+    }
+    class SetLogisticCoordinateInteractor{
+        +logisticRepository
+        +execute(logisticId, logisticCoordinate)
+    }
+
+    class GetAllPeminjamanGpDoesntHaveSuratJalanInteractor{
+        +peminjamanRepository
+        +execute(search)
+    }
+    class GetAllPeminjamanPpDoesntHaveSuratJalanInteractor{
+        +peminjamanRepository
+        +execute(search)
+    }
+    class GetAllPengembalianDoesntHaveSuratJalanInteractor{
+        +Repository
+        +execute(search)
+    }
+
+    class GetAllKendaraanInteractor{
+        +kendaraanRepository
+       +execute(jenis, search)
+    }
+    class GetKendaraanByIdInteractor{
+        +kendaraanRepository
+       +execute(kendaraanId)
+    }
+    class AddKendaraanInteractor{
+        +kendaraanRepository
+        +execute(merk, platNomor, jenis, gudangId, foto)
+    }
+    class UpdateKendaraanInteractor{
+        +kendaraanRepository
+        +execute(kendaraanId, merk, platNomor, jenis, gudangId, foto)
+    }
+    class DeleteKendaraanInteractor{
+        +kendaraanRepository
+        +execute(kendaraanId)
+    }
+    class DeletePengendaraInteractor{
+        +kendaraanRepository
+        +execute(kendaraanId)
+    }
+
+    class GetAllPerusahaanInteractor{
+        +perusahaanRepository
+       +execute(search)
+    }
+    class GetPerusahaanByIdInteractor{
+        +perusahaanRepository
+       +execute(perusahaanId)
+    }
+    class AddPerusahaanInteractor{
+        +perusahaanRepository
+        +execute(nama, alamat, kota, provinsi, latitude, longitude, foto)
+    }
+    class UpdatePerusahaanInteractor{
+        +perusahaanRepository
+        +execute(perusahaanId, nama, alamat, kota, provinsi, latitude, longitude, foto)
+    }
+    class DeletePerusahaanInteractor{
+        +perusahaanRepository
+        +execute(perusahaanId)
+    }
+
+    class GetAllGudangInteractor{
+        +gudangRepository
+       +execute(search)
+    }
+    class GetGudangByIdInteractor{
+        +gudangRepository
+       +execute(gudangId)
+    }
+    class AddGudangInteractor{
+        +gudangRepository
+        +execute(nama, alamat, kota, provinsi, latitude, longitude, foto)
+    }
+    class UpdateGudangInteractor{
+        +gudangRepository
+        +execute(gudangId, nama, alamat, kota, provinsi, latitude, longitude, foto)
+    }
+    class DeleteGudangInteractor{
+        +gudangRepository
+        +execute(gudangId)
+    }
+    class TempatiGudangInteractor{
+        +gudangRepository
+        +execute(gudangId)
+    }
+
+    class GetAllDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(status, date_start, date_end, size, search)
+    }
+    class GetDeliveryOrderByIdInteractor{
+        +deliveryOrderRepository
+        +execute(id)
+    }
+    class UpdateDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(deliveryOrderId, perusahaanId, gudangId, perihal, untukPerhatian, tanggalPengambilan, ttdPurchasing)
+    }
+    class DeleteDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(deliveryOrderId)
+    }
+    class AddDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(perusahaanId, gudangId, perihal, untukPerhatian, tanggalPengambilan, ttdPurchasing)
+    }
+    class SendDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(deliveryOrderId)
+    }
+    class MarkCompleteDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(deliveryOrderId)
+    }
+    class UploadFotoBuktiDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(deliveryOrderId, foto)
+    }
+
+    class GetAllPreOrderByDeliveryOrderIdInteractor{
+        +preOrderRepository
+        +execute(deliveryOrderId)
+    }
+    class GetPreOrderByIdInteractor{
+        +preOrderRepository
+        +execute(preOrderId)
+    }
+    class AddPreOrderInteractor{
+        +preOrderRepository
+        +execute(namaMaterial, ukuran, satuan, jumlah, keterangan)
+    }
+    class UpdatePreOrderInteractor{
+        +preOrderRepository
+        +execute(preOrderId, namaMaterial, ukuran, satuan, jumlah, keterangan)
+    }
+    class DeletePreOrderInteractor{
+        +preOrderRepository
+        +execute(preOrderId)
+    }
+
+    class GetUserByIdInteractor{
+        +userRepository
+        +execute(userId)
+    }
+    class GetUserTtdInteractor{
+        +userRepository
+        +execute(userId)
+    }
+    class UpdateUserProfileInteractor{
+        +userRepository
+        +execute(userId, nama, email, noHp)
+    }
+    class UpdateUserPasswordInteractor{
+        +userRepository
+        +execute(userId, oldPassword, newPassword)
+    }
+    class UpdateUserPinInteractor{
+        +userRepository
+        +execute(userId, oldPin, newPin)
+    }
+    class UploadUserPhotoInteractor{
+        +userRepository
+        +execute(userId, photo)
+    }
+    class UploadUserTtdInteractor{
+        +userRepository
+        +execute(userId, ttd)
+    }
+
+    class GetDistanceMatrixInteractor{
+        +distanceMatrixRepository
+        +execute(coordinates)
+    }
+
+newpage
+header "Api Service"
+
+
+    interface DistanceMatrixService{
+        +getDistanceMatrix(coordinates)
+    }
+    interface AuthService{
+        +login(email, password)
+        +loginWithPin(pin)
+        +register(nama, noHp, email, password)
+        +logout()
+    }
+
+    interface LogisticService{
+        +getAllLogistic(search)
+        +getLogisticCoordinate(logisticId)
+        +setLogisticCoordinate(logisticId, logisticCoordinate)
+    }
+
+    interface PeminjamanService{
+        +getAllPeminjamanGpDoesntHaveSuratJalan(search)
+        +getAllPeminjamanPpDoesntHaveSuratJalan(search)
+    }
+
+    interface PengembalianService {
+        +getAllPengembalianDoesntHaveSuratJalan(search)
+    }
+
+    interface KendaraanService{
+        +getAllKendaraan(jenis, search)
+        +getKendaraanById(kendaraanId)
+        +addKendaraan(merk, platNomor, jenis, gudangId, foto)
+        +updateKendaraan(kendaraanId, merk, platNomor, jenis, gudangId, foto)
+        +deleteKendaraan(kendaraanId)
+        +deletePengendara(kendaraanId)
+    }
+
+    interface PreOrderService{
+        +getAllPreOrderByDeliveryOrderId(deliveryOrderId)
+        +getPreOrderById(preOrderId)
+        +addPreOrder(namaMaterial, ukuran, satuan, jumlah, keterangan)
+        +updatePreOrder(preOrderId, namaMaterial, ukuran, satuan, jumlah, keterangan)
+        +deletePreOrder(preOrderId)
+    }
+    interface PerusahaanService{
+        +getAllPerusahaan(search)
+        +getPerusahaanById(perusahaanId)
+        +addPerusahaan(nama, alamat, kota, provinsi, latitude, longitude, foto)
+        +updatePerusahaan(perusahaanId, nama, alamat, kota, provinsi, latitude, longitude, foto)
+        +deletePerusahaan(perusahaanId)
+    }
+
+    interface GudangService{
+        +getAllGudang(search)
+        +getGudangById(gudangId)
+        +addGudang(nama, alamat, kota, provinsi, latitude, longitude, foto)
+        +updateGudang(gudangId, nama, alamat, kota, provinsi, latitude, longitude, foto)
+        +deleteGudang(gudangId)
+        +tempatiGudang(gudangId)
+    }
+
+
+
+    interface UserService{
+        +getUserById(userId)
+        +getUserTtd(userId)
+        +updateUserProfile(userId, nama, email, noHp)
+        +updateUserPassword(userId, oldPassword, newPassword)
+        +updateUserPin(userId, oldPin, newPin)
+        +uploadUserPhoto(userId, photo)
+        +uploadUserTtd(userId, ttd)
+    }
+    interface DeliveryOrderService{
+        +getAllDeliveryOrder(status, date_start, date_end, size, search)
+        +getDeliveryOrderById(id)
+        +updateDeliveryOrder(deliveryOrderId, perusahaanId, gudangId, perihal, untukPerhatian, tanggalPengambilan, ttdPurchasing)
+        +deleteDeliveryOrder(deliveryOrderId)
+        +addDeliveryOrder(perusahaanId, gudangId, perihal, untukPerhatian, tanggalPengambilan, ttdPurchasing)
+        +sendDeliveryOrder(deliveryOrderId)
+        +markCompleteDeliveryOrder(deliveryOrderId)
+        +uploadFotoBuktiDeliveryOrder(deliveryOrderId, foto)
+    }
+    interface SuratJalanService{
+        +getAllSuratJalan(tipe, status, dateStart, dateEnd, size, search)
+        +getSuratJalanById(suratJalanId)
+        +updateSuratJalanPengirimanPp(suratJalanId, peminjamanId, logisticId, kendaraanId, ttdAdmin)
+        +updateSuratJalanPengirimanGp(suratJalanId, peminjamanId, logisticId, kendaraanId, ttdAdmin)
+        +updateSuratJalanPengembalian(suratJalanId, pengembalianId, logisticId, kendaraanId, ttdAdmin)
+        +addSuratJalanPengirimanPp(peminjamanId, logisticId, kendaraanId, ttdAdmin)
+        +addSuratJalanPengirimanGp(peminjamanId, logisticId, kendaraanId, ttdAdmin)
+        +addSuratJalanPengembalian(pengembalianId, logisticId, kendaraanId, ttdAdmin)
+        +sendSuratJalan(suratJalanId)
+        +addTtdSuratJalan(suratJalanId)
+        +markCompleteSuratJalan(suratJalanId)
+        +uploadFotoBuktiSuratJalan(suratJalanId, foto)
+        +deleteSuratJalan(suratJalanId)
+    }
+
+    PreOrderService -[hidden]r- DistanceMatrixService
+    DistanceMatrixService -[hidden]r- PengembalianService
+    LogisticService -[hidden]u- PengembalianService
+    PerusahaanService -[hidden]l- PeminjamanService
+    KendaraanService -[hidden]u- LogisticService
+    UserService -[hidden]u- KendaraanService
+    AuthService -[hidden]l- UserService
+    GudangService -[hidden]l- AuthService
+    DeliveryOrderService -[hidden]u- AuthService
+    DeliveryOrderService -[hidden]r- SuratJalanService
+    PreOrderService -[hidden]l- KendaraanService
+    PerusahaanService -[hidden]u- SuratJalanService
 @enduml
