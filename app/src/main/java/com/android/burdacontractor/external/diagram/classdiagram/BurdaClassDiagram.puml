@@ -486,14 +486,6 @@ header "Use Case Interactor"
         +suratJalanRepository
         +execute(suratJalanId, peminjamanId, logisticId, kendaraanId, ttdAdmin)
     }
-    class UpdateSuratJalanPengirimanGpInteractor{
-        +suratJalanRepository
-        +execute(suratJalanId, peminjamanId, logisticId, kendaraanId, ttdAdmin)
-    }
-    class UpdateSuratJalanPengembalianInteractor{
-        +suratJalanRepository
-        +execute(suratJalanId, pengembalianId, logisticId, kendaraanId, ttdAdmin)
-    }
     class AddSuratJalanPengirimanPpInteractor{
         +suratJalanRepository
         +execute(peminjamanId, logisticId, kendaraanId, ttdAdmin)
@@ -502,7 +494,18 @@ header "Use Case Interactor"
         +suratJalanRepository
         +execute(peminjamanId, logisticId, kendaraanId, ttdAdmin)
     }
-
+    class LoginInteractor{
+        +authRepository
+        +execute(email, password)
+    }
+    class LoginWithPinInteractor{
+        +authRepository
+        +execute(pin)
+    }
+    class RegisterInteractor{
+        +authRepository
+        +execute(nama, noHp, email, password)
+    }
     class AddSuratJalanPengembalianInteractor{
         +suratJalanRepository
         +execute(pengembalianId, logisticId, kendaraanId, ttdAdmin)
@@ -514,6 +517,35 @@ header "Use Case Interactor"
     class AddTtdSuratJalanInteractor{
         +suratJalanRepository
         +execute(suratJalanId)
+    }
+
+    class GetAllDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(status, date_start, date_end, size, search)
+    }
+    class GetDeliveryOrderByIdInteractor{
+        +deliveryOrderRepository
+        +execute(id)
+    }
+    class UpdateDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(deliveryOrderId, perusahaanId, gudangId, perihal, untukPerhatian, tanggalPengambilan, ttdPurchasing)
+    }
+    class DeleteDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(deliveryOrderId)
+    }
+    class SendDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(deliveryOrderId)
+    }
+    class MarkCompleteDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(deliveryOrderId)
+    }
+    class UploadFotoBuktiDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(deliveryOrderId, foto)
     }
     class MarkCompleteSuratJalanInteractor{
         +suratJalanRepository
@@ -527,22 +559,30 @@ header "Use Case Interactor"
         +suratJalanRepository
         +execute(suratJalanId)
     }
-
-    class LoginInteractor{
-        +authRepository
-        +execute(email, password)
-    }
-    class LoginWithPinInteractor{
-        +authRepository
-        +execute(pin)
-    }
-    class RegisterInteractor{
-        +authRepository
-        +execute(nama, noHp, email, password)
-    }
     class LogoutInteractor{
         +authRepository
         +execute()
+    }
+
+    class GetAllPreOrderByDeliveryOrderIdInteractor{
+        +preOrderRepository
+        +execute(deliveryOrderId)
+    }
+    class GetPreOrderByIdInteractor{
+        +preOrderRepository
+        +execute(preOrderId)
+    }
+    class AddPreOrderInteractor{
+        +preOrderRepository
+        +execute(namaMaterial, ukuran, satuan, jumlah, keterangan)
+    }
+    class UpdatePreOrderInteractor{
+        +preOrderRepository
+        +execute(preOrderId, namaMaterial, ukuran, satuan, jumlah, keterangan)
+    }
+    class DeletePreOrderInteractor{
+        +preOrderRepository
+        +execute(preOrderId)
     }
 
     class GetAllLogisticInteractor{
@@ -608,15 +648,10 @@ header "Use Case Interactor"
         +perusahaanRepository
         +execute(nama, alamat, kota, provinsi, latitude, longitude, foto)
     }
-    class UpdatePerusahaanInteractor{
-        +perusahaanRepository
-        +execute(perusahaanId, nama, alamat, kota, provinsi, latitude, longitude, foto)
-    }
     class DeletePerusahaanInteractor{
         +perusahaanRepository
         +execute(perusahaanId)
     }
-
     class GetAllGudangInteractor{
         +gudangRepository
        +execute(search)
@@ -642,60 +677,6 @@ header "Use Case Interactor"
         +execute(gudangId)
     }
 
-    class GetAllDeliveryOrderInteractor{
-        +deliveryOrderRepository
-        +execute(status, date_start, date_end, size, search)
-    }
-    class GetDeliveryOrderByIdInteractor{
-        +deliveryOrderRepository
-        +execute(id)
-    }
-    class UpdateDeliveryOrderInteractor{
-        +deliveryOrderRepository
-        +execute(deliveryOrderId, perusahaanId, gudangId, perihal, untukPerhatian, tanggalPengambilan, ttdPurchasing)
-    }
-    class DeleteDeliveryOrderInteractor{
-        +deliveryOrderRepository
-        +execute(deliveryOrderId)
-    }
-    class AddDeliveryOrderInteractor{
-        +deliveryOrderRepository
-        +execute(perusahaanId, gudangId, perihal, untukPerhatian, tanggalPengambilan, ttdPurchasing)
-    }
-    class SendDeliveryOrderInteractor{
-        +deliveryOrderRepository
-        +execute(deliveryOrderId)
-    }
-    class MarkCompleteDeliveryOrderInteractor{
-        +deliveryOrderRepository
-        +execute(deliveryOrderId)
-    }
-    class UploadFotoBuktiDeliveryOrderInteractor{
-        +deliveryOrderRepository
-        +execute(deliveryOrderId, foto)
-    }
-
-    class GetAllPreOrderByDeliveryOrderIdInteractor{
-        +preOrderRepository
-        +execute(deliveryOrderId)
-    }
-    class GetPreOrderByIdInteractor{
-        +preOrderRepository
-        +execute(preOrderId)
-    }
-    class AddPreOrderInteractor{
-        +preOrderRepository
-        +execute(namaMaterial, ukuran, satuan, jumlah, keterangan)
-    }
-    class UpdatePreOrderInteractor{
-        +preOrderRepository
-        +execute(preOrderId, namaMaterial, ukuran, satuan, jumlah, keterangan)
-    }
-    class DeletePreOrderInteractor{
-        +preOrderRepository
-        +execute(preOrderId)
-    }
-
     class GetUserByIdInteractor{
         +userRepository
         +execute(userId)
@@ -716,6 +697,14 @@ header "Use Case Interactor"
         +userRepository
         +execute(userId, oldPin, newPin)
     }
+    class UpdateSuratJalanPengirimanGpInteractor{
+        +suratJalanRepository
+        +execute(suratJalanId, peminjamanId, logisticId, kendaraanId, ttdAdmin)
+    }
+    class UpdateSuratJalanPengembalianInteractor{
+        +suratJalanRepository
+        +execute(suratJalanId, pengembalianId, logisticId, kendaraanId, ttdAdmin)
+    }
     class UploadUserPhotoInteractor{
         +userRepository
         +execute(userId, photo)
@@ -724,7 +713,14 @@ header "Use Case Interactor"
         +userRepository
         +execute(userId, ttd)
     }
-
+    class AddDeliveryOrderInteractor{
+        +deliveryOrderRepository
+        +execute(perusahaanId, gudangId, perihal, untukPerhatian, tanggalPengambilan, ttdPurchasing)
+    }
+    class UpdatePerusahaanInteractor{
+        +perusahaanRepository
+        +execute(perusahaanId, nama, alamat, kota, provinsi, latitude, longitude, foto)
+    }
     class GetDistanceMatrixInteractor{
         +distanceMatrixRepository
         +execute(coordinates)
