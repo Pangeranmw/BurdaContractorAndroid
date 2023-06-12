@@ -8,7 +8,7 @@ class auth.data.source.remote.AuthRemoteDataSource{
     +logout(token): Flow<ApiResponse<ErrorMessageResponse>>
 }
 class auth.domain.usecase.LoginInteractor implements auth.domain.usecase.LoginUseCase{
-    -authRepository: AuthRepository
+    -authRepository: IAuthRepository
     +execute(email, password): Flow<Resource<UserLogin>
 }
 interface auth.domain.usecase.LoginUseCase{
@@ -51,7 +51,7 @@ class auth.data.AuthRepository implements auth.domain.repository.IAuthRepository
 }
 auth.data.AuthRepository -u> auth.data.source.remote.AuthRemoteDataSource
 auth.data.AuthRepository -> auth.data.source.remote.StorageDataSource
-auth.domain.usecase.LoginInteractor --d> auth.data.AuthRepository
+auth.domain.usecase.LoginInteractor --> auth.domain.repository.IAuthRepository
 auth.presentation.AuthViewModel --d> auth.domain.usecase.LoginUseCase
 auth.data.source.remote.AuthRemoteDataSource --d> auth.data.source.remote.network.AuthService
 class auth.presentation.AuthViewModel<HiltViewModel>{

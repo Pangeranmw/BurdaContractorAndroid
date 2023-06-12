@@ -71,7 +71,7 @@ class BurdaFirebaseMessagingService: FirebaseMessagingService() {
         notificationManager.notify(Calendar.getInstance().timeInMillis.toInt(), notificationBuilder.build())
     }
 
-    fun applyImageUrl(
+    private fun applyImageUrl(
         builder: NotificationCompat.Builder,
         imageUrl: String
     ) = runBlocking {
@@ -89,7 +89,7 @@ class BurdaFirebaseMessagingService: FirebaseMessagingService() {
         }
     }
     companion object {
-        private val TAG = "BurdaFirebaseMessagingService"
+        private const val TAG = "BurdaFirebaseMessagingService"
         private const val NOTIFICATION_ID = 0
     }
 

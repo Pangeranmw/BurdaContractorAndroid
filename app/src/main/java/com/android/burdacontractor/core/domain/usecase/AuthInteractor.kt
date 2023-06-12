@@ -1,14 +1,13 @@
 package com.android.burdacontractor.core.domain.usecase
 
-import com.android.burdacontractor.feature.auth.data.source.AuthRepository
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.feature.auth.data.source.remote.response.LoginResponse
 import com.android.burdacontractor.feature.auth.domain.model.UserLogin
+import com.android.burdacontractor.feature.auth.domain.repository.IAuthRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class AuthInteractor @Inject constructor(private val authRepository: AuthRepository):
+class AuthInteractor @Inject constructor(private val authRepository: IAuthRepository):
     AuthUseCase {
 
     override suspend fun register(

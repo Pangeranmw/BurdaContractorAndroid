@@ -1,6 +1,5 @@
 package com.android.burdacontractor.core.data.source.remote
 
-import android.util.Log
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.google.firebase.database.DataSnapshot
@@ -26,7 +25,6 @@ class LogisticRemoteDataSource @Inject constructor(
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if(dataSnapshot.exists()){
-                    Log.d("AHAHAH", dataSnapshot.children.toString())
                     val lat = dataSnapshot.child("latitude").getValue(Double::class.java).toString()
                     val lon = dataSnapshot.child("longitude").getValue(Double::class.java).toString()
                     val logisticCoordinate = LogisticCoordinate(lat.toDouble(), lon.toDouble())
