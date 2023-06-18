@@ -253,6 +253,7 @@
 
 newpage
 header "Use Case Interactor"
+skinparam dpi 900
     interface GetAllSuratJalanUseCase{
         +execute(tipe, status, dateStart, dateEnd, size, search)
     }
@@ -704,9 +705,10 @@ header "Use Case Interactor"
     UpdatePerusahaanInteractor -[hidden]r- GetDistanceMatrixInteractor
     GetDistanceMatrixInteractor -[hidden]r- AddSuratJalanPengembalianInteractor
     AddSuratJalanPengembalianInteractor -[hidden]r- MarkCompleteDeliveryOrderInteractor
-newpage
-header "Api Service"
 
+newpage
+skinparam dpi 900
+header "Api Service"
 
     interface DistanceMatrixService{
         +getDistanceMatrix(coordinates)
@@ -818,6 +820,8 @@ header "Api Service"
 
 newpage
 header "Repository Implementation"
+    skinparam dpi 900
+
     interface IDistanceMatrixRepository{
         +getDistanceMatrix(coordinates)
     }
@@ -985,6 +989,8 @@ header "Repository Implementation"
 
 newpage
 header "Remote Data Source"
+    skinparam dpi 900
+
     class DistanceMatrixRemoteDataSource{
         -distanceMatrixService: DistanceMatrixService
         +getDistanceMatrix(coordinates)
@@ -1096,6 +1102,8 @@ header "Remote Data Source"
     PerusahaanRemoteDataSource -[hidden]u- SuratJalanRemoteDataSource
 newpage
 header "Storage Data Source"
+    skinparam dpi 900
+
     class StorageDataSource{
         -sessionManager: SessionManager
         +loginUser(userId, token, role, ttd)
@@ -1114,6 +1122,8 @@ header "Storage Data Source"
 
 newpage
 header "Session Manager"
+    skinparam dpi 900
+
     class SessionManager {
         -pref: SharedPreferences
         -editor: SharedPreferences.Editor
@@ -1133,6 +1143,8 @@ header "Session Manager"
     }
 newpage
 header "Service"
+    skinparam dpi 900
+
     class FirebaseMessagingService{
         +onNewToken(token)
         +onMessageReceived(message)
@@ -1171,6 +1183,8 @@ header "Service"
     DefaultLocationClient -[hidden]r- LocationService
 newpage
 header "View Model"
+skinparam dpi 900
+
 footer "View Model"
     class SuratJalanViewModel{
         -getAllSuratJalanUseCase: GetAllSuratJalanUseCase

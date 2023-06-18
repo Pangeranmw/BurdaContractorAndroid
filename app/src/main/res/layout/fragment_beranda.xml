@@ -11,14 +11,18 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/sr_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_below="@+id/appBarLayout"
+        android:layout_marginTop="1dp">
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_surat_jalan"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            tools:listitem=""
-            />
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_surat_jalan_delivery_order" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.appbar.AppBarLayout
