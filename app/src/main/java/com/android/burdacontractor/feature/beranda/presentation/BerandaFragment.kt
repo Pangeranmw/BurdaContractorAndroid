@@ -79,9 +79,9 @@ class BerandaFragment : Fragment() {
         initUi()
     }
     private fun initUi(){
-        binding.btnLogout.setOnClickListener {
-            authViewModel.logout()
-        }
+//        binding.btnLogout.setOnClickListener {
+//            authViewModel.logout()
+//        }
     }
     private fun setAdapter(search: String? = null){
 //        if(adapter!=null) adapter.refresh()
@@ -90,7 +90,7 @@ class BerandaFragment : Fragment() {
             mBundle.putString(SuratJalanFragment.SURAT_JALAN_ID, it.id)
             findNavController().navigate(R.id.action_surat_jalan_fragment_to_detailSuratJalanFragment, mBundle)
         }
-        binding.rvSuratJalan.adapter = adapter
+//        binding.rvSuratJalan.adapter = adapter
 //        suratJalanViewModel.getAllSuratJalan(
 //            tipe,
 //            status,

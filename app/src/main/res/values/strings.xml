@@ -37,7 +37,7 @@
     <string name="surat_jalan_pp">Pengiriman Pro-Pro</string>
     <string name="surat_jalan_pengembalian">Pengembalian</string>
     <string name="perusahaan">Perusahaan</string>
-    <string name="see_all">Lihat Semua</string>
+    <string name="see_all">Lihat\nSemua</string>
     <string name="email">Email</string>
     <string name="login">Login</string>
     <string name="placeholder_email">Masukan Email</string>
@@ -81,4 +81,18 @@
     <string name="selesai">Selesai</string>
     <string name="icon_filter">Icon Filter</string>
     <string name="dalam_nperjalanan">Dalam\nPerjalanan</string>
+    <string name="sj_pengiriman_gudang_proyek">Surat Jalan Pengiriman Gudang-Proyek</string>
+    <string name="number_placeholder">20</string>
+    <string name="lihat_semua">Lihat Semua</string>
+    <string name="sj_pengiriman_proyek_proyek">Surat Jalan Pengiriman Proyek-Proyek</string>
+    <string name="sj_pengembalian">Surat Jalan Pengembalian</string>
+    <string name="toggle_menu">toggle menu</string>
+    <string name="sj_dalam_perjalanan">Surat Jalan Sedang Diantarkan</string>
+    <string name="do_dalam_perjalanan">Delivery Order Sedang Diantarkan</string>
+    <string name="purchasing">Purchasing</string>
+    <string name="admin_gudang">Admin Gudang</string>
+    <string name="driver">Driver</string>
+    <string name="supervisor">Supervisor</string>
+    <string name="empty_active_delivery_order">Tidak Ada Delivery Order Aktif</string>
+    <string name="kode_do">Kode Delivery Order</string>
 </resources>

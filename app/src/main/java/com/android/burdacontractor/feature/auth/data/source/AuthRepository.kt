@@ -43,7 +43,7 @@ class AuthRepository @Inject constructor(
             when(val response = authRemoteDataSource.login(email,password,storageDataSource.getDeviceToken()).first()){
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
-                    val user = DataMapper.mapLoginResponsesToDomain(response.data.user)
+                    val user = DataMapper.loginResponsesToDomain(response.data.user)
                     storageDataSource.loginUser(user.id, user.token, user.role, user.ttd.toString())
                     emit(Resource.Success(user))
                 }

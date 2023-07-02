@@ -10,6 +10,7 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.SuratJalanRemoteDataSource
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
+import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetail
 import com.android.burdacontractor.feature.suratjalan.domain.repository.ISuratJalanRepository
 import kotlinx.coroutines.flow.Flow
@@ -37,13 +38,33 @@ class SuratJalanRepository @Inject constructor(
         )
 
     override suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetail>> = flow{
-        when(val response = suratJalanRemoteDataSource.getSuratJalanById(storageDataSource.getToken(), id).first()){
-            is ApiResponse.Empty -> emit(Resource.Loading())
-            is ApiResponse.Success -> {
-                val result = DataMapper.mapSuratJalanDetailResponsesToDomain(response.data.suratJalan)
-                emit(Resource.Success(result))
+        try {
+            emit(Resource.Loading())
+            when(val response = suratJalanRemoteDataSource.getSuratJalanById(storageDataSource.getToken(), id).first()){
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = DataMapper.suratJalanDetailResponsesToDomain(response.data.suratJalan)
+                    emit(Resource.Success(result))
+                }
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
             }
-            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+        } catch (ex: Exception) {
+            emit(Resource.Error(ex.message.toString()))
+        }
+    }
+    override suspend fun getSomeActiveSuratJalan(tipe: SuratJalanTipe, size: Int): Flow<Resource<DataAllSuratJalanWithCount>> = flow{
+        try {
+            emit(Resource.Loading())
+            when(val response = suratJalanRemoteDataSource.getAllSuratJalanWithCount(storageDataSource.getToken(), tipe, size).first()){
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = DataMapper.dataAllSuratJalanWithCountResponsesToDomain(response.data.data!!)
+                    emit(Resource.Success(result))
+                }
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        } catch (ex: Exception) {
+            emit(Resource.Error(ex.message.toString()))
         }
     }
 

@@ -6,9 +6,11 @@ import com.android.burdacontractor.feature.auth.data.source.remote.response.Logi
 import com.android.burdacontractor.feature.auth.domain.model.UserLogin
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.BarangHabisPakaiItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.BarangTidakHabisPakaiItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
+import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetail
 
 object DataMapper {
@@ -19,6 +21,7 @@ object DataMapper {
                 id = it.id,
                 kodeSurat = it.kodeSurat,
                 status = it.status,
+                tipe = it.tipe,
                 namaTempatAsal = it.namaTempatAsal,
                 alamatTempatAsal = it.alamatTempatAsal,
                 coordinateTempatAsal = it.coordinateTempatAsal,
@@ -27,17 +30,27 @@ object DataMapper {
                 namaAdminGudang = it.namaAdminGudang,
                 fotoDriver = it.fotoDriver,
                 coordinateTempatTujuan = it.coordinateTempatTujuan,
-                fotoSupervisor = it.coordinateTempatTujuan,
                 updatedAt = it.updatedAt,
                 fotoProjectManager = it.fotoProjectManager,
                 namaDriver = it.namaDriver,
                 fotoAdminGudang = it.fotoAdminGudang,
                 namaProjectManager = it.namaProjectManager,
-                namaSupervisor = it.namaSupervisor
+                namaSupervisor = it.namaSupervisor,
+                fotoSupervisor = it.fotoSupervisor,
+                namaSupervisorPeminjam = it.namaSupervisorPeminjam,
+                fotoSupervisorPeminjam = it.fotoSupervisorPeminjam,
             )
             allSuratJalanList.add(allSuratJalan)
         }
         return allSuratJalanList
+    }
+    fun dataAllSuratJalanWithCountResponsesToDomain(input: DataAllSuratJalanWithCountItem): DataAllSuratJalanWithCount {
+        val allSuratJalanList = mapAllSuratJalanResponsesToDomain(input.suratJalan!!)
+        val count = input.count
+        return DataAllSuratJalanWithCount(
+            count = count,
+            suratJalan = allSuratJalanList
+        )
     }
     fun mapSjListBarangHabisPakaiToDomain(input: List<BarangHabisPakaiItem>): List<PeminjamanPengembalianBarangHabisPakai>{
         return input.map {
@@ -59,7 +72,7 @@ object DataMapper {
             )
         }
     }
-    fun mapLoginResponsesToDomain(input: LoginItem): UserLogin {
+    fun loginResponsesToDomain(input: LoginItem): UserLogin {
         return UserLogin(
             id = input.id,
             role = input.role,
@@ -73,7 +86,7 @@ object DataMapper {
             updatedAt = input.updatedAt,
         )
     }
-    fun mapSuratJalanDetailResponsesToDomain(input: SuratJalanDetailItem): SuratJalanDetail {
+    fun suratJalanDetailResponsesToDomain(input: SuratJalanDetailItem): SuratJalanDetail {
         return SuratJalanDetail(
             id = input.id,
             kendaraanMerk = input.kendaraan.merk,

@@ -6,6 +6,7 @@ import com.android.burdacontractor.core.data.source.remote.response.ErrorMessage
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
+import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetail
 import kotlinx.coroutines.flow.Flow
 
@@ -21,6 +22,8 @@ interface ISuratJalanRepository {
     ): Flow<PagingData<AllSuratJalan>>
 
     suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetail>>
+
+    suspend fun getSomeActiveSuratJalan(tipe: SuratJalanTipe, size: Int = 5): Flow<Resource<DataAllSuratJalanWithCount>>
 
     suspend fun addSuratJalanPengirimanGp(
         adminGudangId: String,

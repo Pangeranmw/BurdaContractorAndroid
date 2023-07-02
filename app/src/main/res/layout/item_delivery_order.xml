@@ -7,7 +7,6 @@
     android:padding="10dp"
     android:elevation="2dp"
     android:layout_marginBottom="15dp"
-    android:layout_marginEnd="15dp"
     >
 
     <TextView
@@ -27,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/icon_jenis"
-        android:src="@drawable/ic_return_req"
+        android:src="@drawable/ic_delivery_order"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_status"
         app:tint="@color/black"
@@ -41,7 +40,7 @@
         android:layout_marginStart="10dp"
         android:fontFamily="@font/inter_bold"
         android:maxLines="2"
-        android:text="@string/kode_surat"
+        android:text="@string/kode_do"
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_jenis"
@@ -131,13 +130,12 @@
         app:layout_constraintStart_toStartOf="@+id/tv_alamat_tujuan"
         app:layout_constraintTop_toBottomOf="@+id/tv_alamat_tujuan"
         android:layout_marginTop="15dp"
-        android:gravity="center"
         >
         <RelativeLayout
             android:id="@+id/layout_admin_gudang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             >
             <ImageView
                 android:id="@+id/iv_admin_gudang"
@@ -154,9 +152,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="0dp"
                 android:layout_toEndOf="@+id/iv_admin_gudang"
                 android:text="@string/nama_user"
+                android:maxWidth="80dp"
+                android:maxLines="2"
                 android:fontFamily="@font/inter_medium"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
@@ -170,91 +169,7 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/inter_regular"
                 android:layout_toEndOf="@+id/iv_admin_gudang"
-                android:text="@string/role"
-                android:textColor="@color/gray_dark"
-                android:textSize="11sp" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/layout_project_manager"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:visibility="gone"
-            >
-            <ImageView
-                android:id="@+id/iv_project_manager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/unit_project_manager"
-                app:tint="@color/gray_dark"
-                android:layout_centerVertical="true"
-                />
-
-            <TextView
-                android:id="@+id/tv_nama_project_manager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="0dp"
-                android:layout_toEndOf="@+id/iv_project_manager"
-                android:text="@string/nama_user"
-                android:fontFamily="@font/inter_medium"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_role_project_manager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_nama_project_manager"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/inter_regular"
-                android:layout_toEndOf="@+id/iv_project_manager"
-                android:text="@string/role"
-                android:textColor="@color/gray_dark"
-                android:textSize="11sp" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/layout_supervisor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:visibility="gone"
-            >
-            <ImageView
-                android:id="@+id/iv_supervisor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/unit_supervisor"
-                app:tint="@color/gray_dark"
-                android:layout_centerVertical="true"
-                />
-
-            <TextView
-                android:id="@+id/tv_nama_supervisor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="0dp"
-                android:layout_toEndOf="@+id/iv_supervisor"
-                android:text="@string/nama_user"
-                android:fontFamily="@font/inter_medium"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_role_supervisor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_nama_supervisor"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/inter_regular"
-                android:layout_toEndOf="@+id/iv_supervisor"
-                android:text="@string/role"
+                android:text="@string/admin_gudang"
                 android:textColor="@color/gray_dark"
                 android:textSize="11sp" />
         </RelativeLayout>
@@ -263,7 +178,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:visibility="gone"
+            android:visibility="visible"
             >
             <ImageView
                 android:id="@+id/iv_driver"
@@ -280,9 +195,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="0dp"
                 android:layout_toEndOf="@+id/iv_driver"
                 android:text="@string/nama_user"
+                android:maxWidth="80dp"
+                android:maxLines="2"
                 android:fontFamily="@font/inter_medium"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
@@ -296,7 +212,7 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/inter_regular"
                 android:layout_toEndOf="@+id/iv_driver"
-                android:text="@string/role"
+                android:text="@string/driver"
                 android:textColor="@color/gray_dark"
                 android:textSize="11sp" />
         </RelativeLayout>
@@ -305,7 +221,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:visibility="gone"
+            android:visibility="visible"
             >
             <ImageView
                 android:id="@+id/iv_purchasing"
@@ -322,9 +238,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="0dp"
                 android:layout_toEndOf="@+id/iv_purchasing"
                 android:text="@string/nama_user"
+                android:maxWidth="80dp"
+                android:maxLines="2"
                 android:fontFamily="@font/inter_medium"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
@@ -332,13 +249,13 @@
             <TextView
                 android:id="@+id/tv_role_purchasing"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_nama_purchasing"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/iv_purchasing"
                 android:fontFamily="@font/inter_regular"
-                android:text="@string/role"
+                android:text="@string/purchasing"
                 android:textColor="@color/gray_dark"
                 android:textSize="11sp" />
         </RelativeLayout>
@@ -348,11 +265,11 @@
         android:id="@+id/tv_tanggal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tanggal_update"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/inter_regular"
-        android:textSize="12sp"
+        android:text="@string/tanggal_update"
         android:textColor="@color/gray_dark"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_user" />

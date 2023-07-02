@@ -9,6 +9,7 @@ import com.android.burdacontractor.core.data.source.remote.response.ErrorMessage
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanWithCountResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import kotlinx.coroutines.flow.Flow
@@ -39,8 +40,20 @@ class SuratJalanRemoteDataSource @Inject constructor(
         ).flow
     }
 
+    suspend fun getAllSuratJalanWithCount(
+        token: String,
+        tipe: SuratJalanTipe,
+        size: Int = 5,
+    ): Flow<ApiResponse<AllSuratJalanWithCountResponse>> = flow {
+        val response = suratJalanService.getSomeActiveSuratJalan(token, tipe.name, size)
+        if(!response.error){
+            emit(ApiResponse.Success(response))
+        }else{
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
     suspend fun getSuratJalanById(token:String, id: String): Flow<ApiResponse<SuratJalanDetailResponse>> = flow{
-        emit(ApiResponse.Empty)
         val response = suratJalanService.getSuratJalanById(token, id)
         if(!response.error){
             emit(ApiResponse.Success(response))

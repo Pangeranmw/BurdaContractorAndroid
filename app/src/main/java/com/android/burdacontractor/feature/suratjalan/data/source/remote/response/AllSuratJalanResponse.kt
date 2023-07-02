@@ -14,6 +14,11 @@ data class AllSuratJalanResponse(
 	val suratJalan: List<SuratJalanItem>? = null
 )
 data class SuratJalanItem(
+	@field:SerializedName("id")
+	val id: String? = null,
+
+	@field:SerializedName("tipe")
+	val tipe: String? = null,
 
 	@field:SerializedName("alamat_tempat_tujuan")
 	val alamatTempatTujuan: String? = null,
@@ -33,9 +38,6 @@ data class SuratJalanItem(
 	@field:SerializedName("alamat_tempat_asal")
 	val alamatTempatAsal: String? = null,
 
-	@field:SerializedName("foto_supervisor")
-	val fotoSupervisor: String? = null,
-
 	@field:SerializedName("nama_tempat_tujuan")
 	val namaTempatTujuan: String? = null,
 
@@ -54,9 +56,6 @@ data class SuratJalanItem(
 	@field:SerializedName("nama_driver")
 	val namaDriver: String? = null,
 
-	@field:SerializedName("id")
-	val id: String? = null,
-
 	@field:SerializedName("foto_admin_gudang")
 	val fotoAdminGudang: String? = null,
 
@@ -67,5 +66,14 @@ data class SuratJalanItem(
 	val status: String? = null,
 
 	@field:SerializedName("nama_supervisor")
-	val namaSupervisor: String? = null
+	val namaSupervisor: String? = null,
+
+	@field:SerializedName("foto_supervisor")
+	val fotoSupervisor: String? = null,
+
+	@field:SerializedName("nama_supervisor_peminjam")
+	val namaSupervisorPeminjam: String? = null,
+
+	@field:SerializedName("foto_supervisor_peminjam")
+	val fotoSupervisorPeminjam: String? = null,
 )

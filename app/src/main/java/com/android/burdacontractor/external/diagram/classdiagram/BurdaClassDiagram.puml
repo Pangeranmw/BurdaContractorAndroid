@@ -253,7 +253,7 @@
 
 newpage
 header "Use Case Interactor"
-skinparam dpi 900
+skinparam dpi 100
     interface GetAllSuratJalanUseCase{
         +execute(tipe, status, dateStart, dateEnd, size, search)
     }
@@ -707,7 +707,7 @@ skinparam dpi 900
     AddSuratJalanPengembalianInteractor -[hidden]r- MarkCompleteDeliveryOrderInteractor
 
 newpage
-skinparam dpi 900
+skinparam dpi 100
 header "Api Service"
 
     interface DistanceMatrixService{
@@ -820,7 +820,7 @@ header "Api Service"
 
 newpage
 header "Repository Implementation"
-    skinparam dpi 900
+    skinparam dpi 100
 
     interface IDistanceMatrixRepository{
         +getDistanceMatrix(coordinates)
@@ -989,7 +989,7 @@ header "Repository Implementation"
 
 newpage
 header "Remote Data Source"
-    skinparam dpi 900
+    skinparam dpi 100
 
     class DistanceMatrixRemoteDataSource{
         -distanceMatrixService: DistanceMatrixService
@@ -1102,7 +1102,7 @@ header "Remote Data Source"
     PerusahaanRemoteDataSource -[hidden]u- SuratJalanRemoteDataSource
 newpage
 header "Storage Data Source"
-    skinparam dpi 900
+    skinparam dpi 100
 
     class StorageDataSource{
         -sessionManager: SessionManager
@@ -1122,7 +1122,7 @@ header "Storage Data Source"
 
 newpage
 header "Session Manager"
-    skinparam dpi 900
+    skinparam dpi 100
 
     class SessionManager {
         -pref: SharedPreferences
@@ -1143,7 +1143,7 @@ header "Session Manager"
     }
 newpage
 header "Service"
-    skinparam dpi 900
+    skinparam dpi 100
 
     class FirebaseMessagingService{
         +onNewToken(token)
@@ -1183,7 +1183,7 @@ header "Service"
     DefaultLocationClient -[hidden]r- LocationService
 newpage
 header "View Model"
-skinparam dpi 900
+skinparam dpi 100
 
 footer "View Model"
     class SuratJalanViewModel{

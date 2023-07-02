@@ -16,6 +16,8 @@ import com.android.burdacontractor.feature.auth.domain.usecase.LogoutInteractor
 import com.android.burdacontractor.feature.auth.domain.usecase.LogoutUseCase
 import com.android.burdacontractor.feature.auth.domain.usecase.RegisterInteractor
 import com.android.burdacontractor.feature.auth.domain.usecase.RegisterUseCase
+import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSuratJalanInteractor
+import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSuratJalanUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -57,5 +59,9 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideLoginWithPinUseCase(loginWithPinInteractor: LoginWithPinInteractor): LoginWithPinUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetAllSuratJalanUseCase(getAllSuratJalanInteractor: GetAllSuratJalanInteractor): GetAllSuratJalanUseCase
 
 }

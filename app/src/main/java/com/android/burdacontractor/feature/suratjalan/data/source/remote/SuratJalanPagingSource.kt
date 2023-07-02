@@ -2,8 +2,8 @@ package com.android.burdacontractor.feature.suratjalan.data.source.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.allSjToDomain
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 
 class SuratJalanPagingSource(
@@ -22,9 +22,12 @@ class SuratJalanPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AllSuratJalan> {
         return try {
             val page = params.key ?: INITIAL_PAGE_INDEX
-            val responseData = suratJalanService.getAllSuratJalan(
+            val response = suratJalanService.getAllSuratJalan(
                 token, tipe, status, date_start, date_end, page, size, search
-            ).suratJalan!!.allSjToDomain()
+            ).suratJalan!!
+
+            val responseData = DataMapper.mapAllSuratJalanResponsesToDomain(response)
+
             LoadResult.Page(
                 data = responseData,
                 prevKey = if (page == INITIAL_PAGE_INDEX) null else page - 1,

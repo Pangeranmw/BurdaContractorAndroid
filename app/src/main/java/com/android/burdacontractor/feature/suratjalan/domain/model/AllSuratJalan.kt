@@ -8,7 +8,6 @@ data class AllSuratJalan(
     val fotoDriver: String? = null,
     val coordinateTempatTujuan: String? = null,
     val alamatTempatAsal: String? = null,
-    val fotoSupervisor: String? = null,
     val namaTempatTujuan: String? = null,
     val updatedAt: Long? = null,
     val namaTempatAsal: String? = null,
@@ -18,5 +17,9 @@ data class AllSuratJalan(
     val fotoAdminGudang: String? = null,
     val namaProjectManager: String? = null,
     val status: String? = null,
-    val namaSupervisor: String? = null
+    val tipe: String? = null,
+    val namaSupervisor: String? = null,
+    val fotoSupervisor: String? = null,
+    val namaSupervisorPeminjam: String? = null,
+    val fotoSupervisorPeminjam: String? = null,
 )
