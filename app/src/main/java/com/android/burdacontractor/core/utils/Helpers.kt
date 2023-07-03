@@ -21,6 +21,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.android.burdacontractor.BuildConfig
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.source.remote.response.Routes
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
@@ -70,6 +71,19 @@ fun getCoordinate(originCoordinate: String, destinationCoordinate: String): Stri
     val destinationLat = destinationCoordinate.split("|")[0]
     val destinationLon = destinationCoordinate.split("|")[1]
     return "$originLon,$originLat;$destinationLon,$destinationLat"
+}
+
+fun getPhotoUrl(photoUrl: String): String{
+    return if(!photoUrl.contains("http", true)){
+        "${BuildConfig.BASE_URL}/storage/$photoUrl"
+    }else{
+        photoUrl
+    }
+}
+
+fun enumValueToNormal(enumValue: String): String{
+    val result = enumValue.replace("_", " ").lowercase(Locale.ROOT)
+    return result.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
 }
 
 fun View.setGone() {

@@ -18,7 +18,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface SuratJalanService {
-    @FormUrlEncoded
     @GET("surat-jalan/all")
     suspend fun getAllSuratJalan(
         @Header("Authorization") token: String,
@@ -31,7 +30,6 @@ interface SuratJalanService {
         @Query("search") search: String? = null,
     ): AllSuratJalanResponse
 
-    @FormUrlEncoded
     @GET("surat-jalan/active")
     suspend fun getSomeActiveSuratJalan(
         @Header("Authorization") token: String,
@@ -39,7 +37,6 @@ interface SuratJalanService {
         @Query("size") size: Int = 5,
     ): AllSuratJalanWithCountResponse
 
-    @FormUrlEncoded
     @GET("surat-jalan/{id}")
     suspend fun getSuratJalanById(
         @Header("Authorization") token: String,

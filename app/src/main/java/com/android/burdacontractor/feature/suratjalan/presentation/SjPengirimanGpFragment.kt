@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
-import com.android.burdacontractor.core.presentation.adapter.ListSuratJalanAdapter
+import com.android.burdacontractor.core.presentation.adapter.PagingListSuratJalanAdapter
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.databinding.FragmentSjPengirimanGpBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +21,7 @@ class SjPengirimanGpFragment : Fragment() {
     private var _binding: FragmentSjPengirimanGpBinding? = null
     private val binding get() = _binding!!
     private val suratJalanViewModel: SuratJalanViewModel by viewModels()
-    private lateinit var adapter: ListSuratJalanAdapter
+    private lateinit var adapter: PagingListSuratJalanAdapter
 
     private val tipe: SuratJalanTipe = SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK
     private var status: SuratJalanStatus = SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER
@@ -72,7 +72,7 @@ class SjPengirimanGpFragment : Fragment() {
     }
     private fun setAdapter(search: String? = null){
 //        if(adapter!=null) adapter.refresh()
-        adapter = ListSuratJalanAdapter{
+        adapter = PagingListSuratJalanAdapter{
             val mBundle = Bundle()
             mBundle.putString(SuratJalanFragment.SURAT_JALAN_ID, it.id)
             findNavController().navigate(R.id.action_surat_jalan_fragment_to_detailSuratJalanFragment, mBundle)

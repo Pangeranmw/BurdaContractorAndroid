@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class StorageViewModel @Inject constructor(private val storageUseCase: StorageUseCase) : ViewModel() {
+class StorageViewModel @Inject constructor(storageUseCase: StorageUseCase) : ViewModel() {
     val isUserLogin = storageUseCase.isUserLogin()
     val role = storageUseCase.getRole()
     val deviceToken = storageUseCase.getDeviceToken()

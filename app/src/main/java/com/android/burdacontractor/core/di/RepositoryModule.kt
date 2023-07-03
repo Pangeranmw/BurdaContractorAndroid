@@ -8,6 +8,8 @@ import com.android.burdacontractor.core.service.location.DefaultLocationClient
 import com.android.burdacontractor.core.service.location.LocationClient
 import com.android.burdacontractor.feature.auth.data.source.AuthRepository
 import com.android.burdacontractor.feature.auth.domain.repository.IAuthRepository
+import com.android.burdacontractor.feature.profile.data.UserRepository
+import com.android.burdacontractor.feature.profile.domain.repository.IUserRepository
 import com.android.burdacontractor.feature.suratjalan.data.SuratJalanRepository
 import com.android.burdacontractor.feature.suratjalan.domain.repository.ISuratJalanRepository
 import dagger.Binds
@@ -22,6 +24,9 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun provideSuratJalanRepository(suratJalanRepository: SuratJalanRepository): ISuratJalanRepository
+
+    @Binds
+    abstract fun provideUserRepository(userRepository: UserRepository): IUserRepository
 
     @Binds
     abstract fun provideLogisticRepository(logisticRepository: LogisticRepository): ILogisticRepository

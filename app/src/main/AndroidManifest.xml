@@ -56,6 +56,9 @@
             android:name=".feature.suratjalan.presentation.SuratJalanActivity"
             android:exported="true" />
         <activity
+            android:name=".feature.suratjalan.presentation.SuratJalanDetailActivity"
+            android:exported="true" />
+        <activity
             android:name=".feature.auth.presentation.LoginActivity"
             android:exported="true"/>
         <activity

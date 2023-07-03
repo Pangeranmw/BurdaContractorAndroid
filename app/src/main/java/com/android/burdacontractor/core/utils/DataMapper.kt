@@ -2,8 +2,10 @@ package com.android.burdacontractor.core.utils
 
 import com.android.burdacontractor.core.domain.model.PeminjamanPengembalianBarangHabisPakai
 import com.android.burdacontractor.core.domain.model.PeminjamanPengembalianBarangTidakHabisPakai
+import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.feature.auth.data.source.remote.response.LoginItem
 import com.android.burdacontractor.feature.auth.domain.model.UserLogin
+import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.BarangHabisPakaiItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.BarangTidakHabisPakaiItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
@@ -14,6 +16,20 @@ import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJ
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetail
 
 object DataMapper {
+    fun userByTokenResponsesToDomain(input: UserByTokenItem): User {
+        return User(
+            id = input.id!!,
+            nama = input.nama!!,
+            email = input.email!!,
+            foto = input.foto,
+            ttd = input.ttd,
+            noHp = input.noHp,
+            role = input.role!!,
+            deviceToken = input.deviceToken,
+            createdAt = input.createdAt!!,
+            updatedAt = input.updatedAt!!
+        )
+    }
     fun mapAllSuratJalanResponsesToDomain(input: List<SuratJalanItem>): List<AllSuratJalan> {
         val allSuratJalanList = ArrayList<AllSuratJalan>()
         input.map {

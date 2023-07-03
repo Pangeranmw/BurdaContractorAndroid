@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_toggle_menu"
-                android:background="null"
+                android:background="@color/white"
                 android:padding="10dp"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/toggle_menu" />
@@ -45,6 +45,7 @@
                 android:fontFamily="@font/inter_medium"
                 android:text="@string/nama_user" />
             <TextView
+                android:id="@+id/tv_role_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_nama_user"
@@ -96,113 +97,119 @@
                         android:maxWidth="240dp"
                         android:textSize="16sp" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:background="@drawable/semi_rounded_white"
-                        android:padding="10dp"
+                        app:cardElevation="5dp"
+                        app:cardCornerRadius="20dp"
                         android:layout_marginHorizontal="20dp"
+                        android:layout_marginBottom="10dp"
                         >
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/iv_kendaraan"
-                            android:layout_width="100dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/logo_burda"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:scaleType="centerCrop"
-                            tools:src="@tools:sample/backgrounds/scenic"
-                            />
-
-                        <ImageView
-                            android:id="@+id/iv_jenis_kendaraan"
-                            android:layout_width="wrap_content"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_kendaraan"
-                            app:tint="@color/black"
-                            android:layout_marginStart="10dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/tv_plat_kendaraan"
-                            app:layout_constraintStart_toEndOf="@+id/iv_kendaraan"
-                            app:layout_constraintTop_toTopOf="@+id/tv_merk_kendaraan" />
+                            android:padding="10dp"
+                            >
 
-                        <TextView
-                            android:id="@+id/tv_merk_kendaraan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:maxWidth="200dp"
-                            android:layout_toEndOf="@+id/iv_kendaraan"
-                            android:fontFamily="@font/inter_medium"
-                            android:text="@string/kendaraan"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toEndOf="@+id/iv_jenis_kendaraan"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/iv_kendaraan"
+                                android:layout_width="100dp"
+                                android:layout_height="90dp"
+                                android:src="@drawable/logo_burda"
+                                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:scaleType="centerCrop"
+                                tools:src="@tools:sample/backgrounds/scenic"
+                                />
 
-                        <TextView
-                            android:id="@+id/tv_plat_kendaraan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:maxWidth="200dp"
-                            android:layout_toEndOf="@+id/iv_kendaraan"
-                            android:fontFamily="@font/inter_regular"
-                            android:text="@string/kendaraan"
-                            android:textColor="@color/black"
-                            android:layout_marginTop="5dp"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toEndOf="@+id/iv_jenis_kendaraan"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_merk_kendaraan" />
+                            <ImageView
+                                android:id="@+id/iv_jenis_kendaraan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_kendaraan"
+                                app:tint="@color/black"
+                                android:layout_marginStart="10dp"
+                                app:layout_constraintBottom_toBottomOf="@+id/tv_plat_kendaraan"
+                                app:layout_constraintStart_toEndOf="@+id/iv_kendaraan"
+                                app:layout_constraintTop_toTopOf="@+id/tv_merk_kendaraan" />
 
-                        <ImageView
-                            android:id="@+id/iv_gudang_kendaraan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_gudang"
-                            app:tint="@color/black"
-                            android:layout_marginStart="10dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/tv_alamat_kendaraan"
-                            app:layout_constraintStart_toEndOf="@+id/iv_kendaraan"
-                            app:layout_constraintTop_toTopOf="@+id/tv_gudang_kendaraan" />
+                            <TextView
+                                android:id="@+id/tv_merk_kendaraan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:maxWidth="200dp"
+                                android:layout_toEndOf="@+id/iv_kendaraan"
+                                android:fontFamily="@font/inter_medium"
+                                android:text="@string/kendaraan"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toEndOf="@+id/iv_jenis_kendaraan"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/tv_gudang_kendaraan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_toEndOf="@+id/iv_kendaraan"
-                            android:maxWidth="200dp"
-                            android:fontFamily="@font/inter_medium"
-                            android:text="@string/kendaraan"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toTopOf="@+id/tv_alamat_kendaraan"
-                            app:layout_constraintStart_toEndOf="@+id/iv_gudang_kendaraan"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_plat_kendaraan" />
+                            <TextView
+                                android:id="@+id/tv_plat_kendaraan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:maxWidth="200dp"
+                                android:layout_toEndOf="@+id/iv_kendaraan"
+                                android:fontFamily="@font/inter_regular"
+                                android:text="@string/kendaraan"
+                                android:textColor="@color/black"
+                                android:layout_marginTop="5dp"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toEndOf="@+id/iv_jenis_kendaraan"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_merk_kendaraan" />
 
-                        <TextView
-                            android:id="@+id/tv_alamat_kendaraan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_toEndOf="@+id/iv_kendaraan"
-                            android:fontFamily="@font/inter_regular"
-                            android:text="@string/alamat_asal"
-                            android:maxWidth="200dp"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/iv_gudang_kendaraan" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            <ImageView
+                                android:id="@+id/iv_gudang_kendaraan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_gudang"
+                                app:tint="@color/black"
+                                android:layout_marginStart="10dp"
+                                app:layout_constraintBottom_toBottomOf="@+id/tv_alamat_kendaraan"
+                                app:layout_constraintStart_toEndOf="@+id/iv_kendaraan"
+                                app:layout_constraintTop_toTopOf="@+id/tv_gudang_kendaraan" />
+
+                            <TextView
+                                android:id="@+id/tv_gudang_kendaraan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_toEndOf="@+id/iv_kendaraan"
+                                android:maxWidth="200dp"
+                                android:fontFamily="@font/inter_medium"
+                                android:text="@string/kendaraan"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                app:layout_constraintBottom_toTopOf="@+id/tv_alamat_kendaraan"
+                                app:layout_constraintStart_toEndOf="@+id/iv_gudang_kendaraan"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_plat_kendaraan" />
+
+                            <TextView
+                                android:id="@+id/tv_alamat_kendaraan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@+id/iv_kendaraan"
+                                android:fontFamily="@font/inter_regular"
+                                android:text="@string/alamat_asal"
+                                android:maxWidth="200dp"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/iv_gudang_kendaraan" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:id="@+id/layout_sj_dalam_perjalanan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -231,7 +238,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
-                        android:paddingHorizontal="20dp"
+                        android:paddingHorizontal="15dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_surat_jalan" />
                 </LinearLayout>
@@ -265,7 +272,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
-                        android:paddingHorizontal="20dp"
+                        android:paddingHorizontal="15dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_delivery_order" />
                 </LinearLayout>
@@ -325,7 +332,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
-                        android:paddingHorizontal="20dp"
+                        android:paddingHorizontal="15dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_surat_jalan" />
                 </LinearLayout>
@@ -387,7 +394,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
-                        android:paddingHorizontal="20dp"
+                        android:paddingHorizontal="15dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_surat_jalan" />
                 </LinearLayout>
@@ -449,7 +456,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
-                        android:paddingHorizontal="20dp"
+                        android:paddingHorizontal="15dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_surat_jalan" />
                 </LinearLayout>
@@ -510,7 +517,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
-                        android:paddingHorizontal="20dp"
+                        android:paddingHorizontal="15dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_delivery_order"
                         />
