@@ -82,7 +82,7 @@
     <string name="icon_filter">Icon Filter</string>
     <string name="dalam_nperjalanan">Dalam\nPerjalanan</string>
     <string name="sj_pengiriman_gudang_proyek">Surat Jalan Pengiriman Gudang-Proyek</string>
-    <string name="number_placeholder">20</string>
+    <string name="number_placeholder">0</string>
     <string name="lihat_semua">Lihat Semua</string>
     <string name="sj_pengiriman_proyek_proyek">Surat Jalan Pengiriman Proyek-Proyek</string>
     <string name="sj_pengembalian">Surat Jalan Pengembalian</string>

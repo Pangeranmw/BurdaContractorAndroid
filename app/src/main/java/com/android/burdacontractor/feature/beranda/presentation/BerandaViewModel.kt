@@ -45,6 +45,9 @@ class BerandaViewModel @Inject constructor(
 
     init {
         getUserByToken()
+        getSomeActiveSuratJalanUseCase(SuratJalanTipe.PENGEMBALIAN)
+        getSomeActiveSuratJalanUseCase(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
+        getSomeActiveSuratJalanUseCase(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
     }
 
     private fun getUserByToken(){
@@ -71,12 +74,16 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
-                        if(tipe == SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK){
-                            _sjPengirimanGp.value = it.data!!
-                        }else if(tipe == SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK){
-                            _sjPengirimanPp.value = it.data!!
-                        }else{
-                            _sjPengembalian.value = it.data!!
+                        when (tipe) {
+                            SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK -> {
+                                _sjPengirimanGp.value = it.data!!
+                            }
+                            SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK -> {
+                                _sjPengirimanPp.value = it.data!!
+                            }
+                            SuratJalanTipe.PENGEMBALIAN -> {
+                                _sjPengembalian.value = it.data!!
+                            }
                         }
                     }
                     is Resource.Error -> {

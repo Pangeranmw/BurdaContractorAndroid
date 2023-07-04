@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.presentation.LogisticViewModel
@@ -40,12 +41,13 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        snackbar=Snackbar.make(requireActivity().findViewById(android.R.id.content), R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         authViewModel.liveNetworkChecker.observe(viewLifecycleOwner){
-            requireContext().checkConnection(it, binding.root){ initObserver() }
+            requireContext().checkConnection(snackbar,it){ initObserver() }
         }
         initUI()
     }

@@ -7,8 +7,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.model.enums.UserRole
+import com.android.burdacontractor.core.utils.enumValueToNormal
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.databinding.ItemSuratJalanBinding
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
@@ -59,10 +61,21 @@ class ListSuratJalanAdapter : RecyclerView.Adapter<ListSuratJalanAdapter.ListSur
             }
             when(sj.tipe){
                 SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK.name, SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK.name -> {
-                    binding.ivJenis.background = ContextCompat.getDrawable(itemView.context, R.drawable.ic_send_req);
+                    binding.ivJenis.setImageResource(R.drawable.ic_send_req)
                 }
                 SuratJalanTipe.PENGEMBALIAN.name -> {
-                    binding.ivJenis.background = ContextCompat.getDrawable(itemView.context, R.drawable.ic_return_req);
+                    binding.ivJenis.setImageResource(R.drawable.ic_return_req)
+                }
+            }
+            when(sj.status){
+                SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name -> {
+                    binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.orange_dark_full))
+                }
+                SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
+                    binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.red))
+                }
+                SuratJalanStatus.SELESAI.name -> {
+                    binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.secondary_main))
                 }
             }
             with(binding) {
@@ -76,7 +89,7 @@ class ListSuratJalanAdapter : RecyclerView.Adapter<ListSuratJalanAdapter.ListSur
                 tvNamaAdminGudang.text = sj.namaAdminGudang
                 tvNamaAsal.text = sj.namaTempatAsal
                 tvNamaTujuan.text = sj.namaTempatTujuan
-                tvStatus.text = sj.status
+                tvStatus.text = enumValueToNormal(sj.status!!)
                 cvSuratJalan.setOnClickListener {
                     val intent = Intent(it.context, SuratJalanDetailActivity::class.java)
 //                    intent.putExtra(NoteAddUpdateActivity.EXTRA_NOTE, sj)

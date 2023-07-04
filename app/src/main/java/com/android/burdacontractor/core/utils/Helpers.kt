@@ -116,15 +116,13 @@ fun setParcelable(fragment: Fragment, parcelable: Bundle.() -> Unit = {}) {
     bundle.apply(parcelable)
     fragment.arguments = bundle
 }
-fun Context.checkConnection(state: Boolean, layout: View, nextListener: () -> Unit){
-    val snackbar=Snackbar.make(layout, R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
+fun Context.checkConnection(snackbar: Snackbar?, state: Boolean, nextListener: () -> Unit){
     if(!state){
-        snackbar.setBackgroundTint(ContextCompat.getColor(this,R.color.error_color))
-        snackbar.show()
+        snackbar?.setBackgroundTint(ContextCompat.getColor(this,R.color.error_color))
+        snackbar?.show()
     }else{
-        snackbar.setText(R.string.connected)
-        snackbar.setBackgroundTint(ContextCompat.getColor(this,R.color.green_light_full))
-        snackbar.dismiss()
+        snackbar?.setBackgroundTint(ContextCompat.getColor(this,R.color.green_light_full))
+        snackbar?.dismiss()
         nextListener()
     }
 }

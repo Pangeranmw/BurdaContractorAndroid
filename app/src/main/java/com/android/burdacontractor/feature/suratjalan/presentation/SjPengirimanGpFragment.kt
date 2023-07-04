@@ -14,6 +14,7 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.presentation.adapter.PagingListSuratJalanAdapter
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.databinding.FragmentSjPengirimanGpBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +23,7 @@ class SjPengirimanGpFragment : Fragment() {
     private val binding get() = _binding!!
     private val suratJalanViewModel: SuratJalanViewModel by viewModels()
     private lateinit var adapter: PagingListSuratJalanAdapter
+    private var snackbar: Snackbar? = null
 
     private val tipe: SuratJalanTipe = SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK
     private var status: SuratJalanStatus = SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER
@@ -35,14 +37,13 @@ class SjPengirimanGpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSjPengirimanGpBinding.inflate(inflater, container, false)
+        snackbar=Snackbar.make(requireActivity().findViewById(android.R.id.content), R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         suratJalanViewModel.liveNetworkChecker.observe(viewLifecycleOwner){
-            requireActivity().checkConnection(it,binding.root){
-                initObserver()
-            }
+            requireContext().checkConnection(snackbar,it){ initObserver() }
         }
     }
     private fun initObserver(){
