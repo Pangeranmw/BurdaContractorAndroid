@@ -1,6 +1,7 @@
 package com.android.burdacontractor.core.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -21,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
         installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        Log.d("HAHAHA", "${storageViewModel.isUserLogin} ${storageViewModel.userId} ${storageViewModel.deviceToken}  ${storageViewModel.role}")
         if(storageViewModel.isUserLogin){
             openActivity(BerandaActivity::class.java, this)
         }else{

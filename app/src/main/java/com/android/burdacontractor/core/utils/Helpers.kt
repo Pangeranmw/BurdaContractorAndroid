@@ -103,12 +103,12 @@ fun <T> Context.openActivityWithExtras(it: Class<T>, extras: Bundle.() -> Unit =
     startActivity(intent)
     activity.overridePendingTransition(0, 0)
 }
-fun <T> Context.openActivity(it: Class<T>, activity: Activity) {
+fun <T> Context.openActivity(it: Class<T>, activity: Activity , isFinished: Boolean = true) {
     val intent = Intent(this, it)
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     activity.startActivity(intent)
-    activity.finish()
+    if (isFinished) activity.finish()
     activity.overridePendingTransition(0, 0)
 }
 fun setParcelable(fragment: Fragment, parcelable: Bundle.() -> Unit = {}) {

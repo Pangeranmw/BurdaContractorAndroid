@@ -3,16 +3,21 @@ package com.android.burdacontractor.feature.profile.presentation
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.service.location.LocationService
-import com.android.burdacontractor.core.utils.*
+import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.getPhotoUrl
+import com.android.burdacontractor.core.utils.openActivity
+import com.android.burdacontractor.core.utils.setGone
+import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityProfileBinding
 import com.android.burdacontractor.feature.auth.presentation.LoginActivity
 import com.bumptech.glide.Glide
@@ -74,7 +79,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun initUi(){
         binding.btnLogout.setOnClickListener {
             stopService()
-            applicationContext.openActivity(LoginActivity::class.java, this)
+            profileViewModel.logout{ applicationContext.openActivity(LoginActivity::class.java, this) }
         }
         binding.switchTracking.setOnCheckedChangeListener { _, b ->
             if(!b) {

@@ -10,7 +10,6 @@ import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import com.android.burdacontractor.feature.auth.domain.usecase.LoginUseCase
 import com.android.burdacontractor.feature.auth.domain.usecase.LoginWithPinUseCase
-import com.android.burdacontractor.feature.auth.domain.usecase.LogoutUseCase
 import com.android.burdacontractor.feature.auth.domain.usecase.RegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,7 +21,6 @@ class AuthViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val registerUseCase: RegisterUseCase,
     private val loginWithPinUseCase: LoginWithPinUseCase,
-    private val logoutUseCase: LogoutUseCase,
 ) : ViewModel() {
 
     private val _state = MutableLiveData<StateResponse?>()
@@ -93,28 +91,6 @@ class AuthViewModel @Inject constructor(
             }
         }
     }
-
-    fun logout() {
-        viewModelScope.launch {
-            logoutUseCase.execute().collect{
-                when(it){
-                    is Resource.Loading -> _state.value = StateResponse.LOADING
-                    is Resource.Success -> {
-                        _state.value = StateResponse.SUCCESS
-                        val data = it.data
-                        if(data != null){
-                            _messageResponse.value = Event(data.message)
-                        }
-                    }
-                    is Resource.Error -> {
-                        _state.value = StateResponse.ERROR
-                        _messageResponse.value = Event(it.message)
-                    }
-                }
-            }
-        }
-    }
-
 }
 
 

@@ -18,8 +18,7 @@ class SessionManager(context: Context) {
     private var editor: SharedPreferences.Editor = pref.edit()
 
     fun createLoginSession() {
-        editor.putBoolean(KEY_LOGIN, true)
-            .commit()
+        editor.putBoolean(KEY_LOGIN, true).commit()
     }
 
     fun logout() {
