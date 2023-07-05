@@ -22,4 +22,5 @@ class BurdaApp: Application(){
             notificationManager.createNotificationChannel(channel)
         }
     }
+
 }

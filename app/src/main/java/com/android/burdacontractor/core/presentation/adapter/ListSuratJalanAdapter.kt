@@ -11,6 +11,7 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.getTimeDifference
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.databinding.ItemSuratJalanBinding
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
@@ -80,7 +81,7 @@ class ListSuratJalanAdapter : RecyclerView.Adapter<ListSuratJalanAdapter.ListSur
             }
             with(binding) {
                 tvKode.text = sj.kodeSurat
-                tvTanggal.text = sj.updatedAt.toString()
+                tvTanggal.text = itemView.context.getTimeDifference(sj.updatedAt!!)
                 tvAlamatAsal.text = sj.alamatTempatAsal
                 tvAlamatTujuan.text = sj.alamatTempatTujuan
                 tvNamaProjectManager.text = sj.namaProjectManager

@@ -12,6 +12,7 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
+import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetCountActiveSuratJalanUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetSomeActiveSuratJalanUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -50,7 +51,7 @@ class BerandaViewModel @Inject constructor(
         getSomeActiveSuratJalanUseCase(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
     }
 
-    private fun getUserByToken(){
+    fun getUserByToken(){
         viewModelScope.launch {
             getUserByTokenUseCase.execute().collect{
                 when(it){
@@ -67,7 +68,7 @@ class BerandaViewModel @Inject constructor(
         }
     }
 
-    private fun getSomeActiveSuratJalanUseCase(tipe: SuratJalanTipe){
+    fun getSomeActiveSuratJalanUseCase(tipe: SuratJalanTipe){
         viewModelScope.launch {
             getSomeActiveSuratJalanUseCase.execute(tipe).collect{
                 when(it){

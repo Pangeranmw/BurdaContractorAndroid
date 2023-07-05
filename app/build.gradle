@@ -48,6 +48,7 @@ android {
 dependencies {
     // Location Services
     implementation "com.google.android.gms:play-services-location:$play_services_location_version"
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
 
     // Maps
     implementation "org.osmdroid:osmdroid-android:$osmdroid_version"
@@ -68,7 +69,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"

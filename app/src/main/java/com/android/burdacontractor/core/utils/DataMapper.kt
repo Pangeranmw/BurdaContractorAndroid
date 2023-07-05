@@ -1,17 +1,15 @@
 package com.android.burdacontractor.core.utils
 
+import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.domain.model.PeminjamanPengembalianBarangHabisPakai
 import com.android.burdacontractor.core.domain.model.PeminjamanPengembalianBarangTidakHabisPakai
 import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.feature.auth.data.source.remote.response.LoginItem
 import com.android.burdacontractor.feature.auth.domain.model.UserLogin
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.BarangHabisPakaiItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.BarangTidakHabisPakaiItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.*
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
+import com.android.burdacontractor.core.domain.model.CountActive
 import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetail
 
@@ -28,6 +26,11 @@ object DataMapper {
             deviceToken = input.deviceToken,
             createdAt = input.createdAt!!,
             updatedAt = input.updatedAt!!
+        )
+    }
+    fun countActiveResponsesToDomain(input: CountActiveResponse): CountActive {
+        return CountActive(
+            totalActive = input.totalActive,
         )
     }
     fun mapAllSuratJalanResponsesToDomain(input: List<SuratJalanItem>): List<AllSuratJalan> {

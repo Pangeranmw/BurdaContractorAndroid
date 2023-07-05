@@ -10,6 +10,7 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.SuratJalanRemoteDataSource
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
+import com.android.burdacontractor.core.domain.model.CountActive
 import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetail
 import com.android.burdacontractor.feature.suratjalan.domain.repository.ISuratJalanRepository
@@ -59,6 +60,21 @@ class SuratJalanRepository @Inject constructor(
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
                     val result = DataMapper.dataAllSuratJalanWithCountResponsesToDomain(response.data.data!!)
+                    emit(Resource.Success(result))
+                }
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        } catch (ex: Exception) {
+            emit(Resource.Error(ex.message.toString()))
+        }
+    }
+    override suspend fun getCountActiveSuratJalan(): Flow<Resource<CountActive>> = flow{
+        try {
+            emit(Resource.Loading())
+            when(val response = suratJalanRemoteDataSource.getCountActiveSuratJalan(storageDataSource.getToken()).first()){
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = DataMapper.countActiveResponsesToDomain(response.data)
                     emit(Resource.Success(result))
                 }
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))

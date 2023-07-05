@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- permission -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".BurdaApp"
         android:allowBackup="true"
@@ -21,22 +21,24 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <!-- [START fcm_default_icon] -->
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-             See README(https://goo.gl/l4GJaQ) for more. -->
+        <!--
+ Set custom default icon. This is used when no icon is set for incoming notification messages.
+             See README(https://goo.gl/l4GJaQ) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/logo_burda" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/primary_main" />
-        <!-- [END fcm_default_icon] -->
+            android:resource="@color/primary_main" /> <!-- [END fcm_default_icon] -->
         <!-- [START fcm_default_channel] -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_notification_channel_id" />
-        <!-- [END fcm_default_channel] -->
+            android:value="@string/default_notification_channel_id" /> <!-- [END fcm_default_channel] -->
         <activity
             android:name=".feature.deliveryorder.presentation.DeliveryOrderActivity"
             android:exported="true" />
@@ -59,8 +61,11 @@
             android:name=".feature.suratjalan.presentation.SuratJalanDetailActivity"
             android:exported="true" />
         <activity
+            android:name=".feature.profile.presentation.ProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".feature.auth.presentation.LoginActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".core.presentation.SplashActivity"
             android:exported="true">
@@ -71,13 +76,16 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".core.service.fcm.BurdaFirebaseMessagingService"
+        <service
+            android:name=".core.service.fcm.BurdaFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".core.service.location.LocationService" android:foregroundServiceType="location" />
+        <service
+            android:name=".core.service.location.LocationService"
+            android:foregroundServiceType="location" />
     </application>
 
 </manifest>

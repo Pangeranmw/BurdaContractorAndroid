@@ -2,15 +2,15 @@ package com.android.burdacontractor.core.service.location
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.IntentSender
 import android.location.Location
 import android.location.LocationManager
 import android.os.Looper
+import android.widget.Toast
+import androidx.activity.result.IntentSenderRequest
 import com.android.burdacontractor.core.utils.hasLocationPermission
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.Priority
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -38,6 +38,23 @@ class DefaultLocationClient(
             val request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, interval)
                 .setMinUpdateDistanceMeters(1f)
                 .build()
+
+//            val builder = LocationSettingsRequest.Builder()
+//                .addLocationRequest(request)
+//            val clientSetting = LocationServices.getSettingsClient(context)
+//            clientSetting.checkLocationSettings(builder.build())
+//                .addOnSuccessListener {
+////                    getMyLastLocation()
+//                }
+//                .addOnFailureListener { exception ->
+//                    if (exception is ResolvableApiException) {
+//                        try {
+//                            IntentSenderRequest.Builder(exception.resolution).build()
+//                        } catch (sendEx: IntentSender.SendIntentException) {
+//                            Toast.makeText(context, sendEx.message, Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
+//                }
 
             val locationCallback = object : LocationCallback() {
                 override fun onLocationResult(result: LocationResult) {

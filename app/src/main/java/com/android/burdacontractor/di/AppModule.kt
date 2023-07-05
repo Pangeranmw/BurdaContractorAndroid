@@ -18,10 +18,7 @@ import com.android.burdacontractor.feature.auth.domain.usecase.RegisterInteracto
 import com.android.burdacontractor.feature.auth.domain.usecase.RegisterUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenInteractor
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
-import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSuratJalanInteractor
-import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSuratJalanUseCase
-import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetSomeActiveSuratJalanInteractor
-import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetSomeActiveSuratJalanUseCase
+import com.android.burdacontractor.feature.suratjalan.domain.usecase.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -71,6 +68,10 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideGetSomeActiveSuratJalanUseCase(getSomeActiveSuratJalanInteractor: GetSomeActiveSuratJalanInteractor): GetSomeActiveSuratJalanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetCountActiveSuratJalanUseCase(getCountActiveSuratJalanInteractor: GetCountActiveSuratJalanInteractor): GetCountActiveSuratJalanUseCase
 
     @Binds
     @ViewModelScoped

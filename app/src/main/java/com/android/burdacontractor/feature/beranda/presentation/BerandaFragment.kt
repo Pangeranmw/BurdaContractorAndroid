@@ -1,6 +1,9 @@
 package com.android.burdacontractor.feature.beranda.presentation
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.adapter.ListSuratJalanAdapter
-import com.android.burdacontractor.core.utils.checkConnection
-import com.android.burdacontractor.core.utils.enumValueToNormal
-import com.android.burdacontractor.core.utils.getPhotoUrl
-import com.android.burdacontractor.core.utils.setGone
-import com.android.burdacontractor.core.utils.setVisible
+import com.android.burdacontractor.core.utils.*
 import com.android.burdacontractor.databinding.FragmentBerandaBinding
+import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanDetailActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
@@ -71,12 +74,7 @@ class BerandaFragment : Fragment() {
                 StateResponse.ERROR -> binding.progressBar.setGone()
                 StateResponse.SUCCESS -> {
                     binding.progressBar.setGone()
-                    // Logout
-//                    Intent(requireActivity(), LocationService::class.java).apply {
-//                        action = LocationService.ACTION_STOP
-//                        requireActivity().stopService(this)
-//                    }
-//                    requireActivity().openActivity(LoginActivity::class.java, requireActivity())
+                    binding.srLayout.isRefreshing = false
                 }
                 else -> {}
             }
@@ -95,24 +93,24 @@ class BerandaFragment : Fragment() {
             initLayout(user)
             berandaViewModel.sjPengembalian.observe(viewLifecycleOwner){sjPengembalian->
                 initAdapterSjPengembalian()
-                adapterSjPengembalian.setListSuratJalan(sjPengembalian.suratJalan!!, user.role)
+                adapterSjPengembalian.setListSuratJalan(sjPengembalian.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
                 binding.tvCountSjPengembalian.text = sjPengembalian.count.toString()
                 if(sjPengembalian.count!!>0) binding.tvCountSjPengembalian.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
             }
             berandaViewModel.sjPengirimanGp.observe(viewLifecycleOwner){sjPengirimanGp->
                 initAdapterSjPengirimanGp()
-                adapterSjPengirimanGp.setListSuratJalan(sjPengirimanGp.suratJalan!!, user.role)
+                adapterSjPengirimanGp.setListSuratJalan(sjPengirimanGp.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
                 binding.tvCountSjPengirimanGp.text = sjPengirimanGp.count.toString()
                 if(sjPengirimanGp.count!!>0) binding.tvCountSjPengirimanGp.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
             }
             berandaViewModel.sjPengirimanPp.observe(viewLifecycleOwner){sjPengirimanPp->
                 initAdapterSjPengirimanPp()
-                adapterSjPengirimanPp.setListSuratJalan(sjPengirimanPp.suratJalan!!, user.role)
+                adapterSjPengirimanPp.setListSuratJalan(sjPengirimanPp.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
                 binding.tvCountSjPengirimanPp.text = sjPengirimanPp.count.toString()
                 if(sjPengirimanPp.count!!>0) binding.tvCountSjPengirimanPp.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
             }
 //            berandaViewModel.deliveryOrder.observe(viewLifecycleOwner){deliveryOrder->
-//                adapterDeliveryOrder.setListDeliveryOrder(deliveryOrder.suratJalan!!, user.role)
+//                adapterDeliveryOrder.setListDeliveryOrder(deliveryOrder.suratJalan!!,.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name} user.role)
 //                binding.tvCountDeliveryOrder.text = deliveryOrder.count.toString()
 //            }
         }
@@ -127,6 +125,9 @@ class BerandaFragment : Fragment() {
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(binding.ivUser)
+        }
+        binding.ivUser.setOnClickListener{
+            requireContext().openActivity(ProfileActivity::class.java,requireActivity())
         }
     }
     private fun initLayout(user: User){
@@ -162,41 +163,47 @@ class BerandaFragment : Fragment() {
     }
     private fun initAdapterDeliveryOrder(){
         adapterDeliveryOrder = ListSuratJalanAdapter()
-        binding.rvDeliveryOrder.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvDeliveryOrder.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvDeliveryOrder.setHasFixedSize(true)
         binding.rvDeliveryOrder.adapter = adapterDeliveryOrder
     }
     private fun initAdapterSjPengirimanPp(){
         adapterSjPengirimanPp = ListSuratJalanAdapter()
-        binding.rvSjPengirimanPp.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvSjPengirimanPp.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvSjPengirimanPp.setHasFixedSize(true)
         binding.rvSjPengirimanPp.adapter = adapterSjPengirimanPp
     }
     private fun initAdapterDoDalamPerjalanan(){
         adapterDoDalamPerjalanan = ListSuratJalanAdapter()
-        binding.rvDoDalamPerjalanan.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvDoDalamPerjalanan.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvDoDalamPerjalanan.setHasFixedSize(true)
         binding.rvDoDalamPerjalanan.adapter = adapterDoDalamPerjalanan
     }
     private fun initAdapterSjDalamPerjalanan(){
         adapterSjDalamPerjalanan = ListSuratJalanAdapter()
-        binding.rvSjDalamPerjalanan.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvSjDalamPerjalanan.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvSjDalamPerjalanan.setHasFixedSize(true)
         binding.rvSjDalamPerjalanan.adapter = adapterSjDalamPerjalanan
     }
     private fun initAdapterSjPengembalian(){
         adapterSjPengembalian = ListSuratJalanAdapter()
-        binding.rvSjPengembalian.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvSjPengembalian.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvSjPengembalian.setHasFixedSize(true)
         binding.rvSjPengembalian.adapter = adapterSjPengembalian
     }
     private fun initAdapterSjPengirimanGp(){
         adapterSjPengirimanGp = ListSuratJalanAdapter()
-        binding.rvSjPengirimanGp.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvSjPengirimanGp.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvSjPengirimanGp.setHasFixedSize(true)
         binding.rvSjPengirimanGp.adapter = adapterSjPengirimanGp
     }
     private fun initUi(){
+        binding.srLayout.setOnRefreshListener {
+            berandaViewModel.getSomeActiveSuratJalanUseCase(SuratJalanTipe.PENGEMBALIAN)
+            berandaViewModel.getSomeActiveSuratJalanUseCase(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
+            berandaViewModel.getSomeActiveSuratJalanUseCase(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
+            berandaViewModel.getUserByToken()
+        }
 //        adapter = NoteAdapter()
 //
 //        binding?.rvNotes?.layoutManager = LinearLayoutManager(this)

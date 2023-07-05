@@ -20,6 +20,7 @@ import com.android.burdacontractor.feature.deliveryorder.presentation.DeliveryOr
 import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.PerusahaanActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.BottomNavigationViewModel
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanActivity
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +30,7 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
     private lateinit var binding: ActivityBerandaBinding
     private lateinit var layout: View
     private val storageViewModel: StorageViewModel by viewModels()
+    private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBerandaBinding.inflate(layoutInflater)
@@ -44,6 +46,7 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
             UserRole.PROJECT_MANAGER.name, UserRole.SUPERVISOR.name ->
                 setBottomNavigationMenu(R.menu.bottom_menu_sv_pm, R.id.beranda_sv_pm)
         }
+        initBadge()
         startService()
         setContentView(binding.root)
     }
@@ -51,6 +54,21 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
         binding.berandaBottomNavigation.inflateMenu(menu)
         binding.berandaBottomNavigation.menu.findItem(item).isChecked = true
         binding.berandaBottomNavigation.setOnItemSelectedListener(this)
+    }
+    private fun initBadge(){
+        bottomNavigationViewModel.totalActiveSuratJalan.observe(this){
+            val badgeSjAdminGudang = binding.berandaBottomNavigation.getOrCreateBadge(R.id.surat_jalan_admin_gudang)
+            badgeSjAdminGudang.isVisible = true
+            badgeSjAdminGudang.number = it
+
+            val badgeSjSvPm = binding.berandaBottomNavigation.getOrCreateBadge(R.id.surat_jalan_sv_pm)
+            badgeSjSvPm.isVisible = true
+            badgeSjSvPm.number = it
+
+            val badgeSjLogistic = binding.berandaBottomNavigation.getOrCreateBadge(R.id.surat_jalan_logistic)
+            badgeSjLogistic.isVisible = true
+            badgeSjLogistic.number = it
+        }
     }
     private val requestPermissionLauncher =
         registerForActivityResult(

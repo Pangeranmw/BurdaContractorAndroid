@@ -318,19 +318,30 @@ fun Context.getTimeDifference(millis: Long): String{
     val currentLocale = this.resources.configuration.locales.get(0)
 
     val currentDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", currentLocale)
-    val diff = currentDate.calendar.time.toString().toLong() - millis
+
+//    val curMil = currentDate.calendar.timeInMillis
+    val curMil = System.currentTimeMillis()
+    val diff = if(millis>curMil) millis - curMil else curMil - millis
 
     val seconds = diff / 1000
     val minutes = seconds / 60
     val hours = minutes / 60
     val days = hours / 24
-    return when{
-        days>0 -> "${days.toInt()} hari yang lalu"
-        hours>0 -> "${hours.toInt()} jam yang lalu"
-        minutes>0 -> "${minutes.toInt()} menit yang lalu"
-        seconds>0 -> "${seconds.toInt()} detik yang lalu"
-        else -> "$seconds detik yang lalu"
+    val week = days / 7
+    val month = week / 4
+    val year = month / 12
+    var result = when{
+        year>0 -> "${year.toInt()} tahun yang"
+        month>0 -> "${month.toInt()} bulan yang"
+        week>0 -> "${week.toInt()} minggu yang"
+        days>0 -> "${days.toInt()} hari yang"
+        hours>0 -> "${hours.toInt()} jam yang"
+        minutes>0 -> "${minutes.toInt()} menit yang"
+        seconds>0 -> "${seconds.toInt()} detik yang"
+        else -> "$seconds detik yang"
     }
+    result += if(millis>curMil) " akan datang" else " lalu"
+    return result
 }
 
 fun getDateFromMillis(millis: Long, dateFormat: String? = null): String{

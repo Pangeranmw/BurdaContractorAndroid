@@ -10,6 +10,7 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanWithCountResponse
+import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import kotlinx.coroutines.flow.Flow
@@ -46,6 +47,17 @@ class SuratJalanRemoteDataSource @Inject constructor(
         size: Int = 5,
     ): Flow<ApiResponse<AllSuratJalanWithCountResponse>> = flow {
         val response = suratJalanService.getSomeActiveSuratJalan(token, tipe.name, size)
+        if(!response.error){
+            emit(ApiResponse.Success(response))
+        }else{
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
+    suspend fun getCountActiveSuratJalan(
+        token: String,
+    ): Flow<ApiResponse<CountActiveResponse>> = flow {
+        val response = suratJalanService.getCountActiveSuratJalan(token)
         if(!response.error){
             emit(ApiResponse.Success(response))
         }else{

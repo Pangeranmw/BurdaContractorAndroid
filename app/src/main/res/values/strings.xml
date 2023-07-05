@@ -95,4 +95,8 @@
     <string name="supervisor">Supervisor</string>
     <string name="empty_active_delivery_order">Tidak Ada Delivery Order Aktif</string>
     <string name="kode_do">Kode Delivery Order</string>
+    <string name="profile">Profile</string>
+    <string name="keluar">Keluar</string>
+    <string name="tracking_lokasi_aktif">Tracking Lokasi Aktif</string>
+    <string name="tracking_lokasi_tidak_aktif">Tracking Lokasi Tidak Aktif</string>
 </resources>
