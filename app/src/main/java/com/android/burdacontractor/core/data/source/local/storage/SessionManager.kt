@@ -17,25 +17,24 @@ class SessionManager(context: Context) {
     private var pref: SharedPreferences = context.getSharedPreferences("Session", Context.MODE_PRIVATE)
     private var editor: SharedPreferences.Editor = pref.edit()
 
-    fun createLoginSession() {
-        editor.putBoolean(KEY_LOGIN, true).commit()
+    fun createLoginSession(isLogin: Boolean) {
+        editor.putBoolean(KEY_LOGIN, isLogin).commit()
     }
 
     fun logout() {
+//        editor.putBoolean(KEY_LOGIN, false)
         editor.remove(KEY_USER_ID)
         editor.remove(KEY_TOKEN)
-        editor.remove(KEY_LOGIN)
         editor.remove(KEY_ROLE)
         editor.remove(KEY_LATITUDE)
         editor.remove(KEY_LONGITUDE)
         editor.remove(KEY_TTD)
-        editor.apply()
+        editor.remove(KEY_LOGIN)
 //        editor.clear()
-//        editor.commit()
+        editor.apply()
     }
 
     val isLogin: Boolean = pref.getBoolean(KEY_LOGIN, false)
-
     fun saveToPreference(key: String, value: String) = editor.putString(key, value).commit()
 
     fun getFromPreference(key: String) = pref.getString(key, "")

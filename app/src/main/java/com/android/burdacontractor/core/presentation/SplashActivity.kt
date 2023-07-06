@@ -22,15 +22,12 @@ class SplashActivity : AppCompatActivity() {
         installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d("HAHAHA", "${storageViewModel.isUserLogin} ${storageViewModel.userId} ${storageViewModel.deviceToken}  ${storageViewModel.role}")
-        if(storageViewModel.isUserLogin){
+
+        if(storageViewModel.userId.isNotBlank()){
             openActivity(BerandaActivity::class.java, this)
         }else{
             openActivity(LoginActivity::class.java, this)
         }
-    }
-    companion object{
-        private const val TAG = "MainActivity"
     }
 
 }

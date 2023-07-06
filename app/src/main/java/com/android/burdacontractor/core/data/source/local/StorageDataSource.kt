@@ -8,7 +8,6 @@ import javax.inject.Singleton
 class StorageDataSource @Inject constructor(private val sessionManager: SessionManager) {
 
     fun loginUser(userId: String, token: String, role: String, ttd: String) {
-        sessionManager.createLoginSession()
         sessionManager.saveToPreference(SessionManager.KEY_USER_ID, userId)
         sessionManager.saveToPreference(SessionManager.KEY_ROLE, role)
         sessionManager.saveToPreference(SessionManager.KEY_TTD, ttd)

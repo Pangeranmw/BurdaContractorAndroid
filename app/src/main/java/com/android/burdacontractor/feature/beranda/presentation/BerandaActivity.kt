@@ -37,7 +37,6 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
         binding = ActivityBerandaBinding.inflate(layoutInflater)
         layout = binding.mainLayout
         binding.berandaBottomNavigation.menu.clear()
-                Log.d("hahah", "${storageViewModel.isUserLogin} ${storageViewModel.userId} ${storageViewModel.deviceToken}  ${storageViewModel.role}")
         when(storageViewModel.role){
             UserRole.ADMIN_GUDANG.name, UserRole.ADMIN.name ->
                 setBottomNavigationMenu(R.menu.bottom_menu_admingudang, R.id.beranda_admin_gudang)
