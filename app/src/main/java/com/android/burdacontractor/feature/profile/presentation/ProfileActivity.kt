@@ -77,6 +77,9 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
     private fun initUi(){
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
         binding.btnLogout.setOnClickListener {
             stopService()
             profileViewModel.logout{ applicationContext.openActivity(LoginActivity::class.java, this) }

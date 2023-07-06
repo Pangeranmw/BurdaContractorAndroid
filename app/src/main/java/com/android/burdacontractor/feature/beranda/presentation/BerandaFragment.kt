@@ -1,27 +1,28 @@
 package com.android.burdacontractor.feature.beranda.presentation
 
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.User
+import com.android.burdacontractor.core.domain.model.enums.JenisKendaraan
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.adapter.ListSuratJalanAdapter
-import com.android.burdacontractor.core.utils.*
+import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.getPhotoUrl
+import com.android.burdacontractor.core.utils.openActivity
+import com.android.burdacontractor.core.utils.setGone
+import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.FragmentBerandaBinding
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
-import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanDetailActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
@@ -95,19 +96,54 @@ class BerandaFragment : Fragment() {
                 initAdapterSjPengembalian()
                 adapterSjPengembalian.setListSuratJalan(sjPengembalian.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
                 binding.tvCountSjPengembalian.text = sjPengembalian.count.toString()
-                if(sjPengembalian.count!!>0) binding.tvCountSjPengembalian.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
+                if(sjPengembalian.count!!>0){
+                    binding.btnSeeAllSjPengembalian.setVisible()
+                    binding.tvCountSjPengembalian.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
+                }
             }
             berandaViewModel.sjPengirimanGp.observe(viewLifecycleOwner){sjPengirimanGp->
                 initAdapterSjPengirimanGp()
                 adapterSjPengirimanGp.setListSuratJalan(sjPengirimanGp.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
                 binding.tvCountSjPengirimanGp.text = sjPengirimanGp.count.toString()
-                if(sjPengirimanGp.count!!>0) binding.tvCountSjPengirimanGp.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
+                if(sjPengirimanGp.count!!>0){
+                    binding.btnSeeAllSjPengirimanGp.setVisible()
+                    binding.tvCountSjPengirimanGp.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
+                }
             }
             berandaViewModel.sjPengirimanPp.observe(viewLifecycleOwner){sjPengirimanPp->
                 initAdapterSjPengirimanPp()
                 adapterSjPengirimanPp.setListSuratJalan(sjPengirimanPp.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
                 binding.tvCountSjPengirimanPp.text = sjPengirimanPp.count.toString()
-                if(sjPengirimanPp.count!!>0) binding.tvCountSjPengirimanPp.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
+                if(sjPengirimanPp.count!!>0){
+                    binding.btnSeeAllSjPengirimanPp.setVisible()
+                    binding.tvCountSjPengirimanPp.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
+                }
+            }
+            berandaViewModel.kendaraanByLogistic.observe(viewLifecycleOwner){
+                if(it==null) {
+                    binding.cvKendaraan.setGone()
+                    binding.tvEmptyKendaraan.setVisible()
+                }else{
+                    binding.tvEmptyKendaraan.setGone()
+                    binding.cvKendaraan.setVisible()
+                    binding.tvGudangKendaraan.text = it.namaGudang
+                    binding.tvAlamatKendaraan.text = it.alamatGudang
+                    binding.tvMerkKendaraan.text = it.merk
+                    binding.tvPlatKendaraan.text = it.platNomor
+                    Glide.with(this)
+                        .load(getPhotoUrl(it.gambar))
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(binding.ivKendaraan)
+                    when(it.jenis){
+                        JenisKendaraan.MINIBUS.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_minibus)
+                        JenisKendaraan.MOBIL.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_car)
+                        JenisKendaraan.MOTOR.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_motorcycle)
+                        JenisKendaraan.PICKUP.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_truck_pickup)
+                        JenisKendaraan.TRONTON.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_truck_tronton)
+                        JenisKendaraan.TRUCK.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_truck_box)
+                    }
+                }
             }
 //            berandaViewModel.deliveryOrder.observe(viewLifecycleOwner){deliveryOrder->
 //                adapterDeliveryOrder.setListDeliveryOrder(deliveryOrder.suratJalan!!,.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name} user.role)
@@ -127,7 +163,7 @@ class BerandaFragment : Fragment() {
                 .into(binding.ivUser)
         }
         binding.ivUser.setOnClickListener{
-            requireContext().openActivity(ProfileActivity::class.java,requireActivity())
+            requireContext().openActivity(ProfileActivity::class.java,requireActivity(), false)
         }
     }
     private fun initLayout(user: User){
@@ -199,20 +235,12 @@ class BerandaFragment : Fragment() {
     }
     private fun initUi(){
         binding.srLayout.setOnRefreshListener {
-            berandaViewModel.getSomeActiveSuratJalanUseCase(SuratJalanTipe.PENGEMBALIAN)
-            berandaViewModel.getSomeActiveSuratJalanUseCase(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
-            berandaViewModel.getSomeActiveSuratJalanUseCase(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
+            berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGEMBALIAN)
+            berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
+            berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
             berandaViewModel.getUserByToken()
+            berandaViewModel.getKendaraanByLogistic()
         }
-//        adapter = NoteAdapter()
-//
-//        binding?.rvNotes?.layoutManager = LinearLayoutManager(this)
-//        binding?.rvNotes?.setHasFixedSize(true)
-//        binding?.rvNotes?.adapter = adapter
-
-//        binding.btnLogout.setOnClickListener {
-//            authViewModel.logout()
-//        }
     }
     private fun setAdapter(search: String? = null){
 //        binding.rvSuratJalan.adapter = adapter

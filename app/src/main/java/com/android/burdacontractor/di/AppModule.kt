@@ -16,6 +16,8 @@ import com.android.burdacontractor.feature.auth.domain.usecase.LogoutInteractor
 import com.android.burdacontractor.feature.auth.domain.usecase.LogoutUseCase
 import com.android.burdacontractor.feature.auth.domain.usecase.RegisterInteractor
 import com.android.burdacontractor.feature.auth.domain.usecase.RegisterUseCase
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticInteractor
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenInteractor
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.*
@@ -76,5 +78,9 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideGetUserByTokenUseCase(getUserByTokenInteractor: GetUserByTokenInteractor): GetUserByTokenUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetKendaraanByLogisticUseCase(getKendaraanByLogisticInteractor: GetKendaraanByLogisticInteractor): GetKendaraanByLogisticUseCase
 
 }

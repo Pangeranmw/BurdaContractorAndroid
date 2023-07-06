@@ -7,12 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import dagger.hilt.android.AndroidEntryPoint
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.LogisticRepository
 import com.android.burdacontractor.core.data.StorageRepository
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.android.burdacontractor.core.domain.model.enums.UserRole
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -78,11 +78,14 @@ class LocationService: Service() {
 //                currentLocation.emit(location)
                 val lat = location.latitude.toString()
                 val long = location.longitude.toString()
+                val bearing = location.longitude
+                val accuracy = location.accuracy.toDouble()
+                val speed = location.speed.toDouble()
                 val updatedNotification = notification.setContentText(
                     "Location: ($lat, $long)"
                 )
                 if(userRole==UserRole.LOGISTIC.name){
-                    val logisticCoordinate = LogisticCoordinate(lat.toDouble(),long.toDouble())
+                    val logisticCoordinate = LogisticCoordinate(lat.toDouble(),long.toDouble(),bearing,speed,accuracy)
                     logisticRepository.setCoordinate(userId, logisticCoordinate)
                 }
                 storageRepository.setCoordinate(lat,long)

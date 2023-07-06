@@ -94,7 +94,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginBottom="15dp"
                         android:fontFamily="@font/inter_bold"
                         android:text="@string/kendaraan"
                         android:textColor="@color/black"
@@ -102,11 +101,13 @@
                         android:textSize="16sp" />
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_kendaraan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardElevation="5dp"
                         app:cardCornerRadius="20dp"
                         android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         >
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -130,10 +131,9 @@
 
                             <ImageView
                                 android:id="@+id/iv_jenis_kendaraan"
-                                android:layout_width="wrap_content"
+                                android:layout_width="24dp"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/ic_kendaraan"
-                                app:tint="@color/black"
+                                android:src="@drawable/vehicle_car"
                                 android:layout_marginStart="10dp"
                                 app:layout_constraintBottom_toBottomOf="@+id/tv_plat_kendaraan"
                                 app:layout_constraintStart_toEndOf="@+id/iv_kendaraan"
@@ -163,14 +163,14 @@
                                 android:fontFamily="@font/inter_regular"
                                 android:text="@string/kendaraan"
                                 android:textColor="@color/black"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="2dp"
                                 android:textSize="12sp"
                                 app:layout_constraintStart_toEndOf="@+id/iv_jenis_kendaraan"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_merk_kendaraan" />
 
                             <ImageView
                                 android:id="@+id/iv_gudang_kendaraan"
-                                android:layout_width="wrap_content"
+                                android:layout_width="24dp"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_gudang"
                                 app:tint="@color/black"
@@ -184,7 +184,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
-                                android:layout_marginBottom="5dp"
+                                android:layout_marginBottom="2dp"
                                 android:layout_marginTop="10dp"
                                 android:layout_toEndOf="@+id/iv_kendaraan"
                                 android:maxWidth="200dp"
@@ -204,6 +204,7 @@
                                 android:layout_toEndOf="@+id/iv_kendaraan"
                                 android:fontFamily="@font/inter_regular"
                                 android:text="@string/alamat_asal"
+                                android:maxLines="2"
                                 android:maxWidth="200dp"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
@@ -211,6 +212,18 @@
                                 app:layout_constraintStart_toEndOf="@+id/iv_gudang_kendaraan" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/tv_empty_kendaraan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/inter_semi_bold"
+                        android:text="@string/empty_active_kendaraan"
+                        android:textColor="@color/red"
+                        android:layout_gravity="center"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginTop="10dp"
@@ -234,15 +247,18 @@
                             android:textColor="@color/black"
                             android:textSize="16sp" />
                     </RelativeLayout>
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_sj_dalam_perjalanan"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:paddingHorizontal="15dp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="1"
-                        tools:listitem="@layout/item_surat_jalan" />
+                        android:layout_height="wrap_content">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_sj_dalam_perjalanan"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:paddingHorizontal="15dp"
+                            tools:itemCount="1"
+                            tools:listitem="@layout/item_surat_jalan" />
+                    </RelativeLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginTop="20dp"
@@ -267,18 +283,18 @@
                             android:textColor="@color/black"
                             android:textSize="16sp" />
                     </RelativeLayout>
-
-
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_do_dalam_perjalanan"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
                             android:paddingHorizontal="15dp"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="1"
                             tools:listitem="@layout/item_delivery_order" />
-
+                    </RelativeLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginTop="20dp"
@@ -321,6 +337,7 @@
 
                         <Button
                             android:id="@+id/btn_see_all_sj_pengiriman_gp"
+                            android:visibility="gone"
                             style="@style/ButtonSeeAll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -329,18 +346,18 @@
                             android:layout_centerVertical="true"
                             android:textSize="12sp" />
                     </RelativeLayout>
-
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_sj_pengiriman_gp"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:paddingHorizontal="15dp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="1"
-                        tools:listitem="@layout/item_surat_jalan" />
-
+                        android:layout_height="wrap_content">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_sj_pengiriman_gp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:paddingHorizontal="15dp"
+                            tools:itemCount="1"
+                            tools:listitem="@layout/item_surat_jalan" />
+                    </RelativeLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -385,6 +402,7 @@
 
                         <Button
                             android:id="@+id/btn_see_all_sj_pengiriman_pp"
+                            android:visibility="gone"
                             style="@style/ButtonSeeAll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -393,18 +411,18 @@
                             android:layout_centerVertical="true"
                             android:textSize="12sp" />
                     </RelativeLayout>
-
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_sj_pengiriman_pp"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:paddingHorizontal="15dp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="1"
-                        tools:listitem="@layout/item_surat_jalan" />
-
+                        android:layout_height="wrap_content">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_sj_pengiriman_pp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:paddingHorizontal="15dp"
+                            tools:itemCount="1"
+                            tools:listitem="@layout/item_surat_jalan" />
+                    </RelativeLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -414,7 +432,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     >
-
                     <RelativeLayout
                         android:id="@+id/top_layout_sj_pengembalian"
                         android:paddingHorizontal="20dp"
@@ -449,6 +466,7 @@
 
                         <Button
                             android:id="@+id/btn_see_all_sj_pengembalian"
+                            android:visibility="gone"
                             style="@style/ButtonSeeAll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -457,15 +475,19 @@
                             android:layout_centerVertical="true"
                             android:textSize="12sp" />
                     </RelativeLayout>
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_sj_pengembalian"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:paddingHorizontal="15dp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="1"
-                        tools:listitem="@layout/item_surat_jalan" />
+                        android:layout_height="wrap_content">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_sj_pengembalian"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:paddingHorizontal="15dp"
+                            tools:itemCount="1"
+                            tools:listitem="@layout/item_surat_jalan" />
+                    </RelativeLayout>
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginTop="20dp"
@@ -480,7 +502,6 @@
                         android:paddingHorizontal="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-
                         <TextView
                             android:id="@+id/tv_count_delivery_order"
                             android:layout_width="wrap_content"
@@ -509,6 +530,7 @@
 
                         <Button
                             android:id="@+id/btn_see_all_delivery_order"
+                            android:visibility="gone"
                             style="@style/ButtonSeeAll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -517,18 +539,19 @@
                             android:layout_centerVertical="true"
                             android:textSize="12sp" />
                     </RelativeLayout>
-
-
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_delivery_order"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
                         android:paddingHorizontal="15dp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="1"
                         tools:listitem="@layout/item_delivery_order"
                         />
+                    </RelativeLayout>
 
                     <TextView
                         android:id="@+id/tv_empty_delivery_order"

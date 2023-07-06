@@ -1,15 +1,21 @@
 package com.android.burdacontractor.core.utils
 
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
+import com.android.burdacontractor.core.domain.model.CountActive
 import com.android.burdacontractor.core.domain.model.PeminjamanPengembalianBarangHabisPakai
 import com.android.burdacontractor.core.domain.model.PeminjamanPengembalianBarangTidakHabisPakai
 import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.feature.auth.data.source.remote.response.LoginItem
 import com.android.burdacontractor.feature.auth.domain.model.UserLogin
+import com.android.burdacontractor.feature.kendaraan.data.source.remote.response.KendaraanByLogisticItem
+import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanByLogistic
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.*
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.BarangHabisPakaiItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.BarangTidakHabisPakaiItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
-import com.android.burdacontractor.core.domain.model.CountActive
 import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetail
 
@@ -31,6 +37,21 @@ object DataMapper {
     fun countActiveResponsesToDomain(input: CountActiveResponse): CountActive {
         return CountActive(
             totalActive = input.totalActive,
+        )
+    }
+    fun kendaraanByLogisticResponsesToDomain(input: KendaraanByLogisticItem): KendaraanByLogistic {
+        return KendaraanByLogistic(
+            idGudang = input.idGudang,
+            merk = input.merk,
+            alamatGudang = input.alamatGudang,
+            logisticId = input.logisticId,
+            jenis = input.jenis,
+            gambarGudang = input.gambarGudang,
+            id = input.id,
+            platNomor = input.platNomor,
+            namaGudang = input.namaGudang,
+            gambar = input.gambar,
+            coordinateGudang = input.coordinateGudang
         )
     }
     fun mapAllSuratJalanResponsesToDomain(input: List<SuratJalanItem>): List<AllSuratJalan> {

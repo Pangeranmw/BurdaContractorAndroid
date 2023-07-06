@@ -6,7 +6,8 @@
     android:id="@+id/cv_surat_jalan"
     app:cardElevation="5dp"
     app:cardCornerRadius="20dp"
-    android:layout_marginBottom="15dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="5dp"
     android:layout_marginHorizontal="5dp"
     >
 
@@ -55,8 +56,8 @@
 
         <ImageView
             android:id="@+id/iv_asal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/ic_asal"
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="@+id/iv_jenis"
@@ -95,8 +96,8 @@
 
         <ImageView
             android:id="@+id/iv_tujuan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/ic_tujuan"
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="@+id/tv_alamat_asal"

@@ -27,7 +27,10 @@ class LogisticRemoteDataSource @Inject constructor(
                 if(dataSnapshot.exists()){
                     val lat = dataSnapshot.child("latitude").getValue(Double::class.java).toString()
                     val lon = dataSnapshot.child("longitude").getValue(Double::class.java).toString()
-                    val logisticCoordinate = LogisticCoordinate(lat.toDouble(), lon.toDouble())
+                    val speed = dataSnapshot.child("speed").getValue(Double::class.java).toString()
+                    val bearing = dataSnapshot.child("bearing").getValue(Double::class.java).toString()
+                    val acc = dataSnapshot.child("accuracy").getValue(Double::class.java).toString()
+                    val logisticCoordinate = LogisticCoordinate(lat.toDouble(), lon.toDouble(), bearing.toDouble(),speed.toDouble(), acc.toDouble())
                     this@callbackFlow.trySendBlocking(Resource.Success(logisticCoordinate))
                 }
             }
