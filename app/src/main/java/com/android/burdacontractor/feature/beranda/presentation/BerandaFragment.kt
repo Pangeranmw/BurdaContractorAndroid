@@ -261,6 +261,7 @@ class BerandaFragment : Fragment() {
             berandaViewModel.getUserByToken()
             berandaViewModel.getKendaraanByLogistic()
             berandaViewModel.getAllSuratJalanDalamPerjalananByUser()
+            (activity as BerandaActivity).refreshBadgeValue()
         }
     }
 }

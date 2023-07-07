@@ -56,6 +56,10 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
         binding.berandaBottomNavigation.menu.findItem(item).isChecked = true
         binding.berandaBottomNavigation.setOnItemSelectedListener(this)
     }
+    fun refreshBadgeValue(){
+        bottomNavigationViewModel.getCountActiveDeliveryOrder()
+        bottomNavigationViewModel.getCountActiveSuratJalan()
+    }
     private fun initBadge(){
         bottomNavigationViewModel.totalActiveSuratJalan.observe(this){
             val badgeSjAdminGudang = binding.berandaBottomNavigation.getOrCreateBadge(R.id.surat_jalan_admin_gudang)
