@@ -126,7 +126,7 @@ object DataMapper {
         )
     }
     fun dataAllDeliveryOrderWithCountResponsesToDomain(input: DataAllDeliveryOrderWithCountItem): DataAllDeliveryOrderWithCount {
-        val allDeliveryOrderList = mapAllDeliveryOrderResponsesToDomain(input.suratJalan!!)
+        val allDeliveryOrderList = mapAllDeliveryOrderResponsesToDomain(input.deliveryOrder!!)
         val count = input.count
         return DataAllDeliveryOrderWithCount(
             count = count,

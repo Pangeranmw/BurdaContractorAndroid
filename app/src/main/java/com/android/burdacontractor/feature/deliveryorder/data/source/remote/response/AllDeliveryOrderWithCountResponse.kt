@@ -20,5 +20,5 @@ data class DataAllDeliveryOrderWithCountItem(
 	val count: Int? = null,
 
 	@field:SerializedName("delivery_order")
-	val suratJalan: List<DeliveryOrderItem>? = null
+	val deliveryOrder: List<DeliveryOrderItem>? = null
 )

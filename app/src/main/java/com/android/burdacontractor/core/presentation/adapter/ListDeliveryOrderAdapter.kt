@@ -10,11 +10,13 @@ import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.getTimeDifference
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.databinding.ItemDeliveryOrderBinding
 import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import com.android.burdacontractor.feature.deliveryorder.presentation.DeliveryOrderDetailActivity
+import com.bumptech.glide.Glide
 
 class ListDeliveryOrderAdapter : RecyclerView.Adapter<ListDeliveryOrderAdapter.ListDeliveryOrderViewHolder>() {
     private val listDo = ArrayList<AllDeliveryOrder>()
@@ -42,7 +44,7 @@ class ListDeliveryOrderAdapter : RecyclerView.Adapter<ListDeliveryOrderAdapter.L
     }
 
     inner class ListDeliveryOrderViewHolder(private val binding: ItemDeliveryOrderBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(sj: AllDeliveryOrder) {
+        fun bind(deliveryOrder: AllDeliveryOrder) {
             when(role){
                 UserRole.ADMIN_GUDANG.name -> {
                     binding.layoutAdminGudang.setGone()
@@ -54,33 +56,60 @@ class ListDeliveryOrderAdapter : RecyclerView.Adapter<ListDeliveryOrderAdapter.L
                     binding.layoutPurchasing.setGone()
                 }
             }
-            when(sj.status){
+            when(deliveryOrder.status){
+                DeliveryOrderStatus.MENUNGGU_KONFIRMASI_ADMIN_GUDANG.name -> {
+                    binding.layoutDriver.setGone()
+                    binding.tvNamaPurchasing.maxWidth = Integer.MAX_VALUE
+                    binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.red_light))
+                    binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.red_light)
+                }
                 DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
                     binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.orange_dark_full))
+                    binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.orange_dark_full)
                 }
                 DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
                     binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.red))
+                    binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.red)
                 }
                 DeliveryOrderStatus.SELESAI.name -> {
                     binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.secondary_main))
+                    binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.secondary_main)
                 }
             }
             with(binding) {
-                tvKode.text = sj.kodeDo
-                tvTanggal.text = itemView.context.getTimeDifference(sj.updatedAt!!)
-                tvAlamatAsal.text = sj.alamatTempatAsal
-                tvAlamatTujuan.text = sj.alamatTempatTujuan
-                tvNamaPurchasing.text = sj.namaPurchasing
-                tvNamaDriver.text = sj.namaDriver
-                tvNamaAdminGudang.text = sj.namaAdminGudang
-                tvNamaAsal.text = sj.namaTempatAsal
-                tvNamaTujuan.text = sj.namaTempatTujuan
-                tvStatus.text = enumValueToNormal(sj.status!!)
+                tvKode.text = deliveryOrder.kodeDo
+                tvTanggal.text = itemView.context.getTimeDifference(deliveryOrder.updatedAt!!)
+                tvAlamatAsal.text = deliveryOrder.alamatTempatAsal
+                tvAlamatTujuan.text = deliveryOrder.alamatTempatTujuan
+                tvNamaPurchasing.text = deliveryOrder.namaPurchasing
+                tvNamaDriver.text = deliveryOrder.namaDriver
+                tvNamaAdminGudang.text = deliveryOrder.namaAdminGudang
+                tvNamaAsal.text = deliveryOrder.namaTempatAsal
+                tvNamaTujuan.text = deliveryOrder.namaTempatTujuan
+                tvStatus.text = enumValueToNormal(deliveryOrder.status!!)
                 cvDeliveryOrder.setOnClickListener {
                     val intent = Intent(it.context, DeliveryOrderDetailActivity::class.java)
-                    intent.putExtra(DeliveryOrderDetailActivity.ID_SURAT_JALAN, sj.id)
+                    intent.putExtra(DeliveryOrderDetailActivity.ID_SURAT_JALAN, deliveryOrder.id)
                     it.context.startActivity(intent)
                 }
+            }
+            if(deliveryOrder.fotoDriver !=null){
+                binding.ivDriver.imageTintMode = null
+                Glide.with(itemView.context)
+                    .load(getPhotoUrl(deliveryOrder.fotoDriver))
+                    .into(binding.ivDriver)
+            }
+            if(deliveryOrder.fotoAdminGudang !=null){
+                binding.ivAdminGudang.imageTintMode = null
+                Glide.with(itemView.context)
+                    .load(getPhotoUrl(deliveryOrder.fotoAdminGudang))
+                    .into(binding.ivAdminGudang)
+            }
+            if(deliveryOrder.fotoPurchasing !=null){
+                binding.ivPurchasing.imageTintMode = null
+                Glide.with(itemView.context)
+                    .load(getPhotoUrl(deliveryOrder.fotoPurchasing))
+                    .into(binding.ivPurchasing)
             }
         }
     }

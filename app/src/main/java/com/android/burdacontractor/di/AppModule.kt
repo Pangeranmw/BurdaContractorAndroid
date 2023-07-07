@@ -94,7 +94,7 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun provideGetAllDeliveryOrderDalamPerjalananByUserUseCase(getAllDeliveryOrderDalamPerjalananByUserInteractor: GetAllDeliveryOrderDalamPerjalananByUserInteractor): GetAllSuratJalanDalamPerjalananByUserUseCase
+    abstract fun provideGetAllDeliveryOrderDalamPerjalananByUserUseCase(getAllDeliveryOrderDalamPerjalananByUserInteractor: GetAllDeliveryOrderDalamPerjalananByUserInteractor): GetAllDeliveryOrderDalamPerjalananByUserUseCase
 
     @Binds
     @ViewModelScoped

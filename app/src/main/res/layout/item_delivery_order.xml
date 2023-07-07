@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -9,6 +9,8 @@
     android:layout_marginBottom="10dp"
     android:layout_marginTop="5dp"
     android:layout_marginHorizontal="5dp"
+    app:strokeColor="@color/orange_dark_full"
+    app:strokeWidth="1dp"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -148,10 +150,12 @@
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 >
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
                     android:id="@+id/iv_admin_gudang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/unit_admin_gudang"
                     app:tint="@color/gray_dark"
                     android:layout_centerVertical="true"
@@ -177,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_nama_admin_gudang"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
                     android:fontFamily="@font/inter_regular"
                     android:layout_toEndOf="@+id/iv_admin_gudang"
                     android:text="@string/admin_gudang"
@@ -191,10 +195,12 @@
                 android:layout_marginStart="5dp"
                 android:visibility="visible"
                 >
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
                     android:id="@+id/iv_driver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/unit_driver"
                     app:tint="@color/gray_dark"
                     android:layout_centerVertical="true"
@@ -220,7 +226,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_nama_driver"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
                     android:fontFamily="@font/inter_regular"
                     android:layout_toEndOf="@+id/iv_driver"
                     android:text="@string/driver"
@@ -234,10 +240,12 @@
                 android:layout_marginStart="5dp"
                 android:visibility="visible"
                 >
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
                     android:id="@+id/iv_purchasing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/unit_purchasing"
                     app:tint="@color/gray_dark"
                     android:layout_centerVertical="true"
@@ -263,7 +271,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_nama_purchasing"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
                     android:layout_toEndOf="@+id/iv_purchasing"
                     android:fontFamily="@font/inter_regular"
                     android:text="@string/purchasing"
@@ -285,4 +293,4 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_user" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

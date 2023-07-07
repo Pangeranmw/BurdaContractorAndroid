@@ -11,11 +11,13 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.getTimeDifference
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.databinding.ItemSuratJalanBinding
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanDetailActivity
+import com.bumptech.glide.Glide
 
 class ListSuratJalanAdapter : RecyclerView.Adapter<ListSuratJalanAdapter.ListSuratJalanViewHolder>() {
     private val listSj = ArrayList<AllSuratJalan>()
@@ -48,8 +50,6 @@ class ListSuratJalanAdapter : RecyclerView.Adapter<ListSuratJalanAdapter.ListSur
                 UserRole.ADMIN_GUDANG.name -> {
                     binding.layoutAdminGudang.setGone()
                 }
-                UserRole.ADMIN.name ->{
-                }
                 UserRole.LOGISTIC.name ->{
                     binding.layoutDriver.setGone()
                 }
@@ -71,12 +71,15 @@ class ListSuratJalanAdapter : RecyclerView.Adapter<ListSuratJalanAdapter.ListSur
             when(sj.status){
                 SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name -> {
                     binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.orange_dark_full))
+                    binding.cvSuratJalan.strokeColor = ContextCompat.getColor(itemView.context,R.color.orange_dark_full)
                 }
                 SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
                     binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.red))
+                    binding.cvSuratJalan.strokeColor = ContextCompat.getColor(itemView.context,R.color.red)
                 }
                 SuratJalanStatus.SELESAI.name -> {
                     binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.secondary_main))
+                    binding.cvSuratJalan.strokeColor = ContextCompat.getColor(itemView.context,R.color.secondary_main)
                 }
             }
             with(binding) {
@@ -96,6 +99,30 @@ class ListSuratJalanAdapter : RecyclerView.Adapter<ListSuratJalanAdapter.ListSur
                     intent.putExtra(SuratJalanDetailActivity.ID_SURAT_JALAN, sj.id)
                     it.context.startActivity(intent)
                 }
+            }
+            if(sj.fotoDriver !=null){
+                binding.ivDriver.imageTintMode = null
+                Glide.with(itemView.context)
+                    .load(getPhotoUrl(sj.fotoDriver))
+                    .into(binding.ivDriver)
+            }
+            if(sj.fotoAdminGudang !=null){
+                binding.ivAdminGudang.imageTintMode = null
+                Glide.with(itemView.context)
+                    .load(getPhotoUrl(sj.fotoAdminGudang))
+                    .into(binding.ivAdminGudang)
+            }
+            if(sj.fotoProjectManager !=null){
+                binding.ivProjectManager.imageTintMode = null
+                Glide.with(itemView.context)
+                    .load(getPhotoUrl(sj.fotoProjectManager))
+                    .into(binding.ivProjectManager)
+            }
+            if(sj.fotoSupervisor !=null){
+                binding.ivSupervisor.imageTintMode = null
+                Glide.with(itemView.context)
+                    .load(getPhotoUrl(sj.fotoSupervisor))
+                    .into(binding.ivSupervisor)
             }
         }
     }

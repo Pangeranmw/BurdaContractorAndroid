@@ -82,7 +82,12 @@ class ProfileActivity : AppCompatActivity() {
         }
         binding.btnLogout.setOnClickListener {
             stopService()
-            profileViewModel.logout{ applicationContext.openActivity(LoginActivity::class.java, this) }
+            profileViewModel.logout{
+                applicationContext.openActivity(LoginActivity::class.java, this,
+                    isFinished = true,
+                    clearAllTask = true
+                )
+            }
         }
         binding.switchTracking.setOnCheckedChangeListener { _, b ->
             if(!b) {

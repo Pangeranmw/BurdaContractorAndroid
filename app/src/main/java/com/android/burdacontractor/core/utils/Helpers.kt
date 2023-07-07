@@ -103,10 +103,11 @@ fun <T> Context.openActivityWithExtras(it: Class<T>, extras: Bundle.() -> Unit =
     startActivity(intent)
     activity.overridePendingTransition(0, 0)
 }
-fun <T> Context.openActivity(it: Class<T>, activity: Activity , isFinished: Boolean = true) {
+fun <T> Context.openActivity(it: Class<T>, activity: Activity , isFinished: Boolean = true, clearAllTask: Boolean = false) {
     val intent = Intent(this, it)
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+    if(clearAllTask) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
     activity.startActivity(intent)
     if (isFinished) activity.finish()
     activity.overridePendingTransition(0, 0)

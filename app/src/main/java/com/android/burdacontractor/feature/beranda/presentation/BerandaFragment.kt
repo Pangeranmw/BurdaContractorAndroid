@@ -9,7 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.User
-import com.android.burdacontractor.core.domain.model.enums.*
+import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
+import com.android.burdacontractor.core.domain.model.enums.JenisKendaraan
+import com.android.burdacontractor.core.domain.model.enums.StateResponse
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
+import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.adapter.ListDeliveryOrderAdapter
 import com.android.burdacontractor.core.presentation.adapter.ListSuratJalanAdapter
 import com.android.burdacontractor.core.utils.checkConnection
@@ -68,10 +73,9 @@ class BerandaFragment : Fragment() {
     private fun initObserver() {
         berandaViewModel.state.observe(viewLifecycleOwner){
             when(it){
-                StateResponse.LOADING -> binding.progressBar.setVisible()
-                StateResponse.ERROR -> binding.progressBar.setGone()
+                StateResponse.LOADING -> binding.srLayout.isRefreshing = true
+                StateResponse.ERROR -> binding.srLayout.isRefreshing = false
                 StateResponse.SUCCESS -> {
-                    binding.progressBar.setGone()
                     binding.srLayout.isRefreshing = false
                 }
                 else -> {}
@@ -112,6 +116,7 @@ class BerandaFragment : Fragment() {
                 adapterSjPengembalian.setListSuratJalan(sjPengembalian.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
                 binding.tvCountSjPengembalian.text = sjPengembalian.count.toString()
                 if(sjPengembalian.count!!>0){
+                    binding.tvCountSjPengembalian.maxWidth = 240
                     binding.btnSeeAllSjPengembalian.setVisible()
                     binding.tvCountSjPengembalian.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
                 }
@@ -121,6 +126,7 @@ class BerandaFragment : Fragment() {
                 adapterSjPengirimanGp.setListSuratJalan(sjPengirimanGp.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
                 binding.tvCountSjPengirimanGp.text = sjPengirimanGp.count.toString()
                 if(sjPengirimanGp.count!!>0){
+                    binding.tvCountSjPengirimanGp.maxWidth = 240
                     binding.btnSeeAllSjPengirimanGp.setVisible()
                     binding.tvCountSjPengirimanGp.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
                 }
@@ -130,6 +136,7 @@ class BerandaFragment : Fragment() {
                 adapterSjPengirimanPp.setListSuratJalan(sjPengirimanPp.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
                 binding.tvCountSjPengirimanPp.text = sjPengirimanPp.count.toString()
                 if(sjPengirimanPp.count!!>0){
+                    binding.tvCountSjPengirimanPp.maxWidth = 240
                     binding.btnSeeAllSjPengirimanPp.setVisible()
                     binding.tvCountSjPengirimanPp.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
                 }
@@ -139,6 +146,7 @@ class BerandaFragment : Fragment() {
                     binding.cvKendaraan.setGone()
                     binding.tvEmptyKendaraan.setVisible()
                 }else{
+                    binding.layoutKendaraan.setVisible()
                     binding.tvEmptyKendaraan.setGone()
                     binding.cvKendaraan.setVisible()
                     binding.tvGudangKendaraan.text = it.namaGudang
@@ -163,7 +171,7 @@ class BerandaFragment : Fragment() {
             berandaViewModel.deliveryOrder.observe(viewLifecycleOwner){deliveryOrder->
                 initAdapterDeliveryOrder()
                 adapterDeliveryOrder.setListDeliveryOrder(deliveryOrder.deliveryOrder!!.filterNot{it.status == DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
-                binding.tvCountSjPengirimanPp.text = deliveryOrder.count.toString()
+                binding.tvCountDeliveryOrder.text = deliveryOrder.count.toString()
                 if(deliveryOrder.count!!>0){
                     binding.btnSeeAllDeliveryOrder.setVisible()
                     binding.tvCountDeliveryOrder.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
@@ -193,7 +201,6 @@ class BerandaFragment : Fragment() {
                 binding.layoutDoDalamPerjalanan.setVisible()
             }
             UserRole.LOGISTIC.name -> {
-                binding.layoutKendaraan.setVisible()
                 binding.layoutDeliveryOrder.setVisible()
                 binding.layoutDoDalamPerjalanan.setVisible()
                 binding.layoutSjPengembalian.setVisible()
@@ -255,6 +262,7 @@ class BerandaFragment : Fragment() {
     }
     private fun initUi(){
         binding.srLayout.setOnRefreshListener {
+            berandaViewModel.getSomeActiveDeliveryOrder()
             berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGEMBALIAN)
             berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
             berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)

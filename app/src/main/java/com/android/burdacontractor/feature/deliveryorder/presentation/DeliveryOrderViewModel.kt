@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.burdacontractor.core.domain.model.Event
-import com.android.burdacontractor.feature.deliveryorder.domain.model.PreOrder
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
+import com.android.burdacontractor.feature.deliveryorder.domain.model.PreOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -33,7 +33,7 @@ class DeliveryOrderViewModel @Inject constructor(val liveNetworkChecker: LiveNet
         )
         _listPreOrder.value = _preOrder
     }
-    fun changeLocalPreOrder(id: String, namaMaterial: String, satuan: String, keterangan: String, jumlah: String){
+    fun changeLocalPreOrder(id: String, namaMaterial: String, satuan: String, keterangan: String, jumlah: Int){
         _preOrder.find { it.id == id }?.apply {
             this.namaMaterial = namaMaterial
             this.satuan = satuan

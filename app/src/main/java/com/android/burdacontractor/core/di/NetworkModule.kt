@@ -10,11 +10,12 @@ import com.android.burdacontractor.core.data.source.remote.network.GudangService
 import com.android.burdacontractor.core.data.source.remote.network.PeminjamanService
 import com.android.burdacontractor.core.data.source.remote.network.PengembalianService
 import com.android.burdacontractor.core.data.source.remote.network.PerusahaanService
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.PreOrderService
 import com.android.burdacontractor.core.data.source.remote.network.ProyekService
 import com.android.burdacontractor.feature.auth.data.source.remote.network.AuthService
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.DeliveryOrderService
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.PreOrderService
 import com.android.burdacontractor.feature.kendaraan.data.source.remote.network.KendaraanService
-import com.android.burdacontractor.feature.profile.data.source.remote.network.DeliveryOrderService
+import com.android.burdacontractor.feature.profile.data.source.remote.network.UserService
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -81,8 +82,8 @@ class NetworkModule {
         return retrofit.create(AuthService::class.java)
     }
     @Provides
-    fun provideUserService(retrofit: Retrofit): com.android.burdacontractor.feature.profile.data.source.remote.network.DeliveryOrderService {
-        return retrofit.create(DeliveryOrderService::class.java)
+    fun provideUserService(retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
     }
     @Provides
     fun provideBarangService(retrofit: Retrofit): BarangService {
