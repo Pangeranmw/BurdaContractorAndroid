@@ -9,11 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.User
-import com.android.burdacontractor.core.domain.model.enums.JenisKendaraan
-import com.android.burdacontractor.core.domain.model.enums.StateResponse
-import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
-import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
-import com.android.burdacontractor.core.domain.model.enums.UserRole
+import com.android.burdacontractor.core.domain.model.enums.*
+import com.android.burdacontractor.core.presentation.adapter.ListDeliveryOrderAdapter
 import com.android.burdacontractor.core.presentation.adapter.ListSuratJalanAdapter
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.enumValueToNormal
@@ -36,9 +33,9 @@ class BerandaFragment : Fragment() {
     private lateinit var adapterSjPengembalian: ListSuratJalanAdapter
     private lateinit var adapterSjPengirimanGp: ListSuratJalanAdapter
     private lateinit var adapterSjPengirimanPp: ListSuratJalanAdapter
-    private lateinit var adapterDeliveryOrder: ListSuratJalanAdapter
-    private lateinit var adapterDoDalamPerjalanan: ListSuratJalanAdapter
     private lateinit var adapterSjDalamPerjalanan: ListSuratJalanAdapter
+    private lateinit var adapterDeliveryOrder: ListDeliveryOrderAdapter
+    private lateinit var adapterDoDalamPerjalanan: ListDeliveryOrderAdapter
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,6 +98,15 @@ class BerandaFragment : Fragment() {
                     binding.tvCountSjDalamPerjalanan.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
                 }
             }
+            berandaViewModel.doDalamPerjalanan.observe(viewLifecycleOwner){doDalamPerjalanan->
+                initAdapterDoDalamPerjalanan()
+                adapterDoDalamPerjalanan.setListDeliveryOrder(doDalamPerjalanan, user.role)
+                val count = doDalamPerjalanan.size
+                binding.tvCountDoDalamPerjalanan.text = count.toString()
+                if(count>0){
+                    binding.tvCountDoDalamPerjalanan.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
+                }
+            }
             berandaViewModel.sjPengembalian.observe(viewLifecycleOwner){sjPengembalian->
                 initAdapterSjPengembalian()
                 adapterSjPengembalian.setListSuratJalan(sjPengembalian.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
@@ -154,10 +160,15 @@ class BerandaFragment : Fragment() {
                     }
                 }
             }
-//            berandaViewModel.deliveryOrder.observe(viewLifecycleOwner){deliveryOrder->
-//                adapterDeliveryOrder.setListDeliveryOrder(deliveryOrder.suratJalan!!,.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name} user.role)
-//                binding.tvCountDeliveryOrder.text = deliveryOrder.count.toString()
-//            }
+            berandaViewModel.deliveryOrder.observe(viewLifecycleOwner){deliveryOrder->
+                initAdapterDeliveryOrder()
+                adapterDeliveryOrder.setListDeliveryOrder(deliveryOrder.deliveryOrder!!.filterNot{it.status == DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
+                binding.tvCountSjPengirimanPp.text = deliveryOrder.count.toString()
+                if(deliveryOrder.count!!>0){
+                    binding.btnSeeAllDeliveryOrder.setVisible()
+                    binding.tvCountDeliveryOrder.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
+                }
+            }
         }
         initUi()
     }
@@ -207,7 +218,7 @@ class BerandaFragment : Fragment() {
         }
     }
     private fun initAdapterDeliveryOrder(){
-        adapterDeliveryOrder = ListSuratJalanAdapter()
+        adapterDeliveryOrder = ListDeliveryOrderAdapter()
         binding.rvDeliveryOrder.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvDeliveryOrder.setHasFixedSize(true)
         binding.rvDeliveryOrder.adapter = adapterDeliveryOrder
@@ -219,7 +230,7 @@ class BerandaFragment : Fragment() {
         binding.rvSjPengirimanPp.adapter = adapterSjPengirimanPp
     }
     private fun initAdapterDoDalamPerjalanan(){
-        adapterDoDalamPerjalanan = ListSuratJalanAdapter()
+        adapterDoDalamPerjalanan = ListDeliveryOrderAdapter()
         binding.rvDoDalamPerjalanan.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvDoDalamPerjalanan.setHasFixedSize(true)
         binding.rvDoDalamPerjalanan.adapter = adapterDoDalamPerjalanan
@@ -251,18 +262,5 @@ class BerandaFragment : Fragment() {
             berandaViewModel.getKendaraanByLogistic()
             berandaViewModel.getAllSuratJalanDalamPerjalananByUser()
         }
-    }
-    private fun setAdapter(search: String? = null){
-//        binding.rvSuratJalan.adapter = adapter
-//        suratJalanViewModel.getAllSuratJalan(
-//            tipe,
-//            status,
-//            dateStart,
-//            dateEnd,
-//            10,
-//            search,
-//        ).observe(viewLifecycleOwner) {
-//            adapter.submitData(lifecycle, it)
-//        }
     }
 }

@@ -10,6 +10,10 @@ import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
+import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
+import com.android.burdacontractor.feature.deliveryorder.domain.model.DataAllDeliveryOrderWithCount
+import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetAllDeliveryOrderDalamPerjalananByUserUseCase
+import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetSomeActiveDeliveryOrderUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanByLogistic
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
@@ -27,7 +31,9 @@ class BerandaViewModel @Inject constructor(
     private val getUserByTokenUseCase: GetUserByTokenUseCase,
     private val getSomeActiveSuratJalanUseCase: GetSomeActiveSuratJalanUseCase,
     private val getKendaraanByLogisticUseCase: GetKendaraanByLogisticUseCase,
-    private val getAllSuratJalanDalamPerjalananByUserUseCase: GetAllSuratJalanDalamPerjalananByUserUseCase
+    private val getAllSuratJalanDalamPerjalananByUserUseCase: GetAllSuratJalanDalamPerjalananByUserUseCase,
+    private val getSomeActiveDeliveryOrderUseCase: GetSomeActiveDeliveryOrderUseCase,
+    private val getAllDeliveryOrderDalamPerjalananByUserUseCase: GetAllDeliveryOrderDalamPerjalananByUserUseCase
 ) : ViewModel() {
 
     private val _state = MutableLiveData<StateResponse?>()
@@ -35,6 +41,9 @@ class BerandaViewModel @Inject constructor(
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
+
+    private val _deliveryOrder = MutableLiveData<DataAllDeliveryOrderWithCount>()
+    val deliveryOrder: LiveData<DataAllDeliveryOrderWithCount> = _deliveryOrder
 
     private val _sjPengirimanGp = MutableLiveData<DataAllSuratJalanWithCount>()
     val sjPengirimanGp: LiveData<DataAllSuratJalanWithCount> = _sjPengirimanGp
@@ -48,6 +57,9 @@ class BerandaViewModel @Inject constructor(
     private val _sjDalamPerjalanan = MutableLiveData<List<AllSuratJalan>>()
     val sjDalamPerjalanan: LiveData<List<AllSuratJalan>> = _sjDalamPerjalanan
 
+    private val _doDalamPerjalanan = MutableLiveData<List<AllDeliveryOrder>>()
+    val doDalamPerjalanan: LiveData<List<AllDeliveryOrder>> = _doDalamPerjalanan
+
     private val _kendaraanByLogistic = MutableLiveData<KendaraanByLogistic?>()
     val kendaraanByLogistic: LiveData<KendaraanByLogistic?> = _kendaraanByLogistic
 
@@ -56,6 +68,8 @@ class BerandaViewModel @Inject constructor(
 
     init {
         getUserByToken()
+        getSomeActiveDeliveryOrder()
+        getAllDeliveryOrderDalamPerjalananByUser()
         getSomeActiveSuratJalan(SuratJalanTipe.PENGEMBALIAN)
         getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
         getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
@@ -71,6 +85,39 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _user.value = it.data!!
+                    }
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                    }
+                }
+            }
+        }
+    }
+    fun getSomeActiveDeliveryOrder(){
+        viewModelScope.launch {
+            getSomeActiveDeliveryOrderUseCase.execute().collect{
+                when(it){
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _state.value = StateResponse.SUCCESS
+                        _deliveryOrder.value = it.data!!
+                    }
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                    }
+                }
+            }
+        }
+    }
+
+    fun getAllDeliveryOrderDalamPerjalananByUser(){
+        viewModelScope.launch {
+            getAllDeliveryOrderDalamPerjalananByUserUseCase.execute().collect{
+                when(it){
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _state.value = StateResponse.SUCCESS
+                        _doDalamPerjalanan.value = it.data!!
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR

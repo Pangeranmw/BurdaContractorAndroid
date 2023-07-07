@@ -3,7 +3,7 @@ package com.android.burdacontractor.feature.profile.data.source.remote
 import android.util.Log
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.feature.profile.data.source.remote.network.UserService
+import com.android.burdacontractor.feature.profile.data.source.remote.network.DeliveryOrderService
 import com.android.burdacontractor.feature.profile.data.source.remote.response.GetUserByTokenResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Singleton
 class UserRemoteDataSource @Inject constructor(
-    private val userService: UserService,
+    private val userService: DeliveryOrderService,
 ) {
     suspend fun getUserByToken(token:String): Flow<ApiResponse<GetUserByTokenResponse>> = flow{
         val response = userService.getUserByToken(token)

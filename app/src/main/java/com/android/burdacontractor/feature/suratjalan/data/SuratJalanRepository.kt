@@ -11,7 +11,7 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.SuratJalanRemoteDataSource
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
-import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
+import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllDeliveryOrderWithCount
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetail
 import com.android.burdacontractor.feature.suratjalan.domain.repository.ISuratJalanRepository
 import kotlinx.coroutines.flow.Flow
@@ -68,7 +68,7 @@ class SuratJalanRepository @Inject constructor(
             emit(Resource.Error(ex.message.toString()))
         }
     }
-    override suspend fun getSomeActiveSuratJalan(tipe: SuratJalanTipe, size: Int): Flow<Resource<DataAllSuratJalanWithCount>> = flow{
+    override suspend fun getSomeActiveSuratJalan(tipe: SuratJalanTipe, size: Int): Flow<Resource<DataAllDeliveryOrderWithCount>> = flow{
         try {
             emit(Resource.Loading())
             when(val response = suratJalanRemoteDataSource.getAllSuratJalanWithCount(storageDataSource.getToken(), tipe, size).first()){

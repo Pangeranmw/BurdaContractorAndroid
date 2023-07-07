@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.burdacontractor.core.domain.model.Event
-import com.android.burdacontractor.core.domain.model.PreOrder
+import com.android.burdacontractor.feature.deliveryorder.domain.model.PreOrder
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import dagger.hilt.android.lifecycle.HiltViewModel

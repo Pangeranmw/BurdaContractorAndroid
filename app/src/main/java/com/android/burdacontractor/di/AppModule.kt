@@ -16,6 +16,7 @@ import com.android.burdacontractor.feature.auth.domain.usecase.LogoutInteractor
 import com.android.burdacontractor.feature.auth.domain.usecase.LogoutUseCase
 import com.android.burdacontractor.feature.auth.domain.usecase.RegisterInteractor
 import com.android.burdacontractor.feature.auth.domain.usecase.RegisterUseCase
+import com.android.burdacontractor.feature.deliveryorder.domain.usecase.*
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticInteractor
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenInteractor
@@ -78,6 +79,22 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideGetAllSuratJalanDalamPerjalananByUserUseCase(getAllSuratJalanDalamPerjalananByUserInteractor: GetAllSuratJalanDalamPerjalananByUserInteractor): GetAllSuratJalanDalamPerjalananByUserUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetAllDeliveryOrderUseCase(getAllDeliveryOrderInteractor: GetAllDeliveryOrderInteractor): GetAllDeliveryOrderUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetSomeActiveDeliveryOrderUseCase(getSomeActiveDeliveryOrderInteractor: GetSomeActiveDeliveryOrderInteractor): GetSomeActiveDeliveryOrderUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetCountActiveDeliveryOrderUseCase(getCountActiveDeliveryOrderInteractor: GetCountActiveDeliveryOrderInteractor): GetCountActiveDeliveryOrderUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetAllDeliveryOrderDalamPerjalananByUserUseCase(getAllDeliveryOrderDalamPerjalananByUserInteractor: GetAllDeliveryOrderDalamPerjalananByUserInteractor): GetAllSuratJalanDalamPerjalananByUserUseCase
 
     @Binds
     @ViewModelScoped
