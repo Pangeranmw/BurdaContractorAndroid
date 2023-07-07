@@ -238,12 +238,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <TextView
+                            android:id="@+id/tv_count_sj_dalam_perjalanan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="15dp"
+                            android:background="@drawable/semi_rounded_red"
+                            android:fontFamily="@font/inter_semi_bold"
+                            android:padding="10dp"
+                            android:text="@string/number_placeholder"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                        <TextView
                             android:id="@+id/tv_heading_sj_dalam_perjalanan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:fontFamily="@font/inter_bold"
                             android:text="@string/sj_dalam_perjalanan"
+                            android:layout_toEndOf="@+id/tv_count_sj_dalam_perjalanan"
+                            android:layout_marginStart="10dp"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
                     </RelativeLayout>

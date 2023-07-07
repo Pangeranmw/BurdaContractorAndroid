@@ -93,7 +93,7 @@ class ListSuratJalanAdapter : RecyclerView.Adapter<ListSuratJalanAdapter.ListSur
                 tvStatus.text = enumValueToNormal(sj.status!!)
                 cvSuratJalan.setOnClickListener {
                     val intent = Intent(it.context, SuratJalanDetailActivity::class.java)
-//                    intent.putExtra(NoteAddUpdateActivity.EXTRA_NOTE, sj)
+                    intent.putExtra(SuratJalanDetailActivity.ID_SURAT_JALAN, sj.id)
                     it.context.startActivity(intent)
                 }
             }

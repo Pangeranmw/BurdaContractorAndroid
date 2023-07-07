@@ -5,12 +5,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
+import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanWithCountResponse
-import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import kotlinx.coroutines.flow.Flow
@@ -58,6 +59,17 @@ class SuratJalanRemoteDataSource @Inject constructor(
         token: String,
     ): Flow<ApiResponse<CountActiveResponse>> = flow {
         val response = suratJalanService.getCountActiveSuratJalan(token)
+        if(!response.error){
+            emit(ApiResponse.Success(response))
+        }else{
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
+    suspend fun getAllSuratJalanDalamPerjalananByUser(
+        token: String
+    ): Flow<ApiResponse<AllSuratJalanResponse>> = flow {
+        val response = suratJalanService.getAllSuratJalanDalamPerjalananByUser(token)
         if(!response.error){
             emit(ApiResponse.Success(response))
         }else{

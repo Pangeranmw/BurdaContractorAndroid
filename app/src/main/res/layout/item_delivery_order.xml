@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/cv_delivery_order"
     app:cardElevation="5dp"
@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="15dp"
         >
         <TextView
             android:id="@+id/tv_status"
@@ -67,28 +67,30 @@
 
         <TextView
             android:id="@+id/tv_nama_asal"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:fontFamily="@font/inter_medium"
+            android:maxLines="2"
             android:text="@string/nama_asal"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:maxLines="2"
             app:layout_constraintBottom_toBottomOf="@+id/iv_asal"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_asal"
             app:layout_constraintTop_toTopOf="@+id/iv_asal" />
 
         <TextView
             android:id="@+id/tv_alamat_asal"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/inter_light"
             android:maxLines="2"
-            android:layout_marginTop="10dp"
             android:text="@string/alamat_asal"
             android:textColor="@color/black"
             android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/iv_asal"
             app:layout_constraintTop_toBottomOf="@+id/tv_nama_asal" />
 
@@ -105,28 +107,30 @@
 
         <TextView
             android:id="@+id/tv_nama_tujuan"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:fontFamily="@font/inter_medium"
+            android:maxLines="2"
             android:text="@string/nama_tujuan"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:maxLines="2"
             app:layout_constraintBottom_toBottomOf="@+id/iv_tujuan"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_tujuan"
             app:layout_constraintTop_toTopOf="@+id/iv_tujuan" />
 
         <TextView
             android:id="@+id/tv_alamat_tujuan"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/inter_light"
             android:maxLines="2"
-            android:layout_marginTop="10dp"
             android:text="@string/alamat_tujuan"
             android:textColor="@color/black"
             android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/iv_tujuan"
             app:layout_constraintTop_toBottomOf="@+id/tv_nama_tujuan" />
 
@@ -255,7 +259,7 @@
 
                 <TextView
                     android:id="@+id/tv_role_purchasing"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_nama_purchasing"
                     android:layout_marginStart="5dp"

@@ -1,10 +1,10 @@
 package com.android.burdacontractor.feature.suratjalan.data.source.remote.network
 
+import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanWithCountResponse
-import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
 import okhttp3.MultipartBody
 import retrofit2.http.DELETE
@@ -29,6 +29,11 @@ interface SuratJalanService {
         @Query("page") page: Int = 1,
         @Query("size") size: Int = 5,
         @Query("search") search: String? = null,
+    ): AllSuratJalanResponse
+
+    @GET("surat-jalan/all/dalam-perjalanan")
+    suspend fun getAllSuratJalanDalamPerjalananByUser(
+        @Header("Authorization") token: String,
     ): AllSuratJalanResponse
 
     @GET("surat-jalan/active")

@@ -13,7 +13,9 @@ import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanByLogistic
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
+import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
+import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSuratJalanDalamPerjalananByUserUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetSomeActiveSuratJalanUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,7 +27,7 @@ class BerandaViewModel @Inject constructor(
     private val getUserByTokenUseCase: GetUserByTokenUseCase,
     private val getSomeActiveSuratJalanUseCase: GetSomeActiveSuratJalanUseCase,
     private val getKendaraanByLogisticUseCase: GetKendaraanByLogisticUseCase,
-//    private val getSuratJalanDalamPerjalananUseCase: GetSuratJalanDalamPerjalananUseCase
+    private val getAllSuratJalanDalamPerjalananByUserUseCase: GetAllSuratJalanDalamPerjalananByUserUseCase
 ) : ViewModel() {
 
     private val _state = MutableLiveData<StateResponse?>()
@@ -43,6 +45,9 @@ class BerandaViewModel @Inject constructor(
     private val _sjPengembalian = MutableLiveData<DataAllSuratJalanWithCount>()
     val sjPengembalian: LiveData<DataAllSuratJalanWithCount> = _sjPengembalian
 
+    private val _sjDalamPerjalanan = MutableLiveData<List<AllSuratJalan>>()
+    val sjDalamPerjalanan: LiveData<List<AllSuratJalan>> = _sjDalamPerjalanan
+
     private val _kendaraanByLogistic = MutableLiveData<KendaraanByLogistic?>()
     val kendaraanByLogistic: LiveData<KendaraanByLogistic?> = _kendaraanByLogistic
 
@@ -54,6 +59,7 @@ class BerandaViewModel @Inject constructor(
         getSomeActiveSuratJalan(SuratJalanTipe.PENGEMBALIAN)
         getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
         getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
+        getAllSuratJalanDalamPerjalananByUser()
         getKendaraanByLogistic()
     }
 
@@ -92,6 +98,23 @@ class BerandaViewModel @Inject constructor(
                                 _sjPengembalian.value = it.data!!
                             }
                         }
+                    }
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                    }
+                }
+            }
+        }
+    }
+
+    fun getAllSuratJalanDalamPerjalananByUser(){
+        viewModelScope.launch {
+            getAllSuratJalanDalamPerjalananByUserUseCase.execute().collect{
+                when(it){
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _state.value = StateResponse.SUCCESS
+                        _sjDalamPerjalanan.value = it.data!!
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR

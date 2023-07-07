@@ -27,4 +27,7 @@ class SuratJalanDetailActivity : AppCompatActivity() {
 //                setBottomNavigationMenu(R.menu.bottom_menu_sv_pm, R.id.surat_jalan_sv_pm)
         }
     }
+    companion object{
+        val ID_SURAT_JALAN = "id_surat_jalan"
+    }
 }

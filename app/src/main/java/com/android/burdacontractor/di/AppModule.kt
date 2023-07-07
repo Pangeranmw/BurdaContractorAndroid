@@ -77,6 +77,10 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
+    abstract fun provideGetAllSuratJalanDalamPerjalananByUserUseCase(getAllSuratJalanDalamPerjalananByUserInteractor: GetAllSuratJalanDalamPerjalananByUserInteractor): GetAllSuratJalanDalamPerjalananByUserUseCase
+
+    @Binds
+    @ViewModelScoped
     abstract fun provideGetUserByTokenUseCase(getUserByTokenInteractor: GetUserByTokenInteractor): GetUserByTokenUseCase
 
     @Binds

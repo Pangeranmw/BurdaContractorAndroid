@@ -92,6 +92,15 @@ class BerandaFragment : Fragment() {
         berandaViewModel.user.observe(viewLifecycleOwner){user->
             initAppBar(user)
             initLayout(user)
+            berandaViewModel.sjDalamPerjalanan.observe(viewLifecycleOwner){sjDalamPerjalanan->
+                initAdapterSjDalamPerjalanan()
+                adapterSjDalamPerjalanan.setListSuratJalan(sjDalamPerjalanan, user.role)
+                val count = sjDalamPerjalanan.size
+                binding.tvCountSjDalamPerjalanan.text = count.toString()
+                if(count>0){
+                    binding.tvCountSjDalamPerjalanan.setBackgroundResource(R.drawable.semi_rounded_secondary_main)
+                }
+            }
             berandaViewModel.sjPengembalian.observe(viewLifecycleOwner){sjPengembalian->
                 initAdapterSjPengembalian()
                 adapterSjPengembalian.setListSuratJalan(sjPengembalian.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name}, user.role)
@@ -199,37 +208,37 @@ class BerandaFragment : Fragment() {
     }
     private fun initAdapterDeliveryOrder(){
         adapterDeliveryOrder = ListSuratJalanAdapter()
-        binding.rvDeliveryOrder.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvDeliveryOrder.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvDeliveryOrder.setHasFixedSize(true)
         binding.rvDeliveryOrder.adapter = adapterDeliveryOrder
     }
     private fun initAdapterSjPengirimanPp(){
         adapterSjPengirimanPp = ListSuratJalanAdapter()
-        binding.rvSjPengirimanPp.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvSjPengirimanPp.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvSjPengirimanPp.setHasFixedSize(true)
         binding.rvSjPengirimanPp.adapter = adapterSjPengirimanPp
     }
     private fun initAdapterDoDalamPerjalanan(){
         adapterDoDalamPerjalanan = ListSuratJalanAdapter()
-        binding.rvDoDalamPerjalanan.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvDoDalamPerjalanan.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvDoDalamPerjalanan.setHasFixedSize(true)
         binding.rvDoDalamPerjalanan.adapter = adapterDoDalamPerjalanan
     }
     private fun initAdapterSjDalamPerjalanan(){
         adapterSjDalamPerjalanan = ListSuratJalanAdapter()
-        binding.rvSjDalamPerjalanan.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvSjDalamPerjalanan.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvSjDalamPerjalanan.setHasFixedSize(true)
         binding.rvSjDalamPerjalanan.adapter = adapterSjDalamPerjalanan
     }
     private fun initAdapterSjPengembalian(){
         adapterSjPengembalian = ListSuratJalanAdapter()
-        binding.rvSjPengembalian.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvSjPengembalian.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvSjPengembalian.setHasFixedSize(true)
         binding.rvSjPengembalian.adapter = adapterSjPengembalian
     }
     private fun initAdapterSjPengirimanGp(){
         adapterSjPengirimanGp = ListSuratJalanAdapter()
-        binding.rvSjPengirimanGp.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvSjPengirimanGp.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvSjPengirimanGp.setHasFixedSize(true)
         binding.rvSjPengirimanGp.adapter = adapterSjPengirimanGp
     }
@@ -240,6 +249,7 @@ class BerandaFragment : Fragment() {
             berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
             berandaViewModel.getUserByToken()
             berandaViewModel.getKendaraanByLogistic()
+            berandaViewModel.getAllSuratJalanDalamPerjalananByUser()
         }
     }
     private fun setAdapter(search: String? = null){
