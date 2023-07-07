@@ -70,6 +70,19 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
             badgeSjLogistic.isVisible = true
             badgeSjLogistic.number = it
         }
+        bottomNavigationViewModel.totalActiveDeliveryOrder.observe(this){
+            val badgeDoAdminGudang = binding.berandaBottomNavigation.getOrCreateBadge(R.id.delivery_order_admin_gudang)
+            badgeDoAdminGudang.isVisible = true
+            badgeDoAdminGudang.number = it
+
+            val badgeDoPurc = binding.berandaBottomNavigation.getOrCreateBadge(R.id.delivery_order_purchasing)
+            badgeDoPurc.isVisible = true
+            badgeDoPurc.number = it
+
+            val badgeDoLogistic = binding.berandaBottomNavigation.getOrCreateBadge(R.id.delivery_order_logistic)
+            badgeDoLogistic.isVisible = true
+            badgeDoLogistic.number = it
+        }
     }
     private val requestPermissionLauncher =
         registerForActivityResult(

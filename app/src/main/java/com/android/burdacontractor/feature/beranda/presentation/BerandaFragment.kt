@@ -36,7 +36,7 @@ class BerandaFragment : Fragment() {
     private lateinit var adapterSjDalamPerjalanan: ListSuratJalanAdapter
     private lateinit var adapterDeliveryOrder: ListDeliveryOrderAdapter
     private lateinit var adapterDoDalamPerjalanan: ListDeliveryOrderAdapter
-    private var snackbar: Snackbar? = null
+    private var internetConnectionSnackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +53,7 @@ class BerandaFragment : Fragment() {
         binding.layoutSjPengirimanPp.setGone()
         binding.layoutSjDalamPerjalanan.setGone()
         binding.layoutDoDalamPerjalanan.setGone()
-        snackbar=Snackbar.make(requireActivity().findViewById(android.R.id.content), R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
+        internetConnectionSnackbar=Snackbar.make(requireActivity().findViewById(android.R.id.content), R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
 
         return binding.root
     }
@@ -61,7 +61,7 @@ class BerandaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         berandaViewModel.liveNetworkChecker.observe(viewLifecycleOwner){
-            requireContext().checkConnection(snackbar,it){ initObserver() }
+            requireContext().checkConnection(internetConnectionSnackbar,it){ initObserver() }
         }
     }
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.burdacontractor.core.data.Resource
+import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetCountActiveDeliveryOrderUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetCountActiveSuratJalanUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,6 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BottomNavigationViewModel @Inject constructor(
     private val getCountActiveSuratJalanUseCase: GetCountActiveSuratJalanUseCase,
+    private val getCountActiveDeliveryOrderUseCase: GetCountActiveDeliveryOrderUseCase,
 ) : ViewModel() {
 
     private val _totalActiveSuratJalan = MutableLiveData<Int>()
@@ -41,7 +43,7 @@ class BottomNavigationViewModel @Inject constructor(
     }
     fun getCountActiveDeliveryOrder(){
         viewModelScope.launch {
-            getCountActiveSuratJalanUseCase.execute().collect{
+            getCountActiveDeliveryOrderUseCase.execute().collect{
                 when(it){
                     is Resource.Loading -> {}
                     is Resource.Success -> {
