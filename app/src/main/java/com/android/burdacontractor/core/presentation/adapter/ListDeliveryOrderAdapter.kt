@@ -89,7 +89,7 @@ class ListDeliveryOrderAdapter : RecyclerView.Adapter<ListDeliveryOrderAdapter.L
                 tvStatus.text = enumValueToNormal(deliveryOrder.status!!)
                 cvDeliveryOrder.setOnClickListener {
                     val intent = Intent(it.context, DeliveryOrderDetailActivity::class.java)
-                    intent.putExtra(DeliveryOrderDetailActivity.ID_SURAT_JALAN, deliveryOrder.id)
+                    intent.putExtra(DeliveryOrderDetailActivity.ID_DELIVERY_ORDER, deliveryOrder.id)
                     it.context.startActivity(intent)
                 }
             }

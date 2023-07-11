@@ -36,5 +36,6 @@ data class DeliveryOrderDetail(
     val fotoBukti: String? = null,
     val untukPerhatian: String? = null,
     val perihal: String? = null,
+    val status: String? = null,
     val preOrder: List<PreOrder>? = null,
 ): Parcelable

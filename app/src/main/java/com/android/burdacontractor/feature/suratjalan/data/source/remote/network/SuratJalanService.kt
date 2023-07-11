@@ -7,18 +7,10 @@ import com.android.burdacontractor.feature.suratjalan.data.source.remote.respons
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanWithCountResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
 import okhttp3.MultipartBody
-import retrofit2.http.DELETE
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface SuratJalanService {
+    @Headers("Content-Type: application/json","Accept: application/json")
     @GET("surat-jalan/all")
     suspend fun getAllSuratJalan(
         @Header("Authorization") token: String,
@@ -31,11 +23,13 @@ interface SuratJalanService {
         @Query("search") search: String? = null,
     ): AllSuratJalanResponse
 
+    @Headers("Content-Type: application/json","Accept: application/json")
     @GET("surat-jalan/all/dalam-perjalanan")
     suspend fun getAllSuratJalanDalamPerjalananByUser(
         @Header("Authorization") token: String,
     ): AllSuratJalanResponse
 
+    @Headers("Content-Type: application/json","Accept: application/json")
     @GET("surat-jalan/active")
     suspend fun getSomeActiveSuratJalan(
         @Header("Authorization") token: String,
@@ -43,11 +37,13 @@ interface SuratJalanService {
         @Query("size") size: Int = 5,
     ): AllSuratJalanWithCountResponse
 
+    @Headers("Content-Type: application/json","Accept: application/json")
     @GET("surat-jalan/active/count")
     suspend fun getCountActiveSuratJalan(
         @Header("Authorization") token: String,
     ): CountActiveResponse
 
+    @Headers("Content-Type: application/json","Accept: application/json")
     @GET("surat-jalan/{id}")
     suspend fun getSuratJalanById(
         @Header("Authorization") token: String,

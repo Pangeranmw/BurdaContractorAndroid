@@ -17,6 +17,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -26,7 +27,10 @@ import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.source.remote.response.Routes
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.snackbar.Snackbar
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -54,6 +58,24 @@ fun List<Routes>.getDistance(): String {
         in 0..1000 -> String.format("%.2f Mtr", distance)
         else -> String.format("%.2f Km", distance / 1000)
     }
+}
+fun ImageView.setImageFromUrl(
+    url: String, context: Context,
+) {
+    Glide.with(context)
+        .load(getPhotoUrl(url))
+        .diskCacheStrategy(DiskCacheStrategy.NONE)
+        .skipMemoryCache(true)
+        .into(this)
+}
+fun ShapeableImageView.setImageFromUrl(
+    url: String, context: Context,
+) {
+    Glide.with(context)
+        .load(getPhotoUrl(url))
+        .diskCacheStrategy(DiskCacheStrategy.NONE)
+        .skipMemoryCache(true)
+        .into(this)
 }
 fun String.getLatitude(): Double{
     return this.split("|",this)[0].toDouble()
@@ -95,7 +117,7 @@ fun View.setVisible() {
 }
 
 // Lambda with receiver (extras: Bundle.() -> Unit = {})
-fun <T> Context.openActivityWithExtras(it: Class<T>, extras: Bundle.() -> Unit = {}, activity: Activity) {
+fun <T> Context.openActivityWithExtras(it: Class<T>, activity: Activity, extras: Bundle.() -> Unit = {}) {
     val intent = Intent(this, it)
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

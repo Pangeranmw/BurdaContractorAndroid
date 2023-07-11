@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cv_surat_jalan"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="5dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/tv_kode_po"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/kode_pre_order"
+            android:textColor="@color/gray"
+            android:fontFamily="@font/inter_regular"
+            android:textSize="11sp"/>
+        <TextView
+            android:id="@+id/tv_nama_material"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/nama_material"
+            android:fontFamily="@font/inter_semi_bold"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:fontFamily="@font/inter_medium"
+            android:id="@+id/tv_ukuran_satuan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ukuran_dan_satuan"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:fontFamily="@font/inter_regular"
+            android:id="@+id/tv_keterangan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/keterangan"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"/>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

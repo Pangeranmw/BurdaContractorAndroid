@@ -3,14 +3,7 @@ package com.android.burdacontractor.feature.profile.data.source.remote.network
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.feature.profile.data.source.remote.response.GetUserByTokenResponse
 import okhttp3.MultipartBody
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Part
+import retrofit2.http.*
 
 interface UserService {
     @Multipart
@@ -36,12 +29,14 @@ interface UserService {
     ): ErrorMessageResponse
 
 
+    @Headers("Content-Type: application/json","Accept: application/json")
     @GET("user/ttd")
     suspend fun getTTD(
         @Header("Authorization") token: String,
         @Field("ttd") ttd: String,
     ): ErrorMessageResponse
 
+    @Headers("Content-Type: application/json","Accept: application/json")
     @GET("currentAccessToken")
     suspend fun getUserByToken(
         @Header("Authorization") token: String,

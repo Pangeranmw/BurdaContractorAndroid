@@ -9,6 +9,7 @@ import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface DeliveryOrderService {
+    @Headers("Content-Type: application/json","Accept: application/json")
     @GET("delivery-order/all")
     suspend fun getAllDeliveryOrder(
         @Header("Authorization") token: String,
@@ -20,22 +21,26 @@ interface DeliveryOrderService {
         @Query("search") search: String? = null,
     ): AllDeliveryOrderResponse
 
+    @Headers("Content-Type: application/json","Accept: application/json")
     @GET("delivery-order/all/dalam-perjalanan")
     suspend fun getAllDeliveryOrderDalamPerjalananByUser(
         @Header("Authorization") token: String,
     ): AllDeliveryOrderResponse
 
+    @Headers("Content-Type: application/json","Accept: application/json")
     @GET("delivery-order/active")
     suspend fun getSomeActiveDeliveryOrder(
         @Header("Authorization") token: String,
         @Query("size") size: Int = 5,
     ): AllDeliveryOrderWithCountResponse
 
+    @Headers("Content-Type: application/json","Accept: application/json")
     @GET("delivery-order/active/count")
     suspend fun getCountActiveDeliveryOrder(
         @Header("Authorization") token: String,
     ): CountActiveResponse
 
+    @Headers("Content-Type: application/json","Accept: application/json")
     @GET("delivery-order/{id}")
     suspend fun getDeliveryOrderById(
         @Header("Authorization") token: String,

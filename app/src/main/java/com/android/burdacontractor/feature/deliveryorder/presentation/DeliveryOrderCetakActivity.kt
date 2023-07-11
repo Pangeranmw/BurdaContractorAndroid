@@ -2,9 +2,11 @@ package com.android.burdacontractor.feature.deliveryorder.presentation
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatButton
@@ -20,24 +22,29 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DeliveryOrderDetailActivity : AppCompatActivity() {
+class DeliveryOrderCetakActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDeliveryOrderDetailBinding
     private val storageViewModel: StorageViewModel by viewModels()
     private val deliveryOrderDetailViewModel: DeliveryOrderDetailViewModel by viewModels()
-    private lateinit var id: String
+    private var deliveryOrderDetail: DeliveryOrderDetail? = null
     private var snackbar: Snackbar? = null
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDeliveryOrderDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        id = intent.getStringExtra(ID_DELIVERY_ORDER).toString()
+        deliveryOrderDetail = if (Build.VERSION.SDK_INT >= 33) {
+            intent.getParcelableExtra(DELIVERY_ORDER, DeliveryOrderDetail::class.java)
+        }else{
+            intent.getParcelableExtra(DELIVERY_ORDER)
+        }
         snackbar = Snackbar.make(binding.mainLayout,getString(R.string.no_internet), Snackbar.LENGTH_INDEFINITE)
         deliveryOrderDetailViewModel.liveNetworkChecker.observe(this){
             checkConnection(snackbar,it){ initObserver() }
         }
     }
     private fun initObserver(){
-        deliveryOrderDetailViewModel.getDeliveryOrderById(id)
+        deliveryOrderDetailViewModel.getDeliveryOrderById(deliveryOrderDetail?.id.toString())
         deliveryOrderDetailViewModel.deliveryOrder.observe(this){ deliveryOrder->
             initLayout(storageViewModel.role, deliveryOrder)
             initUi(deliveryOrder)
@@ -59,7 +66,7 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                 tvMerkKendaraan.text = deliveryOrder.kendaraanMerk
                 tvPlatKendaraan.text = deliveryOrder.kendaraanPlatNomor
                 tvNamaDriver.text = deliveryOrder.logisticNama
-                ivDriver.setImageFromUrl(deliveryOrder.logisticFoto.toString(),this@DeliveryOrderDetailActivity)
+                ivDriver.setImageFromUrl(deliveryOrder.logisticFoto.toString(),this@DeliveryOrderCetakActivity)
                 btnHubungiDriver.setOnClickListener {
                     Intent(Intent.ACTION_DIAL).data = Uri.parse("tel:${deliveryOrder.logisticNoHp}")
                 }
@@ -71,14 +78,14 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
 //                deliveryOrderDetailViewModel.deleteDeliveryOrder(deliveryOrder.id)
             }
             btnDownload.setOnClickListener {
-                openActivityWithExtras(DeliveryOrderCetakActivity::class.java,this@DeliveryOrderDetailActivity){
+                openActivityWithExtras(DeliveryOrderCetakActivity::class.java,this@DeliveryOrderCetakActivity){
                     intent.putExtra("HAHAHA", deliveryOrder)
                 }
             }
             tvAlamatAsal.text = deliveryOrder.tempatAsalAlamat
             tvNamaAsal.text = deliveryOrder.tempatAsalNama
             tvAlamatTujuan.text = deliveryOrder.tempatTujuanAlamat
-            ivPurchasing.setImageFromUrl(deliveryOrder.purchasingFoto.toString(),this@DeliveryOrderDetailActivity)
+            ivPurchasing.setImageFromUrl(deliveryOrder.purchasingFoto.toString(),this@DeliveryOrderCetakActivity)
         }
     }
     private fun initLayout(userRole: String, deliveryOrder: DeliveryOrderDetail){
@@ -142,6 +149,6 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
         }
     }
     companion object{
-        val ID_DELIVERY_ORDER = "deliveryOrderId"
+        val DELIVERY_ORDER = "deliveryOrder"
     }
 }

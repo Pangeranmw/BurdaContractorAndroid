@@ -243,6 +243,7 @@ object DataMapper {
             tempatTujuanAlamat = input.tempatAsal?.alamat,
             ttd = input.ttd,
             perihal = input.perihal,
+            status = input.status,
             untukPerhatian = input.untukPerhatian,
             createdAt = input.createdAt,
             updatedAt = input.updatedAt,
