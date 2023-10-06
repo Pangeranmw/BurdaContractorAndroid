@@ -47,8 +47,8 @@ data class SuratJalanItem(
 	@field:SerializedName("nama_tempat_asal")
 	val namaTempatAsal: String? = null,
 
-	@field:SerializedName("foto_project_manager")
-	val fotoProjectManager: String? = null,
+	@field:SerializedName("foto_site_manager")
+	val fotoSiteManager: String? = null,
 
 	@field:SerializedName("kode_surat")
 	val kodeSurat: String? = null,
@@ -56,24 +56,15 @@ data class SuratJalanItem(
 	@field:SerializedName("nama_driver")
 	val namaDriver: String? = null,
 
+	@field:SerializedName("untuk_saya")
+	val untukSaya: Boolean,
+
 	@field:SerializedName("foto_admin_gudang")
 	val fotoAdminGudang: String? = null,
 
-	@field:SerializedName("nama_project_manager")
-	val namaProjectManager: String? = null,
+	@field:SerializedName("nama_site_manager")
+	val namaSiteManager: String? = null,
 
 	@field:SerializedName("status")
 	val status: String? = null,
-
-	@field:SerializedName("nama_supervisor")
-	val namaSupervisor: String? = null,
-
-	@field:SerializedName("foto_supervisor")
-	val fotoSupervisor: String? = null,
-
-	@field:SerializedName("nama_supervisor_peminjam")
-	val namaSupervisorPeminjam: String? = null,
-
-	@field:SerializedName("foto_supervisor_peminjam")
-	val fotoSupervisorPeminjam: String? = null,
 )

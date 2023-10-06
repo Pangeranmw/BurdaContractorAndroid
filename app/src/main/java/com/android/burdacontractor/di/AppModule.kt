@@ -1,13 +1,9 @@
 package com.android.burdacontractor.di
 
-import com.android.burdacontractor.core.domain.usecase.AuthInteractor
-import com.android.burdacontractor.core.domain.usecase.AuthUseCase
 import com.android.burdacontractor.core.domain.usecase.LogisticInteractor
 import com.android.burdacontractor.core.domain.usecase.LogisticUseCase
 import com.android.burdacontractor.core.domain.usecase.StorageInteractor
 import com.android.burdacontractor.core.domain.usecase.StorageUseCase
-import com.android.burdacontractor.core.domain.usecase.SuratJalanInteractor
-import com.android.burdacontractor.core.domain.usecase.SuratJalanUseCase
 import com.android.burdacontractor.feature.auth.domain.usecase.LoginInteractor
 import com.android.burdacontractor.feature.auth.domain.usecase.LoginUseCase
 import com.android.burdacontractor.feature.auth.domain.usecase.LoginWithPinInteractor
@@ -21,6 +17,8 @@ import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraan
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenInteractor
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
+import com.android.burdacontractor.feature.profile.domain.usecase.UploadTtdInteractor
+import com.android.burdacontractor.feature.profile.domain.usecase.UploadTtdUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.*
 import dagger.Binds
 import dagger.Module
@@ -34,20 +32,13 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun provideSuratJalanUseCase(suratJalanInteractor: SuratJalanInteractor): SuratJalanUseCase
-
-    @Binds
-    @ViewModelScoped
     abstract fun provideLogisticUseCase(logisticInteractor: LogisticInteractor): LogisticUseCase
 
     @Binds
     @ViewModelScoped
     abstract fun provideStorageUseCase(storageInteractor: StorageInteractor): StorageUseCase
 
-    @Binds
-    @ViewModelScoped
-    abstract fun provideAuthUseCase(authInteractor: AuthInteractor): AuthUseCase
-
+    // AUTH USE CASE
     @Binds
     @ViewModelScoped
     abstract fun provideLoginUseCase(loginInteractor: LoginInteractor): LoginUseCase
@@ -64,6 +55,7 @@ abstract class AppModule {
     @ViewModelScoped
     abstract fun provideLoginWithPinUseCase(loginWithPinInteractor: LoginWithPinInteractor): LoginWithPinUseCase
 
+    // SURAT JALAN USE CASE
     @Binds
     @ViewModelScoped
     abstract fun provideGetAllSuratJalanUseCase(getAllSuratJalanInteractor: GetAllSuratJalanInteractor): GetAllSuratJalanUseCase
@@ -80,6 +72,7 @@ abstract class AppModule {
     @ViewModelScoped
     abstract fun provideGetAllSuratJalanDalamPerjalananByUserUseCase(getAllSuratJalanDalamPerjalananByUserInteractor: GetAllSuratJalanDalamPerjalananByUserInteractor): GetAllSuratJalanDalamPerjalananByUserUseCase
 
+    // DELIVERY ORDER USE CASE
     @Binds
     @ViewModelScoped
     abstract fun provideGetAllDeliveryOrderUseCase(getAllDeliveryOrderInteractor: GetAllDeliveryOrderInteractor): GetAllDeliveryOrderUseCase
@@ -90,16 +83,26 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
+    abstract fun provideGetDeliveryOrderByIdUseCase(getDeliveryOrderByIdInteractor: GetDeliveryOrderByIdInteractor): GetDeliveryOrderByIdUseCase
+
+    @Binds
+    @ViewModelScoped
     abstract fun provideGetCountActiveDeliveryOrderUseCase(getCountActiveDeliveryOrderInteractor: GetCountActiveDeliveryOrderInteractor): GetCountActiveDeliveryOrderUseCase
 
     @Binds
     @ViewModelScoped
     abstract fun provideGetAllDeliveryOrderDalamPerjalananByUserUseCase(getAllDeliveryOrderDalamPerjalananByUserInteractor: GetAllDeliveryOrderDalamPerjalananByUserInteractor): GetAllDeliveryOrderDalamPerjalananByUserUseCase
 
+    // USER USE CASE
     @Binds
     @ViewModelScoped
     abstract fun provideGetUserByTokenUseCase(getUserByTokenInteractor: GetUserByTokenInteractor): GetUserByTokenUseCase
 
+    @Binds
+    @ViewModelScoped
+    abstract fun provideUploadTtdUseCase(uploadTtInteractor: UploadTtdInteractor): UploadTtdUseCase
+
+    // KENDARAAN USE CASE
     @Binds
     @ViewModelScoped
     abstract fun provideGetKendaraanByLogisticUseCase(getKendaraanByLogisticInteractor: GetKendaraanByLogisticInteractor): GetKendaraanByLogisticUseCase

@@ -15,6 +15,9 @@ class StorageRepository @Inject constructor(
     override fun setDeviceToken(token: String) {
         storageDataSource.setDeviceToken(token)
     }
+    override fun setTracking(isTracking: Boolean) {
+        storageDataSource.setTracking(isTracking)
+    }
     override fun getDeviceToken() = storageDataSource.getDeviceToken()
     override fun getUserId() = storageDataSource.getUserId()
 
@@ -33,7 +36,7 @@ class StorageRepository @Inject constructor(
         storageDataSource.setTTD(ttd)
     }
     override fun isUserLogin() = storageDataSource.isUserLogin()
-
+    override fun isTracking() = storageDataSource.isTracking()
     override fun logoutUser() = storageDataSource.logoutUser()
 }
 

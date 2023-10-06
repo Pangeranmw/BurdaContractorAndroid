@@ -5,12 +5,16 @@ import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
+import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.domain.model.CountActive
 import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.DeliveryOrderRemoteDataSource
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DataAllDeliveryOrderWithCountItem
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailItem
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
 import com.android.burdacontractor.feature.profile.data.source.remote.UserRemoteDataSource
 import com.android.burdacontractor.feature.profile.domain.repository.IUserRepository
 import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
@@ -36,18 +40,18 @@ class DeliveryOrderRepository @Inject constructor(
         date_end: String?,
         size: Int,
         search: String?
-    ): Flow<PagingData<AllDeliveryOrder>> =
+    ): Flow<PagingData<DeliveryOrderItem>> =
         deliveryOrderRemoteDataSource.getAllDeliveryOrder(
             storageDataSource.getToken(),status,date_start,date_end,size,search
         )
 
-    override suspend fun getDeliveryOrderById(id: String): Flow<Resource<DeliveryOrderDetail>> = flow{
+    override suspend fun getDeliveryOrderById(id: String): Flow<Resource<DeliveryOrderDetailItem>> = flow{
         try {
             emit(Resource.Loading())
             when(val response = deliveryOrderRemoteDataSource.getDeliveryOrderById(storageDataSource.getToken(), id).first()){
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
-                    val result = DataMapper.deliveryOrderDetailResponsesToDomain(response.data.deliveryOrder)
+                    val result = response.data.deliveryOrder
                     emit(Resource.Success(result))
                 }
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -56,13 +60,13 @@ class DeliveryOrderRepository @Inject constructor(
             emit(Resource.Error(ex.message.toString()))
         }
     }
-    override suspend fun getAllDeliveryOrderDalamPerjalananByUser(): Flow<Resource<List<AllDeliveryOrder>>> = flow{
+    override suspend fun getAllDeliveryOrderDalamPerjalananByUser(): Flow<Resource<List<DeliveryOrderItem>>> = flow{
         try {
             emit(Resource.Loading())
             when(val response = deliveryOrderRemoteDataSource.getAllDeliveryOrderDalamPerjalananByUser(storageDataSource.getToken()).first()){
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
-                    val result = DataMapper.mapAllDeliveryOrderResponsesToDomain(response.data.deliveryOrder!!)
+                    val result = response.data.deliveryOrder!!
                     emit(Resource.Success(result))
                 }
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -71,13 +75,13 @@ class DeliveryOrderRepository @Inject constructor(
             emit(Resource.Error(ex.message.toString()))
         }
     }
-    override suspend fun getSomeActiveDeliveryOrder(size: Int): Flow<Resource<DataAllDeliveryOrderWithCount>> = flow{
+    override suspend fun getSomeActiveDeliveryOrder(size: Int): Flow<Resource<DataAllDeliveryOrderWithCountItem>> = flow{
         try {
             emit(Resource.Loading())
             when(val response = deliveryOrderRemoteDataSource.getAllDeliveryOrderWithCount(storageDataSource.getToken(), size).first()){
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
-                    val result = DataMapper.dataAllDeliveryOrderWithCountResponsesToDomain(response.data.data!!)
+                    val result = response.data.data!!
                     emit(Resource.Success(result))
                 }
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -86,13 +90,13 @@ class DeliveryOrderRepository @Inject constructor(
             emit(Resource.Error(ex.message.toString()))
         }
     }
-    override suspend fun getCountActiveDeliveryOrder(): Flow<Resource<CountActive>> = flow{
+    override suspend fun getCountActiveDeliveryOrder(): Flow<Resource<CountActiveResponse>> = flow{
         try {
             emit(Resource.Loading())
             when(val response = deliveryOrderRemoteDataSource.getCountActiveDeliveryOrder(storageDataSource.getToken()).first()){
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
-                    val result = DataMapper.countActiveResponsesToDomain(response.data)
+                    val result = response.data
                     emit(Resource.Success(result))
                 }
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))

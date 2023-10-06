@@ -10,6 +10,7 @@ import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import com.android.burdacontractor.feature.auth.domain.usecase.LogoutUseCase
+import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,8 +29,8 @@ class ProfileViewModel @Inject constructor(
     private val _logoutState = MutableLiveData<StateResponse?>()
     val logoutState: LiveData<StateResponse?> = _logoutState
 
-    private val _user = MutableLiveData<User>()
-    val user: LiveData<User> = _user
+    private val _user = MutableLiveData<UserByTokenItem>()
+    val user: LiveData<UserByTokenItem> = _user
 
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse : LiveData<Event<String?>> = _messageResponse

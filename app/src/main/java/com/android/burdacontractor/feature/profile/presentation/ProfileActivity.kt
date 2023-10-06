@@ -20,6 +20,7 @@ import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityProfileBinding
 import com.android.burdacontractor.feature.auth.presentation.LoginActivity
+import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
@@ -64,7 +65,7 @@ class ProfileActivity : AppCompatActivity() {
         }
         initUi()
     }
-    private fun initProfile(user: User){
+    private fun initProfile(user: UserByTokenItem){
         binding.tvNamaUser.text = user.nama
         binding.tvRolUser.text = enumValueToNormal(user.role)
         binding.tvNoHpUser.text = user.noHp
@@ -83,7 +84,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.btnLogout.setOnClickListener {
             stopService()
             profileViewModel.logout{
-                applicationContext.openActivity(LoginActivity::class.java, this,
+                openActivity(LoginActivity::class.java,
                     isFinished = true,
                     clearAllTask = true
                 )
@@ -98,6 +99,9 @@ class ProfileActivity : AppCompatActivity() {
                 startService()
                 binding.tvSwitchTracking.text = getString(R.string.tracking_lokasi_aktif)
             }
+        }
+        binding.rlUbahTtd.setOnClickListener{
+            openActivity(SignatureActivity::class.java, false)
         }
     }
     private fun stopService(){

@@ -1,9 +1,9 @@
 package com.android.burdacontractor.feature.profile.domain.usecase
 
 import com.android.burdacontractor.core.data.Resource
-import com.android.burdacontractor.core.domain.model.User
+import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import kotlinx.coroutines.flow.Flow
 
 interface GetUserByTokenUseCase {
-    suspend fun execute(): Flow<Resource<User>>
+    suspend fun execute(): Flow<Resource<UserByTokenItem>>
 }

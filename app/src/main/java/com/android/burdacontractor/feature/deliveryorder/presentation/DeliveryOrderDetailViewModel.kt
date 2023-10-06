@@ -13,6 +13,7 @@ import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailItem
 import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetail
 import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetDeliveryOrderByIdUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
@@ -34,8 +35,8 @@ class DeliveryOrderDetailViewModel @Inject constructor(
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse : LiveData<Event<String?>> = _messageResponse
 
-    private val _deliveryOrder = MutableLiveData<DeliveryOrderDetail>()
-    val deliveryOrder : LiveData<DeliveryOrderDetail> = _deliveryOrder
+    private val _deliveryOrder = MutableLiveData<DeliveryOrderDetailItem>()
+    val deliveryOrder : LiveData<DeliveryOrderDetailItem> = _deliveryOrder
 
     fun getDeliveryOrderById(id:String){
         viewModelScope.launch {

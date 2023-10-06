@@ -196,7 +196,7 @@
                 >
                 <com.google.android.material.imageview.ShapeableImageView
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                    android:id="@+id/iv_project_manager"
+                    android:id="@+id/iv_site_manager"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:scaleType="centerCrop"
@@ -206,73 +206,28 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_nama_project_manager"
+                    android:id="@+id/tv_nama_site_manager"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="0dp"
-                    android:layout_toEndOf="@+id/iv_project_manager"
+                    android:layout_toEndOf="@+id/iv_site_manager"
                     android:text="@string/nama_user"
                     android:fontFamily="@font/inter_medium"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tv_role_project_manager"
+                    android:id="@+id/tv_role_site_manager"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_nama_project_manager"
+                    android:layout_below="@+id/tv_nama_site_manager"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/inter_regular"
-                    android:layout_toEndOf="@+id/iv_project_manager"
+                    android:layout_toEndOf="@+id/iv_site_manager"
                     android:text="@string/role"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="11sp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/layout_supervisor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:visibility="visible"
-                >
-                <com.google.android.material.imageview.ShapeableImageView
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                    android:id="@+id/iv_supervisor"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/unit_supervisor"
-                    app:tint="@color/gray_dark"
-                    android:layout_centerVertical="true"
-                    />
-
-                <TextView
-                    android:id="@+id/tv_nama_supervisor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="5dp"
-                    android:maxWidth="80dp"
-                    android:layout_toEndOf="@+id/iv_supervisor"
-                    android:text="@string/nama_user"
-                    android:maxLines="2"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_role_supervisor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_nama_supervisor"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="2dp"
-                    android:fontFamily="@font/inter_regular"
-                    android:layout_toEndOf="@+id/iv_supervisor"
-                    android:text="@string/supervisor"
                     android:textColor="@color/gray_dark"
                     android:textSize="11sp" />
             </RelativeLayout>

@@ -50,18 +50,4 @@ abstract class RepositoryModule {
     @Binds
     abstract fun providesLocationClient(defaultLocationClient: DefaultLocationClient): LocationClient
 
-//    @Binds
-//    abstract fun provideDeliveryOrderRepository(deliveryOrderRepository: DeliveryOrderRepository): IDeliveryOrderRepository
-//
-//    @Binds
-//    abstract fun provideUserRepository(userRepository: UserRepository): IUserRepository
-//
-//    @Binds
-//    abstract fun providePeminjamanRepository(peminjamanRepository: PeminjamanRepository): IPeminjamanRepository
-//
-//    @Binds
-//    abstract fun providePengembalianRepository(pengembalianRepository: PengembalianRepository): IPengembalianRepository
-//
-//    @Binds
-//    abstract fun providePengembalianRepository(peminjamanRepository: PengembalianRepository): IPengembalianRepository
 }

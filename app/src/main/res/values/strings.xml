@@ -137,7 +137,7 @@
     <string name="tambah_foto_bukti">Tambah Foto Bukti</string>
     <string name="foto_bukti_pengambilan_barang">Foto Bukti Pengambilan Barang</string>
     <string name="ubah_surat_jalan">Ubah Surat Jalan</string>
-    <string name="project_manager">Project Manager</string>
+    <string name="site_manager">Site Manager</string>
     <string name="daftar_barang">Daftar Barang</string>
     <string name="barang_tidak_habis_pakai">Barang Tidak Habis Pakai</string>
     <string name="nomor_seri">Nomor Seri</string>
@@ -149,4 +149,16 @@
     <string name="supervisor_peminjam">Supervisor (Peminjam)</string>
     <string name="foto_bukti">Foto Bukti</string>
     <string name="barang_habis_pakai">Barang Habis Pakai</string>
+    <string name="tanda_tangan_di_bawah">Tanda Tangan Di Bawah</string>
+    <string name="hapus">Hapus</string>
+    <string name="tanda_tanganmu">Tanda Tanganmu</string>
+    <string name="proyek">Proyek</string>
+    <string name="none">-</string>
+    <string name="pemberi">Pemberi</string>
+    <string name="pengirim">Pengirim</string>
+    <string name="penerima">Penerima</string>
+    <string name="peminjaman">Peminjaman</string>
+    <string name="ttd_empty">Anda belum memiliki tanda tangan</string>
+    <string name="jumlah_satuan">%1$s %2$s</string>
+    <string name="cetak_delivery_order">Cetak Delivery Order</string>
 </resources>

@@ -8,6 +8,7 @@ import com.android.burdacontractor.core.data.source.remote.response.ErrorMessage
 import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.profile.data.source.remote.UserRemoteDataSource
+import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.domain.repository.IUserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -22,14 +23,13 @@ class UserRepository @Inject constructor(
     private val storageDataSource: StorageDataSource
 ) : IUserRepository {
 
-    override suspend fun getUserByToken(): Flow<Resource<User>> = flow{
+    override suspend fun getUserByToken(): Flow<Resource<UserByTokenItem>> = flow{
         try {
             emit(Resource.Loading())
             when(val response = userRemoteDataSource.getUserByToken(storageDataSource.getToken()).first()){
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
-                    val result = DataMapper.userByTokenResponsesToDomain(response.data.user!!)
-                    Log.d("getUserByToken", result.toString())
+                    val result = response.data.user!!
                     emit(Resource.Success(result))
                 }
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))

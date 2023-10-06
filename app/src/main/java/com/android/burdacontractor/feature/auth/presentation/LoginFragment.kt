@@ -68,7 +68,7 @@ class LoginFragment : Fragment() {
                 StateResponse.ERROR -> binding.progressBar.setGone()
                 StateResponse.SUCCESS -> {
                     binding.progressBar.setGone()
-                    requireContext().openActivity(BerandaActivity::class.java, requireActivity())
+                    requireActivity().openActivity(BerandaActivity::class.java)
                 }
                 else -> {}
             }

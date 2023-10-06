@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/cv_surat_jalan"
+    android:id="@+id/cv_pre_order"
     app:cardElevation="2dp"
     app:cardCornerRadius="10dp"
     android:layout_margin="5dp"
@@ -36,10 +36,19 @@
             android:layout_marginTop="5dp"/>
         <TextView
             android:fontFamily="@font/inter_medium"
-            android:id="@+id/tv_ukuran_satuan"
+            android:id="@+id/tv_ukuran"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ukuran_dan_satuan"
+            android:text="@string/ukuran"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:fontFamily="@font/inter_medium"
+            android:id="@+id/tv_jumlah_satuan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/jumlah_dan_satuan"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:layout_marginTop="5dp"/>

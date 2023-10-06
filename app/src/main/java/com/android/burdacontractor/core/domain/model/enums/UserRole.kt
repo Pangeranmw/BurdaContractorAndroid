@@ -6,6 +6,7 @@ enum class UserRole {
     SUPERVISOR,
     LOGISTIC,
     PURCHASING,
+    SITE_MANAGER,
     PROJECT_MANAGER,
     UMUM
 }

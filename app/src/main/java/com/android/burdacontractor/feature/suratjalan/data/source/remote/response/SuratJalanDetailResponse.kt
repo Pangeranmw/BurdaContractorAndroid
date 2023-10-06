@@ -80,6 +80,20 @@ data class TempatSuratJalan(
 	@field:SerializedName("alamat")
 	val alamat: String
 )
+data class TtdVerification(
+
+	@field:SerializedName("role")
+	val role: String,
+
+	@field:SerializedName("sebagai")
+	val sebagai: String,
+
+	@field:SerializedName("nama")
+	val nama: String,
+
+	@field:SerializedName("ttd")
+	val ttd: String
+)
 
 data class SuratJalanDetailItem(
 
@@ -93,10 +107,10 @@ data class SuratJalanDetailItem(
 	val tempatAsal: TempatSuratJalan?=null,
 
 	@field:SerializedName("ttd_admin")
-	val ttdAdmin: String,
+	val ttdAdmin: TtdVerification? = null,
 
 	@field:SerializedName("ttd_driver")
-	val ttdDriver: String? = null,
+	val ttdDriver: TtdVerification? = null,
 
 	@field:SerializedName("created_at")
 	val createdAt: Long,
@@ -119,11 +133,11 @@ data class SuratJalanDetailItem(
 	@field:SerializedName("kode_surat")
 	val kodeSurat: String,
 
-	@field:SerializedName("ttd_supervisor")
-	val ttdSupervisor: String? = null,
+	@field:SerializedName("ttd_penanggung_jawab")
+	val ttdPenanggungJawab: TtdVerification? = null,
 
-	@field:SerializedName("ttd_supervisor_peminjam")
-	val ttdSupervisorPeminjam: String? = null,
+	@field:SerializedName("ttd_penanggung_jawab_peminjam")
+	val ttdPenanggungJawabPeminjam: TtdVerification? = null,
 
 	@field:SerializedName("id")
 	val id: String,

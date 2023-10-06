@@ -14,6 +14,7 @@ import com.android.burdacontractor.feature.deliveryorder.data.source.remote.Deli
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderWithCountResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailResponse
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
 import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -32,7 +33,7 @@ class DeliveryOrderRemoteDataSource @Inject constructor(
         date_end: String? = null,
         size: Int = 5,
         search: String? = null,
-    ): Flow<PagingData<AllDeliveryOrder>> {
+    ): Flow<PagingData<DeliveryOrderItem>> {
         return Pager(
             config = PagingConfig(
                 pageSize = size

@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DeliveryOrderDetail(
-    val id: String? = null,
+    val id: String,
     val kendaraanMerk: String?=null,
     val kendaraanJenis: String?=null,
     val kendaraanPlatNomor: String?=null,

@@ -6,6 +6,7 @@ import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.auth.data.source.remote.AuthRemoteDataSource
+import com.android.burdacontractor.feature.auth.data.source.remote.response.LoginItem
 import com.android.burdacontractor.feature.auth.domain.model.UserLogin
 import com.android.burdacontractor.feature.auth.domain.repository.IAuthRepository
 import kotlinx.coroutines.flow.Flow
@@ -37,13 +38,13 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    override suspend fun login(email: String, password: String): Flow<Resource<UserLogin>> = flow{
+    override suspend fun login(email: String, password: String): Flow<Resource<LoginItem>> = flow{
         try {
             emit(Resource.Loading())
             when(val response = authRemoteDataSource.login(email,password,storageDataSource.getDeviceToken()).first()){
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
-                    val user = DataMapper.loginResponsesToDomain(response.data.user)
+                    val user = response.data.user
                     storageDataSource.loginUser(user.id, user.token, user.role, user.ttd.toString())
                     emit(Resource.Success(user))
                 }

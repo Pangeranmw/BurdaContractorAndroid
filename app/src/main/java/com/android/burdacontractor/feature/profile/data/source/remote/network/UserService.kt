@@ -28,14 +28,6 @@ interface UserService {
         @Part ttd: MultipartBody.Part,
     ): ErrorMessageResponse
 
-
-    @Headers("Content-Type: application/json","Accept: application/json")
-    @GET("user/ttd")
-    suspend fun getTTD(
-        @Header("Authorization") token: String,
-        @Field("ttd") ttd: String,
-    ): ErrorMessageResponse
-
     @Headers("Content-Type: application/json","Accept: application/json")
     @GET("currentAccessToken")
     suspend fun getUserByToken(

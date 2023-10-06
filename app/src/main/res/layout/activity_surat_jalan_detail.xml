@@ -20,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical">
-
             <ImageButton
                 android:id="@+id/btn_back"
                 android:layout_width="wrap_content"
@@ -177,6 +176,7 @@
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/layout_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
@@ -267,44 +267,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/asal_dan_tujuan"
+                    android:text="@string/proyek"
                     android:textSize="14sp"
                     android:fontFamily="@font/inter_semi_bold"
                     android:textColor="@color/black"
-                    />
-                <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    >
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_asal"
-                        />
-                    <TextView
-                        android:id="@+id/tv_nama_asal"
-                        android:layout_marginStart="5dp"
-                        android:textColor="@color/black"
-                        android:text="@string/nama_asal"
-                        android:fontFamily="@font/inter_medium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        />
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_alamat_asal"
-                    android:textColor="@color/black"
-                    android:text="@string/alamat_asal"
-                    android:fontFamily="@font/inter_light"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:layout_marginTop="2dp"
                     />
                 <LinearLayout
                     android:layout_marginTop="5dp"
@@ -430,81 +396,7 @@
                     android:weightSum="2"
                     >
                     <LinearLayout
-                        android:id="@+id/layout_driver"
-                        android:visibility="gone"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_weight="1"
-                        >
-                        <TextView
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent"
-                            android:text="@string/driver"
-                            android:fontFamily="@font/inter_semi_bold"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            >
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/iv_driver"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                                android:src="@drawable/unit_driver"
-                                />
-                            <LinearLayout
-
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_toEndOf="@+id/iv_driver"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginTop="2dp"
-                                >
-                                <TextView
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="match_parent"
-                                    android:id="@+id/tv_nama_driver"
-                                    android:text="@string/nama_user"
-                                    android:fontFamily="@font/inter_medium"
-                                    android:textColor="@color/black"
-                                    android:textSize="11sp"
-                                    />
-                                <TextView
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="match_parent"
-                                    android:text="@string/driver"
-                                    android:fontFamily="@font/inter_light"
-                                    android:textColor="@color/black"
-                                    android:textSize="11sp"
-                                    />
-                            </LinearLayout>
-                        </RelativeLayout>
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_hubungi_driver"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/semi_rounded_secondary_main"
-                            android:text="@string/hubungi"
-                            android:minHeight="0dp"
-                            android:textAllCaps="false"
-                            android:paddingVertical="5dp"
-                            android:paddingHorizontal="10dp"
-                            android:layout_marginTop="5dp"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
+                        android:paddingHorizontal="10dp"
                         android:id="@+id/layout_project_manager"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -513,12 +405,11 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_weight="1"
-                        android:visibility="gone"
                         >
                         <TextView
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"
-                            android:text="@string/project_manager"
+                            android:text="@string/site_manager"
                             android:fontFamily="@font/inter_semi_bold"
                             android:textColor="@color/black"
                             android:textSize="12sp"
@@ -529,7 +420,7 @@
                             android:layout_marginTop="2dp"
                             >
                             <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/iv_project_manager"
+                                android:id="@+id/iv_site_manager"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:scaleType="centerCrop"
@@ -541,14 +432,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:layout_toEndOf="@+id/iv_project_manager"
+                                android:layout_toEndOf="@+id/iv_site_manager"
                                 android:layout_marginStart="5dp"
                                 android:layout_marginTop="2dp"
                                 >
                                 <TextView
                                     android:layout_height="wrap_content"
                                     android:layout_width="match_parent"
-                                    android:id="@+id/tv_nama_project_manager"
+                                    android:id="@+id/tv_nama_site_manager"
                                     android:text="@string/nama_user"
                                     android:fontFamily="@font/inter_medium"
                                     android:textColor="@color/black"
@@ -557,7 +448,7 @@
                                 <TextView
                                     android:layout_height="wrap_content"
                                     android:layout_width="match_parent"
-                                    android:text="@string/project_manager"
+                                    android:text="@string/site_manager"
                                     android:fontFamily="@font/inter_light"
                                     android:textColor="@color/black"
                                     android:textSize="11sp"
@@ -580,6 +471,7 @@
                             />
                     </LinearLayout>
                     <LinearLayout
+                        android:paddingHorizontal="10dp"
                         android:id="@+id/layout_admin_gudang"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -588,7 +480,6 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_weight="1"
-                        android:visibility="gone"
                         >
                         <TextView
                             android:layout_height="wrap_content"
@@ -654,150 +545,7 @@
                             android:textSize="12sp"
                             />
                     </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/layout_supervisor"
-                        android:visibility="gone"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_weight="1"
-                        >
-                        <TextView
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent"
-                            android:text="@string/supervisor"
-                            android:fontFamily="@font/inter_semi_bold"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            >
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/iv_supervisor"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                                android:src="@drawable/unit_supervisor"
-                                />
-                            <LinearLayout
-
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_toEndOf="@+id/iv_supervisor"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginTop="2dp"
-                                >
-                                <TextView
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="match_parent"
-                                    android:id="@+id/tv_nama_supervisor"
-                                    android:text="@string/nama_user"
-                                    android:fontFamily="@font/inter_medium"
-                                    android:textColor="@color/black"
-                                    android:textSize="11sp"
-                                    />
-                                <TextView
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="match_parent"
-                                    android:text="@string/supervisor"
-                                    android:fontFamily="@font/inter_light"
-                                    android:textColor="@color/black"
-                                    android:textSize="11sp"
-                                    />
-                            </LinearLayout>
-                        </RelativeLayout>
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_hubungi_supervisor"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/semi_rounded_secondary_main"
-                            android:text="@string/hubungi"
-                            android:minHeight="0dp"
-                            android:textAllCaps="false"
-                            android:paddingVertical="5dp"
-                            android:paddingHorizontal="10dp"
-                            android:layout_marginTop="5dp"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"
-                            />
-                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/bottom_outline_gray"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/daftar_barang"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/inter_semi_bold"
-                    android:textColor="@color/black"
-                    />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    >
-                    <TextView
-                        android:id="@+id/tv_barang_tidak_habis_pakai"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/barang_tidak_habis_pakai"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/inter_semi_bold"
-                        android:textColor="@color/black"
-                        />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_barang_tidak_habis_pakai"
-                        android:layout_below="@+id/tv_barang_tidak_habis_pakai"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:spanCount="2"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        tools:itemCount="4"
-                        tools:listitem="@layout/item_pinjam_barang_tidak_habis_pakai" />
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    >
-                    <TextView
-                        android:id="@+id/tv_barang_habis_pakai"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/barang_habis_pakai"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/inter_semi_bold"
-                        android:textColor="@color/black"
-                        />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_barang_habis_pakai"
-                        android:layout_below="@+id/tv_barang_habis_pakai"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:spanCount="2"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        tools:itemCount="4"
-                        tools:listitem="@layout/item_pinjam_barang_habis_pakai" />
-                </RelativeLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -822,7 +570,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="3"
+                    android:weightSum="2"
                     >
                     <LinearLayout
                         android:id="@+id/layout_ttd_admin_gudang"
@@ -840,8 +588,8 @@
                             android:background="@color/input"
                             android:padding="20dp"
                             >
-
                             <ImageView
+                                android:id="@+id/iv_ttd_admin_gudang"
                                 android:layout_width="match_parent"
                                 android:layout_height="75dp"
                                 android:layout_centerInParent="true"
@@ -853,16 +601,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="@string/nama_user"
+                            android:text="@string/none"
                             android:textSize="12sp"
                             android:fontFamily="@font/inter_medium"
                             android:textColor="@color/black"
                             />
                         <TextView
+                            android:id="@+id/tv_sebagai_admin"
                             android:textAlignment="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/admin_gudang"
+                            android:text="@string/pemberi"
                             android:textSize="11sp"
                             android:fontFamily="@font/inter_regular"
                             android:textColor="@color/black"
@@ -886,6 +635,7 @@
                             >
 
                             <ImageView
+                                android:id="@+id/iv_ttd_driver"
                                 android:layout_width="match_parent"
                                 android:layout_height="75dp"
                                 android:layout_centerInParent="true"
@@ -897,21 +647,30 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="@string/nama_user"
+                            android:text="@string/none"
                             android:textSize="12sp"
                             android:fontFamily="@font/inter_medium"
                             android:textColor="@color/black"
                             />
                         <TextView
+                            android:id="@+id/tv_sebagai_driver"
                             android:textAlignment="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/driver"
+                            android:text="@string/pengirim"
                             android:textSize="11sp"
                             android:fontFamily="@font/inter_regular"
                             android:textColor="@color/black"
                             />
                     </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_marginTop="10dp"
+                    >
                     <LinearLayout
                         android:id="@+id/layout_ttd_supervisor"
                         android:layout_width="0dp"
@@ -936,28 +695,29 @@
                                 android:src="@drawable/ic_signature" />
                         </RelativeLayout>
                         <TextView
-                            android:id="@+id/tv_tertanda_supervisor"
+                            android:id="@+id/tv_tertanda_tgg_jwb"
                             android:textAlignment="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="@string/nama_user"
+                            android:text="@string/none"
                             android:textSize="12sp"
                             android:fontFamily="@font/inter_medium"
                             android:textColor="@color/black"
                             />
                         <TextView
+                            android:id="@+id/tv_sebagai_tgg_jwb"
                             android:textAlignment="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/supervisor"
+                            android:text="@string/penerima"
                             android:textSize="11sp"
                             android:fontFamily="@font/inter_regular"
                             android:textColor="@color/black"
                             />
                     </LinearLayout>
                     <LinearLayout
-                        android:id="@+id/layout_ttd_supervisor_peminjam"
+                        android:id="@+id/layout_ttd_tgg_jwb_peminjam"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -981,21 +741,22 @@
                                 android:src="@drawable/ic_signature" />
                         </RelativeLayout>
                         <TextView
-                            android:id="@+id/tv_tertanda_supervisor_peminjam"
+                            android:id="@+id/tv_tertanda_tgg_jwb_peminjam"
                             android:textAlignment="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="@string/nama_user"
+                            android:text="@string/none"
                             android:textSize="12sp"
                             android:fontFamily="@font/inter_medium"
                             android:textColor="@color/black"
                             />
                         <TextView
+                            android:id="@+id/tv_sebagai_tgg_jwb_peminjam"
                             android:textAlignment="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/supervisor_peminjam"
+                            android:text="@string/penerima"
                             android:textSize="11sp"
                             android:fontFamily="@font/inter_regular"
                             android:textColor="@color/black"
@@ -1034,6 +795,73 @@
                     android:layout_gravity="start"
                     tools:src="@tools:sample/avatars"
                     android:src="@drawable/ic_signature" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/bottom_outline_gray"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/daftar_barang"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/inter_semi_bold"
+                    android:textColor="@color/black"
+                    />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    >
+                    <TextView
+                        android:id="@+id/tv_peminjaman"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/peminjaman"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/inter_semi_bold"
+                        android:textColor="@color/black"
+                        />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_peminjaman"
+                        android:layout_below="@+id/tv_peminjaman"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/item_peminjaman" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    >
+                    <TextView
+                        android:id="@+id/tv_barang_habis_pakai"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/barang_habis_pakai"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/inter_semi_bold"
+                        android:textColor="@color/black"
+                        />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_barang_habis_pakai"
+                        android:layout_below="@+id/tv_barang_habis_pakai"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:spanCount="2"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/item_pinjam_barang_habis_pakai" />
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

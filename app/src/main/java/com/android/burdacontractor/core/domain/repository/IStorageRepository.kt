@@ -3,6 +3,7 @@ package com.android.burdacontractor.core.domain.repository
 interface IStorageRepository {
     fun loginUser(userId: String, token: String, role: String, ttd: String)
     fun setDeviceToken(token: String)
+    fun setTracking(isTracking: Boolean)
     fun setTTD(ttd: String)
     fun getDeviceToken(): String
 
@@ -19,6 +20,6 @@ interface IStorageRepository {
     fun getTTD(): String
 
     fun isUserLogin(): Boolean
-
+    fun isTracking(): Boolean
     fun logoutUser()
 }

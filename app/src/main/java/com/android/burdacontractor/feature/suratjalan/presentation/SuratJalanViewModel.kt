@@ -13,6 +13,7 @@ import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSuratJalanUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetCountActiveSuratJalanUseCase
@@ -65,7 +66,7 @@ class SuratJalanViewModel @Inject constructor(
         date_end: String? = null,
         size: Int = 10,
         search: String? = null
-    ): LiveData<PagingData<AllSuratJalan>> =
+    ): LiveData<PagingData<SuratJalanItem>> =
         allSuratJalanUseCase.execute(
             tipe = tipe,
             status = status,
@@ -90,89 +91,6 @@ class SuratJalanViewModel @Inject constructor(
             }
         }
     }
-//    fun register(
-//        nama: String,
-//        noHp: String,
-//        email: String,
-//        password: String,
-//    ) {
-//        viewModelScope.launch {
-//            registerUseCase.execute(nama,noHp,email,password).collect{
-//                when(it){
-//                    is Resource.Loading -> _state.value = StateResponse.LOADING
-//                    is Resource.Success -> {
-//                        _state.value = StateResponse.SUCCESS
-//                    }
-//                    is Resource.Error -> {
-//                        _state.value = StateResponse.ERROR
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    fun login(email: String, password: String){
-//        viewModelScope.launch {
-//            loginUseCase.execute(email,password).collect{
-//                when(it){
-//                    is Resource.Loading -> _state.value = StateResponse.LOADING
-//                    is Resource.Success -> {
-//                        _state.value = StateResponse.SUCCESS
-//                        val data = it.data
-//                        if(data != null){
-//                            _messageResponse.value = Event("Login Berhasil")
-//                        }
-//                    }
-//                    is Resource.Error -> {
-//                        _state.value = StateResponse.ERROR
-//                        _messageResponse.value = Event(it.message)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    fun loginWithPin(pin: String) {
-//        viewModelScope.launch {
-//            loginWithPinUseCase.execute(pin).collect{
-//                when(it){
-//                    is Resource.Loading -> _state.value = StateResponse.LOADING
-//                    is Resource.Success -> {
-//                        _state.value = StateResponse.SUCCESS
-//                        val data = it.data
-//                        if(data != null){
-//                            _messageResponse.value = Event(data.message)
-//                        }
-//                    }
-//                    is Resource.Error -> {
-//                        _state.value = StateResponse.ERROR
-//                        _messageResponse.value = Event(it.message)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    fun logout() {
-//        viewModelScope.launch {
-//            logoutUseCase.execute().collect{
-//                when(it){
-//                    is Resource.Loading -> _state.value = StateResponse.LOADING
-//                    is Resource.Success -> {
-//                        _state.value = StateResponse.SUCCESS
-//                        val data = it.data
-//                        if(data != null){
-//                            _messageResponse.value = Event(data.message)
-//                        }
-//                    }
-//                    is Resource.Error -> {
-//                        _state.value = StateResponse.ERROR
-//                        _messageResponse.value = Event(it.message)
-//                    }
-//                }
-//            }
-//        }
-//    }
 
 }
 

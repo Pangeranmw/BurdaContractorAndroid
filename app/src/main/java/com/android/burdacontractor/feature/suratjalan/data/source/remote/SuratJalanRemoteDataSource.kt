@@ -13,6 +13,7 @@ import com.android.burdacontractor.feature.suratjalan.data.source.remote.network
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanWithCountResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -31,7 +32,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
         date_end: String? = null,
         size: Int = 5,
         search: String? = null,
-    ): Flow<PagingData<AllSuratJalan>> {
+    ): Flow<PagingData<SuratJalanItem>> {
         return Pager(
             config = PagingConfig(
                 pageSize = size

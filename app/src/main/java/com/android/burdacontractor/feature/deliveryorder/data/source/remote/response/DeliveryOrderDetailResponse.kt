@@ -1,6 +1,8 @@
 package com.android.burdacontractor.feature.deliveryorder.data.source.remote.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class DeliveryOrderDetailResponse(
 
@@ -13,6 +15,7 @@ data class DeliveryOrderDetailResponse(
 	@field:SerializedName("delivery_order")
 	val deliveryOrder: DeliveryOrderDetailItem
 )
+@Parcelize
 data class PreOrderItem(
 
 	@field:SerializedName("ukuran")
@@ -35,8 +38,9 @@ data class PreOrderItem(
 
 	@field:SerializedName("keterangan")
 	val keterangan: String
-)
+):Parcelable
 
+@Parcelize
 data class Kendaraan(
 
 	@field:SerializedName("merk")
@@ -50,8 +54,9 @@ data class Kendaraan(
 
 	@field:SerializedName("gambar")
 	val gambar: String
-)
+): Parcelable
 
+@Parcelize
 data class TempatDeliveryOrder(
 
 	@field:SerializedName("coordinate")
@@ -65,8 +70,9 @@ data class TempatDeliveryOrder(
 
 	@field:SerializedName("alamat")
 	val alamat: String
-)
+): Parcelable
 
+@Parcelize
 data class DeliveryOrderDetailItem(
 
 	@field:SerializedName("kendaraan")
@@ -76,7 +82,7 @@ data class DeliveryOrderDetailItem(
 	val adminGudang: UserDeliveryOrder?=null,
 
 	@field:SerializedName("tempat_asal")
-	val tempatAsal: TempatDeliveryOrder?=null,
+	val tempatAsal: TempatDeliveryOrder,
 
 	@field:SerializedName("ttd")
 	val ttd: String,
@@ -94,7 +100,7 @@ data class DeliveryOrderDetailItem(
 	val fotoBukti: String? = null,
 
 	@field:SerializedName("logistic")
-	val logistic: LogisticDeliveryOrder?=null,
+	val logistic: LogisticDeliveryOrder,
 
 	@field:SerializedName("updated_at")
 	val updatedAt: Long,
@@ -103,7 +109,7 @@ data class DeliveryOrderDetailItem(
 	val tglPengambilan: Long,
 
 	@field:SerializedName("tempat_tujuan")
-	val tempatTujuan: TempatDeliveryOrder?=null,
+	val tempatTujuan: TempatDeliveryOrder,
 
 	@field:SerializedName("pre_order")
 	val preOrder: List<PreOrderItem>? = null,
@@ -115,12 +121,13 @@ data class DeliveryOrderDetailItem(
 	val id: String,
 
 	@field:SerializedName("purchasing")
-	val purchasing: UserDeliveryOrder?=null,
+	val purchasing: UserDeliveryOrder,
 
 	@field:SerializedName("status")
 	val status: String,
-)
+): Parcelable
 
+@Parcelize
 data class UserDeliveryOrder(
 
 	@field:SerializedName("nama")
@@ -130,8 +137,13 @@ data class UserDeliveryOrder(
 	val foto: String,
 
 	@field:SerializedName("no_hp")
-	val noHp: String
-)
+	val noHp: String,
+
+	@field:SerializedName("role")
+	val role: String
+):Parcelable
+
+@Parcelize
 data class LogisticDeliveryOrder(
 
 	@field:SerializedName("id")
@@ -145,4 +157,4 @@ data class LogisticDeliveryOrder(
 
 	@field:SerializedName("no_hp")
 	val noHp: String
-)
+): Parcelable

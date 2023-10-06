@@ -17,7 +17,7 @@ data class GetUserByTokenResponse(
 data class UserByTokenItem(
 
 	@field:SerializedName("role")
-	val role: String? = null,
+	val role: String,
 
 	@field:SerializedName("nama")
 	val nama: String? = null,
@@ -41,7 +41,7 @@ data class UserByTokenItem(
 	val createdAt: Long? = null,
 
 	@field:SerializedName("id")
-	val id: String? = null,
+	val id: String,
 
 	@field:SerializedName("email")
 	val email: String? = null

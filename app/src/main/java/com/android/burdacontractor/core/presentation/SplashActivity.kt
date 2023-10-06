@@ -24,9 +24,9 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if(storageViewModel.userId.isNotBlank()){
-            openActivity(BerandaActivity::class.java, this)
+            openActivity(BerandaActivity::class.java)
         }else{
-            openActivity(LoginActivity::class.java, this)
+            openActivity(LoginActivity::class.java)
         }
     }
 

@@ -23,6 +23,9 @@ data class DeliveryOrderItem(
 	@field:SerializedName("coordinate_tempat_asal")
 	val coordinateTempatAsal: String? = null,
 
+	@field:SerializedName("id_admin_gudang")
+	val idAdminGudang: String? = null,
+
 	@field:SerializedName("nama_admin_gudang")
 	val namaAdminGudang: String? = null,
 
@@ -43,6 +46,9 @@ data class DeliveryOrderItem(
 
 	@field:SerializedName("nama_tempat_asal")
 	val namaTempatAsal: String? = null,
+
+	@field:SerializedName("id_purchasing")
+	val idPurchasing: String? = null,
 
 	@field:SerializedName("foto_purchasing")
 	val fotoPurchasing: String? = null,

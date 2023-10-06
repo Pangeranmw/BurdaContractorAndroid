@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -14,8 +15,10 @@ import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Environment
+import android.os.Parcelable
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -42,6 +45,8 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import java.util.UUID
+
 
 // Extension For Distance Matrix Response
 fun List<Routes>.getDuration(): String{
@@ -68,6 +73,39 @@ fun ImageView.setImageFromUrl(
         .skipMemoryCache(true)
         .into(this)
 }
+fun View.openWhatsAppChat(toNumber: String) {
+    val newNumber = convertNumberToIndonesia(toNumber)
+    val url = "https://api.whatsapp.com/send?phone=$newNumber"
+    try {
+        context.packageManager.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
+        context.startActivity(Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url) })
+    } catch (e: PackageManager.NameNotFoundException) {
+        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))}}
+
+fun convertNumberToIndonesia(toNumber: String): String{
+    var newNumber = toNumber.replace(" ", "").replace("(","").replace(")","").replace("+","")
+    if(newNumber.first() == '0') newNumber = newNumber.replaceFirst("0","+62")
+    else if(newNumber[0] == '6' && newNumber[1] == '2') newNumber = newNumber.replaceFirst("6","+6") //
+    else if(newNumber[0] != '6' && newNumber[1] != '2') newNumber = "+62${newNumber}" //81283749378 -> +6281283749378
+    return newNumber
+}
+fun Activity.dialIntent(number: String){
+    val newNumber = convertNumberToIndonesia(number)
+    val intent = Intent(Intent.ACTION_DIAL).apply {
+        data = Uri.parse("tel:$newNumber")
+    }
+    this.startActivity(intent)
+}
+inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
+    SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
+}
+
+inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
+    SDK_INT >= 33 -> getParcelable(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelable(key) as? T
+}
+
 fun ShapeableImageView.setImageFromUrl(
     url: String, context: Context,
 ) {
@@ -117,22 +155,34 @@ fun View.setVisible() {
 }
 
 // Lambda with receiver (extras: Bundle.() -> Unit = {})
-fun <T> Context.openActivityWithExtras(it: Class<T>, activity: Activity, extras: Bundle.() -> Unit = {}) {
+fun <T> Activity.openActivityWithExtrasTes(it: Class<T>, isFinished: Boolean = true, clearAllTask: Boolean = false, extras: Intent.() -> Unit = {}) {
     val intent = Intent(this, it)
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-    intent.putExtras(Bundle().apply(extras))
-    startActivity(intent)
-    activity.overridePendingTransition(0, 0)
+    intent.putExtras(Intent().apply(extras))
+    if(clearAllTask) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+    this.startActivity(intent)
+    if (isFinished) this.finish()
+    this.overridePendingTransition(0, 0)
 }
-fun <T> Context.openActivity(it: Class<T>, activity: Activity , isFinished: Boolean = true, clearAllTask: Boolean = false) {
+fun <T> Activity.openActivityWithExtras(it: Class<T>, isFinished: Boolean = true, clearAllTask: Boolean = false, extras: Bundle.() -> Unit = {}) {
+    val intent = Intent(this.applicationContext, it)
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+    intent.putExtras(Bundle().apply(extras))
+    if(clearAllTask) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+    startActivity(intent)
+    if (isFinished) finish()
+    overridePendingTransition(0, 0)
+}
+fun <T> Activity.openActivity(it: Class<T>, isFinished: Boolean = true, clearAllTask: Boolean = false) {
     val intent = Intent(this, it)
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     if(clearAllTask) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-    activity.startActivity(intent)
-    if (isFinished) activity.finish()
-    activity.overridePendingTransition(0, 0)
+    this.startActivity(intent)
+    if (isFinished) this.finish()
+    this.overridePendingTransition(0, 0)
 }
 fun setParcelable(fragment: Fragment, parcelable: Bundle.() -> Unit = {}) {
     val bundle = Bundle()
@@ -149,7 +199,16 @@ fun Context.checkConnection(snackbar: Snackbar?, state: Boolean, nextListener: (
         nextListener()
     }
 }
-
+fun bitmapToFile(imageBitmap: Bitmap, format: Bitmap.CompressFormat, quality: Int,context: Context): File{
+    val wrapper = ContextWrapper(context)
+    var file = wrapper.getDir("Images", Context.MODE_PRIVATE)
+    file = File(file,"${UUID.randomUUID()}.png")
+    val stream: OutputStream = FileOutputStream(file)
+    imageBitmap.compress(format,quality,stream)
+    stream.flush()
+    stream.close()
+    return file
+}
 fun Context.hasLocationPermission(): Boolean {
     return ContextCompat.checkSelfPermission(
         this,
@@ -368,7 +427,7 @@ fun Context.getTimeDifference(millis: Long): String{
 }
 
 fun getDateFromMillis(millis: Long, dateFormat: String? = null): String{
-    val format = dateFormat ?: "yyyy-MM-dd HH:mm:ss"
+    val format = dateFormat ?: "dd MMMM yyyy, HH:mm"
     val formatter = SimpleDateFormat(format, Locale.getDefault())
     val calendar = Calendar.getInstance()
 

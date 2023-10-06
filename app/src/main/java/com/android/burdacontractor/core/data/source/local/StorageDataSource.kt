@@ -17,7 +17,9 @@ class StorageDataSource @Inject constructor(private val sessionManager: SessionM
     fun setDeviceToken(token: String) {
         sessionManager.saveToPreference(SessionManager.KEY_DEVICE_TOKEN, token)
     }
-
+    fun setTracking(isTracking: Boolean) {
+        sessionManager.setTracking(isTracking)
+    }
     fun getDeviceToken() = sessionManager.getFromPreference(SessionManager.KEY_DEVICE_TOKEN).toString()
     fun getUserId() = sessionManager.getFromPreference(SessionManager.KEY_USER_ID).toString()
 
@@ -37,6 +39,7 @@ class StorageDataSource @Inject constructor(private val sessionManager: SessionM
     }
 
     fun isUserLogin() = sessionManager.isLogin
+    fun isTracking() = sessionManager.isTracking
 
     fun logoutUser() = sessionManager.logout()
 }

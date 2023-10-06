@@ -2,10 +2,14 @@ package com.android.burdacontractor.feature.suratjalan.domain.repository
 
 import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.Resource
+import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.domain.model.CountActive
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetail
@@ -20,13 +24,13 @@ interface ISuratJalanRepository {
         date_end: String? = null,
         size: Int = 5,
         search: String? = null,
-    ): Flow<PagingData<AllSuratJalan>>
+    ): Flow<PagingData<SuratJalanItem>>
 
-    suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetail>>
+    suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetailItem>>
 
-    suspend fun getSomeActiveSuratJalan(tipe: SuratJalanTipe, size: Int = 5): Flow<Resource<DataAllSuratJalanWithCount>>
-    suspend fun getAllSuratJalanDalamPerjalananByUser(): Flow<Resource<List<AllSuratJalan>>>
-    suspend fun getCountActiveSuratJalan(): Flow<Resource<CountActive>>
+    suspend fun getSomeActiveSuratJalan(tipe: SuratJalanTipe, size: Int = 5): Flow<Resource<DataAllSuratJalanWithCountItem>>
+    suspend fun getAllSuratJalanDalamPerjalananByUser(): Flow<Resource<List<SuratJalanItem>>>
+    suspend fun getCountActiveSuratJalan(): Flow<Resource<CountActiveResponse>>
 
     suspend fun addSuratJalanPengirimanGp(
         adminGudangId: String,

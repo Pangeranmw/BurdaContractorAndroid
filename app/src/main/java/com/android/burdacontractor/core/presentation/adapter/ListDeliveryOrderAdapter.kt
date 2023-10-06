@@ -5,30 +5,24 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.getFirstName
 import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.getTimeDifference
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.databinding.ItemDeliveryOrderBinding
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
 import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import com.android.burdacontractor.feature.deliveryorder.presentation.DeliveryOrderDetailActivity
+import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.bumptech.glide.Glide
 
-class ListDeliveryOrderAdapter : RecyclerView.Adapter<ListDeliveryOrderAdapter.ListDeliveryOrderViewHolder>() {
-    private val listDo = ArrayList<AllDeliveryOrder>()
-    private var role: String? = null
-    fun setListDeliveryOrder(listDo: List<AllDeliveryOrder>, role: String) {
-        val diffCallback = DeliveryOrderDiffCallback(this.listDo, listDo)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        this.role = role
-        this.listDo.clear()
-        this.listDo.addAll(listDo)
-        diffResult.dispatchUpdatesTo(this)
-    }
+class ListDeliveryOrderAdapter(val user: UserByTokenItem, val listener: (DeliveryOrderItem) -> Unit) : ListAdapter<DeliveryOrderItem, ListDeliveryOrderAdapter.ListDeliveryOrderViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListDeliveryOrderViewHolder {
         val binding = ItemDeliveryOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -36,44 +30,39 @@ class ListDeliveryOrderAdapter : RecyclerView.Adapter<ListDeliveryOrderAdapter.L
     }
 
     override fun onBindViewHolder(holder: ListDeliveryOrderViewHolder, position: Int) {
-        holder.bind(listDo[position])
-    }
-
-    override fun getItemCount(): Int {
-        return listDo.size
+        holder.bind(getItem(position))
     }
 
     inner class ListDeliveryOrderViewHolder(private val binding: ItemDeliveryOrderBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(deliveryOrder: AllDeliveryOrder) {
-            when(role){
+        fun bind(deliveryOrder: DeliveryOrderItem) {
+            when(user.role){
                 UserRole.ADMIN_GUDANG.name -> {
-                    binding.layoutAdminGudang.setGone()
+                    if(user.id == deliveryOrder.idAdminGudang) {
+                        binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.secondary_main)
+                        binding.layoutAdminGudang.setGone()
+                    }
                 }
                 UserRole.LOGISTIC.name ->{
-                    binding.layoutDriver.setGone()
+//                    binding.layoutDriver.setGone()
                 }
                 UserRole.PURCHASING.name ->{
-                    binding.layoutPurchasing.setGone()
+                    if(user.id == deliveryOrder.idPurchasing) {
+                        binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.secondary_main)
+                        binding.layoutPurchasing.setGone()
+                    }
                 }
             }
             when(deliveryOrder.status){
-                DeliveryOrderStatus.MENUNGGU_KONFIRMASI_ADMIN_GUDANG.name -> {
-                    binding.layoutDriver.setGone()
-                    binding.tvNamaPurchasing.maxWidth = Integer.MAX_VALUE
-                    binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.red_light))
-                    binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.red_light)
-                }
                 DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
+                    binding.layoutAdminGudang.setGone()
                     binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.orange_dark_full))
-                    binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.orange_dark_full)
                 }
                 DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
+                    binding.layoutAdminGudang.setGone()
                     binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.red))
-                    binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.red)
                 }
                 DeliveryOrderStatus.SELESAI.name -> {
                     binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.secondary_main))
-                    binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.secondary_main)
                 }
             }
             with(binding) {
@@ -81,16 +70,14 @@ class ListDeliveryOrderAdapter : RecyclerView.Adapter<ListDeliveryOrderAdapter.L
                 tvTanggal.text = itemView.context.getTimeDifference(deliveryOrder.updatedAt!!)
                 tvAlamatAsal.text = deliveryOrder.alamatTempatAsal
                 tvAlamatTujuan.text = deliveryOrder.alamatTempatTujuan
-                tvNamaPurchasing.text = deliveryOrder.namaPurchasing
-                tvNamaDriver.text = deliveryOrder.namaDriver
-                tvNamaAdminGudang.text = deliveryOrder.namaAdminGudang
+                tvNamaPurchasing.text = deliveryOrder.namaPurchasing?.getFirstName()
+                tvNamaDriver.text = deliveryOrder.namaDriver?.getFirstName()
+                tvNamaAdminGudang.text = deliveryOrder.namaAdminGudang?.getFirstName()
                 tvNamaAsal.text = deliveryOrder.namaTempatAsal
                 tvNamaTujuan.text = deliveryOrder.namaTempatTujuan
                 tvStatus.text = enumValueToNormal(deliveryOrder.status!!)
                 cvDeliveryOrder.setOnClickListener {
-                    val intent = Intent(it.context, DeliveryOrderDetailActivity::class.java)
-                    intent.putExtra(DeliveryOrderDetailActivity.ID_DELIVERY_ORDER, deliveryOrder.id)
-                    it.context.startActivity(intent)
+                    listener(deliveryOrder)
                 }
             }
             if(deliveryOrder.fotoDriver !=null){
@@ -113,19 +100,14 @@ class ListDeliveryOrderAdapter : RecyclerView.Adapter<ListDeliveryOrderAdapter.L
             }
         }
     }
-}
-
-class DeliveryOrderDiffCallback(private val oldDeliveryOrder: List<AllDeliveryOrder>, private val newDeliveryOrder: List<AllDeliveryOrder>) : DiffUtil.Callback() {
-    override fun getOldListSize(): Int = oldDeliveryOrder.size
-    override fun getNewListSize(): Int = newDeliveryOrder.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldDeliveryOrder[oldItemPosition].id == newDeliveryOrder[newItemPosition].id
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldDo = oldDeliveryOrder[oldItemPosition]
-        val newDo = newDeliveryOrder[newItemPosition]
-        return oldDo.kodeDo == newDo.kodeDo && oldDo.alamatTempatAsal == newDo.alamatTempatAsal
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DeliveryOrderItem>() {
+            override fun areItemsTheSame(oldItem: DeliveryOrderItem, newItem: DeliveryOrderItem): Boolean {
+                return oldItem == newItem
+            }
+            override fun areContentsTheSame(oldItem: DeliveryOrderItem, newItem: DeliveryOrderItem): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }

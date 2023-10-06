@@ -34,7 +34,7 @@ class SuratJalanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                 setBottomNavigationMenu(R.menu.bottom_menu_admingudang, R.id.surat_jalan_admin_gudang)
             UserRole.LOGISTIC.name ->
                 setBottomNavigationMenu(R.menu.bottom_menu_logistic, R.id.surat_jalan_logistic)
-            UserRole.PROJECT_MANAGER.name, UserRole.SUPERVISOR.name ->
+            UserRole.SITE_MANAGER.name, UserRole.SUPERVISOR.name ->
                 setBottomNavigationMenu(R.menu.bottom_menu_sv_pm, R.id.surat_jalan_sv_pm)
         }
     }
@@ -46,22 +46,22 @@ class SuratJalanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.beranda_sv_pm, R.id.beranda_logistic, R.id.beranda_purchasing, R.id.beranda_admin_gudang -> {
-                openActivity(BerandaActivity::class.java, this)
+                openActivity(BerandaActivity::class.java)
             }
             R.id.surat_jalan_admin_gudang, R.id.surat_jalan_sv_pm, R.id.surat_jalan_logistic -> {
 
             }
             R.id.kendaraan_admin_gudang -> {
-                openActivity(KendaraanActivity::class.java, this)
+                openActivity(KendaraanActivity::class.java)
             }
             R.id.gudang_admin_gudang -> {
-                openActivity(GudangActivity::class.java, this)
+                openActivity(GudangActivity::class.java)
             }
             R.id.perusahaan_purchasing -> {
-                openActivity(PerusahaanActivity::class.java, this)
+                openActivity(PerusahaanActivity::class.java)
             }
             R.id.delivery_order_admin_gudang, R.id.delivery_order_logistic, R.id.delivery_order_purchasing -> {
-                openActivity(DeliveryOrderActivity::class.java, this)
+                openActivity(DeliveryOrderActivity::class.java)
             }
         }
         return true

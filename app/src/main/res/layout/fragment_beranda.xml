@@ -255,6 +255,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_sj_dalam_perjalanan"
                             android:layout_width="match_parent"
@@ -342,6 +343,7 @@
 
                         <TextView
                             android:id="@+id/tv_heading_sj_pengiriman_gp"
+                            android:layout_toStartOf="@id/btn_see_all_sj_pengiriman_gp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -355,6 +357,7 @@
                         <Button
                             android:id="@+id/btn_see_all_sj_pengiriman_gp"
                             android:visibility="gone"
+                            android:layout_marginStart="10dp"
                             style="@style/ButtonSeeAll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -406,6 +409,7 @@
 
                         <TextView
                             android:id="@+id/tv_heading_sj_pengiriman_pp"
+                            android:layout_toStartOf="@+id/btn_see_all_sj_pengiriman_pp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -419,6 +423,7 @@
                         <Button
                             android:id="@+id/btn_see_all_sj_pengiriman_pp"
                             android:visibility="gone"
+                            android:layout_marginStart="10dp"
                             style="@style/ButtonSeeAll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -474,6 +479,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
                             android:layout_toEndOf="@+id/tv_count_sj_pengembalian"
+                            android:layout_toStartOf="@id/btn_see_all_sj_pengembalian"
                             android:fontFamily="@font/inter_bold"
                             android:text="@string/sj_pengembalian"
                             android:textColor="@color/black"
@@ -483,6 +489,7 @@
                             android:id="@+id/btn_see_all_sj_pengembalian"
                             android:visibility="gone"
                             style="@style/ButtonSeeAll"
+                            android:layout_marginStart="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/semi_rounded_secondary_main"
@@ -545,6 +552,7 @@
                         <Button
                             android:id="@+id/btn_see_all_delivery_order"
                             android:visibility="gone"
+                            android:layout_marginStart="10dp"
                             style="@style/ButtonSeeAll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

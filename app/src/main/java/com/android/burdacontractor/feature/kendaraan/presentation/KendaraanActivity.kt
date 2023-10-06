@@ -38,19 +38,19 @@ class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedL
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.beranda_sv_pm, R.id.beranda_logistic, R.id.beranda_purchasing, R.id.beranda_admin_gudang -> {
-                openActivity(BerandaActivity::class.java, this)
+                openActivity(BerandaActivity::class.java)
             }
             R.id.surat_jalan_admin_gudang, R.id.surat_jalan_sv_pm, R.id.surat_jalan_logistic -> {
-                openActivity(SuratJalanActivity::class.java, this)
+                openActivity(SuratJalanActivity::class.java)
             }
             R.id.kendaraan_admin_gudang -> {
 
             }
             R.id.gudang_admin_gudang -> {
-                openActivity(GudangActivity::class.java, this)
+                openActivity(GudangActivity::class.java)
             }
             R.id.delivery_order_admin_gudang, R.id.delivery_order_logistic, R.id.delivery_order_purchasing -> {
-                openActivity(DeliveryOrderActivity::class.java, this)
+                openActivity(DeliveryOrderActivity::class.java)
             }
         }
         return true

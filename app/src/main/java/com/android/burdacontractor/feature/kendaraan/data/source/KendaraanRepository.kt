@@ -5,6 +5,7 @@ import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.kendaraan.data.source.remote.KendaraanRemoteDataSource
+import com.android.burdacontractor.feature.kendaraan.data.source.remote.response.KendaraanByLogisticItem
 import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanByLogistic
 import com.android.burdacontractor.feature.kendaraan.domain.repository.IKendaraanRepository
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +20,7 @@ class KendaraanRepository @Inject constructor(
     private val storageDataSource: StorageDataSource
 ) : IKendaraanRepository {
 
-    override suspend fun getKendaraanByLogistic(): Flow<Resource<KendaraanByLogistic>> = flow{
+    override suspend fun getKendaraanByLogistic(): Flow<Resource<KendaraanByLogisticItem>> = flow{
         try {
             emit(Resource.Loading())
             when(val response = kendaraanRemoteDataSource.getKendaraanByLogistic(storageDataSource.getToken()).first()){
@@ -28,7 +29,7 @@ class KendaraanRepository @Inject constructor(
                     if(response.data.kendaraaan==null){
                         emit(Resource.Error(response.data.message, response.data.kendaraaan))
                     }
-                    val result = DataMapper.kendaraanByLogisticResponsesToDomain(response.data.kendaraaan!!)
+                    val result = response.data.kendaraaan!!
                     emit(Resource.Success(result))
                 }
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))

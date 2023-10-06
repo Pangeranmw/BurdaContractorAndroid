@@ -10,13 +10,19 @@ import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DataAllDeliveryOrderWithCountItem
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
 import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import com.android.burdacontractor.feature.deliveryorder.domain.model.DataAllDeliveryOrderWithCount
 import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetAllDeliveryOrderDalamPerjalananByUserUseCase
 import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetSomeActiveDeliveryOrderUseCase
+import com.android.burdacontractor.feature.kendaraan.data.source.remote.response.KendaraanByLogisticItem
 import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanByLogistic
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticUseCase
+import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSuratJalanDalamPerjalananByUserUseCase
@@ -39,29 +45,29 @@ class BerandaViewModel @Inject constructor(
     private val _state = MutableLiveData<StateResponse?>()
     val state: LiveData<StateResponse?> = _state
 
-    private val _user = MutableLiveData<User>()
-    val user: LiveData<User> = _user
+    private val _user = MutableLiveData<UserByTokenItem>()
+    val user: LiveData<UserByTokenItem> = _user
 
-    private val _deliveryOrder = MutableLiveData<DataAllDeliveryOrderWithCount>()
-    val deliveryOrder: LiveData<DataAllDeliveryOrderWithCount> = _deliveryOrder
+    private val _deliveryOrder = MutableLiveData<DataAllDeliveryOrderWithCountItem>()
+    val deliveryOrder: LiveData<DataAllDeliveryOrderWithCountItem> = _deliveryOrder
 
-    private val _sjPengirimanGp = MutableLiveData<DataAllSuratJalanWithCount>()
-    val sjPengirimanGp: LiveData<DataAllSuratJalanWithCount> = _sjPengirimanGp
+    private val _sjPengirimanGp = MutableLiveData<DataAllSuratJalanWithCountItem>()
+    val sjPengirimanGp: LiveData<DataAllSuratJalanWithCountItem> = _sjPengirimanGp
 
-    private val _sjPengirimanPp = MutableLiveData<DataAllSuratJalanWithCount>()
-    val sjPengirimanPp: LiveData<DataAllSuratJalanWithCount> = _sjPengirimanPp
+    private val _sjPengirimanPp = MutableLiveData<DataAllSuratJalanWithCountItem>()
+    val sjPengirimanPp: LiveData<DataAllSuratJalanWithCountItem> = _sjPengirimanPp
 
-    private val _sjPengembalian = MutableLiveData<DataAllSuratJalanWithCount>()
-    val sjPengembalian: LiveData<DataAllSuratJalanWithCount> = _sjPengembalian
+    private val _sjPengembalian = MutableLiveData<DataAllSuratJalanWithCountItem>()
+    val sjPengembalian: LiveData<DataAllSuratJalanWithCountItem> = _sjPengembalian
 
-    private val _sjDalamPerjalanan = MutableLiveData<List<AllSuratJalan>>()
-    val sjDalamPerjalanan: LiveData<List<AllSuratJalan>> = _sjDalamPerjalanan
+    private val _sjDalamPerjalanan = MutableLiveData<List<SuratJalanItem>>()
+    val sjDalamPerjalanan: LiveData<List<SuratJalanItem>> = _sjDalamPerjalanan
 
-    private val _doDalamPerjalanan = MutableLiveData<List<AllDeliveryOrder>>()
-    val doDalamPerjalanan: LiveData<List<AllDeliveryOrder>> = _doDalamPerjalanan
+    private val _doDalamPerjalanan = MutableLiveData<List<DeliveryOrderItem>>()
+    val doDalamPerjalanan: LiveData<List<DeliveryOrderItem>> = _doDalamPerjalanan
 
-    private val _kendaraanByLogistic = MutableLiveData<KendaraanByLogistic?>()
-    val kendaraanByLogistic: LiveData<KendaraanByLogistic?> = _kendaraanByLogistic
+    private val _kendaraanByLogistic = MutableLiveData<KendaraanByLogisticItem?>()
+    val kendaraanByLogistic: LiveData<KendaraanByLogisticItem?> = _kendaraanByLogistic
 
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse : LiveData<Event<String?>> = _messageResponse

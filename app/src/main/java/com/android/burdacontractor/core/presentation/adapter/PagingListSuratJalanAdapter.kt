@@ -6,9 +6,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.databinding.ItemSuratJalanBinding
-import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
 
-class PagingListSuratJalanAdapter(val listener: (AllSuratJalan) -> Unit): PagingDataAdapter<AllSuratJalan, PagingListSuratJalanAdapter.ListViewHolder>(
+class PagingListSuratJalanAdapter(val listener: (SuratJalanItem) -> Unit): PagingDataAdapter<SuratJalanItem, PagingListSuratJalanAdapter.ListViewHolder>(
     DIFF_CALLBACK
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -28,7 +28,7 @@ class PagingListSuratJalanAdapter(val listener: (AllSuratJalan) -> Unit): Paging
 
     class ListViewHolder(private var binding: ItemSuratJalanBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind (itemData: AllSuratJalan) {
+        fun bind (itemData: SuratJalanItem) {
             binding.tvNamaAsal.text = itemData.namaTempatAsal
             binding.tvNamaTujuan.text = itemData.namaTempatTujuan
             binding.tvAlamatAsal.text = itemData.alamatTempatAsal
@@ -41,12 +41,12 @@ class PagingListSuratJalanAdapter(val listener: (AllSuratJalan) -> Unit): Paging
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AllSuratJalan>() {
-            override fun areItemsTheSame(oldItem: AllSuratJalan, newItem: AllSuratJalan): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SuratJalanItem>() {
+            override fun areItemsTheSame(oldItem: SuratJalanItem, newItem: SuratJalanItem): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: AllSuratJalan, newItem: AllSuratJalan): Boolean {
+            override fun areContentsTheSame(oldItem: SuratJalanItem, newItem: SuratJalanItem): Boolean {
                 return oldItem.id == newItem.id
             }
         }
