@@ -13,13 +13,18 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.android.burdacontractor.BuildConfig
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.presentation.LogisticViewModel
 import com.android.burdacontractor.databinding.ActivityPantauLokasiSuratJalanBinding
+import com.google.android.gms.maps.model.LatLng
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,9 +45,11 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow
 import org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay
 
-open class PantauLokasiSuratJalanActivity : Activity(), MapEventsReceiver, LocationListener,
+@AndroidEntryPoint
+class PantauLokasiSuratJalanActivity : AppCompatActivity(), MapEventsReceiver, LocationListener,
     SensorEventListener {
     private lateinit var binding: ActivityPantauLokasiSuratJalanBinding
+    private val logisticViewModel: LogisticViewModel by viewModels()
     private lateinit var map: MapView
     private var startPoint: GeoPoint = GeoPoint(-8.573884, 116.091460)
     private var destinationPoint: GeoPoint = GeoPoint(-8.579930, 116.100290)
@@ -168,14 +175,15 @@ open class PantauLokasiSuratJalanActivity : Activity(), MapEventsReceiver, Locat
         return BoundingBox(north, east, south, west)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
-        if (resultCode == RESULT_OK) {
-            val nodeId = intent.getIntExtra("NODE_ID", 0)
-            map.controller.setCenter(mRoads!![mSelectedRoad].mNodes[nodeId].mLocation)
-            val roadMarker = mRoadNodeMarkers.items[nodeId] as Marker
-            roadMarker.showInfoWindow()
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, intent)
+//        if (resultCode == RESULT_OK) {
+//            val nodeId = intent?.getIntExtra("NODE_ID", 0) as Int
+//            map.controller.setCenter(mRoads!![mSelectedRoad].mNodes[nodeId].mLocation)
+//            val roadMarker = mRoadNodeMarkers.items[nodeId] as Marker
+//            roadMarker.showInfoWindow()
+//        }
+//    }
 
     private fun startLocationUpdates(): Boolean {
         var result = false
@@ -354,6 +362,41 @@ open class PantauLokasiSuratJalanActivity : Activity(), MapEventsReceiver, Locat
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
         myLocationOverlay.setAccuracy(accuracy)
         map.invalidate()
+    }
+    private fun onRealtimeLocationChanged(pLoc: Location) {
+        val currentTime = System.currentTimeMillis()
+        if (mIgnorer.shouldIgnore(pLoc.provider, currentTime)) return
+        val dT = (currentTime - mLastTime).toDouble()
+        if (dT < 100.0) {
+            //Toast.makeText(this, pLoc.getProvider()+" dT="+dT, Toast.LENGTH_SHORT).show();
+            return
+        }
+        mLastTime = currentTime
+        val newLocation = GeoPoint(pLoc)
+        if (!myLocationOverlay.isEnabled) {
+            //we get the location for the first time:
+            myLocationOverlay.isEnabled = true
+            map.controller.animateTo(newLocation)
+        }
+        val prevLocation = myLocationOverlay.location
+        myLocationOverlay.location = newLocation
+        myLocationOverlay.setAccuracy(pLoc.accuracy.toInt())
+        if (prevLocation != null && pLoc.provider == LocationManager.GPS_PROVIDER) {
+            mSpeed = pLoc.speed * 3.6
+            //TODO: check if speed is not too small
+            if (mSpeed >= 0.1) {
+                mAzimuthAngleSpeed = pLoc.bearing
+                myLocationOverlay.setBearing(mAzimuthAngleSpeed)
+            }
+        }
+        if (mTrackingMode) {
+            //keep the map view centered on current location:
+            map.controller.animateTo(newLocation)
+            map.mapOrientation = -mAzimuthAngleSpeed
+        } else {
+            //just redraw the location overlay:
+            map.invalidate()
+        }
     }
 
     companion object {

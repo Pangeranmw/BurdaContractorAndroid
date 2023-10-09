@@ -100,7 +100,7 @@ data class DeliveryOrderDetailItem(
 	val fotoBukti: String? = null,
 
 	@field:SerializedName("logistic")
-	val logistic: LogisticDeliveryOrder,
+	val logistic: UserDeliveryOrder,
 
 	@field:SerializedName("updated_at")
 	val updatedAt: Long,
@@ -130,6 +130,9 @@ data class DeliveryOrderDetailItem(
 @Parcelize
 data class UserDeliveryOrder(
 
+	@field:SerializedName("id")
+	val id: String,
+
 	@field:SerializedName("nama")
 	val nama: String,
 
@@ -142,19 +145,3 @@ data class UserDeliveryOrder(
 	@field:SerializedName("role")
 	val role: String
 ):Parcelable
-
-@Parcelize
-data class LogisticDeliveryOrder(
-
-	@field:SerializedName("id")
-	val id: String,
-
-	@field:SerializedName("nama")
-	val nama: String,
-
-	@field:SerializedName("foto")
-	val foto: String,
-
-	@field:SerializedName("no_hp")
-	val noHp: String
-): Parcelable

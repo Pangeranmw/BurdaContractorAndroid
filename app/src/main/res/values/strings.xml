@@ -161,4 +161,9 @@
     <string name="ttd_empty">Anda belum memiliki tanda tangan</string>
     <string name="jumlah_satuan">%1$s %2$s</string>
     <string name="cetak_delivery_order">Cetak Delivery Order</string>
+    <string name="penanda_selesai">Penanda selesai</string>
+    <string name="upload_foto_bukti">Upload Foto Bukti</string>
+    <string name="cd_button">This is Button</string>
+    <string name="cd_icon">This is Icon</string>
+    <string name="tandai_selesai">Tandai Selesai</string>
 </resources>

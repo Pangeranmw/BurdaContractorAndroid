@@ -134,20 +134,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/iv_tujuan"
             app:layout_constraintTop_toBottomOf="@+id/tv_nama_tujuan" />
-        <LinearLayout
+        <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/layout_user"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@+id/tv_alamat_tujuan"
             app:layout_constraintTop_toBottomOf="@+id/tv_alamat_tujuan"
             android:layout_marginTop="15dp"
-            android:gravity="center"
+            app:flexDirection="row"
+            app:justifyContent="space_between"
             >
             <RelativeLayout
                 android:id="@+id/layout_admin_gudang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
+                app:layout_flexGrow="1"
                 >
                 <com.google.android.material.imageview.ShapeableImageView
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
@@ -169,7 +171,6 @@
                     android:layout_toEndOf="@+id/iv_admin_gudang"
                     android:text="@string/nama_user"
                     android:maxLines="2"
-                    android:maxWidth="80dp"
                     android:fontFamily="@font/inter_medium"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
@@ -188,55 +189,12 @@
                     android:textSize="11sp" />
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/layout_project_manager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:visibility="gone"
-                >
-                <com.google.android.material.imageview.ShapeableImageView
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                    android:id="@+id/iv_site_manager"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/unit_project_manager"
-                    app:tint="@color/gray_dark"
-                    android:layout_centerVertical="true"
-                    />
-
-                <TextView
-                    android:id="@+id/tv_nama_site_manager"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_toEndOf="@+id/iv_site_manager"
-                    android:text="@string/nama_user"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_role_site_manager"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_nama_site_manager"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/inter_regular"
-                    android:layout_toEndOf="@+id/iv_site_manager"
-                    android:text="@string/role"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="11sp" />
-            </RelativeLayout>
-            <RelativeLayout
                 android:id="@+id/layout_driver"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:visibility="visible"
+                app:layout_flexGrow="1"
                 >
                 <com.google.android.material.imageview.ShapeableImageView
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
@@ -257,7 +215,6 @@
                     android:layout_marginStart="5dp"
                     android:layout_toEndOf="@+id/iv_driver"
                     android:text="@string/nama_user"
-                    android:maxWidth="80dp"
                     android:maxLines="2"
                     android:fontFamily="@font/inter_medium"
                     android:textColor="@color/black"
@@ -276,7 +233,52 @@
                     android:textColor="@color/gray_dark"
                     android:textSize="11sp" />
             </RelativeLayout>
-        </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/layout_site_manager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:visibility="visible"
+                app:layout_flexGrow="1"
+                >
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
+                    android:id="@+id/iv_site_manager"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/unit_project_manager"
+                    app:tint="@color/gray_dark"
+                    android:layout_centerVertical="true"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_nama_site_manager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/iv_site_manager"
+                    android:text="@string/nama_user"
+                    android:maxLines="2"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_role_site_manager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_nama_site_manager"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_toEndOf="@+id/iv_site_manager"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="@string/site_manager"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="11sp" />
+            </RelativeLayout>
+        </com.google.android.flexbox.FlexboxLayout>
 
         <TextView
             android:id="@+id/tv_tanggal"

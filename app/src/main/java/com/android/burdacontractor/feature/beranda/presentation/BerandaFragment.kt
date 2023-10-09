@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
@@ -38,6 +39,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.KClass
+import kotlin.reflect.KFunction
 
 @AndroidEntryPoint
 class BerandaFragment : Fragment() {
@@ -212,7 +215,7 @@ class BerandaFragment : Fragment() {
                 binding.layoutSjPengirimanPp.setVisible()
                 binding.layoutSjDalamPerjalanan.setVisible()
             }
-            UserRole.SUPERVISOR.name, UserRole.SITE_MANAGER.name -> {
+            UserRole.SUPERVISOR.name, UserRole.SITE_MANAGER.name, UserRole.PROJECT_MANAGER.name -> {
                 binding.layoutSjPengembalian.setVisible()
                 binding.layoutSjPengirimanGp.setVisible()
                 binding.layoutSjPengirimanPp.setVisible()

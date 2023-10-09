@@ -34,7 +34,7 @@ class SuratJalanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                 setBottomNavigationMenu(R.menu.bottom_menu_admingudang, R.id.surat_jalan_admin_gudang)
             UserRole.LOGISTIC.name ->
                 setBottomNavigationMenu(R.menu.bottom_menu_logistic, R.id.surat_jalan_logistic)
-            UserRole.SITE_MANAGER.name, UserRole.SUPERVISOR.name ->
+            UserRole.SITE_MANAGER.name, UserRole.SUPERVISOR.name, UserRole.PROJECT_MANAGER.name ->
                 setBottomNavigationMenu(R.menu.bottom_menu_sv_pm, R.id.surat_jalan_sv_pm)
         }
     }

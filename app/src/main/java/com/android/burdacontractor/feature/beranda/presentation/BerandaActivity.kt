@@ -43,7 +43,7 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
                 setBottomNavigationMenu(R.menu.bottom_menu_logistic, R.id.beranda_logistic)
             UserRole.PURCHASING.name ->
                 setBottomNavigationMenu(R.menu.bottom_menu_purchasing, R.id.beranda_purchasing)
-            UserRole.SITE_MANAGER.name, UserRole.SUPERVISOR.name ->
+            UserRole.SITE_MANAGER.name, UserRole.SUPERVISOR.name, UserRole.PROJECT_MANAGER.name ->
                 setBottomNavigationMenu(R.menu.bottom_menu_sv_pm, R.id.beranda_sv_pm)
         }
         initBadge()

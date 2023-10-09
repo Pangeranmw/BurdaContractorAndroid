@@ -15,6 +15,7 @@ import com.android.burdacontractor.core.utils.getFirstName
 import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.getTimeDifference
 import com.android.burdacontractor.core.utils.setGone
+import com.android.burdacontractor.core.utils.setImageFromUrl
 import com.android.burdacontractor.databinding.ItemDeliveryOrderBinding
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
 import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
@@ -39,7 +40,6 @@ class ListDeliveryOrderAdapter(val user: UserByTokenItem, val listener: (Deliver
                 UserRole.ADMIN_GUDANG.name -> {
                     if(user.id == deliveryOrder.idAdminGudang) {
                         binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.secondary_main)
-                        binding.layoutAdminGudang.setGone()
                     }
                 }
                 UserRole.LOGISTIC.name ->{
@@ -48,7 +48,6 @@ class ListDeliveryOrderAdapter(val user: UserByTokenItem, val listener: (Deliver
                 UserRole.PURCHASING.name ->{
                     if(user.id == deliveryOrder.idPurchasing) {
                         binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.secondary_main)
-                        binding.layoutPurchasing.setGone()
                     }
                 }
             }
@@ -82,21 +81,15 @@ class ListDeliveryOrderAdapter(val user: UserByTokenItem, val listener: (Deliver
             }
             if(deliveryOrder.fotoDriver !=null){
                 binding.ivDriver.imageTintMode = null
-                Glide.with(itemView.context)
-                    .load(getPhotoUrl(deliveryOrder.fotoDriver))
-                    .into(binding.ivDriver)
+                binding.ivDriver.setImageFromUrl(deliveryOrder.fotoDriver,itemView.context)
             }
             if(deliveryOrder.fotoAdminGudang !=null){
                 binding.ivAdminGudang.imageTintMode = null
-                Glide.with(itemView.context)
-                    .load(getPhotoUrl(deliveryOrder.fotoAdminGudang))
-                    .into(binding.ivAdminGudang)
+                binding.ivAdminGudang.setImageFromUrl(deliveryOrder.fotoAdminGudang,itemView.context)
             }
             if(deliveryOrder.fotoPurchasing !=null){
                 binding.ivPurchasing.imageTintMode = null
-                Glide.with(itemView.context)
-                    .load(getPhotoUrl(deliveryOrder.fotoPurchasing))
-                    .into(binding.ivPurchasing)
+                binding.ivPurchasing.setImageFromUrl(deliveryOrder.fotoPurchasing,itemView.context)
             }
         }
     }

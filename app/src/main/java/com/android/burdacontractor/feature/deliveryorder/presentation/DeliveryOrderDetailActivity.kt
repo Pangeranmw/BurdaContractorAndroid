@@ -17,6 +17,9 @@ import com.android.burdacontractor.core.presentation.adapter.ListPreOrderAdapter
 import com.android.burdacontractor.core.utils.*
 import com.android.burdacontractor.databinding.ActivityDeliveryOrderDetailBinding
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailItem
+import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
+import com.android.burdacontractor.feature.profile.presentation.ProfileViewModel
+import com.android.burdacontractor.feature.suratjalan.presentation.PantauLokasiSuratJalanActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DeliveryOrderDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDeliveryOrderDetailBinding
     private lateinit var poAdapter: ListPreOrderAdapter
-    private val storageViewModel: StorageViewModel by viewModels()
+    private val profileViewModel: ProfileViewModel by viewModels()
     private val deliveryOrderDetailViewModel: DeliveryOrderDetailViewModel by viewModels()
     private lateinit var id: String
     private var snackbar: Snackbar? = null
@@ -37,14 +40,14 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
         deliveryOrderDetailViewModel.liveNetworkChecker.observe(this){
             checkConnection(snackbar,it){ initObserver() }
         }
-
-
     }
     private fun initObserver(){
         deliveryOrderDetailViewModel.getDeliveryOrderById(id)
         deliveryOrderDetailViewModel.deliveryOrder.observe(this){ deliveryOrder->
-            initLayout(storageViewModel.role, deliveryOrder)
-            initUi(deliveryOrder)
+            profileViewModel.user.observe(this){ user->
+                initLayout(user, deliveryOrder)
+                initUi(deliveryOrder)
+            }
         }
         deliveryOrderDetailViewModel.state.observe(this){
             when(it){
@@ -126,12 +129,15 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
             btnHubungiPurchasing.setOnClickListener {
                 dialIntent(deliveryOrder.purchasing.noHp)
             }
+            btnPantauLokasi.setOnClickListener {
+                openActivityWithExtras(PantauLokasiSuratJalanActivity::class.java,false){
+                    putString(DeliveryOrderCetakActivity.ID_DELIVERY_ORDER, deliveryOrder.id)
+                    putString(DeliveryOrderCetakActivity.KODE_DELIVERY_ORDER, deliveryOrder.kodeDo)
+                }
+            }
             btnBack.setOnClickListener {
                 finish()
                 overridePendingTransition(0,0)
-            }
-            btnDelete.setOnClickListener {
-//                deliveryOrderDetailViewModel.deleteDeliveryOrder(deliveryOrder.id)
             }
             btnDownload.setOnClickListener {
                 openActivityWithExtras(DeliveryOrderCetakActivity::class.java,false){
@@ -141,48 +147,79 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
             }
         }
     }
-    private fun initLayout(userRole: String, deliveryOrder: DeliveryOrderDetailItem){
-        when(userRole){
-            UserRole.ADMIN_GUDANG.name ->{
-                when(deliveryOrder.status){
-                    DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
-                        binding.btnPantauLokasi.setVisible()
-                    }
-                    DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
-                        binding.btnPantauLokasi.setVisible()
-                    }
-                    DeliveryOrderStatus.SELESAI.name -> {
-                        binding.layoutButton.setGone()
+    private fun initLayout(user: UserByTokenItem, deliveryOrder: DeliveryOrderDetailItem){
+        with(binding){
+            // Hilangkan button hubungi pada data diri sendiri
+            if(deliveryOrder.purchasing.id == user.id)
+                layoutHubungiPurchasing.setGone()
+            if(deliveryOrder.adminGudang?.id == user.id)
+                layoutHubungiAdminGudang.setGone()
+            if(deliveryOrder.logistic.id == user.id)
+                layoutHubungiDriver.setGone()
+
+            when(deliveryOrder.status){
+                DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
+                    when(user.role){
+                        UserRole.ADMIN_GUDANG.name, UserRole.PURCHASING.name -> {
+                            btnTandaiSelesai.setVisible()
+                            btnTandaiSelesai.setOnClickListener {
+
+                            }
+                        }
                     }
                 }
-            }
-            UserRole.LOGISTIC.name ->{
-                when(deliveryOrder.status){
-                    DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
-
-                    }
-                    DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
-
-                    }
-                    DeliveryOrderStatus.SELESAI.name -> {
-
-                    }
+                DeliveryOrderStatus.SELESAI.name -> {
+                    layoutButton.setGone()
                 }
             }
-            UserRole.PURCHASING.name -> {
-                when(deliveryOrder.status){
-                    DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
-
+            when(user.role){
+                UserRole.ADMIN_GUDANG.name ->{
+                    when(deliveryOrder.status){
+                        DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
+                            btnPantauLokasi.setVisible()
+                            setButtonStyle(btnPantauLokasi, true)
+                        }
+                        DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
+                            if(deliveryOrder.adminGudang?.id == user.id)
+                                btnPantauLokasi.setVisible()
+                        }
                     }
-                    DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
+                }
+                UserRole.LOGISTIC.name ->{
+                    when(deliveryOrder.status){
+                        DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
+                            btnAmbilBarang.setVisible()
+                            btnAmbilBarang.setOnClickListener {
 
+                            }
+                        }
+                        DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
+                            layoutFotoBukti.setVisible()
+                            btnUploadFotoBukti.setOnClickListener{
+
+                            }
+                        }
                     }
-                    DeliveryOrderStatus.SELESAI.name -> {
+                }
+                UserRole.PURCHASING.name -> {
+                    when(deliveryOrder.status){
+                        DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
+                            if(deliveryOrder.purchasing.id == user.id){
+                                btnUbahDo.setVisible()
+                                btnDelete.setVisible()
+                                btnUbahDo.setOnClickListener {
 
+                                }
+                                btnDelete.setOnClickListener{
+
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
+
     }
     companion object{
         const val ID_DELIVERY_ORDER = "deliveryOrderId"
