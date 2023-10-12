@@ -166,4 +166,7 @@
     <string name="cd_button">This is Button</string>
     <string name="cd_icon">This is Icon</string>
     <string name="tandai_selesai">Tandai Selesai</string>
+    <string name="rute_menuju">"Rute menuju %s"</string>
+    <string name="perkiraan_jarak">Perkiraan Jarak</string>
+    <string name="perkiraan_waktu">Perkiraan Waktu</string>
 </resources>

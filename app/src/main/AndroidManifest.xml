@@ -12,22 +12,28 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-
     <application
-        android:requestLegacyExternalStorage="true"
         android:name=".BurdaApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.BurdaContractor"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".feature.deliveryorder.presentation.PantauLokasiDeliveryOrderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.deliveryorder.presentation.TelusuriLokasiDeliveryOrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.profile.presentation.SignatureActivity"
             android:exported="false" />
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/logo_burda" />
@@ -94,6 +100,7 @@
         <service
             android:name=".core.service.location.LocationService"
             android:foregroundServiceType="location" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

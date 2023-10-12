@@ -15,8 +15,8 @@ class SessionManager(context: Context) {
         const val KEY_TRACKING = "isTracking"
     }
 
-    private var pref: SharedPreferences = context.getSharedPreferences("Session", Context.MODE_PRIVATE)
-    private var editor: SharedPreferences.Editor = pref.edit()
+    private val pref: SharedPreferences = context.getSharedPreferences("Session", Context.MODE_PRIVATE)
+    private val editor: SharedPreferences.Editor = pref.edit()
 
     fun createLoginSession(isLogin: Boolean) {
         editor.putBoolean(KEY_LOGIN, isLogin).commit()
@@ -26,7 +26,6 @@ class SessionManager(context: Context) {
     }
 
     fun logout() {
-//        editor.putBoolean(KEY_LOGIN, false)
         editor.remove(KEY_USER_ID)
         editor.remove(KEY_TOKEN)
         editor.remove(KEY_ROLE)
@@ -35,12 +34,10 @@ class SessionManager(context: Context) {
         editor.remove(KEY_TTD)
         editor.remove(KEY_LOGIN)
         editor.remove(KEY_TRACKING)
-//        editor.clear()
         editor.apply()
     }
-
-    val isLogin: Boolean = pref.getBoolean(KEY_LOGIN, false)
-    val isTracking: Boolean = pref.getBoolean(KEY_TRACKING, false)
+    fun getTracking(): Boolean = pref.getBoolean(KEY_TRACKING, true)
+    fun isLogin(): Boolean = pref.getBoolean(KEY_LOGIN, false)
     fun saveToPreference(key: String, value: String) = editor.putString(key, value).commit()
 
     fun getFromPreference(key: String) = pref.getString(key, "")

@@ -27,13 +27,11 @@ import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.openActivity
 import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.core.utils.setGone
-import com.android.burdacontractor.core.utils.setToastShort
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.FragmentBerandaBinding
 import com.android.burdacontractor.feature.deliveryorder.presentation.DeliveryOrderDetailActivity
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanDetailActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -107,7 +105,7 @@ class BerandaFragment : Fragment() {
             initLayout(user)
             berandaViewModel.sjDalamPerjalanan.observe(viewLifecycleOwner){sjDalamPerjalanan->
                 adapterSjDalamPerjalanan = initAdapterSj(user)
-                initRvSj(binding.rvDoDalamPerjalanan,adapterSjDalamPerjalanan)
+                initRvSj(binding.rvSjDalamPerjalanan,adapterSjDalamPerjalanan)
                 adapterSjDalamPerjalanan.submitList(sjDalamPerjalanan)
                 initCountTextAndButton(sjDalamPerjalanan.size, binding.tvCountSjDalamPerjalanan)
             }
@@ -239,24 +237,31 @@ class BerandaFragment : Fragment() {
     }
     private fun initRvSj(rv: RecyclerView, adapter: ListSuratJalanAdapter){
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        rv.setHasFixedSize(true)
+//        rv.setHasFixedSize(true)
         rv.adapter = adapter
     }
     private fun initRvDo(rv: RecyclerView, adapter: ListDeliveryOrderAdapter){
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        rv.setHasFixedSize(true)
+//        rv.setHasFixedSize(true)
         rv.adapter = adapter
     }
     private fun initUi(){
         binding.srLayout.setOnRefreshListener {
-            berandaViewModel.getSomeActiveDeliveryOrder()
-            berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGEMBALIAN)
-            berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
-            berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
-            berandaViewModel.getUserByToken()
-            berandaViewModel.getKendaraanByLogistic()
-            berandaViewModel.getAllSuratJalanDalamPerjalananByUser()
-            (activity as BerandaActivity).refreshBadgeValue()
+            refreshData()
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        refreshData()
+    }
+    private fun refreshData(){
+        berandaViewModel.getSomeActiveDeliveryOrder()
+        berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGEMBALIAN)
+        berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
+        berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
+        berandaViewModel.getUserByToken()
+        berandaViewModel.getKendaraanByLogistic()
+        berandaViewModel.getAllSuratJalanDalamPerjalananByUser()
+        (activity as BerandaActivity).refreshBadgeValue()
     }
 }

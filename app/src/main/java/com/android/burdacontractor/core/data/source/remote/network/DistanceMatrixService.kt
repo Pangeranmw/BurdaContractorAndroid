@@ -9,6 +9,6 @@ interface DistanceMatrixService {
     @GET("driving/{coordinates}")
     suspend fun getDistanceMatrixOSRM(
         @Path("coordinates") coordinates: String,
-        @Query("skip_waypoints") skip_waypoints: Boolean = true,
+        @Query("skip_waypoints") skipWaypoints: Boolean = true,
     ): DistanceMatrixResponse
 }

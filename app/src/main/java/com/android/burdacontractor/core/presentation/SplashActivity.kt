@@ -23,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if(storageViewModel.userId.isNotBlank()){
+        if(storageViewModel.isLogin){
             openActivity(BerandaActivity::class.java)
         }else{
             openActivity(LoginActivity::class.java)

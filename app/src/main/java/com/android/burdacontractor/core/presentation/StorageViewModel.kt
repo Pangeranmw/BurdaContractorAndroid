@@ -13,4 +13,5 @@ class StorageViewModel @Inject constructor(private val storageUseCase: StorageUs
     val longitude = storageUseCase.getLongitude()
     val token = storageUseCase.getToken()
     val userId = storageUseCase.getUserId()
+    val isLogin = storageUseCase.isUserLogin()
 }

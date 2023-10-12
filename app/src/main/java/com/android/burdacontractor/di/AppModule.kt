@@ -1,5 +1,7 @@
 package com.android.burdacontractor.di
 
+import com.android.burdacontractor.core.domain.usecase.GetDistanceMatrixInteractor
+import com.android.burdacontractor.core.domain.usecase.GetDistanceMatrixUseCase
 import com.android.burdacontractor.core.domain.usecase.LogisticInteractor
 import com.android.burdacontractor.core.domain.usecase.LogisticUseCase
 import com.android.burdacontractor.core.domain.usecase.StorageInteractor
@@ -29,6 +31,10 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @Module
 @InstallIn(ViewModelComponent::class)
 abstract class AppModule {
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetDistanceMatrixUseCase(getDistanceMatrixInteractor: GetDistanceMatrixInteractor): GetDistanceMatrixUseCase
 
     @Binds
     @ViewModelScoped

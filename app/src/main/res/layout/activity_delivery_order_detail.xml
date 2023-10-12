@@ -108,6 +108,7 @@
                             />
                         <TextView
                             android:id="@+id/tv_kode_do"
+                            android:textIsSelectable="true"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/kode_do"
@@ -241,6 +242,20 @@
                         app:layout_flexGrow="1"
                         />
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_telusuri_lokasi"
+                        android:layout_width="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/telusuri_rute_lokasi"
+                        android:background="@drawable/semi_rounded_outline_main"
+                        android:textColor="@color/primary_main"
+                        android:fontFamily="@font/inter_bold"
+                        android:textAllCaps="false"
+                        android:visibility="gone"
+                        app:layout_flexGrow="1"
+                        />
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_tandai_selesai"
                         android:layout_width="wrap_content"
                         android:paddingHorizontal="10dp"
@@ -302,7 +317,7 @@
                         android:fontFamily="@font/inter_light"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:layout_marginTop="2dp"
                         />
                     <LinearLayout
@@ -337,7 +352,7 @@
                         android:fontFamily="@font/inter_light"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:layout_marginTop="2dp"
                         />
                 </LinearLayout>
@@ -406,13 +421,11 @@
                                 android:src="@drawable/unit_purchasing"
                                 />
                             <LinearLayout
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_toEndOf="@+id/iv_purchasing"
                                 android:layout_marginStart="5dp"
-                                android:layout_marginTop="2dp"
                                 >
                                 <TextView
                                     android:layout_height="wrap_content"
@@ -572,7 +585,6 @@
                                 android:orientation="vertical"
                                 android:layout_toEndOf="@+id/iv_kendaraan"
                                 android:layout_marginStart="5dp"
-                                android:layout_marginTop="2dp"
                                 >
                                 <TextView
                                     android:layout_height="wrap_content"
@@ -624,13 +636,11 @@
                                 android:src="@drawable/unit_driver"
                                 />
                             <LinearLayout
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_toEndOf="@+id/iv_driver"
                                 android:layout_marginStart="5dp"
-                                android:layout_marginTop="2dp"
                                 >
                                 <TextView
                                     android:layout_height="wrap_content"
@@ -754,7 +764,6 @@
                                 android:orientation="vertical"
                                 android:layout_toEndOf="@+id/iv_admin_gudang"
                                 android:layout_marginStart="5dp"
-                                android:layout_marginTop="2dp"
                                 >
                                 <TextView
                                     android:layout_height="wrap_content"

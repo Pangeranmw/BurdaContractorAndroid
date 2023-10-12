@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_layout"
+    tools:context=".feature.deliveryorder.presentation.TelusuriLokasiDeliveryOrderActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingVertical="10dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="10dp"
+                android:layout_centerVertical="true"
+                android:background="@color/white"
+                android:contentDescription="@string/toggle_menu"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/tv_app_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/inter_semi_bold"
+                android:text="@string/telusuri_rute_lokasi"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/layout_tracking_info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
+
+    <LinearLayout
+        android:id="@+id/layout_tracking_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/semi_rounded_top_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="15dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/tv_tracking_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="@string/rute_menuju"
+            android:fontFamily="@font/inter_bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="10dp"
+            />
+        <LinearLayout
+            android:id="@+id/layout_info_jarak_waktu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:layout_marginBottom="10dp"
+            android:baselineAligned="false">
+            <RelativeLayout
+                android:layout_weight="0.6"
+                android:layout_marginEnd="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_jarak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="@string/perkiraan_jarak"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/tv_waktu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/tv_jarak"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="@string/perkiraan_waktu"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/tv_jarak_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="@string/perkiraan_jarak"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_waktu_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_jarak_value"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="@string/perkiraan_waktu"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_info_driver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:baselineAligned="false">
+            <RelativeLayout
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_driver"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+                    tools:src="@tools:sample/avatars"
+                    />
+                <TextView
+                    android:id="@+id/tv_nama_driver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/iv_driver"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="@string/nama_user"
+                    android:maxLines="2"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/tv_role_driver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/iv_driver"
+                    android:layout_below="@+id/tv_nama_driver"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="@string/driver"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_purchasing"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+                    tools:src="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/tv_nama_purchasing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:maxLines="2"
+                    android:layout_toEndOf="@+id/iv_purchasing"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="@string/nama_user"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_role_purchasing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_nama_purchasing"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/iv_purchasing"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="@string/purchasing"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <ImageButton
+        android:id="@+id/btn_tracking_mode"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="@string/cd_button"
+        android:gravity="center"
+        android:src="@drawable/ic_tracking_off"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:padding="5dp"
+        android:background="@drawable/semi_rounded_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout"
+        />
+
+    <ImageButton
+        android:id="@+id/btn_track_gmaps"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/semi_rounded_white"
+        android:contentDescription="@string/cd_button"
+        android:gravity="center"
+        android:padding="10dp"
+        android:src="@drawable/google_maps"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_tracking_mode" />
+
+    <ImageButton
+        android:id="@+id/btn_track_origin"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/semi_rounded_white"
+        android:contentDescription="@string/cd_button"
+        android:padding="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_asal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
+    <ImageButton
+        android:id="@+id/btn_track_destination"
+        android:clickable="false"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:padding="10dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/cd_button"
+        android:src="@drawable/ic_tujuan"
+        android:background="@drawable/semi_rounded_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_track_origin"
+        />
+    <ImageButton
+        android:id="@+id/btn_zoom_driver"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:padding="10dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/cd_button"
+        android:src="@drawable/marker_ic_driver_location"
+        android:background="@drawable/semi_rounded_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_track_destination"
+        />
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_white"
+        app:layout_constraintBottom_toBottomOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

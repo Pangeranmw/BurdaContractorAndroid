@@ -126,9 +126,6 @@ class PantauLokasiSuratJalanActivity : AppCompatActivity(), MapEventsReceiver, L
             updateUIWithTrackingMode()
         }
 
-        //context menu for clicking on the map is registered on this button.
-        //(a little bit strange, but if we register it on mapView, it will catch map drag events)
-
         //Route and Directions
         mRoadNodeMarkers = FolderOverlay()
         mRoadNodeMarkers.name = "Route Steps"

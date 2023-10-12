@@ -9,8 +9,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.android.burdacontractor.R
-import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
+import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.service.location.LocationService
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.enumValueToNormal
@@ -31,6 +31,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileBinding
     private val profileViewModel: ProfileViewModel by viewModels()
     private var snackbar: Snackbar? = null
+    private lateinit var user: UserByTokenItem
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
@@ -61,17 +62,18 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
         profileViewModel.user.observe(this){user->
-            initProfile(user)
+            this.user = user
+            initProfile()
+            initUi()
         }
-        initUi()
     }
-    private fun initProfile(user: UserByTokenItem){
+    private fun initProfile(){
         binding.tvNamaUser.text = user.nama
         binding.tvRolUser.text = enumValueToNormal(user.role)
         binding.tvNoHpUser.text = user.noHp
-        if(user.foto !=null){
+        if(user.foto != null){
             Glide.with(this)
-                .load(getPhotoUrl(user.foto))
+                .load(getPhotoUrl(user.foto!!))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(binding.ivUser)
@@ -90,7 +92,20 @@ class ProfileActivity : AppCompatActivity() {
                 )
             }
         }
+        if(user.role == UserRole.LOGISTIC.name){
+            profileViewModel.getIsTrackingRealtime(user.id)
+            profileViewModel.isTracking.observe(this){
+                binding.switchTracking.isChecked = it
+            }
+        }else{
+            binding.switchTracking.isChecked = profileViewModel.getIsTrackingStorage
+        }
         binding.switchTracking.setOnCheckedChangeListener { _, b ->
+            if(user.role == UserRole.LOGISTIC.name){
+                profileViewModel.setIsTrackingRealtime(user.id, b)
+            }else{
+                profileViewModel.setIsTrackingStorage(b)
+            }
             if(!b) {
                 stopService()
                 binding.tvSwitchTracking.text = getString(R.string.tracking_lokasi_tidak_aktif)
@@ -116,16 +131,12 @@ class ProfileActivity : AppCompatActivity() {
         ) { permissions ->
             when {
                 permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
-                    // Precise location access granted.
                     startService()
                 }
                 permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
-                    // Only approximate location access granted.
                     startService()
                 }
-                else -> {
-                    // No location access granted.
-                }
+                else -> {}
             }
         }
     private fun checkPermission(permission: String): Boolean {

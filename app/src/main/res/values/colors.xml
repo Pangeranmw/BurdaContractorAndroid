@@ -51,4 +51,5 @@
 
     <color name="red">#C04242</color>
     <color name="red_light">#FF2626</color>
+    <color name="blue">#0066FF</color>
 </resources>

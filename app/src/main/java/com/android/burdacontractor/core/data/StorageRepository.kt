@@ -23,6 +23,7 @@ class StorageRepository @Inject constructor(
 
     override fun getToken() = storageDataSource.getToken()
     override fun getLatitude() = storageDataSource.getLatitude()
+    override fun getTracking() = storageDataSource.getTracking()
 
     override fun getLongitude() = storageDataSource.getLongitude()
     override fun setCoordinate(latitude: String, longitude: String) {
@@ -36,7 +37,6 @@ class StorageRepository @Inject constructor(
         storageDataSource.setTTD(ttd)
     }
     override fun isUserLogin() = storageDataSource.isUserLogin()
-    override fun isTracking() = storageDataSource.isTracking()
     override fun logoutUser() = storageDataSource.logoutUser()
 }
 

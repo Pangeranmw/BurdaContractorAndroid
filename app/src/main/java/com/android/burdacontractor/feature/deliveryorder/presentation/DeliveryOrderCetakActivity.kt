@@ -12,6 +12,7 @@ import android.print.PrintManager
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -149,10 +150,7 @@ class DeliveryOrderCetakActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
-            btnBack.setOnClickListener {
-                finish()
-                overridePendingTransition(0,0)
-            }
+            onBackPressedCallback()
             btnPrint.setOnClickListener{
                 createWebPrintJob(webView,fileName)
             }
@@ -160,6 +158,18 @@ class DeliveryOrderCetakActivity : AppCompatActivity() {
                 downloadPDF(webView,path,"$fileName.pdf")
             }
         }
+    }
+    private fun onBackPressedCallback(){
+        binding.btnBack.setOnClickListener {
+            finish()
+            overridePendingTransition(0,0)
+        }
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                finish()
+                overridePendingTransition(0,0)
+            }
+        })
     }
     companion object{
         const val ID_DELIVERY_ORDER = "deliveryOrderId"

@@ -65,13 +65,15 @@ fun List<Routes>.getDistance(): String {
     }
 }
 fun ImageView.setImageFromUrl(
-    url: String, context: Context,
+    url: String?, context: Context,
 ) {
-    Glide.with(context)
-        .load(getPhotoUrl(url))
-        .diskCacheStrategy(DiskCacheStrategy.NONE)
-        .skipMemoryCache(true)
-        .into(this)
+    if(url!=null){
+        Glide.with(context)
+            .load(getPhotoUrl(url))
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .into(this)
+    }
 }
 fun View.openWhatsAppChat(toNumber: String) {
     val newNumber = convertNumberToIndonesia(toNumber)
@@ -107,19 +109,21 @@ inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
 }
 
 fun ShapeableImageView.setImageFromUrl(
-    url: String, context: Context,
+    url: String?, context: Context,
 ) {
-    Glide.with(context)
-        .load(getPhotoUrl(url))
-        .diskCacheStrategy(DiskCacheStrategy.NONE)
-        .skipMemoryCache(true)
-        .into(this)
+    if(url!=null){
+        Glide.with(context)
+            .load(getPhotoUrl(url))
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .into(this)
+    }
 }
 fun String.getLatitude(): Double{
-    return this.split("|",this)[0].toDouble()
+    return this.split("|")[0].toDouble()
 }
 fun String.getLongitude(): Double{
-    return this.split("|",this)[1].toDouble()
+    return this.split("|")[1].toDouble()
 }
 fun LogisticCoordinate.combine(): String{
     return "${this.latitude}|${this.longitude}"
@@ -131,6 +135,9 @@ fun getCoordinate(originCoordinate: String, destinationCoordinate: String): Stri
     val destinationLat = destinationCoordinate.split("|")[0]
     val destinationLon = destinationCoordinate.split("|")[1]
     return "$originLon,$originLat;$destinationLon,$destinationLat"
+}
+fun toCoordinateFormat(latitude: Double, longitude: Double): String{
+    return "$latitude|$longitude"
 }
 
 fun getPhotoUrl(photoUrl: String): String{
@@ -460,9 +467,9 @@ fun Date.formatTo(dateFormat: String, timeZone: TimeZone = TimeZone.getDefault()
     formatter.timeZone = timeZone
     return formatter.format(this)
 }
-fun setToastLong(message: String, context: Context){
-    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+fun Context.setToastLong(message: String){
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
-fun setToastShort(message: String, context: Context){
-    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+fun Context.setToastShort(message: String){
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }

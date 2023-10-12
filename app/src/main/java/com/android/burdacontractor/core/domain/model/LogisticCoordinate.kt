@@ -5,10 +5,11 @@ class LogisticCoordinate(
     val longitude: Double,
     val bearing: Double,
     val speed: Double,
-    val accuracy: Double
+    val accuracy: Double,
+    val provider: String
     ) {
     constructor(): this(
         0.0, 0.0,
-        0.0, 0.0,0.0
+        0.0, 0.0,0.0, ""
     )
 }

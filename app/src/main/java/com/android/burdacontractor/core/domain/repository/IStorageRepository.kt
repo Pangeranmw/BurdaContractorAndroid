@@ -12,6 +12,7 @@ interface IStorageRepository {
     fun getToken(): String
 
     fun getLatitude(): String
+    fun getTracking(): Boolean
     fun getLongitude(): String
 
     fun setCoordinate(latitude: String, longitude: String)
@@ -20,6 +21,5 @@ interface IStorageRepository {
     fun getTTD(): String
 
     fun isUserLogin(): Boolean
-    fun isTracking(): Boolean
     fun logoutUser()
 }
