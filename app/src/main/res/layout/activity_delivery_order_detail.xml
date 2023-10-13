@@ -592,6 +592,7 @@
                                     android:id="@+id/tv_merk_kendaraan"
                                     android:text="@string/kendaraan"
                                     android:fontFamily="@font/inter_medium"
+                                    android:layout_marginEnd="10dp"
                                     android:textColor="@color/black"
                                     android:textSize="12sp"
                                     />

@@ -23,6 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_toggle_menu"
+                app:tint="@color/black"
                 android:background="@color/white"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/toggle_menu" />
@@ -125,6 +126,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/vehicle_car"
+                                app:tint="@color/black"
                                 android:layout_marginStart="10dp"
                                 app:layout_constraintBottom_toBottomOf="@+id/tv_plat_kendaraan"
                                 app:layout_constraintStart_toEndOf="@+id/iv_kendaraan"

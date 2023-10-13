@@ -1,6 +1,7 @@
 package com.android.burdacontractor.feature.deliveryorder.presentation
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
@@ -16,6 +17,7 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListPreOrderAdapter
+import com.android.burdacontractor.core.presentation.customview.CustomDialog
 import com.android.burdacontractor.core.utils.*
 import com.android.burdacontractor.databinding.ActivityDeliveryOrderDetailBinding
 import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
@@ -95,13 +97,13 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
             tvStatus.text = enumValueToNormal(deliveryOrder!!.status)
             when(deliveryOrder!!.status){
                 DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
-                    binding.tvStatus.setTextColor(ContextCompat.getColor(this@DeliveryOrderDetailActivity,R.color.orange_dark_full))
+                    tvStatus.setTextColor(ContextCompat.getColor(this@DeliveryOrderDetailActivity,R.color.orange_dark_full))
                 }
                 DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
-                    binding.tvStatus.setTextColor(ContextCompat.getColor(this@DeliveryOrderDetailActivity,R.color.red))
+                    tvStatus.setTextColor(ContextCompat.getColor(this@DeliveryOrderDetailActivity,R.color.red))
                 }
                 DeliveryOrderStatus.SELESAI.name -> {
-                    binding.tvStatus.setTextColor(ContextCompat.getColor(this@DeliveryOrderDetailActivity,R.color.secondary_main))
+                    tvStatus.setTextColor(ContextCompat.getColor(this@DeliveryOrderDetailActivity,R.color.secondary_main))
                 }
             }
             tvCreatedAt.text = getDateFromMillis(deliveryOrder!!.createdAt)
@@ -112,8 +114,14 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
             tvNamaTujuan.text = deliveryOrder!!.tempatTujuan.nama
             tvAlamatTujuan.text = deliveryOrder!!.tempatTujuan.alamat
 
-            tvTglPengambilan.text = getDateFromMillis(deliveryOrder!!.tglPengambilan)
+            tvTglPengambilan.text = getDateFromMillis(deliveryOrder!!.tglPengambilan, "dd MMMM yyyy")
+
             ivPurchasing.setImageFromUrl(deliveryOrder!!.purchasing.foto,this@DeliveryOrderDetailActivity)
+            if(deliveryOrder?.purchasing?.foto!=null){
+                ivPurchasing.layoutParams.width = 100
+                ivPurchasing.layoutParams.height = 100
+                ivPurchasing.requestLayout()
+            }
             tvNoHpPurchasing.text = deliveryOrder!!.purchasing.noHp
             tvNamaPurchasing.text = deliveryOrder!!.purchasing.nama
 
@@ -121,12 +129,22 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
             tvUntukPerhatian.text = deliveryOrder!!.untukPerhatian
 
             ivKendaraan.setImageFromUrl(deliveryOrder!!.kendaraan.gambar,this@DeliveryOrderDetailActivity)
+            if(deliveryOrder?.kendaraan?.gambar!=null){
+                ivKendaraan.layoutParams.width = 100
+                ivKendaraan.layoutParams.height = 100
+                ivKendaraan.requestLayout()
+            }
             tvMerkKendaraan.text = deliveryOrder!!.kendaraan.merk
             tvPlatKendaraan.text = deliveryOrder!!.kendaraan.platNomor
 
             tvNamaDriver.text = deliveryOrder!!.logistic.nama
             tvNoHpDriver.text = deliveryOrder!!.logistic.noHp
             ivDriver.setImageFromUrl(deliveryOrder!!.logistic.foto,this@DeliveryOrderDetailActivity)
+            if(deliveryOrder?.logistic?.foto!=null){
+                ivDriver.layoutParams.width = 100
+                ivDriver.layoutParams.height = 100
+                ivDriver.requestLayout()
+            }
 
             ivTtd.setImageFromUrl(deliveryOrder!!.ttd, this@DeliveryOrderDetailActivity)
             tvTertandaPemohon.text = deliveryOrder!!.purchasing.nama
@@ -138,13 +156,36 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
             btnHubungiDriver.setOnClickListener {
                 dialIntent(deliveryOrder!!.logistic.noHp)
             }
+
             btnWaPurchasing.setOnClickListener {
                 it.openWhatsAppChat(deliveryOrder!!.purchasing.noHp)
             }
             btnHubungiPurchasing.setOnClickListener {
                 dialIntent(deliveryOrder!!.purchasing.noHp)
             }
-            onBackPressedCallback()
+
+            if(deliveryOrder?.fotoBukti!=null){
+                layoutFotoBukti.setVisible()
+                ivFotoBukti.setImageFromUrl(deliveryOrder!!.fotoBukti,this@DeliveryOrderDetailActivity)
+            }
+
+            if(deliveryOrder?.adminGudang!=null){
+                layoutPenandaSelesai.setVisible()
+                ivAdminGudang.setImageFromUrl(deliveryOrder!!.adminGudang!!.foto,this@DeliveryOrderDetailActivity)
+                if(deliveryOrder?.adminGudang?.foto!=null){
+                    ivAdminGudang.layoutParams.width = 100
+                    ivAdminGudang.layoutParams.height = 100
+                    ivAdminGudang.requestLayout()
+                }
+                tvNoHpAdminGudang.text = deliveryOrder!!.adminGudang!!.noHp
+                tvNamaAdminGudang.text = deliveryOrder!!.adminGudang!!.nama
+                btnWaAdminGudang.setOnClickListener {
+                    it.openWhatsAppChat(deliveryOrder!!.adminGudang!!.noHp)
+                }
+                btnHubungiAdminGudang.setOnClickListener {
+                    dialIntent(deliveryOrder!!.adminGudang!!.noHp)
+                }
+            }
             btnDownload.setOnClickListener {
                 openActivityWithExtras(DeliveryOrderCetakActivity::class.java,false){
                     putString(DeliveryOrderCetakActivity.ID_DELIVERY_ORDER, deliveryOrder!!.id)
@@ -154,6 +195,7 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
             srLayout.setOnRefreshListener {
                 refreshData()
             }
+            onBackPressedCallback()
         }
     }
     private fun onBackPressedCallback(){
@@ -193,7 +235,18 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                         UserRole.ADMIN_GUDANG.name, UserRole.PURCHASING.name, UserRole.ADMIN.name -> {
                             btnTandaiSelesai.setVisible()
                             btnTandaiSelesai.setOnClickListener {
-
+                                CustomDialog(
+                                    mainButtonText = "Selesai",
+                                    secondaryButtonText = "Batalkan",
+                                    title = "Tandai Selesai Delivery Order",
+                                    subtitle = "Apakah anda yakin ingin menandai selesai delivery order ${deliveryOrder!!.kodeDo} ?",
+                                    image = null,
+                                    blockMainButton = {
+                                        //exec viewmodel selesai
+                                        refreshData()
+                                    },
+                                    blockSecondaryButton = {}
+                                ).show(supportFragmentManager, "MyCustomFragment")
                             }
                         }
                     }
