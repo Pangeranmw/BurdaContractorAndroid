@@ -207,8 +207,8 @@
                         android:layout_margin="5dp"
                         android:layout_height="wrap_content"
                         android:text="@string/upload_foto_bukti"
-                        android:background="@drawable/semi_rounded_outline_main"
-                        android:textColor="@color/primary_main"
+                        android:background="@drawable/semi_rounded_primary"
+                        android:textColor="@color/white"
                         android:textAllCaps="false"
                         android:fontFamily="@font/inter_bold"
                         android:visibility="gone"
@@ -723,10 +723,10 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/iv_foto_bukti"
                             android:layout_width="wrap_content"
-                            android:layout_height="150dp"
+                            android:layout_height="200dp"
                             android:layout_marginTop="5dp"
                             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitStart"
                             android:layout_gravity="start"
                             tools:src="@tools:sample/avatars" />
                     </LinearLayout>

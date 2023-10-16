@@ -14,6 +14,7 @@ import androidx.core.graphics.drawable.IconCompat
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.LogisticRepository
 import com.android.burdacontractor.core.data.StorageRepository
+import com.android.burdacontractor.core.data.source.local.storage.SessionManager
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
@@ -66,8 +67,8 @@ class LocationService: Service() {
 
     @SuppressLint("NotificationPermission")
     private fun start() {
-        userRole = storageRepository.getRole()
-        userId = storageRepository.getUserId()
+        userRole = storageRepository.getPreferences(SessionManager.KEY_ROLE)
+        userId = storageRepository.getPreferences(SessionManager.KEY_USER_ID)
         val notification = NotificationCompat.Builder(this, "location")
             .setContentTitle("Tracking Your location")
             .setSmallIcon(R.drawable.logo_burda)
@@ -102,7 +103,8 @@ class LocationService: Service() {
                     logisticRepository.setCoordinate(userId, logisticCoordinate)
                     logisticRepository.setIsTracking(userId, true)
                 }
-                storageRepository.setCoordinate(lat,long)
+                storageRepository.setPreferences(SessionManager.KEY_LATITUDE, lat)
+                storageRepository.setPreferences(SessionManager.KEY_LONGITUDE, long)
                 notificationManager.notify(1000, updatedNotification.build())
             }
             .launchIn(serviceScope)

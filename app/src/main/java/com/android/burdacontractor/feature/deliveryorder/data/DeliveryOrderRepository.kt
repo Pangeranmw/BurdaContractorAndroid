@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -122,6 +123,24 @@ class DeliveryOrderRepository @Inject constructor(
         peminjamanAsalId: String
     ): Flow<Resource<ErrorMessageResponse>> {
         TODO("Not yet implemented")
+    }
+    override suspend fun uploadFotoBuktiDeliveryOrder(
+        id: String,
+        fotoBukti: File
+    ): Flow<Resource<ErrorMessageResponse>> = flow{
+        try {
+            emit(Resource.Loading())
+            when(val response = deliveryOrderRemoteDataSource.uploadFotoBuktiDeliveryOrder(storageDataSource.getToken(), id, fotoBukti).first()){
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = response.data
+                    emit(Resource.Success(result))
+                }
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        } catch (ex: Exception) {
+            emit(Resource.Error(ex.message.toString()))
+        }
     }
 
     override suspend fun deleteDeliveryOrder(deliveryOrderId: String): Flow<Resource<ErrorMessageResponse>> {

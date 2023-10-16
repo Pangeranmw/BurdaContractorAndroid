@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.UserRole
+import com.android.burdacontractor.core.presentation.LogisticViewModel
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.service.location.LocationService
 import com.android.burdacontractor.core.utils.openActivity
@@ -30,13 +31,16 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
     private lateinit var binding: ActivityBerandaBinding
     private lateinit var layout: View
     private val storageViewModel: StorageViewModel by viewModels()
+    private val logisticViewModel: LogisticViewModel by viewModels()
+    private lateinit var role: String
     private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBerandaBinding.inflate(layoutInflater)
         layout = binding.mainLayout
         binding.berandaBottomNavigation.menu.clear()
-        when(storageViewModel.role){
+        role = storageViewModel.role
+        when(role){
             UserRole.ADMIN_GUDANG.name, UserRole.ADMIN.name ->
                 setBottomNavigationMenu(R.menu.bottom_menu_admingudang, R.id.beranda_admin_gudang)
             UserRole.LOGISTIC.name ->
@@ -47,7 +51,7 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
                 setBottomNavigationMenu(R.menu.bottom_menu_sv_pm, R.id.beranda_sv_pm)
         }
         initBadge()
-        startService()
+        checkUserTracking()
         setContentView(binding.root)
     }
     private fun setBottomNavigationMenu(menu: Int, item: Int){
@@ -56,8 +60,22 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
         binding.berandaBottomNavigation.setOnItemSelectedListener(this)
     }
     fun refreshBadgeValue(){
-        bottomNavigationViewModel.getCountActiveDeliveryOrder()
-        bottomNavigationViewModel.getCountActiveSuratJalan()
+        if(role==UserRole.LOGISTIC.name ||
+            role==UserRole.ADMIN_GUDANG.name ||
+            role==UserRole.ADMIN.name ||
+            role==UserRole.PURCHASING.name
+        ) {
+            bottomNavigationViewModel.getCountActiveDeliveryOrder()
+        }
+        if(role==UserRole.LOGISTIC.name ||
+            role==UserRole.ADMIN_GUDANG.name ||
+            role==UserRole.ADMIN.name ||
+            role==UserRole.SUPERVISOR.name ||
+            role==UserRole.PROJECT_MANAGER.name ||
+            role==UserRole.SITE_MANAGER.name
+        ) {
+            bottomNavigationViewModel.getCountActiveSuratJalan()
+        }
     }
     private fun initBadge(){
         bottomNavigationViewModel.totalActiveSuratJalan.observe(this){
@@ -94,11 +112,11 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
             when {
                 permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
                     // Precise location access granted.
-                    startService()
+                    checkUserTracking()
                 }
                 permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
                     // Only approximate location access granted.
-                    startService()
+                    checkUserTracking()
                 }
                 else -> {
                     // No location access granted.
@@ -110,6 +128,15 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
             this,
             permission
         ) == PackageManager.PERMISSION_GRANTED
+    }
+    private fun checkUserTracking(){
+        if(storageViewModel.getTracking && role != UserRole.LOGISTIC.name) startService()
+        if(role == UserRole.LOGISTIC.name){
+            logisticViewModel.getIsTrackingRealtime(storageViewModel.userId)
+            logisticViewModel.isTracking.observe(this){
+                if(it) startService()
+            }
+        }
     }
     private fun startService() {
         if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&

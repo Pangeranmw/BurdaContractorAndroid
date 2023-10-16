@@ -23,7 +23,7 @@ import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanDetailActivity
 import com.bumptech.glide.Glide
 
-class ListSuratJalanAdapter(val user: UserByTokenItem,val listener: (SuratJalanItem)->Unit) : ListAdapter<SuratJalanItem, ListSuratJalanAdapter.ListSuratJalanViewHolder>(DIFF_CALLBACK) {
+class ListSuratJalanAdapter(val role: String, val id: String, val listener: (SuratJalanItem)->Unit) : ListAdapter<SuratJalanItem, ListSuratJalanAdapter.ListSuratJalanViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListSuratJalanViewHolder {
         val binding = ItemSuratJalanBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListSuratJalanViewHolder(binding)

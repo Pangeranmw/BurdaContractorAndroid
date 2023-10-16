@@ -9,6 +9,8 @@ class SessionManager(context: Context) {
         const val KEY_USER_ID = "userId"
         const val KEY_ROLE = "role"
         const val KEY_TTD = "ttd"
+        const val KEY_PHOTO = "photo"
+        const val KEY_NAME = "name"
         const val KEY_DEVICE_TOKEN = "deviceToken"
         const val KEY_LATITUDE = "latitude"
         const val KEY_LONGITUDE = "longitude"
@@ -33,12 +35,14 @@ class SessionManager(context: Context) {
         editor.remove(KEY_LONGITUDE)
         editor.remove(KEY_TTD)
         editor.remove(KEY_LOGIN)
+        editor.remove(KEY_PHOTO)
+        editor.remove(KEY_NAME)
         editor.remove(KEY_TRACKING)
         editor.apply()
     }
     fun getTracking(): Boolean = pref.getBoolean(KEY_TRACKING, true)
     fun isLogin(): Boolean = pref.getBoolean(KEY_LOGIN, false)
-    fun saveToPreference(key: String, value: String) = editor.putString(key, value).commit()
+    fun saveToPreference(key: String, value: String?) = editor.putString(key, value).commit()
 
     fun getFromPreference(key: String) = pref.getString(key, "")
 

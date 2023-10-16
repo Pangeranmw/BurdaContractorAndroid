@@ -68,6 +68,10 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
+    abstract fun provideGetStatistikMenungguSuratJalanUseCase(getStatistikMenungguSuratJalanInteractor: GetStatistikMenungguSuratJalanInteractor): GetStatistikMenungguSuratJalanUseCase
+
+    @Binds
+    @ViewModelScoped
     abstract fun provideGetSomeActiveSuratJalanUseCase(getSomeActiveSuratJalanInteractor: GetSomeActiveSuratJalanInteractor): GetSomeActiveSuratJalanUseCase
 
     @Binds
@@ -82,6 +86,10 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideGetAllDeliveryOrderUseCase(getAllDeliveryOrderInteractor: GetAllDeliveryOrderInteractor): GetAllDeliveryOrderUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideUploadFotoBuktiDeliveryOrderUseCase(uploadFotoBuktiDeliveryOrderInteractor: UploadFotoBuktiDeliveryOrderInteractor): UploadFotoBuktiDeliveryOrderUseCase
 
     @Binds
     @ViewModelScoped

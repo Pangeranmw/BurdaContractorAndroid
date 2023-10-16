@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
+import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.usecase.LogisticUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,6 +16,9 @@ import javax.inject.Inject
 class LogisticViewModel @Inject constructor(private val logisticUseCase: LogisticUseCase) : ViewModel() {
     private val _logisticCoordinate = MutableLiveData<Resource<LogisticCoordinate>>()
     val logisticCoordinate: LiveData<Resource<LogisticCoordinate>> = _logisticCoordinate
+
+    private val _isTracking = MutableLiveData<Boolean>()
+    val isTracking: LiveData<Boolean> = _isTracking
 
     fun getCoordinate(logisticId: String){
         viewModelScope.launch {
@@ -36,6 +40,21 @@ class LogisticViewModel @Inject constructor(private val logisticUseCase: Logisti
     fun setCoordinate(logisticId: String, logisticCoordinate: LogisticCoordinate){
         viewModelScope.launch {
             logisticUseCase.setCoordinate(logisticId, logisticCoordinate)
+        }
+    }
+    fun getIsTrackingRealtime(logisticId: String){
+        viewModelScope.launch {
+            logisticUseCase.getTracking(logisticId).collect {
+                when(it) {
+                    is Resource.Loading -> { }
+                    is Resource.Success -> {
+                        it.data?.let { data ->
+                            _isTracking.postValue(data.isTracking)
+                        }
+                    }
+                    is Resource.Error -> { }
+                }
+            }
         }
     }
 }

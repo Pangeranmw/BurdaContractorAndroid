@@ -68,6 +68,7 @@ class PantauLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiver
     private val pantauLokasiDeliveryOrderViewModel: PantauLokasiDeliveryOrderViewModel by viewModels()
     private var deliveryOrder: DeliveryOrderDetailItem? = null
     private var snackbar: Snackbar? = null
+    private var callFirstTime: Boolean = true
 
     private lateinit var map: MapView
     private var driverPoint: GeoPoint = GeoPoint(0.0, 0.0)
@@ -127,8 +128,11 @@ class PantauLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiver
             if(it!=null){
                 val newLocation = GeoPoint(it.latitude, it.longitude)
                 driverPoint = newLocation
-                roadAsync
-                checkPermissions()
+                if(callFirstTime){
+                    roadAsync
+                    checkPermissions()
+                    callFirstTime = false
+                }
                 onRealtimeLocationChanged(it)
             }else{
                 myLocationOverlay.isEnabled = false

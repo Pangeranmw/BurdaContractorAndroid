@@ -6,6 +6,7 @@ import com.android.burdacontractor.feature.deliveryorder.data.source.remote.resp
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderWithCountResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface DeliveryOrderService {
@@ -68,30 +69,31 @@ interface DeliveryOrderService {
     ): ErrorMessageResponse
 
     @FormUrlEncoded
-    @DELETE("delivery-order/{delivery_order_id}")
+    @DELETE("delivery-order/{id}")
     suspend fun deleteDeliveryOrder(
         @Header("Authorization") token: String,
-        @Path("delivery_order_id") deliveryOrderId: String,
+        @Path("id") deliveryOrderId: String,
     ): ErrorMessageResponse
 
     @FormUrlEncoded
-    @POST("delivery-order/{delivery_order_id}/send")
+    @POST("delivery-order/{id}/send")
     suspend fun sendDeliveryOrder(
         @Header("Authorization") token: String,
-        @Path("delivery_order_id") deliveryOrderId: String,
+        @Path("id") deliveryOrderId: String,
     ): ErrorMessageResponse
 
     @FormUrlEncoded
-    @POST("delivery-order/{delivery_order_id}/mark-complete")
+    @POST("delivery-order/{id}/mark-complete")
     suspend fun markCompleteDeliveryOrder(
         @Header("Authorization") token: String,
-        @Path("delivery_order_id") deliveryOrderId: String,
+        @Path("id") deliveryOrderId: String,
     ): ErrorMessageResponse
 
     @Multipart
-    @POST("delivery-order/{delivery_order_id}/upload-foto")
+    @POST("delivery-order/upload-foto")
     suspend fun uploadFotoBuktiDeliveryOrder(
         @Header("Authorization") token: String,
-        @Part("foto") foto: MultipartBody.Part,
+        @Part("id") id: RequestBody,
+        @Part foto: MultipartBody.Part,
     ): ErrorMessageResponse
 }

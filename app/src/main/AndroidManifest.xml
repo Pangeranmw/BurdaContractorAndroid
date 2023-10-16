@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- permission -->
     <uses-feature android:name="android.hardware.camera" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -24,6 +25,9 @@
         android:theme="@style/Theme.BurdaContractor"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".feature.deliveryorder.presentation.UploadFotoBuktiDeliveryOrderActivity"
+            android:exported="false" />
         <activity
             android:name=".feature.deliveryorder.presentation.PantauLokasiDeliveryOrderActivity"
             android:exported="false" />
@@ -52,7 +56,12 @@
             android:exported="true" />
         <activity
             android:name=".feature.deliveryorder.presentation.DeliveryOrderDetailActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="DeliveryOrderDetailActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".feature.deliveryorder.presentation.DeliveryOrderCetakActivity"
             android:exported="true" />

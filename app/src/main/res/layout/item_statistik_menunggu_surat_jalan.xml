@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_background"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/semi_rounded_gray_dark"
+    >
+    <TextView
+        android:id="@+id/tv_count_statistik"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/number_placeholder"
+        android:paddingHorizontal="10dp"
+        android:paddingTop="5dp"
+        android:textSize="24sp"
+        android:fontFamily="@font/inter_bold"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        />
+    <TextView
+        android:id="@+id/tv_nama_statistik"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/peminjaman_gudang_proyek"
+        android:paddingBottom="10dp"
+        android:textSize="12sp"
+        android:fontFamily="@font/inter_medium"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        />
+</LinearLayout>

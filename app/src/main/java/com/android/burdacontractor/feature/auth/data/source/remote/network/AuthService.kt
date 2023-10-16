@@ -33,9 +33,10 @@ interface AuthService {
         @Field("pin") pin: String,
     ): ErrorMessageResponse
 
-    @Headers("Accept: application/json")
+    @FormUrlEncoded
     @POST("logout")
     suspend fun logout(
         @Header("Authorization") token: String,
+        @Field("device_token") deviceToken: String,
     ): ErrorMessageResponse
 }

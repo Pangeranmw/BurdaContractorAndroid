@@ -45,8 +45,8 @@ class AuthRemoteDataSource @Inject constructor(
         }
     }
 
-    suspend fun logout(token: String): Flow<ApiResponse<ErrorMessageResponse>> = flow{
-        val response = authService.logout(token)
+    suspend fun logout(token: String, deviceToken: String): Flow<ApiResponse<ErrorMessageResponse>> = flow{
+        val response = authService.logout(token, deviceToken)
         if(!response.error){
             emit(ApiResponse.Success(response))
         }else{

@@ -1,25 +1,16 @@
 package com.android.burdacontractor.core.domain.repository
 
+import com.android.burdacontractor.core.domain.model.LogisticIsTracking
+import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
+
 interface IStorageRepository {
-    fun loginUser(userId: String, token: String, role: String, ttd: String)
-    fun setDeviceToken(token: String)
+    fun loginUser(userId: String, token: String, role: String, name: String, ttd: String, photo: String?)
+    fun updateUser(user: UserByTokenItem)
+    fun getPreferences(key: String): String
+    fun setPreferences(key: String, value: String): Boolean
     fun setTracking(isTracking: Boolean)
-    fun setTTD(ttd: String)
-    fun getDeviceToken(): String
-
-    fun getUserId(): String
-
-    fun getToken(): String
-
-    fun getLatitude(): String
-    fun getTracking(): Boolean
-    fun getLongitude(): String
-
-    fun setCoordinate(latitude: String, longitude: String)
-
-    fun getRole(): String
-    fun getTTD(): String
 
     fun isUserLogin(): Boolean
+    fun getTracking(): Boolean
     fun logoutUser()
 }

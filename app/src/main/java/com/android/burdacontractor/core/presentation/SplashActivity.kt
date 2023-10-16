@@ -1,11 +1,13 @@
 package com.android.burdacontractor.core.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.android.burdacontractor.core.utils.openActivity
+import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.databinding.ActivityMainBinding
 import com.android.burdacontractor.feature.auth.presentation.LoginActivity
 import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
@@ -24,7 +26,17 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if(storageViewModel.isLogin){
-            openActivity(BerandaActivity::class.java)
+            val clickAction = intent.getStringExtra("clickAction")
+            if(clickAction!=null){
+                val newIntent = Intent(clickAction)
+                val intentKeyId = intent.getStringExtra("intentKeyId")
+                val intentValueId = intent.getStringExtra("intentValueId")
+                Log.d("INI EXTRA", "$intentKeyId $intentValueId $clickAction" )
+                newIntent.putExtra(intentKeyId,intentValueId)
+                startActivity(newIntent)
+            }else{
+                openActivity(BerandaActivity::class.java)
+            }
         }else{
             openActivity(LoginActivity::class.java)
         }

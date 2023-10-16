@@ -13,6 +13,7 @@ import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliver
 import com.android.burdacontractor.feature.deliveryorder.domain.model.DataAllDeliveryOrderWithCount
 import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetail
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 interface IDeliveryOrderRepository {
 
@@ -42,6 +43,11 @@ interface IDeliveryOrderRepository {
         logisticId: String,
         kendaraanId: String,
         peminjamanId: String
+    ): Flow<Resource<ErrorMessageResponse>>
+
+    suspend fun uploadFotoBuktiDeliveryOrder(
+        id: String,
+        fotoBukti: File
     ): Flow<Resource<ErrorMessageResponse>>
 
     suspend fun deleteDeliveryOrder(

@@ -23,7 +23,7 @@ import com.android.burdacontractor.feature.deliveryorder.presentation.DeliveryOr
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.bumptech.glide.Glide
 
-class ListDeliveryOrderAdapter(val user: UserByTokenItem, val listener: (DeliveryOrderItem) -> Unit) : ListAdapter<DeliveryOrderItem, ListDeliveryOrderAdapter.ListDeliveryOrderViewHolder>(DIFF_CALLBACK) {
+class ListDeliveryOrderAdapter(val role: String, val id: String, val listener: (DeliveryOrderItem) -> Unit) : ListAdapter<DeliveryOrderItem, ListDeliveryOrderAdapter.ListDeliveryOrderViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListDeliveryOrderViewHolder {
         val binding = ItemDeliveryOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -36,9 +36,9 @@ class ListDeliveryOrderAdapter(val user: UserByTokenItem, val listener: (Deliver
 
     inner class ListDeliveryOrderViewHolder(private val binding: ItemDeliveryOrderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(deliveryOrder: DeliveryOrderItem) {
-            when(user.role){
+            when(role){
                 UserRole.ADMIN_GUDANG.name -> {
-                    if(user.id == deliveryOrder.idAdminGudang) {
+                    if(id == deliveryOrder.idAdminGudang) {
                         binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.secondary_main)
                     }
                 }
@@ -46,7 +46,7 @@ class ListDeliveryOrderAdapter(val user: UserByTokenItem, val listener: (Deliver
 //                    binding.layoutDriver.setGone()
                 }
                 UserRole.PURCHASING.name ->{
-                    if(user.id == deliveryOrder.idPurchasing) {
+                    if(id == deliveryOrder.idPurchasing) {
                         binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.secondary_main)
                     }
                 }

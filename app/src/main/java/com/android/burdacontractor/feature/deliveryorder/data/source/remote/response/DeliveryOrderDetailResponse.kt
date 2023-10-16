@@ -37,7 +37,7 @@ data class PreOrderItem(
 	val id: String,
 
 	@field:SerializedName("keterangan")
-	val keterangan: String
+	val keterangan: String? = null
 ):Parcelable
 
 @Parcelize

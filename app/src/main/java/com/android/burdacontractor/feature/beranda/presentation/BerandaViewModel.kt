@@ -22,11 +22,13 @@ import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraan
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatistikMenungguSuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSuratJalanDalamPerjalananByUserUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetSomeActiveSuratJalanUseCase
+import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetStatistikMenungguSuratJalanUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,7 +41,8 @@ class BerandaViewModel @Inject constructor(
     private val getKendaraanByLogisticUseCase: GetKendaraanByLogisticUseCase,
     private val getAllSuratJalanDalamPerjalananByUserUseCase: GetAllSuratJalanDalamPerjalananByUserUseCase,
     private val getSomeActiveDeliveryOrderUseCase: GetSomeActiveDeliveryOrderUseCase,
-    private val getAllDeliveryOrderDalamPerjalananByUserUseCase: GetAllDeliveryOrderDalamPerjalananByUserUseCase
+    private val getAllDeliveryOrderDalamPerjalananByUserUseCase: GetAllDeliveryOrderDalamPerjalananByUserUseCase,
+    private val getStatistikMenungguSuratJalanUseCase: GetStatistikMenungguSuratJalanUseCase
 ) : ViewModel() {
 
     private val _state = MutableLiveData<StateResponse?>()
@@ -66,23 +69,18 @@ class BerandaViewModel @Inject constructor(
     private val _doDalamPerjalanan = MutableLiveData<List<DeliveryOrderItem>>()
     val doDalamPerjalanan: LiveData<List<DeliveryOrderItem>> = _doDalamPerjalanan
 
+    private val _statistikMenungguSuratJalan = MutableLiveData<List<StatistikMenungguSuratJalanItem>>()
+    val statistikMenungguSuratJalan: LiveData<List<StatistikMenungguSuratJalanItem>> = _statistikMenungguSuratJalan
+
     private val _kendaraanByLogistic = MutableLiveData<KendaraanByLogisticItem?>()
     val kendaraanByLogistic: LiveData<KendaraanByLogisticItem?> = _kendaraanByLogistic
 
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse : LiveData<Event<String?>> = _messageResponse
 
-    init {
+    init{
         getUserByToken()
-        getSomeActiveDeliveryOrder()
-        getAllDeliveryOrderDalamPerjalananByUser()
-        getSomeActiveSuratJalan(SuratJalanTipe.PENGEMBALIAN)
-        getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
-        getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
-        getAllSuratJalanDalamPerjalananByUser()
-        getKendaraanByLogistic()
     }
-
     fun getUserByToken(){
         viewModelScope.launch {
             getUserByTokenUseCase.execute().collect{
@@ -91,9 +89,29 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _user.value = it.data!!
+                        _messageResponse.value = Event("Berhasil Mendapatkan Data User")
+                    }
+                    is Resource.Error -> {
+                        _messageResponse.value = Event(it.message)
+                        _state.value = StateResponse.ERROR
+                    }
+                }
+            }
+        }
+    }
+    fun getStatistikMenungguSuratJalan(){
+        viewModelScope.launch {
+            getStatistikMenungguSuratJalanUseCase.execute().collect{
+                when(it){
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _state.value = StateResponse.SUCCESS
+                        _statistikMenungguSuratJalan.value = it.data!!
+                        _messageResponse.value = Event("Berhasil Mendapatkan Data Menunggu Surat Jalan")
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
                     }
                 }
             }
@@ -107,9 +125,11 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _deliveryOrder.value = it.data!!
+                        _messageResponse.value = Event("Berhasil Mendapatkan Delivery Order Aktif")
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
                     }
                 }
             }
@@ -124,9 +144,11 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _doDalamPerjalanan.value = it.data!!
+                        _messageResponse.value = Event("Berhasil Mendapatkan Delivery Order Dalam Perjalanan")
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
                     }
                 }
             }
@@ -143,17 +165,21 @@ class BerandaViewModel @Inject constructor(
                         when (tipe) {
                             SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK -> {
                                 _sjPengirimanGp.value = it.data!!
+                                _messageResponse.value = Event("Berhasil Mendapatkan Surat Jalan Pengiriman Gudang Proyek Aktif")
                             }
                             SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK -> {
                                 _sjPengirimanPp.value = it.data!!
+                                _messageResponse.value = Event("Berhasil Mendapatkan Surat Jalan Pengiriman Proyek Proyek Aktif")
                             }
                             SuratJalanTipe.PENGEMBALIAN -> {
                                 _sjPengembalian.value = it.data!!
+                                _messageResponse.value = Event("Berhasil Mendapatkan Surat Jalan Pengembalian Aktif")
                             }
                         }
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
                     }
                 }
             }
@@ -168,9 +194,11 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _sjDalamPerjalanan.value = it.data!!
+                        _messageResponse.value = Event("Berhasil Mendapatkan Surat Jalan Dalam Perjalanan")
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
                     }
                 }
             }
@@ -185,10 +213,11 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _kendaraanByLogistic.value = it.data!!
+                        _messageResponse.value = Event("Berhasil Mendapatkan Kendaraan")
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
-                        _kendaraanByLogistic.value = it.data
+                        _messageResponse.value = Event(it.message)
                     }
                 }
             }

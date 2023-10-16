@@ -12,6 +12,7 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.SuratJalanRemoteDataSource
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatistikMenungguSuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
@@ -79,6 +80,21 @@ class SuratJalanRepository @Inject constructor(
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
                     val result = response.data.data!!
+                    emit(Resource.Success(result))
+                }
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        } catch (ex: Exception) {
+            emit(Resource.Error(ex.message.toString()))
+        }
+    }
+    override suspend fun getStatistikMenungguSuratJalan(): Flow<Resource<List<StatistikMenungguSuratJalanItem>>> = flow{
+        try {
+            emit(Resource.Loading())
+            when(val response = suratJalanRemoteDataSource.getStatistikMenungguSuratJalan(storageDataSource.getToken()).first()){
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = response.data.statistikMenungguSuratJalan
                     emit(Resource.Success(result))
                 }
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))

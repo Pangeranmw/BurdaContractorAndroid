@@ -18,7 +18,11 @@ import com.android.burdacontractor.feature.deliveryorder.data.source.remote.resp
 import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -60,6 +64,25 @@ class DeliveryOrderRemoteDataSource @Inject constructor(
         token: String,
     ): Flow<ApiResponse<CountActiveResponse>> = flow {
         val response = deliveryOrderService.getCountActiveDeliveryOrder(token)
+        if(!response.error){
+            emit(ApiResponse.Success(response))
+        }else{
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+    suspend fun uploadFotoBuktiDeliveryOrder(
+        token: String,
+        id: String,
+        fotoBukti: File,
+    ): Flow<ApiResponse<ErrorMessageResponse>> = flow {
+        val requestBody = id.toRequestBody("text/plain".toMediaType())
+        val requestImageFile = fotoBukti.asRequestBody("image/jpeg".toMediaType())
+        val multipartBody = MultipartBody.Part.createFormData(
+            "foto_bukti",
+            fotoBukti.name,
+            requestImageFile
+        )
+        val response = deliveryOrderService.uploadFotoBuktiDeliveryOrder(token, requestBody, multipartBody)
         if(!response.error){
             emit(ApiResponse.Success(response))
         }else{

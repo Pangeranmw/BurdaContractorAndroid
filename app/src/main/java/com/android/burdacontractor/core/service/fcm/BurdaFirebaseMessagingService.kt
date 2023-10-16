@@ -11,7 +11,10 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.StorageRepository
+import com.android.burdacontractor.core.data.source.local.storage.SessionManager
 import com.android.burdacontractor.core.presentation.SplashActivity
+import com.android.burdacontractor.core.utils.getPhotoUrl
+import com.android.burdacontractor.core.utils.toIntegerNumber
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,48 +30,80 @@ import javax.inject.Inject
 class BurdaFirebaseMessagingService: FirebaseMessagingService() {
 
     @Inject lateinit var storageRepository: StorageRepository
+    private var intentKeyId: String? = null
+    private var intentValueId: String? = null
+    private var kode: String? = null
+    private var clickAction: String? = null
+    private var title: String? = null
+    private var messageBody: String? = null
+    private var imageUrl: String? = null
+    private var channelId: String? = null
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d(TAG ,"Refreshed token $token")
-        storageRepository.setDeviceToken(token)
+        storageRepository.setPreferences(SessionManager.KEY_DEVICE_TOKEN, token)
     }
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        if(message.data.isNotEmpty()){
-            Log.d(TAG, "onMessageReceived: "+ message.data.toString())
-            sendNotification(message.notification?.title, message.notification?.body, message.notification?.imageUrl.toString())
+        imageUrl = message.notification?.imageUrl.toString()
+        messageBody = message.notification?.body
+        title = message.notification?.title
+        clickAction = message.notification?.clickAction
+        channelId = getString(R.string.default_notification_channel_id)
+        message.notification?.channelId?.let{
+            channelId = it
         }
+        intentKeyId = message.data["intentKeyId"]
+        intentValueId = message.data["intentValueId"]
+        kode = message.data["kode"]
+        sendNotification()
     }
 
-    private fun sendNotification(title: String?, messageBody: String?, imageUrl: String?) {
-        val channelId = getString(R.string.default_notification_channel_id)
+    private fun sendNotification() {
         val channelName = getString(R.string.default_notification_channel_name)
-        val contentIntent = Intent(this, SplashActivity::class.java)
-        val contentPendingIntent = PendingIntent.getActivity(
-            this,
-            NOTIFICATION_ID,
-            contentIntent,
-            PendingIntent.FLAG_IMMUTABLE
-        )
+        var intent = Intent()
+        intentKeyId?.let{key->
+            intent = Intent(clickAction)
+            intentValueId?.let{value->
+                intent.putExtra(key,value)
+            }
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val contentPendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, intent,
+            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
 
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+        val notificationBuilder = NotificationCompat.Builder(this, channelId.toString())
+            .setSmallIcon(R.drawable.logo_burda)
             .setContentTitle(title)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setContentText(messageBody)
+            .setGroup(title)
+            .setContentText("$messageBody $kode $channelId")
             .setContentIntent(contentPendingIntent)
             .setAutoCancel(true)
 
-        if (imageUrl!=null) applyImageUrl(notificationBuilder, imageUrl)
+        val notificationSummaryBuilder = NotificationCompat.Builder(this, channelId.toString())
+            .setSmallIcon(R.drawable.logo_burda)
+            .setContentTitle(title)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setGroup(title).setGroupSummary(true)
+            .setContentIntent(contentPendingIntent)
+            .setAutoCancel(true)
+
+        imageUrl?.let{
+            applyImageUrl(notificationBuilder, getPhotoUrl(it))
+        }
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
-            notificationBuilder.setChannelId(channelId)
+            notificationBuilder.setChannelId(channelId.toString())
             notificationManager.createNotificationChannel(channel)
         }
-        notificationManager.notify(Calendar.getInstance().timeInMillis.toInt(), notificationBuilder.build())
+        notificationManager.apply {
+            notify(Calendar.getInstance().timeInMillis.toInt(), notificationBuilder.build())
+            notify(title!!.toIntegerNumber(), notificationSummaryBuilder.build())
+        }
     }
 
     private fun applyImageUrl(

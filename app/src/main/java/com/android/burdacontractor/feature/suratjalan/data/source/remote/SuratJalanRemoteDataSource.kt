@@ -12,6 +12,7 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanWithCountResponse
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatistikMenungguSuratJalanResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
@@ -49,6 +50,16 @@ class SuratJalanRemoteDataSource @Inject constructor(
         size: Int = 5,
     ): Flow<ApiResponse<AllSuratJalanWithCountResponse>> = flow {
         val response = suratJalanService.getSomeActiveSuratJalan(token, tipe.name, size)
+        if(!response.error){
+            emit(ApiResponse.Success(response))
+        }else{
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+    suspend fun getStatistikMenungguSuratJalan(
+        token: String,
+    ): Flow<ApiResponse<StatistikMenungguSuratJalanResponse>> = flow {
+        val response = suratJalanService.getStatistikMenungguSuratJalan(token)
         if(!response.error){
             emit(ApiResponse.Success(response))
         }else{

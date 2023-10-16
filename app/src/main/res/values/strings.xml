@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">BurdaContractor</string>
     <string name="image_description">Image</string>
     <string name="text_primary">Sample of title text</string>
@@ -169,4 +169,18 @@
     <string name="rute_menuju">"Rute menuju %s"</string>
     <string name="perkiraan_jarak">Perkiraan Jarak</string>
     <string name="perkiraan_waktu">Perkiraan Waktu</string>
+    <string name="menunggu_surat_jalan">Menunggu Surat Jalan</string>
+    <string name="peminjaman_gudang_proyek">Peminjaman Gudang Proyek</string>
+    <string name="peminjaman_proyek_proyek">Peminjaman Proyek Proyek</string>
+    <string name="penggunaan_gudang_proyek">Penggunaan Gudang Proyek</string>
+    <string name="penggunaan_proyek_proyek">Penggunaan Proyek Proyek</string>
+    <string name="pengembalian_peminjaman">Pengembalian Peminjaman</string>
+    <string name="pengembalian_penggunaan">Pengembalian Penggunaan</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="upload">Upload</string>
+    <string name="camera_x">Camera X</string>
+    <string name="empty_image_warning">Gambar tidak boleh kosong</string>
+    <string name="foto_bukti_saat_ini">Foto Bukti Saat Ini</string>
+    <string name="belum_ada_foto_bukti">Belum ada foto bukti</string>
 </resources>

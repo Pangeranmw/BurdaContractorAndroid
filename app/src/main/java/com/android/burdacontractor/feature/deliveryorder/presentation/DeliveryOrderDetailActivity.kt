@@ -284,8 +284,11 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                             }
                         }
                         DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
+                            btnUploadFotoBukti.setVisible()
                             btnUploadFotoBukti.setOnClickListener{
-
+                                openActivityWithExtras(UploadFotoBuktiDeliveryOrderActivity::class.java,false){
+                                    putParcelable(UploadFotoBuktiDeliveryOrderActivity.DELIVERY_ORDER, deliveryOrder)
+                                }
                             }
                         }
                     }

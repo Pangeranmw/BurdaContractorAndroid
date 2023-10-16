@@ -1,6 +1,5 @@
 package com.android.burdacontractor.feature.beranda.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +8,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
@@ -19,7 +18,9 @@ import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.model.enums.UserRole
+import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListDeliveryOrderAdapter
+import com.android.burdacontractor.core.presentation.adapter.ListStatistikMenungguSuratJalanAdapter
 import com.android.burdacontractor.core.presentation.adapter.ListSuratJalanAdapter
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.enumValueToNormal
@@ -30,21 +31,20 @@ import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.FragmentBerandaBinding
 import com.android.burdacontractor.feature.deliveryorder.presentation.DeliveryOrderDetailActivity
-import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanDetailActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.reflect.KClass
-import kotlin.reflect.KFunction
 
 @AndroidEntryPoint
 class BerandaFragment : Fragment() {
     private var _binding: FragmentBerandaBinding? = null
     private val binding get() = _binding!!
     private val berandaViewModel: BerandaViewModel by viewModels()
+    private val storageViewModel: StorageViewModel by viewModels()
+    private lateinit var adapterStatSJ: ListStatistikMenungguSuratJalanAdapter
     private lateinit var adapterSjPengembalian: ListSuratJalanAdapter
     private lateinit var adapterSjPengirimanGp: ListSuratJalanAdapter
     private lateinit var adapterSjPengirimanPp: ListSuratJalanAdapter
@@ -53,9 +53,6 @@ class BerandaFragment : Fragment() {
     private lateinit var adapterDoDalamPerjalanan: ListDeliveryOrderAdapter
     private var internetConnectionSnackbar: Snackbar? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,15 +65,18 @@ class BerandaFragment : Fragment() {
         binding.layoutSjPengirimanPp.setGone()
         binding.layoutSjDalamPerjalanan.setGone()
         binding.layoutDoDalamPerjalanan.setGone()
+        binding.layoutMenungguSuratJalan.setGone()
         internetConnectionSnackbar=Snackbar.make(requireActivity().findViewById(android.R.id.content), R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
 
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        berandaViewModel.liveNetworkChecker.observe(viewLifecycleOwner){
-            requireContext().checkConnection(internetConnectionSnackbar,it){ initObserver() }
+        berandaViewModel.user.observe(viewLifecycleOwner){user->
+            storageViewModel.updateUser(user)
+            berandaViewModel.liveNetworkChecker.observe(viewLifecycleOwner){
+                requireContext().checkConnection(internetConnectionSnackbar,it){ initObserver() }
+            }
         }
     }
 
@@ -100,52 +100,11 @@ class BerandaFragment : Fragment() {
                 ).show()
             }
         }
-        berandaViewModel.user.observe(viewLifecycleOwner){user->
-            initAppBar(user)
-            initLayout(user)
-            berandaViewModel.sjDalamPerjalanan.observe(viewLifecycleOwner){sjDalamPerjalanan->
-                adapterSjDalamPerjalanan = initAdapterSj(user)
-                initRvSj(binding.rvSjDalamPerjalanan,adapterSjDalamPerjalanan)
-                adapterSjDalamPerjalanan.submitList(sjDalamPerjalanan)
-                initCountTextAndButton(sjDalamPerjalanan.size, binding.tvCountSjDalamPerjalanan)
-            }
-            berandaViewModel.doDalamPerjalanan.observe(viewLifecycleOwner){doDalamPerjalanan->
-                adapterDoDalamPerjalanan = initAdapterDeliveryOrder(user)
-                initRvDo(binding.rvDoDalamPerjalanan,adapterDoDalamPerjalanan)
-                adapterDoDalamPerjalanan.submitList(doDalamPerjalanan)
-                initCountTextAndButton(doDalamPerjalanan.size, binding.tvCountDoDalamPerjalanan)
-            }
-            berandaViewModel.sjPengembalian.observe(viewLifecycleOwner){sjPengembalian->
-                adapterSjPengembalian = initAdapterSj(user)
-                initRvSj(binding.rvSjPengembalian,adapterSjPengembalian)
-                adapterSjPengembalian.submitList(sjPengembalian.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name})
-                initCountTextAndButton(sjPengembalian.count!!,binding.tvCountSjPengembalian,binding.btnSeeAllSjPengembalian)
-            }
-            berandaViewModel.sjPengirimanGp.observe(viewLifecycleOwner){sjPengirimanGp->
-                adapterSjPengirimanGp = initAdapterSj(user)
-                initRvSj(binding.rvSjPengirimanGp,adapterSjPengirimanGp)
-                adapterSjPengirimanGp.submitList(sjPengirimanGp.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name})
-                initCountTextAndButton(sjPengirimanGp.count!!,binding.tvCountSjPengirimanGp,binding.btnSeeAllSjPengirimanGp)
-            }
-            berandaViewModel.sjPengirimanPp.observe(viewLifecycleOwner){sjPengirimanPp->
-                adapterSjPengirimanPp = initAdapterSj(user)
-                initRvSj(binding.rvSjPengirimanPp,adapterSjPengirimanPp)
-                adapterSjPengirimanPp.submitList(sjPengirimanPp.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name})
-                initCountTextAndButton(sjPengirimanPp.count!!,binding.tvCountSjPengirimanPp,binding.btnSeeAllSjPengirimanPp)
-            }
-            berandaViewModel.deliveryOrder.observe(viewLifecycleOwner){deliveryOrder->
-                adapterDeliveryOrder = initAdapterDeliveryOrder(user)
-                initRvDo(binding.rvDeliveryOrder,adapterDeliveryOrder)
-                adapterDeliveryOrder.submitList(deliveryOrder.deliveryOrder!!.filterNot{it.status == DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name})
-                initCountTextAndButton(deliveryOrder.count!!,binding.tvCountDeliveryOrder,binding.btnSeeAllDeliveryOrder)
-            }
-        }
         berandaViewModel.kendaraanByLogistic.observe(viewLifecycleOwner){
             if(it==null) {
                 binding.cvKendaraan.setGone()
                 binding.tvEmptyKendaraan.setVisible()
             }else{
-                binding.layoutKendaraan.setVisible()
                 binding.tvEmptyKendaraan.setGone()
                 binding.cvKendaraan.setVisible()
                 binding.tvGudangKendaraan.text = it.namaGudang
@@ -167,6 +126,53 @@ class BerandaFragment : Fragment() {
                 }
             }
         }
+        berandaViewModel.sjDalamPerjalanan.observe(viewLifecycleOwner){sjDalamPerjalanan->
+            adapterSjDalamPerjalanan = initAdapterSj()
+            initRvSj(binding.rvSjDalamPerjalanan,adapterSjDalamPerjalanan)
+            adapterSjDalamPerjalanan.submitList(sjDalamPerjalanan)
+            initCountTextAndButton(sjDalamPerjalanan.size, binding.tvCountSjDalamPerjalanan)
+        }
+        berandaViewModel.doDalamPerjalanan.observe(viewLifecycleOwner){doDalamPerjalanan->
+            adapterDoDalamPerjalanan = initAdapterDeliveryOrder()
+            initRvDo(binding.rvDoDalamPerjalanan,adapterDoDalamPerjalanan)
+            adapterDoDalamPerjalanan.submitList(doDalamPerjalanan)
+            initCountTextAndButton(doDalamPerjalanan.size, binding.tvCountDoDalamPerjalanan)
+        }
+        if(storageViewModel.role==UserRole.ADMIN.name || storageViewModel.role==UserRole.ADMIN_GUDANG.name){
+            berandaViewModel.statistikMenungguSuratJalan.observe(viewLifecycleOwner){stat->
+                adapterStatSJ = ListStatistikMenungguSuratJalanAdapter()
+                adapterStatSJ.submitList(stat)
+                binding.rvMenungguSuratJalan.layoutManager = GridLayoutManager(requireContext(),2,GridLayoutManager.VERTICAL,false)
+                binding.rvMenungguSuratJalan.adapter = adapterStatSJ
+            }
+        }
+        berandaViewModel.sjPengembalian.observe(viewLifecycleOwner){sjPengembalian->
+            adapterSjPengembalian = initAdapterSj()
+            initRvSj(binding.rvSjPengembalian,adapterSjPengembalian)
+            adapterSjPengembalian.submitList(sjPengembalian.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name})
+            initCountTextAndButton(sjPengembalian.count!!,binding.tvCountSjPengembalian,binding.btnSeeAllSjPengembalian)
+        }
+        berandaViewModel.sjPengirimanGp.observe(viewLifecycleOwner){sjPengirimanGp->
+            adapterSjPengirimanGp = initAdapterSj()
+            initRvSj(binding.rvSjPengirimanGp,adapterSjPengirimanGp)
+            adapterSjPengirimanGp.submitList(sjPengirimanGp.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name})
+            initCountTextAndButton(sjPengirimanGp.count!!,binding.tvCountSjPengirimanGp,binding.btnSeeAllSjPengirimanGp)
+        }
+        berandaViewModel.sjPengirimanPp.observe(viewLifecycleOwner){sjPengirimanPp->
+            adapterSjPengirimanPp = initAdapterSj()
+            initRvSj(binding.rvSjPengirimanPp,adapterSjPengirimanPp)
+            adapterSjPengirimanPp.submitList(sjPengirimanPp.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name})
+            initCountTextAndButton(sjPengirimanPp.count!!,binding.tvCountSjPengirimanPp,binding.btnSeeAllSjPengirimanPp)
+        }
+        berandaViewModel.deliveryOrder.observe(viewLifecycleOwner){deliveryOrder->
+            adapterDeliveryOrder = initAdapterDeliveryOrder()
+            initRvDo(binding.rvDeliveryOrder,adapterDeliveryOrder)
+            adapterDeliveryOrder.submitList(deliveryOrder.deliveryOrder!!.filterNot{it.status == DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name})
+            initCountTextAndButton(deliveryOrder.count!!,binding.tvCountDeliveryOrder,binding.btnSeeAllDeliveryOrder)
+        }
+        getViewModelData()
+        initAppBar()
+        initLayout()
         initUi()
     }
     private fun initCountTextAndButton(count: Int, tvCount: TextView, btn: Button? = null){
@@ -177,12 +183,12 @@ class BerandaFragment : Fragment() {
             btn?.setVisible()
         }
     }
-    private fun initAppBar(user: UserByTokenItem){
-        binding.tvNamaUser.text = user.nama
-        binding.tvRoleUser.text = enumValueToNormal(user.role)
-        if(user.foto !=null){
+    private fun initAppBar(){
+        binding.tvNamaUser.text = storageViewModel.name
+        binding.tvRoleUser.text = enumValueToNormal(storageViewModel.role)
+        if(storageViewModel.photo.isNotBlank()){
             Glide.with(this)
-                .load(getPhotoUrl(user.foto))
+                .load(getPhotoUrl(storageViewModel.photo))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(binding.ivUser)
@@ -191,13 +197,14 @@ class BerandaFragment : Fragment() {
             requireActivity().openActivity(ProfileActivity::class.java, false)
         }
     }
-    private fun initLayout(user: UserByTokenItem){
-        when(user.role){
+    private fun initLayout(){
+        when(storageViewModel.role){
             UserRole.PURCHASING.name -> {
                 binding.layoutDeliveryOrder.setVisible()
                 binding.layoutDoDalamPerjalanan.setVisible()
             }
             UserRole.LOGISTIC.name -> {
+                binding.layoutKendaraan.setVisible()
                 binding.layoutDeliveryOrder.setVisible()
                 binding.layoutDoDalamPerjalanan.setVisible()
                 binding.layoutSjPengembalian.setVisible()
@@ -212,6 +219,7 @@ class BerandaFragment : Fragment() {
                 binding.layoutSjPengirimanGp.setVisible()
                 binding.layoutSjPengirimanPp.setVisible()
                 binding.layoutSjDalamPerjalanan.setVisible()
+                binding.layoutMenungguSuratJalan.setVisible()
             }
             UserRole.SUPERVISOR.name, UserRole.SITE_MANAGER.name, UserRole.PROJECT_MANAGER.name -> {
                 binding.layoutSjPengembalian.setVisible()
@@ -221,15 +229,15 @@ class BerandaFragment : Fragment() {
             }
         }
     }
-    private fun initAdapterDeliveryOrder(user: UserByTokenItem): ListDeliveryOrderAdapter{
-        return ListDeliveryOrderAdapter(user){
+    private fun initAdapterDeliveryOrder(): ListDeliveryOrderAdapter{
+        return ListDeliveryOrderAdapter(storageViewModel.role, storageViewModel.userId){
             requireActivity().openActivityWithExtras(DeliveryOrderDetailActivity::class.java,false) {
                 putString(DeliveryOrderDetailActivity.ID_DELIVERY_ORDER, it.id)
             }
         }
     }
-    private fun initAdapterSj(user: UserByTokenItem): ListSuratJalanAdapter{
-        return ListSuratJalanAdapter(user) {
+    private fun initAdapterSj(): ListSuratJalanAdapter{
+        return ListSuratJalanAdapter(storageViewModel.role, storageViewModel.userId) {
             requireActivity().openActivityWithExtras(SuratJalanDetailActivity::class.java, false) {
                 putString(SuratJalanDetailActivity.ID_SURAT_JALAN, it.id)
             }
@@ -237,31 +245,49 @@ class BerandaFragment : Fragment() {
     }
     private fun initRvSj(rv: RecyclerView, adapter: ListSuratJalanAdapter){
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//        rv.setHasFixedSize(true)
         rv.adapter = adapter
     }
     private fun initRvDo(rv: RecyclerView, adapter: ListDeliveryOrderAdapter){
         rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//        rv.setHasFixedSize(true)
         rv.adapter = adapter
     }
     private fun initUi(){
         binding.srLayout.setOnRefreshListener {
-            refreshData()
+            getViewModelData()
         }
     }
     override fun onResume() {
         super.onResume()
-        refreshData()
+        getViewModelData()
     }
-    private fun refreshData(){
-        berandaViewModel.getSomeActiveDeliveryOrder()
-        berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGEMBALIAN)
-        berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
-        berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
-        berandaViewModel.getUserByToken()
-        berandaViewModel.getKendaraanByLogistic()
-        berandaViewModel.getAllSuratJalanDalamPerjalananByUser()
+    private fun getViewModelData(){
+        if(storageViewModel.role==UserRole.LOGISTIC.name ||
+            storageViewModel.role==UserRole.ADMIN_GUDANG.name ||
+            storageViewModel.role==UserRole.ADMIN.name ||
+            storageViewModel.role==UserRole.PURCHASING.name
+        ) {
+            berandaViewModel.getSomeActiveDeliveryOrder()
+            berandaViewModel.getAllDeliveryOrderDalamPerjalananByUser()
+        }
+
+        if(storageViewModel.role==UserRole.LOGISTIC.name ||
+            storageViewModel.role==UserRole.ADMIN_GUDANG.name ||
+            storageViewModel.role==UserRole.ADMIN.name ||
+            storageViewModel.role==UserRole.SUPERVISOR.name ||
+            storageViewModel.role==UserRole.PROJECT_MANAGER.name ||
+            storageViewModel.role==UserRole.SITE_MANAGER.name
+        ) {
+            berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGEMBALIAN)
+            berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
+            berandaViewModel.getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
+            berandaViewModel.getAllSuratJalanDalamPerjalananByUser()
+        }
+        if(storageViewModel.role==UserRole.ADMIN_GUDANG.name || storageViewModel.role==UserRole.ADMIN.name) {
+            berandaViewModel.getStatistikMenungguSuratJalan()
+        }
+        if(storageViewModel.role==UserRole.LOGISTIC.name){
+            berandaViewModel.getKendaraanByLogistic()
+        }
         (activity as BerandaActivity).refreshBadgeValue()
     }
 }
