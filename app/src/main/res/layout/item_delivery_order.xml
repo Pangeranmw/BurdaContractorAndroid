@@ -9,7 +9,7 @@
     android:layout_marginBottom="10dp"
     android:layout_marginTop="5dp"
     android:layout_marginHorizontal="5dp"
-    app:strokeColor="@color/gray"
+    app:strokeColor="@color/input"
     app:strokeWidth="1dp"
     >
 
@@ -281,6 +281,19 @@
                     android:textSize="11sp" />
             </RelativeLayout>
         </com.google.android.flexbox.FlexboxLayout>
+
+        <TextView
+            android:id="@+id/tv_konfirmasi_selesai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_medium"
+            android:text="@string/butuh_konfirmasi_selesai"
+            android:textColor="@color/blue"
+            android:textSize="12sp"
+            android:layout_marginTop="15dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_user" />
 
         <TextView
             android:id="@+id/tv_tanggal"

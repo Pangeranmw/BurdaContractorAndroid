@@ -3,52 +3,75 @@ package com.android.burdacontractor.feature.deliveryorder.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.android.burdacontractor.core.domain.model.Event
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
+import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
 import com.android.burdacontractor.feature.deliveryorder.domain.model.PreOrder
+import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetAllDeliveryOrderUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DeliveryOrderViewModel @Inject constructor(val liveNetworkChecker: LiveNetworkChecker) : ViewModel() {
+class DeliveryOrderViewModel @Inject constructor(
+    val liveNetworkChecker: LiveNetworkChecker,
+    val getAllDeliveryOrderUseCase: GetAllDeliveryOrderUseCase,
+) : ViewModel() {
     private val _state = MutableLiveData<StateResponse?>()
     val state: LiveData<StateResponse?> = _state
 
-    private val _listPreOrder = MutableLiveData<List<PreOrder>?>()
-    val listPreOrder: LiveData<List<PreOrder>?> = _listPreOrder
+    private val _dateStart = MutableLiveData<String?>()
+    val dateStart: LiveData<String?> = _dateStart
 
-    private val _preOrder = mutableListOf<PreOrder>()
+    private val _dateEnd = MutableLiveData<String?>()
+    val dateEnd: LiveData<String?> = _dateEnd
 
-    init {
-        _listPreOrder.value = _preOrder
-    }
+    private val _createdByOrFor = MutableLiveData(CreatedByOrFor.all)
+    val createdByOrFor: LiveData<CreatedByOrFor> = _createdByOrFor
+
+    private val _status = MutableLiveData(DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER)
+    val status: LiveData<DeliveryOrderStatus?> = _status
+
+    private val _search = MutableLiveData<String?>(null)
+    val search: LiveData<String?> = _search
 
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse : LiveData<Event<String?>> = _messageResponse
 
-    fun addLocalPreOrder(namaMaterial: String, satuan: String, keterangan: String, jumlah: String){
-        _preOrder.add(
-            PreOrder(_preOrder.size.toString(), namaMaterial, satuan, keterangan, jumlah)
-        )
-        _listPreOrder.value = _preOrder
+    init{
+        getAllDelivery()
     }
-    fun changeLocalPreOrder(id: String, namaMaterial: String, satuan: String, keterangan: String, jumlah: Int){
-        _preOrder.find { it.id == id }?.apply {
-            this.namaMaterial = namaMaterial
-            this.satuan = satuan
-            this.keterangan = keterangan
-            this.jumlah = jumlah
-        }
-        _listPreOrder.value = _preOrder
+    fun setStatus(status: DeliveryOrderStatus){
+        _status.value = status
     }
-    fun deleteLocalPreOrder(preOrder: PreOrder){
-        _preOrder.remove(preOrder)
-        _listPreOrder.value = _preOrder
+    fun setState(state: StateResponse){
+        _state.value = state
     }
-    fun deleteAllLocalPreOrder(preOrder: List<PreOrder>){
-        _preOrder.removeAll(preOrder)
-        _listPreOrder.value = _preOrder
+    fun setCreatedByOrFor(createdByOrFor: CreatedByOrFor){
+        _createdByOrFor.value = createdByOrFor
+    }
+    fun setSearch(search: String){
+        _search.value = search
+    }
+    fun setDate(dateStart: String?, dateEnd: String?){
+        _dateStart.value = dateStart
+        _dateEnd.value = dateEnd
+    }
+    fun getAllDelivery(): LiveData<PagingData<DeliveryOrderItem>>{
+        return getAllDeliveryOrderUseCase.execute(
+            status = _status.value!!,
+            search = _search.value,
+            date_start = _dateStart.value,
+            date_end = _dateEnd.value,
+            createdByOrFor = _createdByOrFor.value!!,
+        ).cachedIn(viewModelScope)
     }
 }
 

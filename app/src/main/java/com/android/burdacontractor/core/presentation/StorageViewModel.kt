@@ -14,7 +14,7 @@ class StorageViewModel @Inject constructor(private val storageUseCase: StorageUs
     val deviceToken = storageUseCase.getPreferences(SessionManager.KEY_DEVICE_TOKEN)
     val latitude = storageUseCase.getPreferences(SessionManager.KEY_LATITUDE)
     val longitude = storageUseCase.getPreferences(SessionManager.KEY_LONGITUDE)
-    val token = storageUseCase.getPreferences(SessionManager.KEY_TOKEN)
+    val token = "Bearer ${storageUseCase.getPreferences(SessionManager.KEY_TOKEN)}"
     val userId = storageUseCase.getPreferences(SessionManager.KEY_USER_ID)
     val photo = storageUseCase.getPreferences(SessionManager.KEY_PHOTO)
     val isLogin = storageUseCase.isUserLogin()

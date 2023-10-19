@@ -2,10 +2,9 @@ package com.android.burdacontractor.feature.deliveryorder.data.source.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.android.burdacontractor.core.utils.DataMapper
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.DeliveryOrderService
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
-import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 
 class DeliveryOrderPagingSource(
     private val deliveryOrderService: DeliveryOrderService,
@@ -15,6 +14,7 @@ class DeliveryOrderPagingSource(
     private val date_end: String? = null,
     private val size: Int = 5,
     private val search: String? = null,
+    private val createdByOrFor: CreatedByOrFor,
 ) : PagingSource<Int, DeliveryOrderItem>() {
     private companion object {
         const val INITIAL_PAGE_INDEX = 1
@@ -23,7 +23,7 @@ class DeliveryOrderPagingSource(
         return try {
             val page = params.key ?: INITIAL_PAGE_INDEX
             val response = deliveryOrderService.getAllDeliveryOrder(
-                token, status, date_start, date_end, page, size, search
+                token, status, date_start, date_end, page, size, search, createdByOrFor.name,
             ).deliveryOrder!!
 
             LoadResult.Page(

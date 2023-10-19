@@ -5,8 +5,7 @@ import com.android.burdacontractor.core.data.source.remote.response.ErrorMessage
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanWithCountResponse
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatistikMenungguSuratJalanItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatistikMenungguSuratJalanResponse
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -29,7 +28,7 @@ interface SuratJalanService {
     @GET("surat-jalan/menunggu-surat-jalan/count")
     suspend fun getStatistikMenungguSuratJalan(
         @Header("Authorization") token: String,
-    ): StatistikMenungguSuratJalanResponse
+    ): StatisticCountTitleResponse
 
     @Headers("Content-Type: application/json","Accept: application/json")
     @GET("surat-jalan/all/dalam-perjalanan")

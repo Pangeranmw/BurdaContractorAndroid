@@ -2,7 +2,7 @@ package com.android.burdacontractor.feature.suratjalan.data.source.remote.respon
 
 import com.google.gson.annotations.SerializedName
 
-data class StatistikMenungguSuratJalanResponse(
+data class StatisticCountTitleResponse(
 
 	@field:SerializedName("error")
 	val error: Boolean,
@@ -10,11 +10,11 @@ data class StatistikMenungguSuratJalanResponse(
 	@field:SerializedName("message")
 	val message: String,
 
-	@field:SerializedName("statistik_menunggu_surat_jalan")
-	val statistikMenungguSuratJalan: List<StatistikMenungguSuratJalanItem>
+	@field:SerializedName("statistic")
+	val statisticCountTitleItems: List<StatisticCountTitleItem>
 )
 
-data class StatistikMenungguSuratJalanItem(
+data class StatisticCountTitleItem(
 
 	@field:SerializedName("count")
 	val count: Int,

@@ -1,20 +1,11 @@
 package com.android.burdacontractor.core.presentation.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.R
-import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
-import com.android.burdacontractor.core.domain.model.enums.UserRole
-import com.android.burdacontractor.core.utils.enumValueToNormal
-import com.android.burdacontractor.core.utils.getPhotoUrl
-import com.android.burdacontractor.core.utils.getTimeDifference
-import com.android.burdacontractor.core.utils.setGone
-import com.android.burdacontractor.databinding.ItemDeliveryOrderBinding
 import com.android.burdacontractor.databinding.ItemPreOrderBinding
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.PreOrderItem
 

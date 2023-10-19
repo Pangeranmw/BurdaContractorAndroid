@@ -8,11 +8,12 @@
              animated drawable. One of these is required. -->
         <item name="windowSplashScreenAnimatedIcon">@drawable/burda_splash</item>
         <!-- Required for animated icons -->
-        <item name="windowSplashScreenAnimationDuration">200</item>
+        <item name="windowSplashScreenAnimationDuration">1500</item>
 
         <!-- Set the theme of the Activity that directly follows your splash screen. -->
         <!-- Required -->
         <item name="postSplashScreenTheme">@style/Theme.BurdaContractor</item>
+
     </style>
 
     <style name="Theme.BurdaContractor" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -25,8 +26,51 @@
         <item name="colorSecondaryVariant">@color/secondary_light_half</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <!-- Original AppCompat attributes. -->
+        <item name="colorPrimaryDark">@color/primary_main</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorError">@color/red</item>
+
+        <!-- Material3 attributes (needed if parent="Theme.MaterialComponents"). -->
+        <item name="colorPrimaryInverse">@color/primary_light_full</item>
+        <item name="colorPrimaryContainer">@color/primary_dark_full</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        <item name="colorSecondaryContainer">@color/white</item>
+        <item name="colorOnSecondaryContainer">@color/white</item>
+        <item name="colorTertiary">@color/secondary_main</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorTertiaryContainer">@color/white</item>
+        <item name="colorOnTertiaryContainer">@color/white</item>
+        <item name="colorSurfaceVariant">@color/input</item>
+        <item name="colorOnSurfaceVariant">@color/primary_main</item>
+        <item name="colorSurfaceInverse">@color/primary_light_full</item>
+        <item name="colorOnSurfaceInverse">@color/white</item>
+        <item name="colorOutline">@color/gray</item>
+        <item name="colorErrorContainer">@color/red</item>
+        <item name="colorOnErrorContainer">@color/white</item>
+        <item name="textAppearanceDisplayLarge">@style/TextAppearance.Material3.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.Material3.DisplayMedium</item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Material3.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Material3.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Material3.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Material3.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Material3.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Material3.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.Material3.TitleSmall</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Material3.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Material3.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.Material3.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Material3.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.Material3.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.Material3.LabelSmall</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Material3.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Material3.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Material3.LargeComponent</item>
     </style>
 
     <style name="ButtonFullWidth">
@@ -170,9 +214,11 @@
         <item name="labelVisibilityMode">labeled</item>
     </style>
 
-    <style name="TabLayoutFont">
+    <style name="TabLayoutFont" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
         <item name="android:fontFamily">@font/inter_semi_bold</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="ButtonBlank">

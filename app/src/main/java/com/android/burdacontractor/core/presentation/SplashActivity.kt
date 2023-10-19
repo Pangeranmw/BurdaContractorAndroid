@@ -20,25 +20,15 @@ class SplashActivity : AppCompatActivity() {
     private val storageViewModel: StorageViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         installSplashScreen()
+        super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         if(storageViewModel.isLogin){
-            val clickAction = intent.getStringExtra("clickAction")
-            if(clickAction!=null){
-                val newIntent = Intent(clickAction)
-                val intentKeyId = intent.getStringExtra("intentKeyId")
-                val intentValueId = intent.getStringExtra("intentValueId")
-                Log.d("INI EXTRA", "$intentKeyId $intentValueId $clickAction" )
-                newIntent.putExtra(intentKeyId,intentValueId)
-                startActivity(newIntent)
-            }else{
-                openActivity(BerandaActivity::class.java)
-            }
+            openActivity(BerandaActivity::class.java, true)
         }else{
-            openActivity(LoginActivity::class.java)
+            openActivity(LoginActivity::class.java,true)
         }
     }
 

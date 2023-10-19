@@ -1,6 +1,6 @@
 package com.android.burdacontractor.core.presentation.adapter
 
-import android.content.Intent
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -12,16 +12,13 @@ import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.utils.enumValueToNormal
 import com.android.burdacontractor.core.utils.getFirstName
-import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.getTimeDifference
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setImageFromUrl
+import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ItemDeliveryOrderBinding
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
-import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
-import com.android.burdacontractor.feature.deliveryorder.presentation.DeliveryOrderDetailActivity
-import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
-import com.bumptech.glide.Glide
+import com.google.android.material.card.MaterialCardView
 
 class ListDeliveryOrderAdapter(val role: String, val id: String, val listener: (DeliveryOrderItem) -> Unit) : ListAdapter<DeliveryOrderItem, ListDeliveryOrderAdapter.ListDeliveryOrderViewHolder>(DIFF_CALLBACK) {
 
@@ -33,22 +30,25 @@ class ListDeliveryOrderAdapter(val role: String, val id: String, val listener: (
     override fun onBindViewHolder(holder: ListDeliveryOrderViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
+    private fun setCardIsForMe(dataId: String?, cv: MaterialCardView, context: Context){
+        if (id == dataId) cv.strokeColor = ContextCompat.getColor(context, R.color.secondary_main)
+        else cv.strokeColor = ContextCompat.getColor(context, R.color.input)
+    }
     inner class ListDeliveryOrderViewHolder(private val binding: ItemDeliveryOrderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(deliveryOrder: DeliveryOrderItem) {
             when(role){
                 UserRole.ADMIN_GUDANG.name -> {
-                    if(id == deliveryOrder.idAdminGudang) {
-                        binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.secondary_main)
-                    }
+                    setCardIsForMe(deliveryOrder.idAdminGudang,binding.cvDeliveryOrder,itemView.context)
                 }
-                UserRole.LOGISTIC.name ->{
-//                    binding.layoutDriver.setGone()
+                UserRole.PURCHASING.name -> {
+                    setCardIsForMe(deliveryOrder.idPurchasing,binding.cvDeliveryOrder,itemView.context)
                 }
-                UserRole.PURCHASING.name ->{
-                    if(id == deliveryOrder.idPurchasing) {
-                        binding.cvDeliveryOrder.strokeColor = ContextCompat.getColor(itemView.context,R.color.secondary_main)
-                    }
+            }
+            when(role){
+                UserRole.PURCHASING.name, UserRole.ADMIN_GUDANG.name, UserRole.ADMIN.name -> {
+                    deliveryOrder.fotoBukti?.let{
+                        binding.tvKonfirmasiSelesai.setVisible()
+                    }?:binding.tvKonfirmasiSelesai.setGone()
                 }
             }
             when(deliveryOrder.status){

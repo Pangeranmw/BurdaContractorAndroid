@@ -24,6 +24,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import com.android.burdacontractor.BuildConfig
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.domain.model.Constant
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.enumValueToNormal
@@ -88,7 +89,7 @@ class TelusuriLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiv
         super.onCreate(savedInstanceState)
         binding = ActivityTelusuriLokasiDeliveryOrderBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        deliveryOrder = intent.parcelable(DELIVERY_ORDER)
+        deliveryOrder = intent.parcelable(Constant.INTENT_PARCEL)
         initMap()
 
         snackbar = Snackbar.make(binding.mainLayout,getString(R.string.no_internet), Snackbar.LENGTH_INDEFINITE)
@@ -481,6 +482,5 @@ class TelusuriLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiv
         var mRoads : Array<Road>? = null
         const val userAgent = BuildConfig.APPLICATION_ID + "/" + BuildConfig.VERSION_NAME
         const val REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124
-        const val DELIVERY_ORDER = "deliveryOrder"
     }
 }

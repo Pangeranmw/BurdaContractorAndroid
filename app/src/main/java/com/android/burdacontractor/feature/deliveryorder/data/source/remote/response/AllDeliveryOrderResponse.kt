@@ -15,7 +15,7 @@ data class AllDeliveryOrderResponse(
 )
 data class DeliveryOrderItem(
 	@field:SerializedName("id")
-	val id: String? = null,
+	val id: String,
 
 	@field:SerializedName("alamat_tempat_tujuan")
 	val alamatTempatTujuan: String? = null,
@@ -44,6 +44,9 @@ data class DeliveryOrderItem(
 	@field:SerializedName("updated_at")
 	val updatedAt: Long? = null,
 
+	@field:SerializedName("foto_bukti")
+	val fotoBukti: String? = null,
+
 	@field:SerializedName("nama_tempat_asal")
 	val namaTempatAsal: String? = null,
 
@@ -67,4 +70,7 @@ data class DeliveryOrderItem(
 
 	@field:SerializedName("status")
 	val status: String? = null,
+
+	@field:SerializedName("total_data")
+	val totalData: Int? = null,
 )

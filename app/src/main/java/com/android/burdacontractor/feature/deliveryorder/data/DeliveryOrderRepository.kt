@@ -1,30 +1,23 @@
 package com.android.burdacontractor.feature.deliveryorder.data
 
-import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.domain.model.CountActive
-import com.android.burdacontractor.core.domain.model.User
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
-import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.DeliveryOrderRemoteDataSource
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DataAllDeliveryOrderWithCountItem
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailItem
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
-import com.android.burdacontractor.feature.profile.data.source.remote.UserRemoteDataSource
-import com.android.burdacontractor.feature.profile.domain.repository.IUserRepository
-import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
-import com.android.burdacontractor.feature.deliveryorder.domain.model.DataAllDeliveryOrderWithCount
-import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetail
 import com.android.burdacontractor.feature.deliveryorder.domain.repository.IDeliveryOrderRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import okhttp3.MultipartBody
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -40,11 +33,12 @@ class DeliveryOrderRepository @Inject constructor(
         date_start: String?,
         date_end: String?,
         size: Int,
-        search: String?
-    ): Flow<PagingData<DeliveryOrderItem>> =
+        search: String?,
+        createdByOrFor: CreatedByOrFor,
+    ): LiveData<PagingData<DeliveryOrderItem>> =
         deliveryOrderRemoteDataSource.getAllDeliveryOrder(
-            storageDataSource.getToken(),status,date_start,date_end,size,search
-        )
+            storageDataSource.getToken(),status,date_start,date_end,size,search,createdByOrFor
+        ).asLiveData()
 
     override suspend fun getDeliveryOrderById(id: String): Flow<Resource<DeliveryOrderDetailItem>> = flow{
         try {

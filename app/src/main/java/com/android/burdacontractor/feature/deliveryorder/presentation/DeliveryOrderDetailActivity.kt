@@ -1,8 +1,7 @@
 package com.android.burdacontractor.feature.deliveryorder.presentation
 
-import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,16 +10,14 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.domain.model.Constant
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
-import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.model.enums.UserRole
-import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListPreOrderAdapter
 import com.android.burdacontractor.core.presentation.customview.CustomDialog
 import com.android.burdacontractor.core.utils.*
 import com.android.burdacontractor.databinding.ActivityDeliveryOrderDetailBinding
-import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailItem
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.presentation.ProfileViewModel
@@ -31,7 +28,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class DeliveryOrderDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDeliveryOrderDetailBinding
     private lateinit var poAdapter: ListPreOrderAdapter
-    private val profileViewModel: ProfileViewModel by viewModels()
     private val deliveryOrderDetailViewModel: DeliveryOrderDetailViewModel by viewModels()
     private lateinit var id: String
     private var deliveryOrder: DeliveryOrderDetailItem? = null
@@ -42,31 +38,26 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDeliveryOrderDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        id = intent.getStringExtra(ID_DELIVERY_ORDER).toString()
+        id = intent.getStringExtra(Constant.INTENT_ID).toString()
         snackbar = Snackbar.make(binding.mainLayout,getString(R.string.no_internet), Snackbar.LENGTH_INDEFINITE)
         deliveryOrderDetailViewModel.liveNetworkChecker.observe(this){
             checkConnection(snackbar,it){ initObserver() }
         }
     }
     private fun initObserver(){
-        deliveryOrderDetailViewModel.getDeliveryOrderById(id)
+        deliveryOrderDetailViewModel.id.observe(this){
+            if(it==null) deliveryOrderDetailViewModel.setId(id)
+        }
         deliveryOrderDetailViewModel.deliveryOrder.observe(this){ deliveryOrder->
             this.deliveryOrder = deliveryOrder
-            profileViewModel.user.observe(this){ user->
+            deliveryOrderDetailViewModel.user.observe(this){ user->
                 this.user = user
                 initLayout()
                 initUi()
             }
         }
         deliveryOrderDetailViewModel.state.observe(this){
-            when(it){
-                StateResponse.LOADING -> binding.srLayout.isRefreshing = true
-                StateResponse.ERROR -> binding.srLayout.isRefreshing = false
-                StateResponse.SUCCESS -> {
-                    binding.srLayout.isRefreshing = false
-                }
-                else -> {}
-            }
+            binding.srLayout.isRefreshing = it==StateResponse.LOADING
         }
     }
     private fun setButtonStyle(button: AppCompatButton, isPrimary: Boolean){
@@ -78,9 +69,8 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
             button.setTextColor(AppCompatResources.getColorStateList(this, R.color.primary_main))
         }
     }
-
-    override fun onResume() {
-        super.onResume()
+    override fun onRestart() {
+        super.onRestart()
         refreshData()
     }
     private fun refreshData(){
@@ -164,9 +154,9 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                 dialIntent(deliveryOrder!!.purchasing.noHp)
             }
 
-            if(deliveryOrder?.fotoBukti!=null){
+            deliveryOrder?.fotoBukti?.let{
                 layoutFotoBukti.setVisible()
-                ivFotoBukti.setImageFromUrl(deliveryOrder!!.fotoBukti,this@DeliveryOrderDetailActivity)
+                ivFotoBukti.setImageFromUrl(it,this@DeliveryOrderDetailActivity)
             }
 
             if(deliveryOrder?.adminGudang!=null){
@@ -188,8 +178,8 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
             }
             btnDownload.setOnClickListener {
                 openActivityWithExtras(DeliveryOrderCetakActivity::class.java,false){
-                    putString(DeliveryOrderCetakActivity.ID_DELIVERY_ORDER, deliveryOrder!!.id)
-                    putString(DeliveryOrderCetakActivity.KODE_DELIVERY_ORDER, deliveryOrder!!.kodeDo)
+                    putString(Constant.INTENT_ID, deliveryOrder!!.id)
+                    putString(Constant.INTENT_KODE, deliveryOrder!!.kodeDo)
                 }
             }
             srLayout.setOnRefreshListener {
@@ -224,7 +214,7 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                 UserRole.ADMIN_GUDANG.name, UserRole.PURCHASING.name, UserRole.ADMIN.name -> {
                     btnPantauLokasi.setOnClickListener {
                         openActivityWithExtras(PantauLokasiDeliveryOrderActivity::class.java,false){
-                            putParcelable(PantauLokasiDeliveryOrderActivity.DELIVERY_ORDER, deliveryOrder)
+                            putParcelable(Constant.INTENT_PARCEL, deliveryOrder)
                         }
                     }
                 }
@@ -273,7 +263,7 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                     btnTelusuriLokasi.setVisible()
                     btnTelusuriLokasi.setOnClickListener {
                         openActivityWithExtras(TelusuriLokasiDeliveryOrderActivity::class.java,false){
-                            putParcelable(TelusuriLokasiDeliveryOrderActivity.DELIVERY_ORDER, deliveryOrder)
+                            putParcelable(Constant.INTENT_PARCEL, deliveryOrder)
                         }
                     }
                     when(deliveryOrder!!.status){
@@ -312,8 +302,5 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
             }
         }
 
-    }
-    companion object{
-        const val ID_DELIVERY_ORDER = "deliveryOrderId"
     }
 }

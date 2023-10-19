@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".feature.beranda.presentation.BerandaActivity">
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/activity_beranda_frame_nav"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -14,14 +14,630 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        <fragment
-            android:id="@+id/navHostFragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/navigation_beranda" />
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp"
+            >
+            <RelativeLayout
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_toggle_menu"
+                    app:tint="@color/black"
+                    android:layout_alignParentStart="true"
+                    android:background="@color/white"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/toggle_menu" />
+                <TextView
+                    android:id="@+id/tv_nama_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/iv_user"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="@string/nama_user" />
+                <TextView
+                    android:id="@+id/tv_role_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_nama_user"
+                    android:textColor="@color/black"
+                    android:layout_toStartOf="@+id/iv_user"
+                    android:textSize="12sp"
+                    android:text="@string/role"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    />
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+                    android:id="@+id/iv_user"
+                    android:scaleType="centerCrop"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/ic_profile"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    tools:src="@tools:sample/avatars" />
+            </RelativeLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/sr_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/app_bar_layout"
+            >
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/layout_menunggu_surat_jalan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="visible"
+                        >
+                        <TextView
+                            android:id="@+id/tv_heading_menunggu_surat_jalan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/inter_bold"
+                            android:text="@string/menunggu_surat_jalan"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:nestedScrollingEnabled="false"
+                            android:id="@+id/rv_menunggu_surat_jalan"
+                            android:paddingHorizontal="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:itemCount="6"
+                            app:spanCount="3"
+                            tools:listitem="@layout/item_statistik_menunggu_surat_jalan"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/layout_kendaraan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:id="@+id/tv_heading_kendaraan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/inter_bold"
+                            android:text="@string/kendaraan"
+                            android:textColor="@color/black"
+                            android:maxWidth="240dp"
+                            android:textSize="16sp" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cv_kendaraan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardElevation="5dp"
+                            app:cardCornerRadius="20dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            >
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                >
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/iv_kendaraan"
+                                    android:layout_width="100dp"
+                                    android:layout_height="90dp"
+                                    android:src="@drawable/ic_image"
+                                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    android:scaleType="centerCrop"
+                                    />
+
+                                <ImageView
+                                    android:id="@+id/iv_jenis_kendaraan"
+                                    android:layout_width="24dp"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/vehicle_car"
+                                    app:tint="@color/black"
+                                    android:contentDescription="@string/icon_jenis"
+                                    android:layout_marginStart="10dp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/tv_plat_kendaraan"
+                                    app:layout_constraintStart_toEndOf="@+id/iv_kendaraan"
+                                    app:layout_constraintTop_toTopOf="@+id/tv_merk_kendaraan" />
+
+                                <TextView
+                                    android:id="@+id/tv_merk_kendaraan"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:maxWidth="200dp"
+                                    android:layout_toEndOf="@+id/iv_kendaraan"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:text="@string/kendaraan"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp"
+                                    app:layout_constraintStart_toEndOf="@+id/iv_jenis_kendaraan"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/tv_plat_kendaraan"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:maxWidth="200dp"
+                                    android:layout_toEndOf="@+id/iv_kendaraan"
+                                    android:fontFamily="@font/inter_regular"
+                                    android:text="@string/kendaraan"
+                                    android:textColor="@color/black"
+                                    android:layout_marginTop="2dp"
+                                    android:textSize="12sp"
+                                    app:layout_constraintStart_toEndOf="@+id/iv_jenis_kendaraan"
+                                    app:layout_constraintTop_toBottomOf="@+id/tv_merk_kendaraan" />
+
+                                <ImageView
+                                    android:id="@+id/iv_gudang_kendaraan"
+                                    android:layout_width="24dp"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_gudang"
+                                    app:tint="@color/black"
+                                    android:contentDescription="@string/icon_jenis"
+                                    android:layout_marginStart="10dp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/tv_alamat_kendaraan"
+                                    app:layout_constraintStart_toEndOf="@+id/iv_kendaraan"
+                                    app:layout_constraintTop_toTopOf="@+id/tv_gudang_kendaraan" />
+
+                                <TextView
+                                    android:id="@+id/tv_gudang_kendaraan"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginBottom="2dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_toEndOf="@+id/iv_kendaraan"
+                                    android:maxWidth="200dp"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:text="@string/kendaraan"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp"
+                                    app:layout_constraintBottom_toTopOf="@+id/tv_alamat_kendaraan"
+                                    app:layout_constraintStart_toEndOf="@+id/iv_gudang_kendaraan"
+                                    app:layout_constraintTop_toBottomOf="@+id/tv_plat_kendaraan" />
+
+                                <TextView
+                                    android:id="@+id/tv_alamat_kendaraan"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_toEndOf="@+id/iv_kendaraan"
+                                    android:fontFamily="@font/inter_regular"
+                                    android:text="@string/alamat_asal"
+                                    android:maxLines="2"
+                                    android:maxWidth="200dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/iv_gudang_kendaraan" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:id="@+id/tv_empty_kendaraan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/inter_semi_bold"
+                            android:text="@string/empty_active_kendaraan"
+                            android:textColor="@color/red"
+                            android:layout_gravity="center"
+                            android:textSize="12sp"
+                            android:visibility="gone"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/layout_sj_dalam_perjalanan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                        <RelativeLayout
+                            android:id="@+id/top_layout_sj_dalam_perjalanan"
+                            android:paddingHorizontal="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/tv_count_sj_dalam_perjalanan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginBottom="15dp"
+                                android:background="@drawable/semi_rounded_red"
+                                android:fontFamily="@font/inter_semi_bold"
+                                android:padding="10dp"
+                                android:text="@string/number_placeholder"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                            <TextView
+                                android:id="@+id/tv_heading_sj_dalam_perjalanan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:fontFamily="@font/inter_bold"
+                                android:text="@string/sj_dalam_perjalanan"
+                                android:layout_toEndOf="@+id/tv_count_sj_dalam_perjalanan"
+                                android:layout_marginStart="10dp"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rv_sj_dalam_perjalanan"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:paddingHorizontal="15dp"
+                                tools:itemCount="1"
+                                tools:listitem="@layout/item_surat_jalan" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/layout_do_dalam_perjalanan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                        <RelativeLayout
+                            android:id="@+id/top_layout_do_dalam_perjalanan"
+                            android:paddingHorizontal="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/tv_count_do_dalam_perjalanan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginBottom="15dp"
+                                android:background="@drawable/semi_rounded_red"
+                                android:fontFamily="@font/inter_semi_bold"
+                                android:padding="10dp"
+                                android:text="@string/number_placeholder"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                            <TextView
+                                android:id="@+id/tv_heading_do_dalam_perjalanan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:fontFamily="@font/inter_bold"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@+id/tv_count_do_dalam_perjalanan"
+                                android:text="@string/do_dalam_perjalanan"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rv_do_dalam_perjalanan"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:paddingHorizontal="15dp"
+                                tools:itemCount="1"
+                                tools:listitem="@layout/item_delivery_order" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/layout_sj_pengiriman_gp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                        <RelativeLayout
+                            android:id="@+id/top_layout_sj_pengiriman_gp"
+                            android:paddingHorizontal="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_count_sj_pengiriman_gp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginBottom="15dp"
+                                android:background="@drawable/semi_rounded_red"
+                                android:fontFamily="@font/inter_semi_bold"
+                                android:padding="10dp"
+                                android:text="@string/number_placeholder"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tv_heading_sj_pengiriman_gp"
+                                android:layout_toStartOf="@id/btn_see_all_sj_pengiriman_gp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@+id/tv_count_sj_pengiriman_gp"
+                                android:fontFamily="@font/inter_bold"
+                                android:text="@string/sj_pengiriman_gudang_proyek"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <Button
+                                android:id="@+id/btn_see_all_sj_pengiriman_gp"
+                                android:visibility="gone"
+                                android:layout_marginStart="10dp"
+                                style="@style/ButtonSeeAll"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/semi_rounded_secondary_main"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:textSize="12sp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rv_sj_pengiriman_gp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:paddingHorizontal="15dp"
+                                tools:itemCount="1"
+                                tools:listitem="@layout/item_surat_jalan" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/layout_sj_pengiriman_pp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                        <RelativeLayout
+                            android:id="@+id/top_layout_sj_pengiriman_pp"
+                            android:paddingHorizontal="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_count_sj_pengiriman_pp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginBottom="15dp"
+                                android:background="@drawable/semi_rounded_red"
+                                android:fontFamily="@font/inter_semi_bold"
+                                android:padding="10dp"
+                                android:text="@string/number_placeholder"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tv_heading_sj_pengiriman_pp"
+                                android:layout_toStartOf="@+id/btn_see_all_sj_pengiriman_pp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@+id/tv_count_sj_pengiriman_pp"
+                                android:fontFamily="@font/inter_bold"
+                                android:text="@string/sj_pengiriman_proyek_proyek"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <Button
+                                android:id="@+id/btn_see_all_sj_pengiriman_pp"
+                                android:visibility="gone"
+                                android:layout_marginStart="10dp"
+                                style="@style/ButtonSeeAll"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/semi_rounded_secondary_main"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:textSize="12sp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rv_sj_pengiriman_pp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:paddingHorizontal="15dp"
+                                tools:itemCount="1"
+                                tools:listitem="@layout/item_surat_jalan" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/layout_sj_pengembalian"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                        <RelativeLayout
+                            android:id="@+id/top_layout_sj_pengembalian"
+                            android:paddingHorizontal="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_count_sj_pengembalian"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginBottom="15dp"
+                                android:background="@drawable/semi_rounded_red"
+                                android:fontFamily="@font/inter_semi_bold"
+                                android:padding="10dp"
+                                android:text="@string/number_placeholder"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tv_heading_sj_pengembalian"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@+id/tv_count_sj_pengembalian"
+                                android:layout_toStartOf="@id/btn_see_all_sj_pengembalian"
+                                android:fontFamily="@font/inter_bold"
+                                android:text="@string/sj_pengembalian"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <Button
+                                android:id="@+id/btn_see_all_sj_pengembalian"
+                                android:visibility="gone"
+                                style="@style/ButtonSeeAll"
+                                android:layout_marginStart="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/semi_rounded_secondary_main"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:textSize="12sp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rv_sj_pengembalian"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:paddingHorizontal="15dp"
+                                tools:itemCount="1"
+                                tools:listitem="@layout/item_surat_jalan" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/layout_delivery_order"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                        <RelativeLayout
+                            android:id="@+id/top_layout_delivery_order"
+                            android:paddingHorizontal="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/tv_count_delivery_order"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginBottom="15dp"
+                                android:background="@drawable/semi_rounded_red"
+                                android:fontFamily="@font/inter_semi_bold"
+                                android:padding="10dp"
+                                android:text="@string/number_placeholder"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tv_heading_delivery_order"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@+id/tv_count_delivery_order"
+                                android:fontFamily="@font/inter_bold"
+                                android:text="@string/delivery_order"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <Button
+                                android:id="@+id/btn_see_all_delivery_order"
+                                android:visibility="gone"
+                                android:layout_marginStart="10dp"
+                                style="@style/ButtonSeeAll"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/semi_rounded_secondary_main"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:textSize="12sp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rv_delivery_order"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:paddingHorizontal="15dp"
+                                tools:itemCount="1"
+                                tools:listitem="@layout/item_delivery_order"
+                                />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tv_empty_delivery_order"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:fontFamily="@font/inter_semi_bold"
+                            android:text="@string/empty_active_delivery_order"
+                            android:textColor="@color/red"
+                            android:layout_gravity="center"
+                            android:textSize="16sp"
+                            android:visibility="gone"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </RelativeLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/beranda_bottom_navigation"
         style="@style/BottomNavigationStyle"

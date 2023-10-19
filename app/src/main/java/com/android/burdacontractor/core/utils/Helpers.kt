@@ -29,12 +29,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.android.burdacontractor.BuildConfig
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.source.remote.response.Routes
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.imageview.ShapeableImageView
@@ -68,17 +70,36 @@ fun List<Routes>.getDistance(): String {
         else -> String.format("%.2f Km", distance / 1000)
     }
 }
+fun ShapeableImageView.setImageFromUrl(
+    url: String?, context: Context,
+) {
+    if(url!=null){
+        Glide.with(context)
+            .load(getPhotoUrl(url))
+            .apply(requestOptionWithLoading(context))
+            .signature(ObjectKey(System.currentTimeMillis().toString()))
+            .into(this)
+    }
+}
 fun ImageView.setImageFromUrl(
     url: String?, context: Context,
 ) {
     if(url!=null){
         Glide.with(context)
             .load(getPhotoUrl(url))
+            .apply(requestOptionWithLoading(context))
             .signature(ObjectKey(System.currentTimeMillis().toString()))
-//            .apply(RequestOptions.skipMemoryCacheOf(true))
-//            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
             .into(this)
     }
+}
+fun requestOptionWithLoading(context: Context): RequestOptions{
+    val circularProgressDrawable = CircularProgressDrawable(context)
+    circularProgressDrawable.strokeWidth = 5f
+    circularProgressDrawable.centerRadius = 30f
+    circularProgressDrawable.start()
+
+    return RequestOptions()
+        .placeholder(circularProgressDrawable).fitCenter()
 }
 fun View.openWhatsAppChat(toNumber: String) {
     val newNumber = convertNumberToIndonesia(toNumber)
@@ -111,19 +132,6 @@ inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
 inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
     SDK_INT >= 33 -> getParcelable(key, T::class.java)
     else -> @Suppress("DEPRECATION") getParcelable(key) as? T
-}
-
-fun ShapeableImageView.setImageFromUrl(
-    url: String?, context: Context,
-) {
-    if(url!=null){
-        Glide.with(context)
-            .load(getPhotoUrl(url))
-            .signature(ObjectKey(System.currentTimeMillis().toString()))
-//            .apply(RequestOptions.skipMemoryCacheOf(true))
-//            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-            .into(this)
-    }
 }
 fun String.getLatitude(): Double{
     return this.split("|")[0].toDouble()
@@ -508,9 +516,8 @@ fun String.getTimeWithSecondFromTimeStamp(): String = substring(11, 19)
 fun String.getFirstName(): String = if (contains(" ")) {
     split(" ")[0].replaceFirstChar { it.uppercase() }
 } else replaceFirstChar { it.uppercase() }
-
-fun String.withDateFormat(): String {
-    return this.toDate("yyyy-MM-dd").formatTo("EEEE, dd MMM yyyy")
+fun String.withDateFormat(currentFormat: String = "yyyy/MM/dd", toFormat: String = "dd MMM yyyy"): String {
+    return this.toDate(currentFormat).formatTo(toFormat)
 }
 fun String.withTimeFormat(): String {
     return this.toDate("k:mm").formatTo("kk:mm")

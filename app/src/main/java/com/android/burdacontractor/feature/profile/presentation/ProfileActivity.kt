@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
@@ -43,14 +44,7 @@ class ProfileActivity : AppCompatActivity() {
     }
     private fun initObserver() {
         profileViewModel.state.observe(this){
-            when(it){
-                StateResponse.LOADING -> binding.progressBar.setVisible()
-                StateResponse.ERROR -> binding.progressBar.setGone()
-                StateResponse.SUCCESS -> {
-                    binding.progressBar.setGone()
-                }
-                else -> {}
-            }
+            binding.progressBar.isVisible = it==StateResponse.LOADING
         }
         profileViewModel.messageResponse.observe(this) {
             it.getContentIfNotHandled()?.let { messageResponse ->

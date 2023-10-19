@@ -2,9 +2,17 @@ package com.android.burdacontractor.feature.deliveryorder.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.findFragment
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
+import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.utils.openActivity
 import com.android.burdacontractor.databinding.ActivityDeliveryOrderBinding
@@ -13,14 +21,20 @@ import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.PerusahaanActivity
 import com.android.burdacontractor.core.presentation.StorageViewModel
+import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanActivity
 import com.google.android.material.navigation.NavigationBarView
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
     private lateinit var binding: ActivityDeliveryOrderBinding
     private val storageViewModel: StorageViewModel by viewModels()
+    private val deliveryOrderViewModel: DeliveryOrderViewModel by viewModels()
+    private lateinit var filterDialog: FilterDeliveryOrderFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDeliveryOrderBinding.inflate(layoutInflater)
@@ -33,6 +47,76 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelec
                 setBottomNavigationMenu(R.menu.bottom_menu_logistic, R.id.delivery_order_logistic)
             UserRole.PURCHASING.name ->
                 setBottomNavigationMenu(R.menu.bottom_menu_purchasing, R.id.delivery_order_purchasing)
+        }
+        val snackbar = Snackbar.make(binding.mainLayout,getString(R.string.no_internet), Snackbar.LENGTH_INDEFINITE)
+        deliveryOrderViewModel.liveNetworkChecker.observe(this){
+            checkConnection(snackbar,it){ initObserver() }
+        }
+    }
+    private fun refreshViewPager(viewPager: ViewPager2,position: Int){
+        val fragment = supportFragmentManager.findFragmentByTag("f${viewPager.currentItem}") as DeliveryOrderFragment
+        fragment.setAdapter(position+1, true)
+    }
+    private fun initObserver(){
+        with(deliveryOrderViewModel){
+            state.observe(this@DeliveryOrderActivity){
+                binding.srLayout.isRefreshing = it==StateResponse.LOADING
+            }
+            messageResponse.observe(this@DeliveryOrderActivity) {
+                it.getContentIfNotHandled()?.let { messageResponse ->
+                    Snackbar.make(
+                        binding.root,
+                        messageResponse,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            createdByOrFor.observe(this@DeliveryOrderActivity){create->
+                dateStart.observe(this@DeliveryOrderActivity){start->
+                    dateEnd.observe(this@DeliveryOrderActivity){end->
+                        filterDialog = FilterDeliveryOrderFragment.newInstance(create, start, end)
+                    }
+                }
+            }
+        }
+        initUi()
+    }
+    private fun initUi(){
+        with(binding){
+            val sectionsPagerAdapter = DeliveryOrderStatusPagerAdapter(this@DeliveryOrderActivity)
+            viewPager.adapter = sectionsPagerAdapter
+            TabLayoutMediator(tabs, viewPager) { tab, position ->
+                tab.text = resources.getString(TAB_TITLES[position])
+            }.attach()
+            searchView.setupWithSearchBar(searchBar)
+            searchView
+                .editText
+                .setOnEditorActionListener { textView, actionId, event ->
+                    searchBar.setText(searchView.text)
+                    deliveryOrderViewModel.setSearch(searchView.text.toString())
+                    searchView.hide()
+                    refreshViewPager(viewPager,viewPager.currentItem)
+                    false
+                }
+            srLayout.setOnRefreshListener {
+                refreshViewPager(viewPager,viewPager.currentItem)
+            }
+            btnFilter.setOnClickListener {
+                filterDialog = FilterDeliveryOrderFragment.newInstance(
+                    deliveryOrderViewModel.createdByOrFor.value!!,
+                    deliveryOrderViewModel.dateStart.value,
+                    deliveryOrderViewModel.dateEnd.value
+                )
+                filterDialog.setOnClickListener(object :
+                    FilterDeliveryOrderFragment.OnClickListener {
+                    override fun onClickListener(createdByOrFor: CreatedByOrFor, dateStart: String?, dateEnd: String?) {
+                        deliveryOrderViewModel.setCreatedByOrFor(createdByOrFor)
+                        deliveryOrderViewModel.setDate(dateStart,dateEnd)
+                        refreshViewPager(viewPager,viewPager.currentItem)
+                    }
+                })
+                filterDialog.show(supportFragmentManager)
+            }
         }
     }
     private fun setBottomNavigationMenu(menu: Int, item: Int){
@@ -61,5 +145,13 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelec
             }
         }
         return true
+    }
+    companion object {
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.menunggu_driver,
+            R.string.dalam_nperjalanan,
+            R.string.selesai
+        )
     }
 }

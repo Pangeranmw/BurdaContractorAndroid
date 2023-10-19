@@ -12,10 +12,9 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanWithCountResponse
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatistikMenungguSuratJalanResponse
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -58,7 +57,7 @@ class SuratJalanRemoteDataSource @Inject constructor(
     }
     suspend fun getStatistikMenungguSuratJalan(
         token: String,
-    ): Flow<ApiResponse<StatistikMenungguSuratJalanResponse>> = flow {
+    ): Flow<ApiResponse<StatisticCountTitleResponse>> = flow {
         val response = suratJalanService.getStatistikMenungguSuratJalan(token)
         if(!response.error){
             emit(ApiResponse.Success(response))

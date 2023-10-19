@@ -12,6 +12,7 @@ import androidx.core.app.NotificationCompat
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.StorageRepository
 import com.android.burdacontractor.core.data.source.local.storage.SessionManager
+import com.android.burdacontractor.core.domain.model.Constant
 import com.android.burdacontractor.core.presentation.SplashActivity
 import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.toIntegerNumber
@@ -30,9 +31,7 @@ import javax.inject.Inject
 class BurdaFirebaseMessagingService: FirebaseMessagingService() {
 
     @Inject lateinit var storageRepository: StorageRepository
-    private var intentKeyId: String? = null
-    private var intentValueId: String? = null
-    private var kode: String? = null
+    private var intentId: String? = null
     private var clickAction: String? = null
     private var title: String? = null
     private var messageBody: String? = null
@@ -51,34 +50,28 @@ class BurdaFirebaseMessagingService: FirebaseMessagingService() {
         title = message.notification?.title
         clickAction = message.notification?.clickAction
         channelId = getString(R.string.default_notification_channel_id)
-        message.notification?.channelId?.let{
-            channelId = it
-        }
-        intentKeyId = message.data["intentKeyId"]
-        intentValueId = message.data["intentValueId"]
-        kode = message.data["kode"]
+        intentId = message.data["intentId"]
         sendNotification()
     }
 
     private fun sendNotification() {
         val channelName = getString(R.string.default_notification_channel_name)
         var intent = Intent()
-        intentKeyId?.let{key->
-            intent = Intent(clickAction)
-            intentValueId?.let{value->
-                intent.putExtra(key,value)
+        intentId?.let{value->
+            clickAction?.let{
+                intent = Intent(it)
+                intent.putExtra(Constant.INTENT_ID,value)
             }
         }
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val contentPendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, intent,
-            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
+        val contentPendingIntent = PendingIntent.getActivity(this, Constant.NOTIFICATION_ID, intent,
+            PendingIntent.FLAG_IMMUTABLE)
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId.toString())
             .setSmallIcon(R.drawable.logo_burda)
             .setContentTitle(title)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setGroup(title)
-            .setContentText("$messageBody $kode $channelId")
+            .setContentText(messageBody)
             .setContentIntent(contentPendingIntent)
             .setAutoCancel(true)
 
@@ -125,7 +118,6 @@ class BurdaFirebaseMessagingService: FirebaseMessagingService() {
     }
     companion object {
         private const val TAG = "BurdaFirebaseMessagingService"
-        private const val NOTIFICATION_ID = 0
     }
 
 }

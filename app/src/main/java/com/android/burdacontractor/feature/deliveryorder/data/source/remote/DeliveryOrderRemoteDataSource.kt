@@ -1,21 +1,18 @@
 package com.android.burdacontractor.feature.deliveryorder.data.source.remote
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.DeliveryOrderService
-import com.android.burdacontractor.feature.profile.data.source.remote.response.GetUserByTokenResponse
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.DeliveryOrderPagingSource
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderWithCountResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
-import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType.Companion.toMediaType
@@ -37,13 +34,14 @@ class DeliveryOrderRemoteDataSource @Inject constructor(
         date_end: String? = null,
         size: Int = 5,
         search: String? = null,
+        createdByOrFor: CreatedByOrFor,
     ): Flow<PagingData<DeliveryOrderItem>> {
         return Pager(
             config = PagingConfig(
                 pageSize = size
             ),
             pagingSourceFactory = {
-                DeliveryOrderPagingSource(deliveryOrderService, token, status.name, date_start, date_end, size, search)
+                DeliveryOrderPagingSource(deliveryOrderService, token, status.name, date_start, date_end, size, search, createdByOrFor)
             }
         ).flow
     }

@@ -6,18 +6,13 @@ import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.domain.model.CountActive
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
-import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.SuratJalanRemoteDataSource
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatistikMenungguSuratJalanItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
-import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
-import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetail
 import com.android.burdacontractor.feature.suratjalan.domain.repository.ISuratJalanRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -88,13 +83,13 @@ class SuratJalanRepository @Inject constructor(
             emit(Resource.Error(ex.message.toString()))
         }
     }
-    override suspend fun getStatistikMenungguSuratJalan(): Flow<Resource<List<StatistikMenungguSuratJalanItem>>> = flow{
+    override suspend fun getStatistikMenungguSuratJalan(): Flow<Resource<List<StatisticCountTitleItem>>> = flow{
         try {
             emit(Resource.Loading())
             when(val response = suratJalanRemoteDataSource.getStatistikMenungguSuratJalan(storageDataSource.getToken()).first()){
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
-                    val result = response.data.statistikMenungguSuratJalan
+                    val result = response.data.statisticCountTitleItems
                     emit(Resource.Success(result))
                 }
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))

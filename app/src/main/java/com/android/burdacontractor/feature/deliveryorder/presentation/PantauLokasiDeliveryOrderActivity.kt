@@ -13,8 +13,6 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
-import android.util.Log
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
@@ -25,6 +23,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import com.android.burdacontractor.BuildConfig
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.domain.model.Constant
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.checkConnection
@@ -89,7 +88,7 @@ class PantauLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiver
         super.onCreate(savedInstanceState)
         binding = ActivityPantauLokasiDeliveryOrderBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        deliveryOrder = intent.parcelable(DELIVERY_ORDER)
+        deliveryOrder = intent.parcelable(Constant.INTENT_PARCEL)
         initMap()
 
         snackbar = Snackbar.make(binding.mainLayout,getString(R.string.no_internet), Snackbar.LENGTH_INDEFINITE)
@@ -99,14 +98,7 @@ class PantauLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiver
     }
     private fun initObserver(){
         pantauLokasiDeliveryOrderViewModel.state.observe(this){
-            when(it){
-                StateResponse.LOADING -> binding.progressBar.isVisible = true
-                StateResponse.ERROR -> binding.progressBar.isVisible = false
-                StateResponse.SUCCESS -> {
-                    binding.progressBar.isVisible = false
-                }
-                else -> {}
-            }
+            binding.progressBar.isVisible = it==StateResponse.LOADING
         }
         pantauLokasiDeliveryOrderViewModel.distanceMatrix.observe(this){
             val duration = it.routes[0].duration
@@ -453,6 +445,5 @@ class PantauLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiver
         var mRoads : Array<Road>? = null
         const val userAgent = BuildConfig.APPLICATION_ID + "/" + BuildConfig.VERSION_NAME
         const val REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124
-        const val DELIVERY_ORDER = "deliveryOrder"
     }
 }

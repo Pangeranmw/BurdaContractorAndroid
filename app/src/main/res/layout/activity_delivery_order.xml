@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".feature.deliveryorder.presentation.DeliveryOrderActivity">
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/activity_delivery_order_frame_nav"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -13,14 +14,108 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        <fragment
-            android:id="@+id/navHostFragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+        <com.google.android.material.search.SearchBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchBar"
+            style="@style/Widget.Material3.SearchBar"
+            app:backgroundTint="@color/input"
+            app:tintNavigationIcon="@color/primary_main"
+            app:navigationIcon="@drawable/baseline_search_24"
+            android:background="@drawable/semi_rounded_outline_main"
+            android:hint="@string/cari_kode_do"
+            android:layout_marginHorizontal="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            >
+        </com.google.android.material.search.SearchBar>
+
+        <com.google.android.material.search.SearchView
+            android:id="@+id/searchView"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            style="@style/Widget.Material3.SearchView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/navigation_delivery_order" />
-    </FrameLayout>
+            android:layout_alignParentTop="true"
+            android:hint="@string/cari_kode_do"
+            app:layout_anchor="@id/searchBar"
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_search_do"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="10"
+                tools:listitem="@layout/item_delivery_order"
+                />
+        </com.google.android.material.search.SearchView>
+        <ScrollView
+            android:id="@+id/sv_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/searchBar"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btn_filter"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:src="@drawable/ic_filter"
+                    app:tint="@color/primary_main"
+                    android:background="@drawable/semi_rounded_outline_main"
+                    />
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabs"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:tabTextColor="@color/primary_main"
+                    app:tabSelectedTextColor="@color/white"
+                    app:tabMinWidth="100dp"
+                    app:tabBackground="@drawable/tab_background"
+                    app:tabMode="scrollable"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabTextAppearance="@style/TabLayoutFont"
+                    >
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menunggu_driver"
+                        />
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dalam_nperjalanan"/>
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/selesai"/>
+                </com.google.android.material.tabs.TabLayout>
+            </LinearLayout>
+        </ScrollView>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/sr_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sv_filter"
+            android:layout_marginTop="20dp"
+            >
+            <RelativeLayout
+                android:layout_marginHorizontal="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+            </RelativeLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </RelativeLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/delivery_order_bottom_navigation"
         style="@style/BottomNavigationStyle"

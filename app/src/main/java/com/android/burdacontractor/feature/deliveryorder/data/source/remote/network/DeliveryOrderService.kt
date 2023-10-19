@@ -2,6 +2,8 @@ package com.android.burdacontractor.feature.deliveryorder.data.source.remote.net
 
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.CreateStepOneDeliveryOrderBody
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderWithCountResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailResponse
@@ -20,6 +22,7 @@ interface DeliveryOrderService {
         @Query("page") page: Int = 1,
         @Query("size") size: Int = 5,
         @Query("search") search: String? = null,
+        @Query("for") createdByOrFor: String,
     ): AllDeliveryOrderResponse
 
     @Headers("Content-Type: application/json","Accept: application/json")
@@ -48,14 +51,11 @@ interface DeliveryOrderService {
         @Path("id") id: String
     ): DeliveryOrderDetailResponse
 
-    @FormUrlEncoded
-    @POST("delivery-order")
-    suspend fun addDeliveryOrderPengirimanGp(
+    @Headers("Content-Type: application/json","Accept: application/json")
+    @POST("delivery-order/create")
+    suspend fun addDeliveryOrderStepOne(
         @Header("Authorization") token: String,
-        @Field("admin_gudang_id") adminGudangId: String,
-        @Field("logistic_id") logisticId: String,
-        @Field("kendaraan_id") kendaraanId: String,
-        @Field("peminjaman_id") peminjamanId: String,
+        @Body createStepOneDeliveryOrderBody: CreateStepOneDeliveryOrderBody
     ): ErrorMessageResponse
 
     @FormUrlEncoded

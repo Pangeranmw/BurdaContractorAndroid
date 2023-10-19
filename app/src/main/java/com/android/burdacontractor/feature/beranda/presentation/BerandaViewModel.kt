@@ -3,33 +3,30 @@ package com.android.burdacontractor.feature.beranda.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.Event
-import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
+import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DataAllDeliveryOrderWithCountItem
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
-import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
-import com.android.burdacontractor.feature.deliveryorder.domain.model.DataAllDeliveryOrderWithCount
 import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetAllDeliveryOrderDalamPerjalananByUserUseCase
 import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetSomeActiveDeliveryOrderUseCase
 import com.android.burdacontractor.feature.kendaraan.data.source.remote.response.KendaraanByLogisticItem
-import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanByLogistic
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticUseCase
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatistikMenungguSuratJalanItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
-import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSuratJalanDalamPerjalananByUserUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetSomeActiveSuratJalanUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetStatistikMenungguSuratJalanUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,8 +42,11 @@ class BerandaViewModel @Inject constructor(
     private val getStatistikMenungguSuratJalanUseCase: GetStatistikMenungguSuratJalanUseCase
 ) : ViewModel() {
 
-    private val _state = MutableLiveData<StateResponse?>()
-    val state: LiveData<StateResponse?> = _state
+    private val _state = MutableLiveData(StateResponse.LOADING)
+    val state: LiveData<StateResponse> = _state
+
+    private val _role = MutableLiveData<String>(null)
+    val role: LiveData<String?> = _role
 
     private val _user = MutableLiveData<UserByTokenItem>()
     val user: LiveData<UserByTokenItem> = _user
@@ -69,8 +69,8 @@ class BerandaViewModel @Inject constructor(
     private val _doDalamPerjalanan = MutableLiveData<List<DeliveryOrderItem>>()
     val doDalamPerjalanan: LiveData<List<DeliveryOrderItem>> = _doDalamPerjalanan
 
-    private val _statistikMenungguSuratJalan = MutableLiveData<List<StatistikMenungguSuratJalanItem>>()
-    val statistikMenungguSuratJalan: LiveData<List<StatistikMenungguSuratJalanItem>> = _statistikMenungguSuratJalan
+    private val _statistikMenungguSuratJalan = MutableLiveData<List<StatisticCountTitleItem>>()
+    val statistikMenungguSuratJalan: LiveData<List<StatisticCountTitleItem>> = _statistikMenungguSuratJalan
 
     private val _kendaraanByLogistic = MutableLiveData<KendaraanByLogisticItem?>()
     val kendaraanByLogistic: LiveData<KendaraanByLogisticItem?> = _kendaraanByLogistic
@@ -80,6 +80,44 @@ class BerandaViewModel @Inject constructor(
 
     init{
         getUserByToken()
+        getAllData()
+    }
+    fun getAllData(){
+        viewModelScope.launch {
+            role.asFlow().collect{
+                it?.let{ role->
+                    if(role == UserRole.ADMIN_GUDANG.name || role == UserRole.ADMIN.name) {
+                        getStatistikMenungguSuratJalan()
+                    }
+                    if(role == UserRole.LOGISTIC.name){
+                        getKendaraanByLogistic()
+                    }
+                    if(role == UserRole.LOGISTIC.name ||
+                        role == UserRole.ADMIN_GUDANG.name ||
+                        role == UserRole.ADMIN.name ||
+                        role == UserRole.SUPERVISOR.name ||
+                        role == UserRole.PROJECT_MANAGER.name ||
+                        role == UserRole.SITE_MANAGER.name
+                    ) {
+                        getSomeActiveSuratJalan(SuratJalanTipe.PENGEMBALIAN)
+                        getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
+                        getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
+                        getAllSuratJalanDalamPerjalananByUser()
+                    }
+                    if(role == UserRole.LOGISTIC.name ||
+                        role == UserRole.ADMIN_GUDANG.name ||
+                        role == UserRole.ADMIN.name ||
+                        role == UserRole.PURCHASING.name
+                    ) {
+                        getSomeActiveDeliveryOrder()
+                        getAllDeliveryOrderDalamPerjalananByUser()
+                    }
+                }
+            }
+        }
+    }
+    fun setRole(role: String){
+        _role.value = role
     }
     fun getUserByToken(){
         viewModelScope.launch {
@@ -99,7 +137,7 @@ class BerandaViewModel @Inject constructor(
             }
         }
     }
-    fun getStatistikMenungguSuratJalan(){
+    private fun getStatistikMenungguSuratJalan(){
         viewModelScope.launch {
             getStatistikMenungguSuratJalanUseCase.execute().collect{
                 when(it){
@@ -117,7 +155,7 @@ class BerandaViewModel @Inject constructor(
             }
         }
     }
-    fun getSomeActiveDeliveryOrder(){
+    private fun getSomeActiveDeliveryOrder(){
         viewModelScope.launch {
             getSomeActiveDeliveryOrderUseCase.execute().collect{
                 when(it){
@@ -136,7 +174,7 @@ class BerandaViewModel @Inject constructor(
         }
     }
 
-    fun getAllDeliveryOrderDalamPerjalananByUser(){
+    private fun getAllDeliveryOrderDalamPerjalananByUser(){
         viewModelScope.launch {
             getAllDeliveryOrderDalamPerjalananByUserUseCase.execute().collect{
                 when(it){
@@ -155,7 +193,7 @@ class BerandaViewModel @Inject constructor(
         }
     }
 
-    fun getSomeActiveSuratJalan(tipe: SuratJalanTipe){
+    private fun getSomeActiveSuratJalan(tipe: SuratJalanTipe){
         viewModelScope.launch {
             getSomeActiveSuratJalanUseCase.execute(tipe).collect{
                 when(it){
@@ -186,7 +224,7 @@ class BerandaViewModel @Inject constructor(
         }
     }
 
-    fun getAllSuratJalanDalamPerjalananByUser(){
+    private fun getAllSuratJalanDalamPerjalananByUser(){
         viewModelScope.launch {
             getAllSuratJalanDalamPerjalananByUserUseCase.execute().collect{
                 when(it){
@@ -205,7 +243,7 @@ class BerandaViewModel @Inject constructor(
         }
     }
 
-    fun getKendaraanByLogistic(){
+    private fun getKendaraanByLogistic(){
         viewModelScope.launch {
             getKendaraanByLogisticUseCase.execute().collect{
                 when(it){
@@ -223,7 +261,6 @@ class BerandaViewModel @Inject constructor(
             }
         }
     }
-
 }
 
 

@@ -4,16 +4,12 @@ import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.domain.model.CountActive
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatistikMenungguSuratJalanItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
-import com.android.burdacontractor.feature.suratjalan.domain.model.DataAllSuratJalanWithCount
-import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetail
 import kotlinx.coroutines.flow.Flow
 
 interface ISuratJalanRepository {
@@ -30,7 +26,7 @@ interface ISuratJalanRepository {
     suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetailItem>>
 
     suspend fun getSomeActiveSuratJalan(tipe: SuratJalanTipe, size: Int = 5): Flow<Resource<DataAllSuratJalanWithCountItem>>
-    suspend fun getStatistikMenungguSuratJalan(): Flow<Resource<List<StatistikMenungguSuratJalanItem>>>
+    suspend fun getStatistikMenungguSuratJalan(): Flow<Resource<List<StatisticCountTitleItem>>>
     suspend fun getAllSuratJalanDalamPerjalananByUser(): Flow<Resource<List<SuratJalanItem>>>
     suspend fun getCountActiveSuratJalan(): Flow<Resource<CountActiveResponse>>
 

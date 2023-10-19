@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">BurdaContractor</string>
+    <string name="app_name">Burda Contraco</string>
     <string name="image_description">Image</string>
     <string name="text_primary">Sample of title text</string>
     <string name="text_subtitle">Sample of subtitle text</string>
@@ -183,4 +183,21 @@
     <string name="empty_image_warning">Gambar tidak boleh kosong</string>
     <string name="foto_bukti_saat_ini">Foto Bukti Saat Ini</string>
     <string name="belum_ada_foto_bukti">Belum ada foto bukti</string>
+    <string name="cari_kode_do">Cari Kode DO</string>
+    <string name="ulangi">Ulangi</string>
+    <string name="tidak_ada_delivery_order">Tidak Ada Delivery Order</string>
+    <string name="do_menunggu_konfirmasi_driver">DO Menunggu Konfirmasi Driver</string>
+    <string name="do_driver_dalam_perjalanan">DO Driver Dalam Perjalanan</string>
+    <string name="do_selesai">DO Selesai</string>
+    <string name="dibuat_untuk">Dibuat Untuk</string>
+    <string name="filter">Filter</string>
+    <string name="diri_sendiri">Diri Sendiri</string>
+    <string name="semua">Semua</string>
+    <string name="rentang_tanggal_terakhir_diperbarui">Rentang Tanggal Terakhir Diperbarui</string>
+    <string name="pilih_tanggal">Pilih Tanggal</string>
+    <string name="tanggal_belum_diatur">Tanggal Belum Diatur</string>
+    <string name="terapkan_filter">Terapkan Filter</string>
+    <string name="reset_tanggal">Reset Tanggal</string>
+    <string name="range_date">%1$s\ns/d\n%2$s</string>
+    <string name="butuh_konfirmasi_selesai">Butuh Konfirmasi Selesai</string>
 </resources>

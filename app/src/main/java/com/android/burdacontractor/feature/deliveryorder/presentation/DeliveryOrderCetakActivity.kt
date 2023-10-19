@@ -5,10 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.print.PdfPrint
 import android.print.PrintAttributes
 import android.print.PrintManager
+import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -20,6 +20,7 @@ import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import com.android.burdacontractor.BuildConfig
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.domain.model.Constant
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.utils.*
 import com.android.burdacontractor.databinding.ActivityDeliveryOrderCetakBinding
@@ -32,11 +33,11 @@ import java.io.File
 class DeliveryOrderCetakActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDeliveryOrderCetakBinding
     private val storageViewModel: StorageViewModel by viewModels()
-    private val deliveryOrderDetailViewModel: DeliveryOrderDetailViewModel by viewModels()
+    private val deliveryOrderCetakViewModel: DeliveryOrderCetakViewModel by viewModels()
     private var deliveryOrderId: String? = null
     private var deliveryOrderKode: String? = null
     private lateinit var fileName: String
-    private lateinit var path: File
+    private lateinit var file: File
     private lateinit var downloadedFile: File
     private var snackbar: Snackbar? = null
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -44,29 +45,38 @@ class DeliveryOrderCetakActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDeliveryOrderCetakBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        deliveryOrderId = intent.getStringExtra(ID_DELIVERY_ORDER)
-        deliveryOrderKode = intent.getStringExtra(KODE_DELIVERY_ORDER)
+        deliveryOrderId = intent.getStringExtra(Constant.INTENT_ID)
+        deliveryOrderKode = intent.getStringExtra(Constant.INTENT_KODE)
         binding.progressBar.isVisible = true
         snackbar = Snackbar.make(binding.mainLayout,getString(R.string.no_internet), Snackbar.LENGTH_INDEFINITE)
-        deliveryOrderDetailViewModel.liveNetworkChecker.observe(this){
+        deliveryOrderCetakViewModel.liveNetworkChecker.observe(this){
             checkConnection(snackbar,it){ initUi() }
         }
         fileName = "Memo $deliveryOrderKode"
-        path = getExternalFilesDir("DeliveryOrder") as File
-        if(!path.exists()){
-            path.mkdirs()
+        file = getExternalFilesDir("DeliveryOrder") as File
+        if(!file.exists()){
+            file.mkdirs()
         }
-        downloadedFile = File(path,"${fileName.replace("/","_")}.pdf")
+        downloadedFile = File(file,"${fileName.replace("/","_")}.pdf")
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun doWebViewPrint() {
         with(binding){
+            val headerMap = HashMap<String,String>()
+            val url = "${BuildConfig.BASE_URL}/delivery-order/cetak/${deliveryOrderId}"
+            headerMap["Authorization"] = storageViewModel.token
+            webView.settings.loadWithOverviewMode = true
+            webView.settings.domStorageEnabled = true
+            webView.settings.builtInZoomControls = true
+            webView.settings.displayZoomControls = false
+            webView.settings.useWideViewPort = false
+            webView.settings.allowFileAccess = true
+            webView.setInitialScale(110)
             // Create a WebView object specifically for printing
-            val newWebView = WebView(this@DeliveryOrderCetakActivity)
-            newWebView.webViewClient = object : WebViewClient() {
+            webView.webViewClient = object : WebViewClient() {
 
-                override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = false
+                override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = true
 
                 override fun onPageFinished(view: WebView, url: String) {
                     progressBar.isVisible = false
@@ -76,16 +86,6 @@ class DeliveryOrderCetakActivity : AppCompatActivity() {
                     btnOpenFile.isVisible = exists
                 }
             }
-            val headerMap = HashMap<String,String>()
-            val url = "${BuildConfig.BASE_URL}/delivery-order/cetak/${deliveryOrderId}"
-            headerMap["Authorization"] = storageViewModel.token
-            webView.webViewClient = newWebView.webViewClient
-            webView.settings.loadWithOverviewMode = true
-            webView.settings.builtInZoomControls = true
-            webView.settings.displayZoomControls = false
-            webView.settings.useWideViewPort = false
-            webView.settings.allowFileAccess = true
-            webView.setInitialScale(110)
             webView.loadUrl(url,headerMap)
         }
     }
@@ -106,7 +106,7 @@ class DeliveryOrderCetakActivity : AppCompatActivity() {
             )
         }
     }
-    private fun downloadPDF(webView: WebView, path: File, fileName:String) {
+    private fun downloadPDF(webView: WebView, file: File, fileName:String) {
         val printAttributes = PrintAttributes.Builder()
         printAttributes.setMediaSize(PrintAttributes.MediaSize.ISO_A4)
         printAttributes.setMinMargins(PrintAttributes.Margins.NO_MARGINS)
@@ -115,7 +115,7 @@ class DeliveryOrderCetakActivity : AppCompatActivity() {
         val printAdapter = webView.createPrintDocumentAdapter(fileName)
         val pdfPrint = PdfPrint(printAttributes.build())
 
-        pdfPrint.savePDF(printAdapter, path, fileName)
+        pdfPrint.savePDF(printAdapter, file, fileName)
         pdfPrint.isFinished.observe(this){
             binding.progressBar.isVisible = !it
             binding.btnOpenFile.isVisible = it
@@ -129,7 +129,7 @@ class DeliveryOrderCetakActivity : AppCompatActivity() {
         doWebViewPrint()
         with(binding){
             btnOpenFolder.setOnClickListener{
-                val uri = Uri.parse(path.path)
+                val uri = Uri.parse(file.path)
                 val intent = Intent(Intent.ACTION_PICK)
                 intent.setDataAndType(uri, "*/*")
                 startActivity(intent)
@@ -155,7 +155,7 @@ class DeliveryOrderCetakActivity : AppCompatActivity() {
                 createWebPrintJob(webView,fileName)
             }
             btnDownload.setOnClickListener{
-                downloadPDF(webView,path,"$fileName.pdf")
+                downloadPDF(webView,file,"$fileName.pdf")
             }
         }
     }
@@ -170,9 +170,5 @@ class DeliveryOrderCetakActivity : AppCompatActivity() {
                 overridePendingTransition(0,0)
             }
         })
-    }
-    companion object{
-        const val ID_DELIVERY_ORDER = "deliveryOrderId"
-        const val KODE_DELIVERY_ORDER = "kodeDeliveryOrder"
     }
 }

@@ -1,12 +1,10 @@
 package com.android.burdacontractor.feature.deliveryorder.domain.usecase
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
-import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
-import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
-import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
-import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import kotlinx.coroutines.flow.Flow
 
 interface GetAllDeliveryOrderUseCase {
@@ -16,5 +14,6 @@ interface GetAllDeliveryOrderUseCase {
         date_end: String? = null,
         size: Int = 5,
         search: String? = null,
-    ): Flow<PagingData<DeliveryOrderItem>>
+        createdByOrFor: CreatedByOrFor,
+    ): LiveData<PagingData<DeliveryOrderItem>>
 }

@@ -1,16 +1,14 @@
 package com.android.burdacontractor.core.presentation.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.databinding.ItemStatistikMenungguSuratJalanBinding
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatistikMenungguSuratJalanItem
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
 
-class ListStatistikMenungguSuratJalanAdapter : ListAdapter<StatistikMenungguSuratJalanItem, ListStatistikMenungguSuratJalanAdapter.ListDeliveryOrderViewHolder>(DIFF_CALLBACK) {
+class ListStatistikMenungguSuratJalanAdapter : ListAdapter<StatisticCountTitleItem, ListStatistikMenungguSuratJalanAdapter.ListDeliveryOrderViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListDeliveryOrderViewHolder {
         val binding = ItemStatistikMenungguSuratJalanBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,7 +20,7 @@ class ListStatistikMenungguSuratJalanAdapter : ListAdapter<StatistikMenungguSura
     }
 
     inner class ListDeliveryOrderViewHolder(private val binding: ItemStatistikMenungguSuratJalanBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(stat: StatistikMenungguSuratJalanItem) {
+        fun bind(stat: StatisticCountTitleItem) {
             with(binding) {
                 tvCountStatistik.text = stat.count.toString()
                 tvNamaStatistik.text = stat.title
@@ -30,11 +28,11 @@ class ListStatistikMenungguSuratJalanAdapter : ListAdapter<StatistikMenungguSura
         }
     }
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StatistikMenungguSuratJalanItem>() {
-            override fun areItemsTheSame(oldItem: StatistikMenungguSuratJalanItem, newItem: StatistikMenungguSuratJalanItem): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StatisticCountTitleItem>() {
+            override fun areItemsTheSame(oldItem: StatisticCountTitleItem, newItem: StatisticCountTitleItem): Boolean {
                 return oldItem == newItem
             }
-            override fun areContentsTheSame(oldItem: StatistikMenungguSuratJalanItem, newItem: StatistikMenungguSuratJalanItem): Boolean {
+            override fun areContentsTheSame(oldItem: StatisticCountTitleItem, newItem: StatisticCountTitleItem): Boolean {
                 return oldItem == newItem
             }
         }

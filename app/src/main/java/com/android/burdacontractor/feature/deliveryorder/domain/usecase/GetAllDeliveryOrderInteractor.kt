@@ -1,5 +1,6 @@
 package com.android.burdacontractor.feature.deliveryorder.domain.usecase
 
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
@@ -15,6 +16,7 @@ class GetAllDeliveryOrderInteractor @Inject constructor(private val deliveryOrde
         date_start: String?,
         date_end: String?,
         size: Int,
-        search: String?
-    )= deliveryOrderRepository.getAllDeliveryOrder(status, date_start, date_end, size, search)
+        search: String?,
+        createdByOrFor: CreatedByOrFor
+    )= deliveryOrderRepository.getAllDeliveryOrder(status, date_start, date_end, size, search, createdByOrFor)
 }
