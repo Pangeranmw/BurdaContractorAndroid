@@ -1,6 +1,5 @@
 package com.android.burdacontractor.core.presentation.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -10,17 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
-import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.utils.enumValueToNormal
 import com.android.burdacontractor.core.utils.getFirstName
 import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.getTimeDifference
-import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.databinding.ItemSuratJalanBinding
-import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
-import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanDetailActivity
 import com.bumptech.glide.Glide
 
 class ListSuratJalanAdapter(val role: String, val id: String, val listener: (SuratJalanItem)->Unit) : ListAdapter<SuratJalanItem, ListSuratJalanAdapter.ListSuratJalanViewHolder>(DIFF_CALLBACK) {

@@ -5,10 +5,8 @@ import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.local.storage.SessionManager
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.auth.data.source.remote.AuthRemoteDataSource
 import com.android.burdacontractor.feature.auth.data.source.remote.response.LoginItem
-import com.android.burdacontractor.feature.auth.domain.model.UserLogin
 import com.android.burdacontractor.feature.auth.domain.repository.IAuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first

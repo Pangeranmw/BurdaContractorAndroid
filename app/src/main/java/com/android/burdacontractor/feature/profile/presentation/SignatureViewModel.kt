@@ -6,10 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.Event
-import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
-import com.android.burdacontractor.feature.auth.domain.usecase.LogoutUseCase
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.UploadTtdUseCase

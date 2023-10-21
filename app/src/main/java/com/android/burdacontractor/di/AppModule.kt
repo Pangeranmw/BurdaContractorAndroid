@@ -2,8 +2,8 @@ package com.android.burdacontractor.di
 
 import com.android.burdacontractor.core.domain.usecase.GetDistanceMatrixInteractor
 import com.android.burdacontractor.core.domain.usecase.GetDistanceMatrixUseCase
-import com.android.burdacontractor.core.domain.usecase.LogisticInteractor
-import com.android.burdacontractor.core.domain.usecase.LogisticUseCase
+import com.android.burdacontractor.core.domain.usecase.LogisticFirebaseFirebaseInteractor
+import com.android.burdacontractor.core.domain.usecase.LogisticFirebaseUseCase
 import com.android.burdacontractor.core.domain.usecase.StorageInteractor
 import com.android.burdacontractor.core.domain.usecase.StorageUseCase
 import com.android.burdacontractor.feature.auth.domain.usecase.LoginInteractor
@@ -17,6 +17,12 @@ import com.android.burdacontractor.feature.auth.domain.usecase.RegisterUseCase
 import com.android.burdacontractor.feature.deliveryorder.domain.usecase.*
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticInteractor
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticUseCase
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetAllPerusahaanInteractor
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetAllPerusahaanUseCase
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetPerusahaanByIdInteractor
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetPerusahaanByIdUseCase
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetPerusahaanProvinsiInteractor
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetPerusahaanProvinsiUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenInteractor
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.UploadTtdInteractor
@@ -38,7 +44,7 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun provideLogisticUseCase(logisticInteractor: LogisticInteractor): LogisticUseCase
+    abstract fun provideLogisticFirebaseUseCase(logisticFirebaseInteractor: LogisticFirebaseFirebaseInteractor): LogisticFirebaseUseCase
 
     @Binds
     @ViewModelScoped
@@ -120,5 +126,18 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideGetKendaraanByLogisticUseCase(getKendaraanByLogisticInteractor: GetKendaraanByLogisticInteractor): GetKendaraanByLogisticUseCase
+
+    // PERUSAHAAN USE CASE
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetPerusahaanByIdUseCase(getPerusahaanByIdInteractor: GetPerusahaanByIdInteractor): GetPerusahaanByIdUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetPerusahaanProvinsiUseCase(getPerusahaanProvinsiInteractor: GetPerusahaanProvinsiInteractor): GetPerusahaanProvinsiUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetAllPerusahaanUseCase(getAllPerusahaanInteractor: GetAllPerusahaanInteractor): GetAllPerusahaanUseCase
 
 }

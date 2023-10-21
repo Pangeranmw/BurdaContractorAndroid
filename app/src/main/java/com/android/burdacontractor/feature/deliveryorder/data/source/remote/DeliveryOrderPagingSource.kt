@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.DeliveryOrderService
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
+import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 
 class DeliveryOrderPagingSource(
     private val deliveryOrderService: DeliveryOrderService,
@@ -15,11 +15,12 @@ class DeliveryOrderPagingSource(
     private val size: Int = 5,
     private val search: String? = null,
     private val createdByOrFor: CreatedByOrFor,
-) : PagingSource<Int, DeliveryOrderItem>() {
+) : PagingSource<Int, AllDeliveryOrder>() {
     private companion object {
         const val INITIAL_PAGE_INDEX = 1
     }
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DeliveryOrderItem> {
+
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AllDeliveryOrder> {
         return try {
             val page = params.key ?: INITIAL_PAGE_INDEX
             val response = deliveryOrderService.getAllDeliveryOrder(
@@ -36,7 +37,7 @@ class DeliveryOrderPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, DeliveryOrderItem>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, AllDeliveryOrder>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)

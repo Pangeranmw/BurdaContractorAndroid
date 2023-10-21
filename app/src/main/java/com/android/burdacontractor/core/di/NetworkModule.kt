@@ -3,18 +3,14 @@ package com.android.burdacontractor.core.di
 import android.content.Context
 import android.net.ConnectivityManager
 import com.android.burdacontractor.BuildConfig
-import com.android.burdacontractor.core.data.source.remote.network.AksesBarangService
-import com.android.burdacontractor.core.data.source.remote.network.BarangService
 import com.android.burdacontractor.core.data.source.remote.network.DistanceMatrixService
-import com.android.burdacontractor.core.data.source.remote.network.GudangService
 import com.android.burdacontractor.core.data.source.remote.network.PeminjamanService
 import com.android.burdacontractor.core.data.source.remote.network.PengembalianService
-import com.android.burdacontractor.core.data.source.remote.network.PerusahaanService
-import com.android.burdacontractor.core.data.source.remote.network.ProyekService
 import com.android.burdacontractor.feature.auth.data.source.remote.network.AuthService
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.DeliveryOrderService
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.PreOrderService
 import com.android.burdacontractor.feature.kendaraan.data.source.remote.network.KendaraanService
+import com.android.burdacontractor.feature.perusahaan.data.source.remote.network.PerusahaanService
 import com.android.burdacontractor.feature.profile.data.source.remote.network.UserService
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
 import com.google.firebase.database.DatabaseReference
@@ -86,37 +82,24 @@ class NetworkModule {
         return retrofit.create(UserService::class.java)
     }
     @Provides
-    fun provideBarangService(retrofit: Retrofit): BarangService {
-        return retrofit.create(BarangService::class.java)
-    }
-    @Provides
     fun provideDeliveryOrderService(retrofit: Retrofit): DeliveryOrderService {
         return retrofit.create(DeliveryOrderService::class.java)
-    }
-    @Provides
-    fun provideProyekService(retrofit: Retrofit): ProyekService {
-        return retrofit.create(ProyekService::class.java)
-    }
-    @Provides
-    fun providePerusahaanService(retrofit: Retrofit): PerusahaanService {
-        return retrofit.create(PerusahaanService::class.java)
-    }
-    @Provides
-    fun provideGudangService(retrofit: Retrofit): GudangService {
-        return retrofit.create(GudangService::class.java)
     }
     @Provides
     fun providePeminjamanService(retrofit: Retrofit): PeminjamanService {
         return retrofit.create(PeminjamanService::class.java)
     }
+
     @Provides
     fun providePengembalianService(retrofit: Retrofit): PengembalianService {
         return retrofit.create(PengembalianService::class.java)
     }
+
     @Provides
-    fun provideAksesBarangService(retrofit: Retrofit): AksesBarangService {
-        return retrofit.create(AksesBarangService::class.java)
+    fun providePerusahaanService(retrofit: Retrofit): PerusahaanService {
+        return retrofit.create(PerusahaanService::class.java)
     }
+
     @Provides
     fun provideKendaraanService(retrofit: Retrofit): KendaraanService {
         return retrofit.create(KendaraanService::class.java)

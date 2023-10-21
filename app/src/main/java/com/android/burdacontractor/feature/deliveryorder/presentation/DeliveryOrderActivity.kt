@@ -1,31 +1,27 @@
 package com.android.burdacontractor.feature.deliveryorder.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
-import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.findFragment
-import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
+import com.android.burdacontractor.core.presentation.StorageViewModel
+import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.openActivity
+import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityDeliveryOrderBinding
 import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
 import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.PerusahaanActivity
-import com.android.burdacontractor.core.presentation.StorageViewModel
-import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanActivity
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -95,11 +91,17 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelec
                     searchBar.setText(searchView.text)
                     deliveryOrderViewModel.setSearch(searchView.text.toString())
                     searchView.hide()
-                    refreshViewPager(viewPager,viewPager.currentItem)
+                    refreshViewPager(viewPager, viewPager.currentItem)
                     false
                 }
             srLayout.setOnRefreshListener {
-                refreshViewPager(viewPager,viewPager.currentItem)
+                refreshViewPager(viewPager, viewPager.currentItem)
+            }
+            if (storageViewModel.role == UserRole.PURCHASING.name) {
+                btnAdd.setVisible()
+                btnAdd.setOnClickListener {
+                    openActivity(AddDeliveryOrderActivity::class.java, false)
+                }
             }
             btnFilter.setOnClickListener {
                 filterDialog = FilterDeliveryOrderFragment.newInstance(
@@ -109,10 +111,14 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelec
                 )
                 filterDialog.setOnClickListener(object :
                     FilterDeliveryOrderFragment.OnClickListener {
-                    override fun onClickListener(createdByOrFor: CreatedByOrFor, dateStart: String?, dateEnd: String?) {
+                    override fun onClickListener(
+                        createdByOrFor: CreatedByOrFor,
+                        dateStart: String?,
+                        dateEnd: String?
+                    ) {
                         deliveryOrderViewModel.setCreatedByOrFor(createdByOrFor)
-                        deliveryOrderViewModel.setDate(dateStart,dateEnd)
-                        refreshViewPager(viewPager,viewPager.currentItem)
+                        deliveryOrderViewModel.setDate(dateStart, dateEnd)
+                        refreshViewPager(viewPager, viewPager.currentItem)
                     }
                 })
                 filterDialog.show(supportFragmentManager)

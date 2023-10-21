@@ -3,7 +3,6 @@ package com.android.burdacontractor.feature.deliveryorder.presentation
 import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -11,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.android.burdacontractor.R
@@ -24,7 +24,7 @@ import com.android.burdacontractor.core.utils.setToastLong
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.core.utils.uriToFile
 import com.android.burdacontractor.databinding.ActivityUploadFotoBuktiDeliveryOrderBinding
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailItem
+import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetailItem
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 

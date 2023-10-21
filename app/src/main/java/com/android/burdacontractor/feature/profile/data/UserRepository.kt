@@ -5,8 +5,6 @@ import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.domain.model.User
-import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.profile.data.source.remote.UserRemoteDataSource
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.domain.repository.IUserRepository

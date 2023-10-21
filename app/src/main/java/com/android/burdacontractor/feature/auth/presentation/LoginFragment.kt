@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
-import com.android.burdacontractor.core.presentation.LogisticViewModel
+import com.android.burdacontractor.core.presentation.LogisticFirebaseViewModel
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.checkEmail
 import com.android.burdacontractor.core.utils.checkPassword
@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
     private val authViewModel: AuthViewModel by viewModels()
-    private val logisticViewModel: LogisticViewModel by viewModels()
+    private val logisticFirebaseViewModel: LogisticFirebaseViewModel by viewModels()
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private var snackbar: Snackbar? = null
@@ -63,25 +63,28 @@ class LoginFragment : Fragment() {
             }
         }
         authViewModel.state.observe(viewLifecycleOwner){
-            when(it){
+            when (it) {
                 StateResponse.LOADING -> binding.progressBar.setVisible()
                 StateResponse.ERROR -> binding.progressBar.setGone()
                 StateResponse.SUCCESS -> {
                     binding.progressBar.setGone()
                     requireActivity().openActivity(BerandaActivity::class.java)
                 }
+
                 else -> {}
             }
         }
-        logisticViewModel.logisticCoordinate.observe(viewLifecycleOwner){
-            when(it){
+        logisticFirebaseViewModel.logisticCoordinate.observe(viewLifecycleOwner) {
+            when (it) {
                 is Resource.Loading -> {
                     binding.progressBar.setVisible()
                 }
+
                 is Resource.Error -> {
                     binding.progressBar.setGone()
                     Log.d("Error", it.message.toString())
                 }
+
                 is Resource.Success -> {
                     binding.progressBar.setGone()
                     if(it.data!=null){

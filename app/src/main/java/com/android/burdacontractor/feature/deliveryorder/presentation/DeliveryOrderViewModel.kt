@@ -11,18 +11,15 @@ import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
-import com.android.burdacontractor.feature.deliveryorder.domain.model.PreOrder
+import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetAllDeliveryOrderUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DeliveryOrderViewModel @Inject constructor(
     val liveNetworkChecker: LiveNetworkChecker,
-    val getAllDeliveryOrderUseCase: GetAllDeliveryOrderUseCase,
+    private val getAllDeliveryOrderUseCase: GetAllDeliveryOrderUseCase,
 ) : ViewModel() {
     private val _state = MutableLiveData<StateResponse?>()
     val state: LiveData<StateResponse?> = _state
@@ -51,20 +48,25 @@ class DeliveryOrderViewModel @Inject constructor(
     fun setStatus(status: DeliveryOrderStatus){
         _status.value = status
     }
-    fun setState(state: StateResponse){
+
+    fun setState(state: StateResponse) {
         _state.value = state
     }
-    fun setCreatedByOrFor(createdByOrFor: CreatedByOrFor){
+
+    fun setCreatedByOrFor(createdByOrFor: CreatedByOrFor) {
         _createdByOrFor.value = createdByOrFor
     }
-    fun setSearch(search: String){
+
+    fun setSearch(search: String) {
         _search.value = search
     }
-    fun setDate(dateStart: String?, dateEnd: String?){
+
+    fun setDate(dateStart: String?, dateEnd: String?) {
         _dateStart.value = dateStart
         _dateEnd.value = dateEnd
     }
-    fun getAllDelivery(): LiveData<PagingData<DeliveryOrderItem>>{
+
+    fun getAllDelivery(): LiveData<PagingData<AllDeliveryOrder>> {
         return getAllDeliveryOrderUseCase.execute(
             status = _status.value!!,
             search = _search.value,

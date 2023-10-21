@@ -6,11 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.Event
-import com.android.burdacontractor.core.domain.model.LogisticCoordinate
-import com.android.burdacontractor.core.domain.model.LogisticIsTracking
-import com.android.burdacontractor.core.domain.model.User
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
-import com.android.burdacontractor.core.domain.usecase.LogisticUseCase
+import com.android.burdacontractor.core.domain.usecase.LogisticFirebaseUseCase
 import com.android.burdacontractor.core.domain.usecase.StorageUseCase
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import com.android.burdacontractor.feature.auth.domain.usecase.LogoutUseCase
@@ -25,7 +22,7 @@ class ProfileViewModel @Inject constructor(
     val liveNetworkChecker: LiveNetworkChecker,
     private val getUserByTokenUseCase: GetUserByTokenUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val logisticUseCase: LogisticUseCase,
+    private val logisticFirebaseUseCase: LogisticFirebaseUseCase,
     private val storageUseCase: StorageUseCase,
 ) : ViewModel() {
 
@@ -50,7 +47,7 @@ class ProfileViewModel @Inject constructor(
     }
     fun setIsTrackingRealtime(logisticId: String, logisticIsTracking: Boolean){
         viewModelScope.launch {
-            logisticUseCase.setIsTracking(logisticId, logisticIsTracking)
+            logisticFirebaseUseCase.setIsTracking(logisticId, logisticIsTracking)
         }
     }
     private fun getUserByToken(){
@@ -92,11 +89,12 @@ class ProfileViewModel @Inject constructor(
     val getIsTrackingStorage = storageUseCase.getTracking()
     fun getIsTrackingRealtime(logisticId: String){
         viewModelScope.launch {
-            logisticUseCase.getTracking(logisticId).collect {
-                when(it) {
+            logisticFirebaseUseCase.getTracking(logisticId).collect {
+                when (it) {
                     is Resource.Loading -> {
                         _state.value = StateResponse.LOADING
                     }
+
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         it.data?.let { data ->

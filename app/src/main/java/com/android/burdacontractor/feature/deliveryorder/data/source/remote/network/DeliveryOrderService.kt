@@ -2,7 +2,6 @@ package com.android.burdacontractor.feature.deliveryorder.data.source.remote.net
 
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.CreateStepOneDeliveryOrderBody
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderWithCountResponse
@@ -17,8 +16,8 @@ interface DeliveryOrderService {
     suspend fun getAllDeliveryOrder(
         @Header("Authorization") token: String,
         @Query("status") status: String,
-        @Query("date_start") date_start: String? = null,
-        @Query("date_end") date_end: String? = null,
+        @Query("date_start") dateStart: String? = null,
+        @Query("date_end") dateEnd: String? = null,
         @Query("page") page: Int = 1,
         @Query("size") size: Int = 5,
         @Query("search") search: String? = null,

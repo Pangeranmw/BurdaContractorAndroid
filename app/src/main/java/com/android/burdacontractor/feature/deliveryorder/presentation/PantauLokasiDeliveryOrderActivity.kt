@@ -10,12 +10,12 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -37,7 +37,7 @@ import com.android.burdacontractor.core.utils.setImageFromUrl
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.core.utils.toCoordinateFormat
 import com.android.burdacontractor.databinding.ActivityPantauLokasiDeliveryOrderBinding
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailItem
+import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetailItem
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope

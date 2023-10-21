@@ -12,8 +12,8 @@ import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.DeliveryOrderRemoteDataSource
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DataAllDeliveryOrderWithCountItem
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailItem
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
+import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
+import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetailItem
 import com.android.burdacontractor.feature.deliveryorder.domain.repository.IDeliveryOrderRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -35,9 +35,9 @@ class DeliveryOrderRepository @Inject constructor(
         size: Int,
         search: String?,
         createdByOrFor: CreatedByOrFor,
-    ): LiveData<PagingData<DeliveryOrderItem>> =
+    ): LiveData<PagingData<AllDeliveryOrder>> =
         deliveryOrderRemoteDataSource.getAllDeliveryOrder(
-            storageDataSource.getToken(),status,date_start,date_end,size,search,createdByOrFor
+            storageDataSource.getToken(), status, date_start, date_end, size, search, createdByOrFor
         ).asLiveData()
 
     override suspend fun getDeliveryOrderById(id: String): Flow<Resource<DeliveryOrderDetailItem>> = flow{
@@ -49,33 +49,45 @@ class DeliveryOrderRepository @Inject constructor(
                     val result = response.data.deliveryOrder
                     emit(Resource.Success(result))
                 }
+
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
             }
         } catch (ex: Exception) {
             emit(Resource.Error(ex.message.toString()))
         }
     }
-    override suspend fun getAllDeliveryOrderDalamPerjalananByUser(): Flow<Resource<List<DeliveryOrderItem>>> = flow{
-        try {
-            emit(Resource.Loading())
-            when(val response = deliveryOrderRemoteDataSource.getAllDeliveryOrderDalamPerjalananByUser(storageDataSource.getToken()).first()){
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> {
-                    val result = response.data.deliveryOrder!!
-                    emit(Resource.Success(result))
+
+    override suspend fun getAllDeliveryOrderDalamPerjalananByUser(): Flow<Resource<List<AllDeliveryOrder>>> =
+        flow {
+            try {
+                emit(Resource.Loading())
+                when (val response =
+                    deliveryOrderRemoteDataSource.getAllDeliveryOrderDalamPerjalananByUser(
+                        storageDataSource.getToken()
+                    ).first()) {
+                    is ApiResponse.Empty -> {}
+                    is ApiResponse.Success -> {
+                        val result = response.data.deliveryOrder!!
+                        emit(Resource.Success(result))
+                    }
+
+                    is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
                 }
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            } catch (ex: Exception) {
+                emit(Resource.Error(ex.message.toString()))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
         }
-    }
-    override suspend fun getSomeActiveDeliveryOrder(size: Int): Flow<Resource<DataAllDeliveryOrderWithCountItem>> = flow{
-        try {
-            emit(Resource.Loading())
-            when(val response = deliveryOrderRemoteDataSource.getAllDeliveryOrderWithCount(storageDataSource.getToken(), size).first()){
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> {
+
+    override suspend fun getSomeActiveDeliveryOrder(size: Int): Flow<Resource<DataAllDeliveryOrderWithCountItem>> =
+        flow {
+            try {
+                emit(Resource.Loading())
+                when (val response = deliveryOrderRemoteDataSource.getAllDeliveryOrderWithCount(
+                    storageDataSource.getToken(),
+                    size
+                ).first()) {
+                    is ApiResponse.Empty -> {}
+                    is ApiResponse.Success -> {
                     val result = response.data.data!!
                     emit(Resource.Success(result))
                 }

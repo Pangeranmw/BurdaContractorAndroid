@@ -17,41 +17,62 @@ import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setImageFromUrl
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ItemDeliveryOrderBinding
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
+import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import com.google.android.material.card.MaterialCardView
 
-class ListDeliveryOrderAdapter(val role: String, val id: String, val listener: (DeliveryOrderItem) -> Unit) : ListAdapter<DeliveryOrderItem, ListDeliveryOrderAdapter.ListDeliveryOrderViewHolder>(DIFF_CALLBACK) {
+class ListDeliveryOrderAdapter(
+    val role: String,
+    val id: String,
+    val listener: (AllDeliveryOrder) -> Unit
+) : ListAdapter<AllDeliveryOrder, ListDeliveryOrderAdapter.ListDeliveryOrderViewHolder>(
+    DIFF_CALLBACK
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListDeliveryOrderViewHolder {
-        val binding = ItemDeliveryOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemDeliveryOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListDeliveryOrderViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ListDeliveryOrderViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-    private fun setCardIsForMe(dataId: String?, cv: MaterialCardView, context: Context){
+
+    private fun setCardIsForMe(dataId: String?, cv: MaterialCardView, context: Context) {
         if (id == dataId) cv.strokeColor = ContextCompat.getColor(context, R.color.secondary_main)
         else cv.strokeColor = ContextCompat.getColor(context, R.color.input)
     }
-    inner class ListDeliveryOrderViewHolder(private val binding: ItemDeliveryOrderBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(deliveryOrder: DeliveryOrderItem) {
-            when(role){
+
+    inner class ListDeliveryOrderViewHolder(private val binding: ItemDeliveryOrderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(deliveryOrder: AllDeliveryOrder) {
+            when (role) {
                 UserRole.ADMIN_GUDANG.name -> {
-                    setCardIsForMe(deliveryOrder.idAdminGudang,binding.cvDeliveryOrder,itemView.context)
+                    setCardIsForMe(
+                        deliveryOrder.idAdminGudang,
+                        binding.cvDeliveryOrder,
+                        itemView.context
+                    )
                 }
+
                 UserRole.PURCHASING.name -> {
-                    setCardIsForMe(deliveryOrder.idPurchasing,binding.cvDeliveryOrder,itemView.context)
+                    setCardIsForMe(
+                        deliveryOrder.idPurchasing,
+                        binding.cvDeliveryOrder,
+                        itemView.context
+                    )
                 }
             }
-            when(role){
+            when (role) {
                 UserRole.PURCHASING.name, UserRole.ADMIN_GUDANG.name, UserRole.ADMIN.name -> {
-                    deliveryOrder.fotoBukti?.let{
-                        binding.tvKonfirmasiSelesai.setVisible()
-                    }?:binding.tvKonfirmasiSelesai.setGone()
+                    if (deliveryOrder.status == DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name) {
+                        deliveryOrder.fotoBukti?.let {
+                            binding.tvKonfirmasiSelesai.setVisible()
+                        } ?: binding.tvKonfirmasiSelesai.setGone()
+                    }
                 }
             }
-            when(deliveryOrder.status){
+            when (deliveryOrder.status) {
                 DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
                     binding.layoutAdminGudang.setGone()
                     binding.tvStatus.setTextColor(ContextCompat.getColor(itemView.context,R.color.orange_dark_full))
@@ -94,11 +115,18 @@ class ListDeliveryOrderAdapter(val role: String, val id: String, val listener: (
         }
     }
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DeliveryOrderItem>() {
-            override fun areItemsTheSame(oldItem: DeliveryOrderItem, newItem: DeliveryOrderItem): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AllDeliveryOrder>() {
+            override fun areItemsTheSame(
+                oldItem: AllDeliveryOrder,
+                newItem: AllDeliveryOrder
+            ): Boolean {
                 return oldItem == newItem
             }
-            override fun areContentsTheSame(oldItem: DeliveryOrderItem, newItem: DeliveryOrderItem): Boolean {
+
+            override fun areContentsTheSame(
+                oldItem: AllDeliveryOrder,
+                newItem: AllDeliveryOrder
+            ): Boolean {
                 return oldItem == newItem
             }
         }

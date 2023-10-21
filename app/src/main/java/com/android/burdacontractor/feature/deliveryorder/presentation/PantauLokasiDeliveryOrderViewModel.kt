@@ -9,7 +9,7 @@ import com.android.burdacontractor.core.data.source.remote.response.DistanceMatr
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.usecase.GetDistanceMatrixUseCase
-import com.android.burdacontractor.core.domain.usecase.LogisticUseCase
+import com.android.burdacontractor.core.domain.usecase.LogisticFirebaseUseCase
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class PantauLokasiDeliveryOrderViewModel @Inject constructor(
     val liveNetworkChecker: LiveNetworkChecker,
     private val getDistanceMatrixUseCase: GetDistanceMatrixUseCase,
-    private val logisticUseCase: LogisticUseCase,
+    private val logisticFirebaseUseCase: LogisticFirebaseUseCase,
 ) : ViewModel() {
 
     private val _state = MutableLiveData<StateResponse?>()
@@ -49,11 +49,12 @@ class PantauLokasiDeliveryOrderViewModel @Inject constructor(
     }
     fun getCoordinate(logisticId: String){
         viewModelScope.launch {
-            logisticUseCase.getCoordinate(logisticId).collect {
-                when(it) {
+            logisticFirebaseUseCase.getCoordinate(logisticId).collect {
+                when (it) {
                     is Resource.Loading -> {
                         _state.value = StateResponse.LOADING
                     }
+
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         it.data?.let { data ->

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.R
 import com.android.burdacontractor.databinding.ItemPreOrderBinding
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.PreOrderItem
+import com.android.burdacontractor.feature.deliveryorder.domain.model.PreOrderItem
 
 class ListPreOrderAdapter : ListAdapter<PreOrderItem, ListPreOrderAdapter.ListPreOrderViewHolder>(DIFF_CALLBACK) {
 

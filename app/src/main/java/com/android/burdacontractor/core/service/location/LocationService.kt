@@ -7,12 +7,10 @@ import android.app.Service
 import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
-import android.os.Binder
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import androidx.core.graphics.drawable.IconCompat
 import com.android.burdacontractor.R
-import com.android.burdacontractor.core.data.LogisticRepository
+import com.android.burdacontractor.core.data.LogisticFirebaseRepository
 import com.android.burdacontractor.core.data.StorageRepository
 import com.android.burdacontractor.core.data.source.local.storage.SessionManager
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
@@ -36,7 +34,7 @@ class LocationService: Service() {
     lateinit var locationClient: LocationClient
 
     @Inject
-    lateinit var logisticRepository: LogisticRepository
+    lateinit var logisticRepository: LogisticFirebaseRepository
 
     @Inject
     lateinit var storageRepository: StorageRepository

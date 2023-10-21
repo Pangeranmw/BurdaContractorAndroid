@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Burda Contraco</string>
     <string name="image_description">Image</string>
     <string name="text_primary">Sample of title text</string>
@@ -89,6 +89,8 @@
     <string name="toggle_menu">toggle menu</string>
     <string name="sj_dalam_perjalanan">Surat Jalan Sedang Diantarkan</string>
     <string name="do_dalam_perjalanan">Delivery Order Sedang Diantarkan</string>
+    <string name="format_do_dalam_perjalanan">%d Perjalanan DO</string>
+    <string name="format_do_menunggu_konfirmasi">%d Menunggu DO</string>
     <string name="purchasing">Purchasing</string>
     <string name="admin_gudang">Admin Gudang</string>
     <string name="driver">Driver</string>
@@ -200,4 +202,13 @@
     <string name="reset_tanggal">Reset Tanggal</string>
     <string name="range_date">%1$s\ns/d\n%2$s</string>
     <string name="butuh_konfirmasi_selesai">Butuh Konfirmasi Selesai</string>
+    <string name="jarak_dari_lokasimu">%s dari lokasimu</string>
+    <string name="provinsi">Provinsi</string>
+    <string name="kota_dan_provinsi">%1$s, %2$s</string>
+    <string name="dari_lokasimu">%1$s dari lokasimu</string>
+    <string name="cari_perusahaan">Cari Nama Perusahaan</string>
+    <string name="tidak_ada_perusahaan">Tidak ada perusahaan</string>
+    <string name="filter_provinsi">Filter Provinsi</string>
+    <string name="provinsi_belum_diatur">Provinsi Belum Diatur</string>
+    <string name="reset_provinsi">Reset Provinsi</string>
 </resources>

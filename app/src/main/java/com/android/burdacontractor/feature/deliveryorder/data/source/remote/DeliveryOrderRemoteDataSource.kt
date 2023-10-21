@@ -12,7 +12,7 @@ import com.android.burdacontractor.feature.deliveryorder.data.source.remote.netw
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderWithCountResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailResponse
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
+import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType.Companion.toMediaType
@@ -35,13 +35,22 @@ class DeliveryOrderRemoteDataSource @Inject constructor(
         size: Int = 5,
         search: String? = null,
         createdByOrFor: CreatedByOrFor,
-    ): Flow<PagingData<DeliveryOrderItem>> {
+    ): Flow<PagingData<AllDeliveryOrder>> {
         return Pager(
             config = PagingConfig(
                 pageSize = size
             ),
             pagingSourceFactory = {
-                DeliveryOrderPagingSource(deliveryOrderService, token, status.name, date_start, date_end, size, search, createdByOrFor)
+                DeliveryOrderPagingSource(
+                    deliveryOrderService,
+                    token,
+                    status.name,
+                    date_start,
+                    date_end,
+                    size,
+                    search,
+                    createdByOrFor
+                )
             }
         ).flow
     }

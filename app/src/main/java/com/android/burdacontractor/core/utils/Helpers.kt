@@ -3,7 +3,6 @@ package com.android.burdacontractor.core.utils
 import android.Manifest
 import android.app.Activity
 import android.app.Application
-import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
 import android.content.ContextWrapper
@@ -59,10 +58,11 @@ fun List<Routes>.getDuration(): String{
     val duration = this[0].duration
     return when(duration.toInt()){
         in 0..60 -> String.format("%.2f Dtk", duration)
-        in 60..3600 -> String.format("%.2f Mnt", duration/60)
-        else -> String.format("%.2f Jam", duration/3600)
+        in 60..3600 -> String.format("%.2f Mnt", duration / 60)
+        else -> String.format("%.2f Jam", duration / 3600)
     }
 }
+
 fun List<Routes>.getDistance(): String {
     val distance = this[0].distance
     return when (distance.toInt()) {
@@ -70,10 +70,28 @@ fun List<Routes>.getDistance(): String {
         else -> String.format("%.2f Km", distance / 1000)
     }
 }
+
+fun Double.convertDuration(): String {
+    val durationConvert = when (this.toInt()) {
+        in 0..60 -> String.format("%.2f Dtk", this)
+        in 60..3600 -> String.format("%.2f Mnt", this / 60)
+        else -> String.format("%.2f Jam", this / 3600)
+    }
+    return durationConvert
+}
+
+fun Double.convertDistance(): String {
+    val distanceConvert = when (this.toInt()) {
+        in 0..1000 -> String.format("%.2f Mtr", this)
+        else -> String.format("%.2f Km", this / 1000)
+    }
+    return distanceConvert
+}
+
 fun ShapeableImageView.setImageFromUrl(
     url: String?, context: Context,
 ) {
-    if(url!=null){
+    if (url != null) {
         Glide.with(context)
             .load(getPhotoUrl(url))
             .apply(requestOptionWithLoading(context))
@@ -133,27 +151,36 @@ inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
     SDK_INT >= 33 -> getParcelable(key, T::class.java)
     else -> @Suppress("DEPRECATION") getParcelable(key) as? T
 }
-fun String.getLatitude(): Double{
+
+fun String.getLatitude(): Double {
     return this.split("|")[0].toDouble()
 }
-fun String.getLongitude(): Double{
+
+fun String.getLongitude(): Double {
     return this.split("|")[1].toDouble()
 }
-fun LogisticCoordinate.combine(): String{
+
+fun LogisticCoordinate.combine(): String {
     return "${this.latitude}|${this.longitude}"
 }
 
-fun getCoordinate(originCoordinate: String, destinationCoordinate: String): String{
+fun getDistanceMatrixCoordinate(latitude: String, longitude: String): String {
+    return "$longitude,$latitude"
+}
+
+fun getCoordinate(originCoordinate: String, destinationCoordinate: String): String {
     val originLat = originCoordinate.split("|")[0]
     val originLon = originCoordinate.split("|")[1]
     val destinationLat = destinationCoordinate.split("|")[0]
     val destinationLon = destinationCoordinate.split("|")[1]
     return "$originLon,$originLat;$destinationLon,$destinationLat"
 }
-fun toCoordinateFormat(latitude: Double, longitude: Double): String{
+
+fun toCoordinateFormat(latitude: Double, longitude: Double): String {
     return "$latitude|$longitude"
 }
-fun String.toIntegerNumber(): Int{
+
+fun String.toIntegerNumber(): Int {
     var titleToInteger = 0
     this.forEach {
         val charDigit = it.toInt()

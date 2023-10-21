@@ -21,7 +21,7 @@ import com.android.burdacontractor.core.domain.model.enums.JenisKendaraan
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.UserRole
-import com.android.burdacontractor.core.presentation.LogisticViewModel
+import com.android.burdacontractor.core.presentation.LogisticFirebaseViewModel
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListDeliveryOrderAdapter
 import com.android.burdacontractor.core.presentation.adapter.ListStatistikMenungguSuratJalanAdapter
@@ -56,7 +56,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
     private lateinit var binding: ActivityBerandaBinding
     private val storageViewModel: StorageViewModel by viewModels()
-    private val logisticViewModel: LogisticViewModel by viewModels()
+    private val logisticFirebaseViewModel: LogisticFirebaseViewModel by viewModels()
     private val berandaViewModel: BerandaViewModel by viewModels()
     private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
     private lateinit var adapterStatSJ: ListStatistikMenungguSuratJalanAdapter
@@ -186,12 +186,12 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
             permission
         ) == PackageManager.PERMISSION_GRANTED
     }
-    private fun checkUserTracking(){
-        if(storageViewModel.getTracking && storageViewModel.role != UserRole.LOGISTIC.name) startService()
-        if(storageViewModel.role == UserRole.LOGISTIC.name){
-            logisticViewModel.getIsTrackingRealtime(storageViewModel.userId)
-            logisticViewModel.isTracking.observe(this){
-                if(it) startService()
+    private fun checkUserTracking() {
+        if (storageViewModel.getTracking && storageViewModel.role != UserRole.LOGISTIC.name) startService()
+        if (storageViewModel.role == UserRole.LOGISTIC.name) {
+            logisticFirebaseViewModel.getIsTrackingRealtime(storageViewModel.userId)
+            logisticFirebaseViewModel.isTracking.observe(this) {
+                if (it) startService()
             }
         }
     }

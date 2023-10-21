@@ -3,9 +3,7 @@ package com.android.burdacontractor.feature.kendaraan.data.source
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
-import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.kendaraan.data.source.remote.KendaraanRemoteDataSource
-import com.android.burdacontractor.feature.kendaraan.data.source.remote.response.KendaraanByLogisticItem
 import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanByLogistic
 import com.android.burdacontractor.feature.kendaraan.domain.repository.IKendaraanRepository
 import kotlinx.coroutines.flow.Flow
@@ -20,18 +18,21 @@ class KendaraanRepository @Inject constructor(
     private val storageDataSource: StorageDataSource
 ) : IKendaraanRepository {
 
-    override suspend fun getKendaraanByLogistic(): Flow<Resource<KendaraanByLogisticItem>> = flow{
+    override suspend fun getKendaraanByLogistic(): Flow<Resource<KendaraanByLogistic>> = flow {
         try {
             emit(Resource.Loading())
-            when(val response = kendaraanRemoteDataSource.getKendaraanByLogistic(storageDataSource.getToken()).first()){
+            when (val response =
+                kendaraanRemoteDataSource.getKendaraanByLogistic(storageDataSource.getToken())
+                    .first()) {
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
-                    if(response.data.kendaraaan==null){
+                    if (response.data.kendaraaan == null) {
                         emit(Resource.Error(response.data.message, response.data.kendaraaan))
                     }
                     val result = response.data.kendaraaan!!
                     emit(Resource.Success(result))
                 }
+
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
             }
         } catch (ex: Exception) {

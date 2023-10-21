@@ -1,8 +1,8 @@
 package com.android.burdacontractor.core.di
 
-import com.android.burdacontractor.core.data.LogisticRepository
+import com.android.burdacontractor.core.data.LogisticFirebaseRepository
 import com.android.burdacontractor.core.data.StorageRepository
-import com.android.burdacontractor.core.domain.repository.ILogisticRepository
+import com.android.burdacontractor.core.domain.repository.ILogisticFirebaseRepository
 import com.android.burdacontractor.core.domain.repository.IStorageRepository
 import com.android.burdacontractor.core.service.location.DefaultLocationClient
 import com.android.burdacontractor.core.service.location.LocationClient
@@ -12,6 +12,8 @@ import com.android.burdacontractor.feature.deliveryorder.data.DeliveryOrderRepos
 import com.android.burdacontractor.feature.deliveryorder.domain.repository.IDeliveryOrderRepository
 import com.android.burdacontractor.feature.kendaraan.data.source.KendaraanRepository
 import com.android.burdacontractor.feature.kendaraan.domain.repository.IKendaraanRepository
+import com.android.burdacontractor.feature.perusahaan.data.source.PerusahaanRepository
+import com.android.burdacontractor.feature.perusahaan.domain.repository.IPerusahaanRepository
 import com.android.burdacontractor.feature.profile.data.UserRepository
 import com.android.burdacontractor.feature.profile.domain.repository.IUserRepository
 import com.android.burdacontractor.feature.suratjalan.data.SuratJalanRepository
@@ -31,11 +33,15 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun provideUserRepository(userRepository: UserRepository): IUserRepository
+
     @Binds
     abstract fun provideDeliveryOrderRepository(userRepository: DeliveryOrderRepository): IDeliveryOrderRepository
 
     @Binds
-    abstract fun provideLogisticRepository(logisticRepository: LogisticRepository): ILogisticRepository
+    abstract fun providePerusahaanRepository(userRepository: PerusahaanRepository): IPerusahaanRepository
+
+    @Binds
+    abstract fun provideLogisticFirebaseRepository(logisticFirebaseRepository: LogisticFirebaseRepository): ILogisticFirebaseRepository
 
     @Binds
     abstract fun provideAuthRepository(authRepository: AuthRepository): IAuthRepository

@@ -2,10 +2,8 @@ package com.android.burdacontractor.feature.suratjalan.data.source.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.android.burdacontractor.core.utils.DataMapper
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
-import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 
 class SuratJalanPagingSource(
     private val suratJalanService: SuratJalanService,

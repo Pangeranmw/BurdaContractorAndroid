@@ -1,5 +1,7 @@
 package com.android.burdacontractor.feature.suratjalan.data.source.remote.response
 
+import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanSimple
+import com.android.burdacontractor.feature.profile.domain.model.UserSimple
 import com.google.gson.annotations.SerializedName
 
 data class SuratJalanDetailResponse(
@@ -51,21 +53,6 @@ data class BarangHabisPakaiItem(
 	val gambar: String
 )
 
-data class Kendaraan(
-
-	@field:SerializedName("merk")
-	val merk: String,
-
-	@field:SerializedName("jenis")
-	val jenis: String,
-
-	@field:SerializedName("plat_nomor")
-	val platNomor: String,
-
-	@field:SerializedName("gambar")
-	val gambar: String
-)
-
 data class TempatSuratJalan(
 
 	@field:SerializedName("coordinate")
@@ -98,13 +85,13 @@ data class TtdVerification(
 data class SuratJalanDetailItem(
 
 	@field:SerializedName("kendaraan")
-	val kendaraan: Kendaraan,
+	val kendaraan: KendaraanSimple,
 
 	@field:SerializedName("admin_gudang")
-	val adminGudang: UserSuratJalan?=null,
+	val adminGudang: UserSimple? = null,
 
 	@field:SerializedName("tempat_asal")
-	val tempatAsal: TempatSuratJalan?=null,
+	val tempatAsal: TempatSuratJalan? = null,
 
 	@field:SerializedName("ttd_admin")
 	val ttdAdmin: TtdVerification? = null,
@@ -119,16 +106,13 @@ data class SuratJalanDetailItem(
 	val fotoBukti: String? = null,
 
 	@field:SerializedName("logistic")
-	val logistic: LogisticSuratJalan?=null,
+	val logistic: UserSimple,
 
 	@field:SerializedName("updated_at")
 	val updatedAt: Long,
 
 	@field:SerializedName("tempat_tujuan")
-	val tempatTujuan: TempatSuratJalan?=null,
-
-	@field:SerializedName("barang_habis_pakai")
-	val barangHabisPakai: List<BarangHabisPakaiItem>? = null,
+	val tempatTujuan: TempatSuratJalan? = null,
 
 	@field:SerializedName("kode_surat")
 	val kodeSurat: String,
@@ -142,44 +126,21 @@ data class SuratJalanDetailItem(
 	@field:SerializedName("id")
 	val id: String,
 
-	@field:SerializedName("project_manager")
-	val projectManager: UserSuratJalan?=null,
+	@field:SerializedName("site_manager")
+	val siteManager: UserSimple? = null,
 
 	@field:SerializedName("tipe")
 	val tipe: String,
 
 	@field:SerializedName("supervisor")
-	val supervisor: UserSuratJalan?=null,
+	val supervisor: UserSimple? = null,
 
 	@field:SerializedName("status")
 	val status: String,
 
-	@field:SerializedName("barang_tidak_habis_pakai")
-	val barangTidakHabisPakai: List<BarangTidakHabisPakaiItem>? = null
-)
+	@field:SerializedName("peminjaman")
+	val peminjaman: List<BarangTidakHabisPakaiItem>? = null,
 
-data class UserSuratJalan(
-
-	@field:SerializedName("nama")
-	val nama: String,
-
-	@field:SerializedName("foto")
-	val foto: String,
-
-	@field:SerializedName("no_hp")
-	val noHp: String
-)
-data class LogisticSuratJalan(
-
-	@field:SerializedName("id")
-	val id: String,
-
-	@field:SerializedName("nama")
-	val nama: String,
-
-	@field:SerializedName("foto")
-	val foto: String,
-
-	@field:SerializedName("no_hp")
-	val noHp: String
+	@field:SerializedName("penggunaan")
+	val penggunaan: List<BarangHabisPakaiItem>? = null,
 )

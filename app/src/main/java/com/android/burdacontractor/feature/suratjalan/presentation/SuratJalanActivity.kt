@@ -14,7 +14,6 @@ import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.DeliveryOrderActivity
 import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.KendaraanActivity
-import com.android.burdacontractor.feature.perusahaan.presentation.PerusahaanActivity
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -56,9 +55,6 @@ class SuratJalanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
             }
             R.id.gudang_admin_gudang -> {
                 openActivity(GudangActivity::class.java)
-            }
-            R.id.perusahaan_purchasing -> {
-                openActivity(PerusahaanActivity::class.java)
             }
             R.id.delivery_order_admin_gudang, R.id.delivery_order_logistic, R.id.delivery_order_purchasing -> {
                 openActivity(DeliveryOrderActivity::class.java)

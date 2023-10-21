@@ -1,5 +1,6 @@
 package com.android.burdacontractor.feature.deliveryorder.data.source.remote.response
 
+import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import com.google.gson.annotations.SerializedName
 
 data class AllDeliveryOrderWithCountResponse(
@@ -20,5 +21,5 @@ data class DataAllDeliveryOrderWithCountItem(
 	val count: Int? = null,
 
 	@field:SerializedName("delivery_order")
-	val deliveryOrder: List<DeliveryOrderItem>? = null
+	val deliveryOrder: List<AllDeliveryOrder>? = null
 )

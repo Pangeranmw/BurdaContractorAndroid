@@ -1,7 +1,6 @@
 package com.android.burdacontractor.feature.deliveryorder.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,11 +15,18 @@ import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.adapter.ListPreOrderAdapter
 import com.android.burdacontractor.core.presentation.customview.CustomDialog
-import com.android.burdacontractor.core.utils.*
+import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.dialIntent
+import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.getDateFromMillis
+import com.android.burdacontractor.core.utils.openActivityWithExtras
+import com.android.burdacontractor.core.utils.openWhatsAppChat
+import com.android.burdacontractor.core.utils.setGone
+import com.android.burdacontractor.core.utils.setImageFromUrl
+import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityDeliveryOrderDetailBinding
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailItem
+import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetailItem
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
-import com.android.burdacontractor.feature.profile.presentation.ProfileViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 

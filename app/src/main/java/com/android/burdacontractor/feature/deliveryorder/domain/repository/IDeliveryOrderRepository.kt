@@ -8,8 +8,8 @@ import com.android.burdacontractor.core.data.source.remote.response.ErrorMessage
 import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DataAllDeliveryOrderWithCountItem
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailItem
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
+import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
+import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetailItem
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
@@ -22,12 +22,12 @@ interface IDeliveryOrderRepository {
         size: Int = 5,
         search: String? = null,
         createdByOrFor: CreatedByOrFor,
-    ): LiveData<PagingData<DeliveryOrderItem>>
+    ): LiveData<PagingData<AllDeliveryOrder>>
 
     suspend fun getDeliveryOrderById(id: String): Flow<Resource<DeliveryOrderDetailItem>>
 
     suspend fun getSomeActiveDeliveryOrder(size: Int = 5): Flow<Resource<DataAllDeliveryOrderWithCountItem>>
-    suspend fun getAllDeliveryOrderDalamPerjalananByUser(): Flow<Resource<List<DeliveryOrderItem>>>
+    suspend fun getAllDeliveryOrderDalamPerjalananByUser(): Flow<Resource<List<AllDeliveryOrder>>>
     suspend fun getCountActiveDeliveryOrder(): Flow<Resource<CountActiveResponse>>
 
     suspend fun addDeliveryOrder(

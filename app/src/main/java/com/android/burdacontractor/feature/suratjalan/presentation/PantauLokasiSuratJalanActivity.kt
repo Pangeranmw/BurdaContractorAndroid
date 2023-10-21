@@ -2,8 +2,6 @@ package com.android.burdacontractor.feature.suratjalan.presentation
 
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -21,9 +19,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.android.burdacontractor.BuildConfig
 import com.android.burdacontractor.R
-import com.android.burdacontractor.core.presentation.LogisticViewModel
+import com.android.burdacontractor.core.presentation.LogisticFirebaseViewModel
 import com.android.burdacontractor.databinding.ActivityPantauLokasiSuratJalanBinding
-import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +46,7 @@ import org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay
 class PantauLokasiSuratJalanActivity : AppCompatActivity(), MapEventsReceiver, LocationListener,
     SensorEventListener {
     private lateinit var binding: ActivityPantauLokasiSuratJalanBinding
-    private val logisticViewModel: LogisticViewModel by viewModels()
+    private val logisticFirebaseViewModel: LogisticFirebaseViewModel by viewModels()
     private lateinit var map: MapView
     private var startPoint: GeoPoint = GeoPoint(-8.573884, 116.091460)
     private var destinationPoint: GeoPoint = GeoPoint(-8.579930, 116.100290)

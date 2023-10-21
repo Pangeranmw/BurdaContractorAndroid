@@ -12,10 +12,10 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DataAllDeliveryOrderWithCountItem
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderItem
+import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetAllDeliveryOrderDalamPerjalananByUserUseCase
 import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetSomeActiveDeliveryOrderUseCase
-import com.android.burdacontractor.feature.kendaraan.data.source.remote.response.KendaraanByLogisticItem
+import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanByLogistic
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticUseCase
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
@@ -26,7 +26,6 @@ import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSurat
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetSomeActiveSuratJalanUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetStatistikMenungguSuratJalanUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -66,33 +65,35 @@ class BerandaViewModel @Inject constructor(
     private val _sjDalamPerjalanan = MutableLiveData<List<SuratJalanItem>>()
     val sjDalamPerjalanan: LiveData<List<SuratJalanItem>> = _sjDalamPerjalanan
 
-    private val _doDalamPerjalanan = MutableLiveData<List<DeliveryOrderItem>>()
-    val doDalamPerjalanan: LiveData<List<DeliveryOrderItem>> = _doDalamPerjalanan
+    private val _doDalamPerjalanan = MutableLiveData<List<AllDeliveryOrder>>()
+    val doDalamPerjalanan: LiveData<List<AllDeliveryOrder>> = _doDalamPerjalanan
 
     private val _statistikMenungguSuratJalan = MutableLiveData<List<StatisticCountTitleItem>>()
-    val statistikMenungguSuratJalan: LiveData<List<StatisticCountTitleItem>> = _statistikMenungguSuratJalan
+    val statistikMenungguSuratJalan: LiveData<List<StatisticCountTitleItem>> =
+        _statistikMenungguSuratJalan
 
-    private val _kendaraanByLogistic = MutableLiveData<KendaraanByLogisticItem?>()
-    val kendaraanByLogistic: LiveData<KendaraanByLogisticItem?> = _kendaraanByLogistic
+    private val _kendaraanByLogistic = MutableLiveData<KendaraanByLogistic?>()
+    val kendaraanByLogistic: LiveData<KendaraanByLogistic?> = _kendaraanByLogistic
 
     private val _messageResponse = MutableLiveData<Event<String?>>()
-    val messageResponse : LiveData<Event<String?>> = _messageResponse
+    val messageResponse: LiveData<Event<String?>> = _messageResponse
 
-    init{
+    init {
         getUserByToken()
         getAllData()
     }
-    fun getAllData(){
+
+    fun getAllData() {
         viewModelScope.launch {
-            role.asFlow().collect{
-                it?.let{ role->
-                    if(role == UserRole.ADMIN_GUDANG.name || role == UserRole.ADMIN.name) {
+            role.asFlow().collect {
+                it?.let { role ->
+                    if (role == UserRole.ADMIN_GUDANG.name || role == UserRole.ADMIN.name) {
                         getStatistikMenungguSuratJalan()
                     }
-                    if(role == UserRole.LOGISTIC.name){
+                    if (role == UserRole.LOGISTIC.name) {
                         getKendaraanByLogistic()
                     }
-                    if(role == UserRole.LOGISTIC.name ||
+                    if (role == UserRole.LOGISTIC.name ||
                         role == UserRole.ADMIN_GUDANG.name ||
                         role == UserRole.ADMIN.name ||
                         role == UserRole.SUPERVISOR.name ||
