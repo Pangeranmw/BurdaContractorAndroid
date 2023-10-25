@@ -9,7 +9,9 @@ import com.android.burdacontractor.core.data.source.remote.network.PengembalianS
 import com.android.burdacontractor.feature.auth.data.source.remote.network.AuthService
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.DeliveryOrderService
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.PreOrderService
+import com.android.burdacontractor.feature.gudang.data.source.remote.network.GudangService
 import com.android.burdacontractor.feature.kendaraan.data.source.remote.network.KendaraanService
+import com.android.burdacontractor.feature.logistic.data.source.remote.network.LogisticService
 import com.android.burdacontractor.feature.perusahaan.data.source.remote.network.PerusahaanService
 import com.android.burdacontractor.feature.profile.data.source.remote.network.UserService
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
@@ -101,13 +103,25 @@ class NetworkModule {
     }
 
     @Provides
+    fun provideGudangService(retrofit: Retrofit): GudangService {
+        return retrofit.create(GudangService::class.java)
+    }
+
+    @Provides
+    fun provideLogisticService(retrofit: Retrofit): LogisticService {
+        return retrofit.create(LogisticService::class.java)
+    }
+
+    @Provides
     fun provideKendaraanService(retrofit: Retrofit): KendaraanService {
         return retrofit.create(KendaraanService::class.java)
     }
+
     @Provides
     fun providePreOrderService(retrofit: Retrofit): PreOrderService {
         return retrofit.create(PreOrderService::class.java)
     }
+
     @Provides
     fun provideSuratJalanService(retrofit: Retrofit): SuratJalanService {
         return retrofit.create(SuratJalanService::class.java)

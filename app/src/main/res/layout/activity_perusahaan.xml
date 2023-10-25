@@ -41,7 +41,7 @@
                 app:navigationIcon="@drawable/baseline_search_24"
                 android:background="@drawable/semi_rounded_outline_main"
                 android:hint="@string/cari_perusahaan"
-                android:textAppearance="@style/TextAppearance.AppCompat"></com.google.android.material.search.SearchBar>
+                android:textAppearance="@style/TextAppearance.AppCompat" />
         </LinearLayout>
 
         <com.google.android.material.search.SearchView

@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 data class AllLogistic(
 
 	@field:SerializedName("kendaraan")
-	val kendaraan: Kendaraan,
+	val kendaraan: Kendaraan? = null,
 
 	@field:SerializedName("role")
 	val role: String,
@@ -21,7 +21,7 @@ data class AllLogistic(
 	val ttd: String,
 
 	@field:SerializedName("jarak")
-	val jarak: Double,
+	val jarak: Double? = null,
 
 	@field:SerializedName("do_active")
 	val doActive: Int,
@@ -54,7 +54,7 @@ data class AllLogistic(
 	val id: String,
 
 	@field:SerializedName("durasi")
-	val durasi: Double,
+	val durasi: Double? = null,
 
 	@field:SerializedName("email")
 	val email: String

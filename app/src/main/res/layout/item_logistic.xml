@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cv_logistic"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="20dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginHorizontal="5dp"
+    app:strokeColor="@color/input"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_logistic"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+            android:src="@drawable/ic_image"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_nama"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:maxLines="2"
+                android:text="@string/nama_user"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_jarak"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:maxLines="2"
+                android:layout_marginTop="10dp"
+                android:text="@string/jarak_dari_lokasimu"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
+                android:drawablePadding="5dp"
+                app:drawableStartCompat="@drawable/marker_ic_marker"
+                app:drawableTint="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_kendaraan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:maxLines="2"
+                android:layout_marginTop="10dp"
+                android:text="@string/kendaraan"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
+                android:drawablePadding="5dp"
+                app:drawableStartCompat="@drawable/vehicle_car"
+                app:drawableTint="@color/black" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexWrap="wrap"
+                app:alignItems="center">
+
+                <TextView
+                    android:id="@+id/tv_sjgp_active"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:maxLines="2"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/active_sjgp"
+                    android:textColor="@color/black"
+                    android:background="@drawable/semi_rounded_outline_black"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="14sp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="5dp"
+                    app:drawableStartCompat="@drawable/ic_send_req"
+                    app:drawableTint="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_sjpp_active"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:maxLines="2"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/active_sjpp"
+                    android:textColor="@color/black"
+                    android:background="@drawable/semi_rounded_outline_black"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="14sp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="5dp"
+                    app:drawableStartCompat="@drawable/ic_send_req"
+                    app:drawableTint="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_sjpg_active"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:maxLines="2"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/active_sjpg"
+                    android:textColor="@color/black"
+                    android:background="@drawable/semi_rounded_outline_black"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="14sp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="5dp"
+                    app:drawableStartCompat="@drawable/ic_return_req"
+                    app:drawableTint="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_do_active"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:maxLines="2"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/active_do"
+                    android:textColor="@color/black"
+                    android:background="@drawable/semi_rounded_outline_black"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="14sp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="5dp"
+                    app:drawableStartCompat="@drawable/ic_delivery_order"
+                    app:drawableTint="@color/black" />
+            </com.google.android.flexbox.FlexboxLayout>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

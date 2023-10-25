@@ -20,7 +20,7 @@ import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityPerusahaanBinding
 import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
-import com.android.burdacontractor.feature.deliveryorder.presentation.DeliveryOrderActivity
+import com.android.burdacontractor.feature.deliveryorder.presentation.main.DeliveryOrderActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.KendaraanActivity
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
@@ -31,8 +31,8 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
     private val storageViewModel: StorageViewModel by viewModels()
     private val perusahaanViewModel: PerusahaanViewModel by viewModels()
     private lateinit var filterDialog: FilterPerusahaanFragment
-    private lateinit var binding: ActivityPerusahaanBinding
     private lateinit var adapter: PagingListPerusahaanAdapter
+    private lateinit var binding: ActivityPerusahaanBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPerusahaanBinding.inflate(layoutInflater)
@@ -72,20 +72,13 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                     ).show()
                 }
             }
-            provinsiIndex.observe(this@PerusahaanActivity) { provinsiIndex ->
-                listProvinsi.observe(this@PerusahaanActivity) { listProvinsi ->
-                    listProvinsi?.let {
-                        filterDialog = FilterPerusahaanFragment.newInstance(provinsiIndex, it)
-                        initUi()
-                    }
-                }
-            }
+            initUi()
         }
     }
 
     private fun initUi() {
         with(binding) {
-
+            filterDialog = FilterPerusahaanFragment.newInstance()
             searchView.setupWithSearchBar(searchBar)
             searchView
                 .editText
@@ -150,8 +143,7 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
 
                 filterDialog.setOnClickListener(object :
                     FilterPerusahaanFragment.OnClickListener {
-                    override fun onClickListener(provinsiIndex: Int?) {
-                        perusahaanViewModel.setProvinsiIndex(provinsiIndex)
+                    override fun onClickListener() {
                         setAdapter(true)
                     }
                 })

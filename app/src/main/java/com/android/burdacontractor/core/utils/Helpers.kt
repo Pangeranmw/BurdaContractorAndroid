@@ -89,23 +89,33 @@ fun Double.convertDistance(): String {
 }
 
 fun ShapeableImageView.setImageFromUrl(
-    url: String?, context: Context,
+    url: String?, context: Context, useLoad: Boolean = true
 ) {
-    if (url != null) {
+    if (url != null && useLoad) {
         Glide.with(context)
             .load(getPhotoUrl(url))
             .apply(requestOptionWithLoading(context))
             .signature(ObjectKey(System.currentTimeMillis().toString()))
             .into(this)
+    } else if (url != null && !useLoad) {
+        Glide.with(context)
+            .load(getPhotoUrl(url))
+            .signature(ObjectKey(System.currentTimeMillis().toString()))
+            .into(this)
     }
 }
 fun ImageView.setImageFromUrl(
-    url: String?, context: Context,
+    url: String?, context: Context, useLoad: Boolean = true
 ) {
-    if(url!=null){
+    if (url != null && useLoad) {
         Glide.with(context)
             .load(getPhotoUrl(url))
             .apply(requestOptionWithLoading(context))
+            .signature(ObjectKey(System.currentTimeMillis().toString()))
+            .into(this)
+    } else if (url != null && !useLoad) {
+        Glide.with(context)
+            .load(getPhotoUrl(url))
             .signature(ObjectKey(System.currentTimeMillis().toString()))
             .into(this)
     }
@@ -118,6 +128,7 @@ fun requestOptionWithLoading(context: Context): RequestOptions{
 
     return RequestOptions()
         .placeholder(circularProgressDrawable).fitCenter()
+//        .override(Target.SIZE_ORIGINAL)
 }
 fun View.openWhatsAppChat(toNumber: String) {
     val newNumber = convertNumberToIndonesia(toNumber)

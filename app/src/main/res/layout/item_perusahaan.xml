@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:src="@drawable/ic_image"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
             android:scaleType="centerCrop"
             android:layout_marginBottom="10dp" />
 
@@ -49,12 +50,12 @@
             android:maxLines="2"
             android:layout_marginTop="10dp"
             android:text="@string/jarak_dari_lokasimu"
-            android:textColor="@color/secondary_main"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:gravity="center_vertical"
             android:drawablePadding="5dp"
             app:drawableStartCompat="@drawable/marker_ic_marker"
-            app:drawableTint="@color/secondary_main" />
+            app:drawableTint="@color/black" />
 
         <TextView
             android:id="@+id/tv_alamat"

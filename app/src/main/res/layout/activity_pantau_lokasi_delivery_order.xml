@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_layout"
-    tools:context=".feature.deliveryorder.presentation.PantauLokasiDeliveryOrderActivity">
+    tools:context=".feature.deliveryorder.presentation.location.PantauLokasiDeliveryOrderActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"

@@ -28,16 +28,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".feature.deliveryorder.presentation.AddDeliveryOrderActivity"
+            android:name=".feature.deliveryorder.presentation.create.AddDeliveryOrderActivity"
             android:exported="false" />
         <activity
-            android:name=".feature.deliveryorder.presentation.UploadFotoBuktiDeliveryOrderActivity"
+            android:name=".feature.deliveryorder.presentation.uploadphoto.UploadFotoBuktiDeliveryOrderActivity"
             android:exported="true" />
         <activity
-            android:name=".feature.deliveryorder.presentation.PantauLokasiDeliveryOrderActivity"
+            android:name=".feature.deliveryorder.presentation.location.PantauLokasiDeliveryOrderActivity"
             android:exported="true" />
         <activity
-            android:name=".feature.deliveryorder.presentation.TelusuriLokasiDeliveryOrderActivity"
+            android:name=".feature.deliveryorder.presentation.location.TelusuriLokasiDeliveryOrderActivity"
             android:exported="true" />
         <activity
             android:name=".feature.profile.presentation.SignatureActivity"
@@ -57,10 +57,10 @@
             android:value="AIzaSyAa0CW3ORoM1mEgZyX2Zdj2K0OXKUoSjKs" />
 
         <activity
-            android:name=".feature.deliveryorder.presentation.DeliveryOrderActivity"
+            android:name=".feature.deliveryorder.presentation.main.DeliveryOrderActivity"
             android:exported="true" />
         <activity
-            android:name=".feature.deliveryorder.presentation.DeliveryOrderDetailActivity"
+            android:name=".feature.deliveryorder.presentation.detail.DeliveryOrderDetailActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="DeliveryOrderDetailActivity" />
@@ -69,7 +69,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".feature.deliveryorder.presentation.DeliveryOrderCetakActivity"
+            android:name=".feature.deliveryorder.presentation.print.DeliveryOrderCetakActivity"
             android:exported="true" />
         <activity
             android:name=".feature.beranda.presentation.BerandaActivity"

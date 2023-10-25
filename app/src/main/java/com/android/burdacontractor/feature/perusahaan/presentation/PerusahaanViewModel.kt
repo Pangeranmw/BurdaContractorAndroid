@@ -70,9 +70,7 @@ class PerusahaanViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _listProvinsi.value = it.data!!
-                        _messageResponse.value = Event("Berhasil Mendapatkan Data Provinsi")
                     }
-
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)

@@ -10,8 +10,12 @@ import com.android.burdacontractor.feature.auth.data.source.AuthRepository
 import com.android.burdacontractor.feature.auth.domain.repository.IAuthRepository
 import com.android.burdacontractor.feature.deliveryorder.data.DeliveryOrderRepository
 import com.android.burdacontractor.feature.deliveryorder.domain.repository.IDeliveryOrderRepository
+import com.android.burdacontractor.feature.gudang.data.source.GudangRepository
+import com.android.burdacontractor.feature.gudang.domain.repository.IGudangRepository
 import com.android.burdacontractor.feature.kendaraan.data.source.KendaraanRepository
 import com.android.burdacontractor.feature.kendaraan.domain.repository.IKendaraanRepository
+import com.android.burdacontractor.feature.logistic.data.LogisticRepository
+import com.android.burdacontractor.feature.logistic.domain.repository.ILogisticRepository
 import com.android.burdacontractor.feature.perusahaan.data.source.PerusahaanRepository
 import com.android.burdacontractor.feature.perusahaan.domain.repository.IPerusahaanRepository
 import com.android.burdacontractor.feature.profile.data.UserRepository
@@ -39,6 +43,12 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun providePerusahaanRepository(userRepository: PerusahaanRepository): IPerusahaanRepository
+
+    @Binds
+    abstract fun provideGudangRepository(userRepository: GudangRepository): IGudangRepository
+
+    @Binds
+    abstract fun provideLogisticRepository(logistivRepository: LogisticRepository): ILogisticRepository
 
     @Binds
     abstract fun provideLogisticFirebaseRepository(logisticFirebaseRepository: LogisticFirebaseRepository): ILogisticFirebaseRepository

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cv_kendaraan"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="20dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginHorizontal="5dp"
+    app:strokeColor="@color/input"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="10dp"
+        android:paddingBottom="15dp"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_kendaraan"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/ic_image"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/status"
+                android:gravity="end"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/semi_rounded_outline_secondary_main"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/secondary_main"
+                android:textSize="12sp" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_nama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_bold"
+            android:maxLines="2"
+            android:layout_marginStart="5dp"
+            android:text="@string/kendaraan"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_plat_kendaraan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_medium"
+            android:maxLines="2"
+            android:layout_marginStart="5dp"
+            android:text="@string/plat_nomor"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_jenis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/inter_regular"
+            android:maxLines="2"
+            android:layout_marginTop="10dp"
+            android:text="@string/jenis_kendaraan"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"
+            app:drawableStartCompat="@drawable/vehicle_car"
+            app:drawableTint="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_gudang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/inter_regular"
+            android:maxLines="2"
+            android:layout_marginTop="10dp"
+            android:text="@string/gudang"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"
+            app:drawableStartCompat="@drawable/ic_gudang"
+            app:drawableTint="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_logistic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/inter_regular"
+            android:maxLines="2"
+            android:layout_marginTop="10dp"
+            android:text="@string/driver"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"
+            app:drawableStartCompat="@drawable/unit_driver"
+            app:drawableTint="@color/black"
+            android:visibility="gone" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

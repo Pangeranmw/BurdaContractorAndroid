@@ -2,7 +2,6 @@ package com.android.burdacontractor.feature.auth.presentation
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.android.burdacontractor.R
-import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
-import com.android.burdacontractor.core.presentation.LogisticFirebaseViewModel
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.checkEmail
 import com.android.burdacontractor.core.utils.checkPassword
@@ -27,15 +24,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
     private val authViewModel: AuthViewModel by viewModels()
-    private val logisticFirebaseViewModel: LogisticFirebaseViewModel by viewModels()
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private var snackbar: Snackbar? = null
-//    private val id = "050bc5de-6222-3b8e-b946-1c1ea1922318"
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        logisticViewModel.getCoordinate(id)
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,29 +63,6 @@ class LoginFragment : Fragment() {
                 }
 
                 else -> {}
-            }
-        }
-        logisticFirebaseViewModel.logisticCoordinate.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> {
-                    binding.progressBar.setVisible()
-                }
-
-                is Resource.Error -> {
-                    binding.progressBar.setGone()
-                    Log.d("Error", it.message.toString())
-                }
-
-                is Resource.Success -> {
-                    binding.progressBar.setGone()
-                    if(it.data!=null){
-//                        binding.etEmail.setText(it.data.latitude.toString())
-//                        binding.etPassword.setText(it.data.longitude.toString())
-//
-//                        binding.tvEmail.text = (it.data.latitude.toString())
-//                        binding.tvPassword.text = (it.data.longitude.toString())
-                    }
-                }
             }
         }
     }

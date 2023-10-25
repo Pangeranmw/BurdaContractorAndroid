@@ -29,15 +29,14 @@ import com.android.burdacontractor.core.presentation.adapter.ListSuratJalanAdapt
 import com.android.burdacontractor.core.service.location.LocationService
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.enumValueToNormal
-import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.openActivity
 import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setImageFromUrl
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityBerandaBinding
-import com.android.burdacontractor.feature.deliveryorder.presentation.DeliveryOrderActivity
-import com.android.burdacontractor.feature.deliveryorder.presentation.DeliveryOrderDetailActivity
+import com.android.burdacontractor.feature.deliveryorder.presentation.detail.DeliveryOrderDetailActivity
+import com.android.burdacontractor.feature.deliveryorder.presentation.main.DeliveryOrderActivity
 import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.PerusahaanActivity
@@ -45,8 +44,6 @@ import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.BottomNavigationViewModel
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanDetailActivity
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -259,11 +256,7 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
                     binding.tvAlamatKendaraan.text = it.alamatGudang
                     binding.tvMerkKendaraan.text = it.merk
                     binding.tvPlatKendaraan.text = it.platNomor
-                    Glide.with(this)
-                        .load(getPhotoUrl(it.gambar))
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(binding.ivKendaraan)
+                    binding.ivKendaraan.setImageFromUrl(it.gambar, this)
                     when(it.jenis){
                         JenisKendaraan.MINIBUS.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_minibus)
                         JenisKendaraan.MOBIL.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_car)

@@ -17,7 +17,7 @@ data class Kendaraan(
     val updatedAt: Long,
 
     @field:SerializedName("logistic_id")
-    val logisticId: String,
+    val logisticId: String? = null,
 
     @field:SerializedName("jenis")
     val jenis: String,

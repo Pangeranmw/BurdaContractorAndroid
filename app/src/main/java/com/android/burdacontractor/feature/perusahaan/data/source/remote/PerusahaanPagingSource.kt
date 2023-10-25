@@ -11,7 +11,7 @@ class PerusahaanPagingSource(
     private val size: Int = 5,
     private val search: String? = null,
     private val filter: String? = null,
-    private val coordinate: String? = null,
+    private val status: String? = null,
 ) : PagingSource<Int, AllPerusahaan>() {
     private companion object {
         const val INITIAL_PAGE_INDEX = 1
@@ -21,7 +21,7 @@ class PerusahaanPagingSource(
         return try {
             val page = params.key ?: INITIAL_PAGE_INDEX
             val response = perusahaanService.getAllPerusahaan(
-                token, page, size, search, filter, coordinate,
+                token, page, size, search, filter, status,
             ).perusahaan
 
             LoadResult.Page(

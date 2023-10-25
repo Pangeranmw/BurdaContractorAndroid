@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:id="@+id/main_layout"
     android:orientation="vertical"
-    tools:context=".feature.deliveryorder.presentation.UploadFotoBuktiDeliveryOrderActivity">
+    tools:context=".feature.deliveryorder.presentation.uploadphoto.UploadFotoBuktiDeliveryOrderActivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
@@ -14,6 +15,7 @@
         android:background="@color/white"
         android:paddingHorizontal="20dp"
         android:paddingVertical="10dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -5,7 +5,8 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature.deliveryorder.presentation.DeliveryOrderActivity">
+    tools:context=".feature.deliveryorder.presentation.main.DeliveryOrderActivity">
+
     <RelativeLayout
         android:id="@+id/activity_delivery_order_frame_nav"
         android:layout_width="match_parent"
@@ -14,6 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <com.google.android.material.search.SearchBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +36,7 @@
             android:theme="@style/Theme.Material3.DayNight.NoActionBar"
             style="@style/Widget.Material3.SearchView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:hint="@string/cari_kode_do"
             app:layout_anchor="@id/searchBar"
