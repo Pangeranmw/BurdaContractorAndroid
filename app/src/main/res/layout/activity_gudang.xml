@@ -41,7 +41,7 @@
                 app:navigationIcon="@drawable/baseline_search_24"
                 android:background="@drawable/semi_rounded_outline_main"
                 android:hint="@string/cari_gudang"
-                android:textAppearance="@style/TextAppearance.AppCompat"></com.google.android.material.search.SearchBar>
+                android:textAppearance="@style/TextAppearance.AppCompat" />
         </LinearLayout>
 
         <com.google.android.material.search.SearchView
@@ -75,6 +75,16 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_filter"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/item_filter_selected"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"
+                    android:layout_marginHorizontal="16dp" />
+
                 <TextView
                     android:id="@+id/tv_empty_gudang"
                     android:layout_width="wrap_content"
@@ -96,6 +106,7 @@
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="2"
                     tools:itemCount="10"
+                    android:layout_below="@+id/rv_filter"
                     tools:listitem="@layout/item_gudang" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton

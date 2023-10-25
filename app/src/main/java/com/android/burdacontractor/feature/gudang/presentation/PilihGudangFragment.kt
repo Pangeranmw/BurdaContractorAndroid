@@ -13,9 +13,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.domain.model.FilterSelected
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.presentation.StorageViewModel
+import com.android.burdacontractor.core.presentation.adapter.ListFilterSelectedAdapter
 import com.android.burdacontractor.core.presentation.adapter.LoadingStateAdapter
 import com.android.burdacontractor.core.presentation.adapter.PagingListGudangAdapter
 import com.android.burdacontractor.core.utils.getDistanceMatrixCoordinate
@@ -85,6 +88,27 @@ class PilihGudangFragment : BottomSheetDialogFragment() {
                         messageResponse,
                         Snackbar.LENGTH_SHORT
                     ).show()
+                }
+            }
+            provinsiIndex.observe(viewLifecycleOwner) { provinsiIndex ->
+                if (provinsiIndex != null) {
+                    val listFilter = mutableListOf<FilterSelected>()
+                    val filterAdapter = ListFilterSelectedAdapter {
+                        if (it.index == 0) setProvinsiIndex(null)
+                        listFilter.remove(it)
+                        setAdapter()
+                    }
+                    listFilter.add(FilterSelected(0, listProvinsi.value!![provinsiIndex]))
+                    binding.rvFilter.setVisible()
+                    filterAdapter.submitList(listFilter)
+                    binding.rvFilter.layoutManager = LinearLayoutManager(
+                        requireContext(),
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                    binding.rvFilter.adapter = filterAdapter
+                } else {
+                    binding.rvFilter.setGone()
                 }
             }
         }

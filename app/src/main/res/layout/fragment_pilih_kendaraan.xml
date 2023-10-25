@@ -23,7 +23,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/activity_perusahaan_frame_nav"
+            android:id="@+id/activity_kendaraan_frame_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +57,7 @@
                     app:tintNavigationIcon="@color/primary_main"
                     app:navigationIcon="@drawable/baseline_search_24"
                     android:background="@drawable/semi_rounded_outline_main"
-                    android:hint="@string/cari_perusahaan"
+                    android:hint="@string/cari_kendaraan"
                     android:textAppearance="@style/TextAppearance.AppCompat" />
             </LinearLayout>
 
@@ -68,15 +68,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
-                android:hint="@string/cari_perusahaan"
+                android:hint="@string/cari_kendaraan"
                 app:layout_anchor="@id/layout_app_bar">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_search_perusahaan"
+                    android:id="@+id/rv_search_kendaraan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:itemCount="10"
-                    tools:listitem="@layout/item_perusahaan" />
+                    tools:listitem="@layout/item_kendaraan" />
             </com.google.android.material.search.SearchView>
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -103,11 +103,11 @@
                         android:layout_marginHorizontal="16dp" />
 
                     <TextView
-                        android:id="@+id/tv_empty_perusahaan"
+                        android:id="@+id/tv_empty_kendaraan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter_semi_bold"
-                        android:text="@string/tidak_ada_perusahaan"
+                        android:text="@string/tidak_ada_kendaraan"
                         android:textColor="@color/red"
                         android:layout_centerInParent="true"
                         android:textSize="16sp"
@@ -116,15 +116,26 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_marginHorizontal="16dp"
-                        android:id="@+id/rv_perusahaan"
+                        android:id="@+id/rv_kendaraan"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_below="@id/rv_filter"
                         android:layout_marginTop="10dp"
+                        android:layout_below="@+id/rv_filter"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="1"
                         tools:itemCount="10"
-                        tools:listitem="@layout/item_perusahaan" />
+                        tools:listitem="@layout/item_kendaraan" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/btn_add"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/baseline_add_24" />
                 </RelativeLayout>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </RelativeLayout>

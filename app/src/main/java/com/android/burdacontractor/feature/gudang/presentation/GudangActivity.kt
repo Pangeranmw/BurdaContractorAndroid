@@ -5,12 +5,14 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.domain.model.FilterSelected
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.StorageViewModel
+import com.android.burdacontractor.core.presentation.adapter.ListFilterSelectedAdapter
 import com.android.burdacontractor.core.presentation.adapter.LoadingStateAdapter
 import com.android.burdacontractor.core.presentation.adapter.PagingListGudangAdapter
 import com.android.burdacontractor.core.utils.checkConnection
@@ -73,6 +75,27 @@ class GudangActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedList
                     ).show()
                 }
             }
+            provinsiIndex.observe(this@GudangActivity) { provinsiIndex ->
+                if (provinsiIndex != null) {
+                    val listFilter = mutableListOf<FilterSelected>()
+                    val filterAdapter = ListFilterSelectedAdapter {
+                        if (it.index == 0) setProvinsiIndex(null)
+                        listFilter.remove(it)
+                        setAdapter()
+                    }
+                    listFilter.add(FilterSelected(0, listProvinsi.value!![provinsiIndex]))
+                    binding.rvFilter.setVisible()
+                    filterAdapter.submitList(listFilter)
+                    binding.rvFilter.layoutManager = LinearLayoutManager(
+                        this@GudangActivity,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                    binding.rvFilter.adapter = filterAdapter
+                } else {
+                    binding.rvFilter.setGone()
+                }
+            }
             initUi()
         }
     }
@@ -86,12 +109,12 @@ class GudangActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedList
                 .setOnEditorActionListener { textView, actionId, event ->
                     searchBar.setText(searchView.text)
                     gudangViewModel.setSearch(searchView.text.toString())
-                    setAdapter(true)
+                    setAdapter()
                     searchView.hide()
                     false
                 }
             srLayout.setOnRefreshListener {
-                setAdapter(true)
+                setAdapter()
             }
             if (storageViewModel.role == UserRole.ADMIN_GUDANG.name || storageViewModel.role == UserRole.ADMIN.name) {
                 btnAdd.setVisible()
@@ -145,7 +168,7 @@ class GudangActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedList
                 filterDialog.setOnClickListener(object :
                     FilterGudangFragment.OnClickListener {
                     override fun onClickListener() {
-                        setAdapter(true)
+                        setAdapter()
                     }
                 })
                 filterDialog.show(supportFragmentManager)
@@ -153,10 +176,7 @@ class GudangActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedList
         }
     }
 
-    private fun setAdapter(isRefresh: Boolean = false) {
-        if (isRefresh) {
-            adapter.submitData(lifecycle, PagingData.empty())
-        }
+    private fun setAdapter() {
         gudangViewModel.getAllGudang().observe(this) {
             adapter.submitData(lifecycle, it)
         }

@@ -21,6 +21,7 @@ import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 class FilterPerusahaanFragment : BottomSheetDialogFragment() {
     private val perusahaanViewModel: PerusahaanViewModel by activityViewModels()
     private var onClickListener: OnClickListener? = null
+    private var provinsiIndex: Int? = null
 
     interface OnClickListener {
         fun onClickListener()
@@ -59,7 +60,7 @@ class FilterPerusahaanFragment : BottomSheetDialogFragment() {
                     spinnerProvinsi.selectItemByIndex(it)
                 }
                 btnResetProvinsi.setOnClickListener {
-                    perusahaanViewModel.setProvinsiIndex(null)
+                    provinsiIndex = null
                     spinnerProvinsi.clearSelectedItem()
                     spinnerProvinsi.setItems(emptyList<String>())
                     spinnerProvinsi.setItems(listProvinsi)
@@ -67,10 +68,11 @@ class FilterPerusahaanFragment : BottomSheetDialogFragment() {
                 }
             }
             spinnerProvinsi.setOnSpinnerItemSelectedListener(OnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
-                perusahaanViewModel.setProvinsiIndex(newIndex)
+                provinsiIndex = newIndex
                 btnResetProvinsi.setVisible()
             })
             btnAtur.setOnClickListener {
+                perusahaanViewModel.setProvinsiIndex(provinsiIndex)
                 onClickListener?.onClickListener()
                 dismiss()
             }

@@ -11,11 +11,13 @@ import android.widget.FrameLayout
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.domain.model.FilterSelected
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.presentation.StorageViewModel
+import com.android.burdacontractor.core.presentation.adapter.ListFilterSelectedAdapter
 import com.android.burdacontractor.core.presentation.adapter.LoadingStateAdapter
 import com.android.burdacontractor.core.presentation.adapter.PagingListPerusahaanAdapter
 import com.android.burdacontractor.core.utils.getDistanceMatrixCoordinate
@@ -87,6 +89,27 @@ class PilihPerusahaanFragment : BottomSheetDialogFragment() {
                     ).show()
                 }
             }
+            provinsiIndex.observe(viewLifecycleOwner) { provinsiIndex ->
+                if (provinsiIndex != null) {
+                    val listFilter = mutableListOf<FilterSelected>()
+                    val filterAdapter = ListFilterSelectedAdapter {
+                        if (it.index == 0) setProvinsiIndex(null)
+                        listFilter.remove(it)
+                        setAdapter()
+                    }
+                    listFilter.add(FilterSelected(0, listProvinsi.value!![provinsiIndex]))
+                    binding.rvFilter.setVisible()
+                    filterAdapter.submitList(listFilter)
+                    binding.rvFilter.layoutManager = LinearLayoutManager(
+                        requireContext(),
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                    binding.rvFilter.adapter = filterAdapter
+                } else {
+                    binding.rvFilter.setGone()
+                }
+            }
         }
         initUi()
     }
@@ -100,12 +123,12 @@ class PilihPerusahaanFragment : BottomSheetDialogFragment() {
                 .setOnEditorActionListener { textView, actionId, event ->
                     searchBar.setText(searchView.text)
                     perusahaanViewModel.setSearch(searchView.text.toString())
-                    setAdapter(true)
+                    setAdapter()
                     searchView.hide()
                     false
                 }
             srLayout.setOnRefreshListener {
-                setAdapter(true)
+                setAdapter()
             }
             binding.rvPerusahaan.layoutManager = GridLayoutManager(
                 requireContext(), 1,
@@ -151,7 +174,7 @@ class PilihPerusahaanFragment : BottomSheetDialogFragment() {
                 filterDialog.setOnClickListener(object :
                     FilterPerusahaanFragment.OnClickListener {
                     override fun onClickListener() {
-                        setAdapter(true)
+                        setAdapter()
                     }
                 })
                 filterDialog.show(requireActivity().supportFragmentManager)
@@ -159,10 +182,7 @@ class PilihPerusahaanFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setAdapter(isRefresh: Boolean = false) {
-        if (isRefresh) {
-            adapter.submitData(lifecycle, PagingData.empty())
-        }
+    private fun setAdapter() {
         perusahaanViewModel.getAllPerusahaan().observe(this) {
             adapter.submitData(lifecycle, it)
         }
