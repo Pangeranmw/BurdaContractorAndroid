@@ -145,11 +145,7 @@ class GudangActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedList
                     }
 
                     is LoadState.Loading -> {
-                        if (adapter.itemCount == 0) {
-                            gudangViewModel.setState(StateResponse.LOADING)
-                        } else {
-                            gudangViewModel.setState(StateResponse.SUCCESS)
-                        }
+                        gudangViewModel.setState(StateResponse.LOADING)
                     }
 
                     is LoadState.Error -> {

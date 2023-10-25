@@ -14,7 +14,7 @@ import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.FragmentAddDataDeliveryOrderBinding
 import com.android.burdacontractor.feature.gudang.presentation.PilihGudangFragment
 import com.android.burdacontractor.feature.gudang.presentation.PilihGudangViewModel
-import com.android.burdacontractor.feature.kendaraan.domain.model.Kendaraan
+import com.android.burdacontractor.feature.kendaraan.domain.model.AllKendaraan
 import com.android.burdacontractor.feature.kendaraan.presentation.PilihKendaraanViewModel
 import com.android.burdacontractor.feature.logistic.presentation.PilihLogisticFragment
 import com.android.burdacontractor.feature.logistic.presentation.PilihLogisticViewModel
@@ -46,6 +46,7 @@ class AddDataDeliveryOrderFragment : Fragment() {
     }
 
     private fun initObserver() {
+
         pilihPerusahaanViewModel.perusahaan.observe(viewLifecycleOwner) { perusahaan ->
             binding.cvGudang.setOnClickListener {
                 if (perusahaan == null) {
@@ -97,7 +98,7 @@ class AddDataDeliveryOrderFragment : Fragment() {
 
     }
 
-    private fun showKendaraan(kendaraan: Kendaraan) {
+    private fun showKendaraan(kendaraan: AllKendaraan) {
         binding.tvKendaraanBelumDipilih.setGone()
         binding.layoutKendaraan.setVisible()
         binding.ivKendaraan.setImageFromUrl(kendaraan.gambar, requireContext())

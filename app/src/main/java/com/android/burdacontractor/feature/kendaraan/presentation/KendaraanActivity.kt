@@ -1,6 +1,7 @@
 package com.android.burdacontractor.feature.kendaraan.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -102,6 +103,13 @@ class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedL
                         if (listFilter.isNotEmpty()) binding.rvFilter.setVisible()
                         else binding.rvFilter.setGone()
                         filterAdapter.submitList(listFilter)
+                        Log.d(
+                            "CEK ISI FILTER", "statusIndex = $statusIndex" +
+                                    " listFilter = $listFilter" +
+                                    " gudangIndex = $gudangIndex" +
+                                    " filterAdapter = $filterAdapter" +
+                                    " jenisIndex = $jenisIndex"
+                        )
                         binding.rvFilter.layoutManager = LinearLayoutManager(
                             this@KendaraanActivity,
                             LinearLayoutManager.HORIZONTAL,
@@ -160,11 +168,7 @@ class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedL
                     }
 
                     is LoadState.Loading -> {
-                        if (adapter.itemCount == 0) {
-                            kendaraanViewModel.setState(StateResponse.LOADING)
-                        } else {
-                            kendaraanViewModel.setState(StateResponse.SUCCESS)
-                        }
+                        kendaraanViewModel.setState(StateResponse.LOADING)
                     }
 
                     is LoadState.Error -> {

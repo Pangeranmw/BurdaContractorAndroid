@@ -145,11 +145,7 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                     }
 
                     is LoadState.Loading -> {
-                        if (adapter.itemCount == 0) {
-                            perusahaanViewModel.setState(StateResponse.LOADING)
-                        } else {
-                            perusahaanViewModel.setState(StateResponse.SUCCESS)
-                        }
+                        perusahaanViewModel.setState(StateResponse.SUCCESS)
                     }
 
                     is LoadState.Error -> {

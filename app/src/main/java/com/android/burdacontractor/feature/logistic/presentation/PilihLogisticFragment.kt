@@ -127,11 +127,7 @@ class PilihLogisticFragment : BottomSheetDialogFragment() {
                     }
 
                     is LoadState.Loading -> {
-                        if (adapter.itemCount == 0) {
-                            logisticViewModel.setState(StateResponse.LOADING)
-                        } else {
-                            logisticViewModel.setState(StateResponse.SUCCESS)
-                        }
+                        logisticViewModel.setState(StateResponse.LOADING)
                     }
 
                     is LoadState.Error -> {
