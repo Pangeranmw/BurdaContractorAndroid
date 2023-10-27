@@ -11,13 +11,18 @@ import com.android.burdacontractor.core.data.source.remote.response.ErrorMessage
 import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.DeliveryOrderRemoteDataSource
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepOneBody
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepTwoBody
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DataAllDeliveryOrderWithCountItem
 import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetailItem
 import com.android.burdacontractor.feature.deliveryorder.domain.repository.IDeliveryOrderRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -106,6 +111,7 @@ class DeliveryOrderRepository @Inject constructor(
                     val result = response.data
                     emit(Resource.Success(result))
                 }
+
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
             }
         } catch (ex: Exception) {
@@ -113,13 +119,44 @@ class DeliveryOrderRepository @Inject constructor(
         }
     }
 
-    override suspend fun addDeliveryOrder(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        peminjamanId: String
-    ): Flow<Resource<ErrorMessageResponse>> {
-        TODO("Not yet implemented")
+    override suspend fun addDeliveryOrderStepOne(
+        addDeliveryOrderStepOneBody: AddDeliveryOrderStepOneBody
+    ): Flow<Resource<String>> = flow {
+        emit(Resource.Loading())
+        when (val response = deliveryOrderRemoteDataSource.addDeliveryOrderStepOne(
+            storageDataSource.getToken(),
+            addDeliveryOrderStepOneBody
+        ).first()) {
+            is ApiResponse.Empty -> {}
+            is ApiResponse.Success -> {
+                val result = response.data.kodeDo
+                emit(Resource.Success(result))
+            }
+
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+        }
+    }.catch { emit(Resource.Error(it.toString())) }.flowOn(Dispatchers.IO)
+
+    override suspend fun addDeliveryOrderStepTwo(
+        addDeliveryOrderStepTwoBody: AddDeliveryOrderStepTwoBody
+    ): Flow<Resource<String>> = flow {
+        try {
+            emit(Resource.Loading())
+            when (val response = deliveryOrderRemoteDataSource.addDeliveryOrderStepTwo(
+                storageDataSource.getToken(),
+                addDeliveryOrderStepTwoBody
+            ).first()) {
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = response.data.id
+                    emit(Resource.Success(result))
+                }
+
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        } catch (ex: Exception) {
+            emit(Resource.Error(ex.message.toString()))
+        }
     }
 
     override suspend fun updateDeliveryOrder(

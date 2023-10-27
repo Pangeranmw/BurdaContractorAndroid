@@ -240,4 +240,5 @@
     <string name="cari_kendaraan">Cari Merk Kendaraan</string>
     <string name="jenis_kendaraan">Jenis Kendaraan</string>
     <string name="tidak_ada_kendaraan">Tidak Ada Kendaraan</string>
+    <string name="tambah_pre_order">Tambah Pre Order</string>
 </resources>

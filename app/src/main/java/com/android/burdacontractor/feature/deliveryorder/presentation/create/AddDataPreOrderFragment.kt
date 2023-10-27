@@ -1,36 +1,160 @@
 package com.android.burdacontractor.feature.deliveryorder.presentation.create
 
+import android.animation.LayoutTransition
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import com.android.burdacontractor.R
 import com.android.burdacontractor.core.presentation.StorageViewModel
-import com.android.burdacontractor.databinding.FragmentAddDataDeliveryOrderBinding
+import com.android.burdacontractor.core.presentation.adapter.ListPreOrderAdapter
+import com.android.burdacontractor.core.utils.setImageFromUrl
+import com.android.burdacontractor.core.utils.withDateFormat
+import com.android.burdacontractor.databinding.FragmentAddDataPreOrderBinding
+import com.android.burdacontractor.feature.gudang.presentation.PilihGudangViewModel
+import com.android.burdacontractor.feature.kendaraan.presentation.PilihKendaraanViewModel
+import com.android.burdacontractor.feature.logistic.presentation.PilihLogisticViewModel
+import com.android.burdacontractor.feature.perusahaan.presentation.PilihPerusahaanViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AddDataPreOrderFragment : Fragment() {
-    private var _binding: FragmentAddDataDeliveryOrderBinding? = null
+    private var _binding: FragmentAddDataPreOrderBinding? = null
     private val addDeliveryOrderViewModel: AddDeliveryOrderViewModel by activityViewModels()
     private val storageViewModel: StorageViewModel by activityViewModels()
-    private var index: Int? = null
+    private val pilihPerusahaanViewModel: PilihPerusahaanViewModel by activityViewModels()
+    private val pilihKendaraanViewModel: PilihKendaraanViewModel by activityViewModels()
+    private val pilihGudangViewModel: PilihGudangViewModel by activityViewModels()
+    private val pilihLogisticViewModel: PilihLogisticViewModel by activityViewModels()
+    private lateinit var adapter: ListPreOrderAdapter
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentAddDataDeliveryOrderBinding.inflate(inflater, container, false)
+        _binding = FragmentAddDataPreOrderBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initObserver()
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun initObserver() {
+        with(binding) {
+            adapter = ListPreOrderAdapter(true, { preOrder ->
+//                requireActivity().setToastShort(preOrder.id.toString())
+                addDeliveryOrderViewModel.changePreOrder(
+                    preOrder.id.toString(),
+                    ukuran = "ubah",
+                    keterangan = null,
+                    jumlah = 293,
+                    namaMaterial = "iya",
+                    satuan = "meter"
+                )
+                refreshAdapter()
+            }, { preOrder ->
+                addDeliveryOrderViewModel.removePreOrder(preOrder)
+                refreshAdapter()
+            })
+            dataDeliveryOrder.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+            cvDataDeliveryOrder.setOnClickListener {
+                val v = if (dataDeliveryOrder.visibility == View.GONE) View.VISIBLE else View.GONE
+                ivDown.visibility = dataDeliveryOrder.visibility
+                dataDeliveryOrder.visibility = v
+            }
+
+            addDeliveryOrderViewModel.listPreOrder.observe(viewLifecycleOwner) {
+                refreshAdapter()
+            }
+            btnTambahPreOrder.setOnClickListener {
+                addDeliveryOrderViewModel.addPreOrder(
+                    ukuran = "diam",
+                    keterangan = null,
+                    jumlah = 6202,
+                    namaMaterial = "natoque",
+                    satuan = "elit"
+                )
+                refreshAdapter()
+            }
+            addDeliveryOrderViewModel.kodeDo.observe(viewLifecycleOwner) { kodeDo ->
+                pilihLogisticViewModel.logistic.observe(viewLifecycleOwner) { logistic ->
+                    pilihKendaraanViewModel.kendaraan.observe(viewLifecycleOwner) { kendaraan ->
+                        pilihPerusahaanViewModel.perusahaan.observe(viewLifecycleOwner) { perusahaan ->
+                            pilihGudangViewModel.gudang.observe(viewLifecycleOwner) { gudang ->
+                                addDeliveryOrderViewModel.perihal.observe(viewLifecycleOwner) { perihal ->
+                                    addDeliveryOrderViewModel.tglPengambilan.observe(
+                                        viewLifecycleOwner
+                                    ) { tglPengambilan ->
+                                        addDeliveryOrderViewModel.untukPerhatian.observe(
+                                            viewLifecycleOwner
+                                        ) { untukPerhatian ->
+                                            if (logistic != null &&
+                                                kendaraan != null &&
+                                                perusahaan != null &&
+                                                gudang != null &&
+                                                perihal != null &&
+                                                tglPengambilan != null &&
+                                                untukPerhatian != null
+                                            ) {
+                                                tvKodeDo.text = kodeDo
+                                                tvTanggalPengambilan.text =
+                                                    tglPengambilan.withDateFormat(
+                                                        "MM/dd/yyyy",
+                                                        "dd MMMM yyyy"
+                                                    )
+                                                tvPerihal.text = perihal
+                                                tvUntukPerhatian.text = untukPerhatian
+                                                tvKendaraan.text = getString(
+                                                    R.string.merk_plat_kendaraan,
+                                                    kendaraan.merk,
+                                                    kendaraan.platNomor
+                                                )
+                                                tvGudang.text = gudang.nama
+                                                tvPerusahaan.text = perusahaan.nama
+                                                tvLogistic.text = logistic.nama
+                                                ivTtd.setImageFromUrl(
+                                                    storageViewModel.ttd,
+                                                    requireContext()
+                                                )
+                                                ivGudang.setImageFromUrl(
+                                                    gudang.gambar,
+                                                    requireContext()
+                                                )
+                                                ivPerusahaan.setImageFromUrl(
+                                                    perusahaan.gambar,
+                                                    requireContext()
+                                                )
+                                                ivKendaraan.setImageFromUrl(
+                                                    kendaraan.gambar,
+                                                    requireContext()
+                                                )
+                                                ivLogistic.setImageFromUrl(
+                                                    logistic.foto,
+                                                    requireContext()
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun refreshAdapter() {
+        binding.rvPreOrder.layoutManager =
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        binding.rvPreOrder.adapter = adapter
+        adapter.submitList(null)
+        adapter.submitList(addDeliveryOrderViewModel.listPreOrder.value!!)
     }
 
     override fun onDestroyView() {

@@ -9,5 +9,5 @@ class GetAllLogisticInteractor @Inject constructor(private val logisticRepositor
         search: String?,
         coordinate: String?,
         size: Int,
-    ) = logisticRepository.getAllLogistic(search)
+    ) = logisticRepository.getAllLogistic(search = search, coordinate = coordinate)
 }

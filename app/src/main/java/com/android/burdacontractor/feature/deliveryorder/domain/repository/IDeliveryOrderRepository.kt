@@ -7,6 +7,8 @@ import com.android.burdacontractor.core.data.source.remote.response.CountActiveR
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepOneBody
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepTwoBody
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DataAllDeliveryOrderWithCountItem
 import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetailItem
@@ -30,12 +32,13 @@ interface IDeliveryOrderRepository {
     suspend fun getAllDeliveryOrderDalamPerjalananByUser(): Flow<Resource<List<AllDeliveryOrder>>>
     suspend fun getCountActiveDeliveryOrder(): Flow<Resource<CountActiveResponse>>
 
-    suspend fun addDeliveryOrder(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        pengembalianId: String,
-    ): Flow<Resource<ErrorMessageResponse>>
+    suspend fun addDeliveryOrderStepOne(
+        addDeliveryOrderStepOneBody: AddDeliveryOrderStepOneBody
+    ): Flow<Resource<String>>
+
+    suspend fun addDeliveryOrderStepTwo(
+        addDeliveryOrderStepTwoBody: AddDeliveryOrderStepTwoBody
+    ): Flow<Resource<String>>
 
     suspend fun updateDeliveryOrder(
         adminGudangId: String,

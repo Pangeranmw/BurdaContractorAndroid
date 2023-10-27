@@ -11,6 +11,7 @@ import javax.inject.Inject
 class StorageViewModel @Inject constructor(private val storageUseCase: StorageUseCase) : ViewModel() {
     val role = storageUseCase.getPreferences(SessionManager.KEY_ROLE)
     val name = storageUseCase.getPreferences(SessionManager.KEY_NAME)
+    val ttd = storageUseCase.getPreferences(SessionManager.KEY_TTD)
     val deviceToken = storageUseCase.getPreferences(SessionManager.KEY_DEVICE_TOKEN)
     val latitude = storageUseCase.getPreferences(SessionManager.KEY_LATITUDE)
     val longitude = storageUseCase.getPreferences(SessionManager.KEY_LONGITUDE)
@@ -21,5 +22,9 @@ class StorageViewModel @Inject constructor(private val storageUseCase: StorageUs
     val getTracking = storageUseCase.getTracking()
     fun updateUser(user: UserByTokenItem) {
         storageUseCase.updateUser(user)
+    }
+
+    fun updateTtd(ttd: String) {
+        storageUseCase.setPreferences(SessionManager.KEY_TTD, ttd)
     }
 }

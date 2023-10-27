@@ -40,15 +40,6 @@
                 android:layout_marginHorizontal="16dp"
                 android:gravity="center_vertical">
 
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/btn_filter"
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
-                    android:src="@drawable/ic_filter"
-                    app:tint="@color/primary_main"
-                    android:contentDescription="@string/cd_button"
-                    android:background="@drawable/semi_rounded_outline_main" />
-
                 <com.google.android.material.search.SearchBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -93,16 +84,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_filter"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:listitem="@layout/item_filter_selected"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        android:orientation="horizontal"
-                        android:layout_marginHorizontal="16dp" />
-
                     <TextView
                         android:id="@+id/tv_empty_logistic"
                         android:layout_width="wrap_content"
@@ -118,12 +99,12 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_marginHorizontal="16dp"
                         android:id="@+id/rv_logistic"
+                        android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="1"
-                        android:layout_below="@+id/rv_filter"
                         tools:itemCount="10"
                         tools:listitem="@layout/item_logistic" />
                 </RelativeLayout>

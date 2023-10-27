@@ -125,7 +125,17 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun provideGetAllDeliveryOrderDalamPerjalananByUserUseCase(getAllDeliveryOrderDalamPerjalananByUserInteractor: GetAllDeliveryOrderDalamPerjalananByUserInteractor): GetAllDeliveryOrderDalamPerjalananByUserUseCase
+    abstract fun provideGetAllDeliveryOrderDalamPerjalananByUserUseCase(
+        getAllDeliveryOrderDalamPerjalananByUserInteractor: GetAllDeliveryOrderDalamPerjalananByUserInteractor
+    ): GetAllDeliveryOrderDalamPerjalananByUserUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideAddDeliveryOrderStepOneUseCase(getAddDeliveryOrderStepOneUseCaseInteractor: AddDeliveryOrderStepOneInteractor): AddDeliveryOrderStepOneUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideAddDeliveryOrderStepTwoUseCase(getAddDeliveryOrderStepTwoUseCaseInteractor: AddDeliveryOrderStepTwoInteractor): AddDeliveryOrderStepTwoUseCase
 
     // USER USE CASE
     @Binds

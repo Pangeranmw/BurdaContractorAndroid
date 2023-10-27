@@ -15,6 +15,12 @@ android {
     def localProperties = new Properties()
     localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
+//    packagingOptions {
+//    // Exclude specific files or directories from packaging into your APK.
+////        resources.merges.add("**.aut*")
+//        resources.pickFirsts.add("**.aut*")
+//    }
+
     defaultConfig {
         applicationId "com.android.burdacontractor"
         minSdk 24
@@ -43,13 +49,14 @@ android {
     }
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 }
 
 dependencies {
     // Location Services
     implementation "com.google.android.gms:play-services-location:$play_services_location_version"
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
 
     // Maps
     implementation "org.osmdroid:osmdroid-android:$osmdroid_version"
@@ -116,11 +123,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation("com.google.firebase:firebase-analytics-ktx")
 
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.2.1'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.3.1'
 
     implementation "androidx.core:core-splashscreen:$splash_screen_version"
 
     implementation 'com.github.gcacace:signature-pad:1.3.1'
 
-
+    // faker dummy data
+//    implementation "net.datafaker:datafaker:2.0.2"
 }

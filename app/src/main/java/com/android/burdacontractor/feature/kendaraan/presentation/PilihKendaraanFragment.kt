@@ -131,8 +131,7 @@ class PilihKendaraanFragment : BottomSheetDialogFragment() {
 
     private fun initUi() {
         with(binding) {
-            filterDialog =
-                com.android.burdacontractor.feature.kendaraan.presentation.FilterKendaraanFragment.newInstance()
+            filterDialog = FilterKendaraanFragment.newInstance()
             searchView.setupWithSearchBar(searchBar)
             searchView
                 .editText
@@ -148,10 +147,10 @@ class PilihKendaraanFragment : BottomSheetDialogFragment() {
             }
             binding.rvKendaraan.layoutManager = GridLayoutManager(
                 requireContext(), 1,
-                androidx.recyclerview.widget.GridLayoutManager.VERTICAL, false
+                GridLayoutManager.VERTICAL, false
             )
             adapter = PagingListKendaraanAdapter { kendaraan ->
-                if (kendaraan.logisticId != null) {
+                if (kendaraan.logisticId == null) {
                     pilihKendaraanViewModel.setKendaraan(kendaraan)
                     dismiss()
                 } else {
@@ -167,20 +166,20 @@ class PilihKendaraanFragment : BottomSheetDialogFragment() {
                             } else {
                                 binding.tvEmptyKendaraan.setGone()
                             }
-                            kendaraanViewModel.setState(com.android.burdacontractor.core.domain.model.enums.StateResponse.SUCCESS)
+                            kendaraanViewModel.setState(StateResponse.SUCCESS)
                         }
                     }
 
                     is LoadState.Loading -> {
                         if (adapter.itemCount == 0) {
-                            kendaraanViewModel.setState(com.android.burdacontractor.core.domain.model.enums.StateResponse.LOADING)
+                            kendaraanViewModel.setState(StateResponse.LOADING)
                         } else {
-                            kendaraanViewModel.setState(com.android.burdacontractor.core.domain.model.enums.StateResponse.SUCCESS)
+                            kendaraanViewModel.setState(StateResponse.SUCCESS)
                         }
                     }
 
                     is LoadState.Error -> {
-                        kendaraanViewModel.setState(com.android.burdacontractor.core.domain.model.enums.StateResponse.ERROR)
+                        kendaraanViewModel.setState(StateResponse.ERROR)
                     }
                 }
             }

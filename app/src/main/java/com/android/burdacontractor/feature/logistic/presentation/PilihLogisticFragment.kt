@@ -11,7 +11,6 @@ import android.widget.FrameLayout
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
@@ -98,12 +97,12 @@ class PilihLogisticFragment : BottomSheetDialogFragment() {
                 .setOnEditorActionListener { textView, actionId, event ->
                     searchBar.setText(searchView.text)
                     logisticViewModel.setSearch(searchView.text.toString())
-                    setAdapter(true)
+                    setAdapter()
                     searchView.hide()
                     false
                 }
             srLayout.setOnRefreshListener {
-                setAdapter(true)
+                setAdapter()
             }
             binding.rvLogistic.layoutManager = GridLayoutManager(
                 requireContext(), 1,
@@ -144,10 +143,7 @@ class PilihLogisticFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setAdapter(isRefresh: Boolean = false) {
-        if (isRefresh) {
-            adapter.submitData(lifecycle, PagingData.empty())
-        }
+    private fun setAdapter() {
         logisticViewModel.getAllLogistic().observe(this) {
             adapter.submitData(lifecycle, it)
         }

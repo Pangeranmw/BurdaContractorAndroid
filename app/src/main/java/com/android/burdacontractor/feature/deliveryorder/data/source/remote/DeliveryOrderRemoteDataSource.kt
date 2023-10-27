@@ -6,9 +6,13 @@ import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
+import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageWithIdResponse
 import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.DeliveryOrderService
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepOneBody
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepTwoBody
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AddDeliveryOrderStepOneResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderWithCountResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailResponse
@@ -71,12 +75,39 @@ class DeliveryOrderRemoteDataSource @Inject constructor(
         token: String,
     ): Flow<ApiResponse<CountActiveResponse>> = flow {
         val response = deliveryOrderService.getCountActiveDeliveryOrder(token)
-        if(!response.error){
+        if (!response.error) {
             emit(ApiResponse.Success(response))
-        }else{
+        } else {
             emit(ApiResponse.Error(response.message))
         }
     }
+
+    suspend fun addDeliveryOrderStepOne(
+        token: String,
+        addDeliveryOrderStepOneBody: AddDeliveryOrderStepOneBody,
+    ): Flow<ApiResponse<AddDeliveryOrderStepOneResponse>> = flow {
+        val response =
+            deliveryOrderService.addDeliveryOrderStepOne(token, addDeliveryOrderStepOneBody)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
+    suspend fun addDeliveryOrderStepTwo(
+        token: String,
+        addDeliveryOrderStepTwoBody: AddDeliveryOrderStepTwoBody,
+    ): Flow<ApiResponse<ErrorMessageWithIdResponse>> = flow {
+        val response =
+            deliveryOrderService.addDeliveryOrderStepTwo(token, addDeliveryOrderStepTwoBody)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
     suspend fun uploadFotoBuktiDeliveryOrder(
         token: String,
         id: String,

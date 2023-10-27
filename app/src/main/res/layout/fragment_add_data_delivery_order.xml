@@ -3,16 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp">
+    android:id="@+id/key_test"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/appCompatButton"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp">
+        app:layout_constraintBottom_toTopOf="@+id/btn_selanjutnya"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,170 +19,9 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cv_logistic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:elevation="5dp"
-                app:cardCornerRadius="10dp"
-                android:layout_marginBottom="15dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_arrow_right"
-                        android:layout_alignParentEnd="true"
-                        app:tint="@color/black"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp" />
-
-                    <TextView
-                        android:id="@+id/header_logistic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/inter_medium"
-                        android:textSize="14sp"
-                        android:text="@string/driver" />
-
-                    <TextView
-                        android:id="@+id/tv_logistic_belum_dipilih"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/header_logistic"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center"
-                        android:textColor="@color/gray"
-                        android:textSize="12sp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="@string/belum_dipilih" />
-
-                    <RelativeLayout
-                        android:id="@+id/layout_logistic"
-                        android:visibility="gone"
-                        android:layout_below="@+id/header_logistic"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/iv_logistic"
-                            android:layout_width="50dp"
-                            android:layout_height="60dp"
-                            android:layout_margin="10dp"
-                            tools:src="@tools:sample/avatars"
-                            android:scaleType="centerCrop"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
-
-                        <TextView
-                            android:id="@+id/tv_nama_logistic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignTop="@+id/iv_logistic"
-                            android:layout_alignBottom="@+id/iv_logistic"
-                            android:gravity="center"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/inter_medium"
-                            android:layout_toEndOf="@+id/iv_logistic"
-                            android:text="@string/nama_user" />
-                    </RelativeLayout>
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_kendaraan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:elevation="5dp"
-                app:cardCornerRadius="10dp"
-                android:layout_marginBottom="15dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_arrow_right"
-                        android:layout_alignParentEnd="true"
-                        app:tint="@color/black"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp" />
-
-                    <TextView
-                        android:id="@+id/header_kendaraan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/inter_medium"
-                        android:textSize="14sp"
-                        android:text="@string/kendaraan" />
-
-                    <TextView
-                        android:id="@+id/tv_kendaraan_belum_dipilih"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/header_kendaraan"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center"
-                        android:textColor="@color/gray"
-                        android:textSize="12sp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="@string/belum_dipilih" />
-
-                    <RelativeLayout
-                        android:id="@+id/layout_kendaraan"
-                        android:visibility="gone"
-                        android:layout_below="@+id/header_kendaraan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/iv_kendaraan"
-                            android:layout_width="50dp"
-                            android:layout_height="60dp"
-                            android:layout_margin="10dp"
-                            tools:src="@tools:sample/avatars"
-                            android:scaleType="centerCrop"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
-
-                        <TextView
-                            android:id="@+id/tv_nama_kendaraan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignTop="@+id/iv_kendaraan"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/inter_medium"
-                            android:layout_toEndOf="@+id/iv_kendaraan"
-                            android:text="@string/kendaraan" />
-
-                        <TextView
-                            android:id="@+id/tv_plat_kendaraan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_nama_kendaraan"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/inter_regular"
-                            android:layout_toEndOf="@+id/iv_kendaraan"
-                            android:layout_marginTop="5dp"
-                            android:maxWidth="200dp"
-                            android:maxLines="2"
-                            android:text="@string/plat_nomor" />
-                    </RelativeLayout>
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
                 android:id="@+id/cv_perusahaan"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -274,6 +112,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_gudang"
+                android:layout_marginHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -363,7 +202,173 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cv_logistic"
+                android:layout_marginHorizontal="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp"
+                android:layout_marginBottom="15dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_arrow_right"
+                        android:layout_alignParentEnd="true"
+                        app:tint="@color/black"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp" />
+
+                    <TextView
+                        android:id="@+id/header_logistic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/inter_medium"
+                        android:textSize="14sp"
+                        android:text="@string/driver" />
+
+                    <TextView
+                        android:id="@+id/tv_logistic_belum_dipilih"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/header_logistic"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="@string/belum_dipilih" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout_logistic"
+                        android:visibility="gone"
+                        android:layout_below="@+id/header_logistic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/iv_logistic"
+                            android:layout_width="50dp"
+                            android:layout_height="60dp"
+                            android:layout_margin="10dp"
+                            tools:src="@tools:sample/avatars"
+                            android:scaleType="centerCrop"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+
+                        <TextView
+                            android:id="@+id/tv_nama_logistic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/iv_logistic"
+                            android:layout_alignBottom="@+id/iv_logistic"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/inter_medium"
+                            android:layout_toEndOf="@+id/iv_logistic"
+                            android:text="@string/nama_user" />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_kendaraan"
+                android:layout_marginHorizontal="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp"
+                android:layout_marginBottom="15dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_arrow_right"
+                        android:layout_alignParentEnd="true"
+                        app:tint="@color/black"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp" />
+
+                    <TextView
+                        android:id="@+id/header_kendaraan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/inter_medium"
+                        android:textSize="14sp"
+                        android:text="@string/kendaraan" />
+
+                    <TextView
+                        android:id="@+id/tv_kendaraan_belum_dipilih"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/header_kendaraan"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="@string/belum_dipilih" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout_kendaraan"
+                        android:visibility="gone"
+                        android:layout_below="@+id/header_kendaraan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/iv_kendaraan"
+                            android:layout_width="50dp"
+                            android:layout_height="60dp"
+                            android:layout_margin="10dp"
+                            tools:src="@tools:sample/avatars"
+                            android:scaleType="centerCrop"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+
+                        <TextView
+                            android:id="@+id/tv_nama_kendaraan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/iv_kendaraan"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/inter_medium"
+                            android:layout_toEndOf="@+id/iv_kendaraan"
+                            android:text="@string/kendaraan" />
+
+                        <TextView
+                            android:id="@+id/tv_plat_kendaraan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_nama_kendaraan"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/inter_regular"
+                            android:layout_toEndOf="@+id/iv_kendaraan"
+                            android:layout_marginTop="5dp"
+                            android:maxWidth="200dp"
+                            android:maxLines="2"
+                            android:text="@string/plat_nomor" />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/cv_perihal"
+                android:layout_marginHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -402,6 +407,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_untuk_perhatian"
+                android:layout_marginHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -440,6 +446,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_tgl_pengambilan"
+                android:layout_marginHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -487,6 +494,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_ttd"
+                android:layout_marginHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -534,12 +542,13 @@
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/appCompatButton"
+        android:id="@+id/btn_selanjutnya"
         style="@style/ButtonFullWidth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_state"
         android:enabled="false"
+        android:visibility="gone"
         android:text="@string/selanjutnya"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="16dp" />

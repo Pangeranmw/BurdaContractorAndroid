@@ -2,7 +2,10 @@ package com.android.burdacontractor.feature.deliveryorder.data.source.remote.net
 
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.CreateStepOneDeliveryOrderBody
+import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageWithIdResponse
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepOneBody
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepTwoBody
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AddDeliveryOrderStepOneResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderWithCountResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailResponse
@@ -50,12 +53,19 @@ interface DeliveryOrderService {
         @Path("id") id: String
     ): DeliveryOrderDetailResponse
 
-    @Headers("Content-Type: application/json","Accept: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("delivery-order/create")
     suspend fun addDeliveryOrderStepOne(
         @Header("Authorization") token: String,
-        @Body createStepOneDeliveryOrderBody: CreateStepOneDeliveryOrderBody
-    ): ErrorMessageResponse
+        @Body addDeliveryOrderStepOneBody: AddDeliveryOrderStepOneBody
+    ): AddDeliveryOrderStepOneResponse
+
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("delivery-order/create/pre-order")
+    suspend fun addDeliveryOrderStepTwo(
+        @Header("Authorization") token: String,
+        @Body addDeliveryOrderStepTwoBody: AddDeliveryOrderStepTwoBody
+    ): ErrorMessageWithIdResponse
 
     @FormUrlEncoded
     @POST("delivery-order")

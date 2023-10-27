@@ -7,31 +7,6 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class PreOrderItem(
-
-    @field:SerializedName("ukuran")
-    val ukuran: String,
-
-    @field:SerializedName("satuan")
-    val satuan: String,
-
-    @field:SerializedName("kode_po")
-    val kodePo: String,
-
-    @field:SerializedName("nama_material")
-    val namaMaterial: String,
-
-    @field:SerializedName("jumlah")
-    val jumlah: Int,
-
-    @field:SerializedName("id")
-    val id: String,
-
-    @field:SerializedName("keterangan")
-    val keterangan: String? = null
-) : Parcelable
-
-@Parcelize
 data class DeliveryOrderDetailItem(
 
     @field:SerializedName("kendaraan")
@@ -71,7 +46,7 @@ data class DeliveryOrderDetailItem(
     val tempatTujuan: TempatSimple,
 
     @field:SerializedName("pre_order")
-    val preOrder: List<PreOrderItem>? = null,
+    val preOrder: List<PreOrder>? = null,
 
     @field:SerializedName("kode_do")
     val kodeDo: String,

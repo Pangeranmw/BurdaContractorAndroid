@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
 import android.provider.MediaStore
+import android.text.Editable
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -40,6 +41,7 @@ import com.bumptech.glide.signature.ObjectKey
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -286,16 +288,21 @@ fun Context.hasLocationPermission(): Boolean {
             ) == PackageManager.PERMISSION_GRANTED
 }
 
+fun TextInputEditText.setEditableText(text: String) {
+    this.text = Editable.Factory.getInstance().newEditable(text)
+}
+
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun getAddress(location: LatLng, context: Context): String {
     val lat = location.latitude
     val lng = location.longitude
     val geocoder = Geocoder(context, Locale("id", "ID"))
     var result = context.getString(R.string.unknown_address)
-    geocoder.getFromLocation(lat,lng,1,
+    geocoder.getFromLocation(
+        lat, lng, 1,
         @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-        object : Geocoder.GeocodeListener{
-        override fun onGeocode(addresses: MutableList<Address>) {
+        object : Geocoder.GeocodeListener {
+            override fun onGeocode(addresses: MutableList<Address>) {
             result = addresses[0].getAddressLine(0)
         }
         override fun onError(errorMessage: String?) {
@@ -540,7 +547,7 @@ fun Context.getTimeDifference(millis: Long): String{
 
 fun getDateFromMillis(millis: Long, dateFormat: String? = null): String{
     val format = dateFormat ?: "dd MMMM yyyy, HH:mm"
-    val formatter = SimpleDateFormat(format, Locale.getDefault())
+    val formatter = SimpleDateFormat(format, Locale("id", "ID"))
     val calendar = Calendar.getInstance()
 
     calendar.timeInMillis = millis

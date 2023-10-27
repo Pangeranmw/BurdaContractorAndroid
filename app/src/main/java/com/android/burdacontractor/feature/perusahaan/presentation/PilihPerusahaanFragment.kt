@@ -152,11 +152,7 @@ class PilihPerusahaanFragment : BottomSheetDialogFragment() {
                     }
 
                     is LoadState.Loading -> {
-                        if (adapter.itemCount == 0) {
-                            perusahaanViewModel.setState(StateResponse.LOADING)
-                        } else {
-                            perusahaanViewModel.setState(StateResponse.SUCCESS)
-                        }
+                        perusahaanViewModel.setState(StateResponse.LOADING)
                     }
 
                     is LoadState.Error -> {

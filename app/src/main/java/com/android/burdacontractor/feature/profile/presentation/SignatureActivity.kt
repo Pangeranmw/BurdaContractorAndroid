@@ -1,21 +1,20 @@
 package com.android.burdacontractor.feature.profile.presentation
 
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
+import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.utils.bitmapToFile
 import com.android.burdacontractor.core.utils.checkConnection
-import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.setGone
+import com.android.burdacontractor.core.utils.setImageFromUrl
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivitySignatureBinding
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.github.gcacace.signaturepad.views.SignaturePad
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +27,7 @@ class SignatureActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignatureBinding
     private var isTtdSubmit = false
     private val signatureViewModel: SignatureViewModel by viewModels()
+    private val storageViewModel: StorageViewModel by viewModels()
     private var snackbar: Snackbar? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,12 +70,9 @@ class SignatureActivity : AppCompatActivity() {
     }
     private fun initProfile(user: UserByTokenItem){
         if(user.ttd !=null){
+            storageViewModel.updateTtd(user.ttd)
             binding.tvSignIsEmpty.isVisible = false
-            Glide.with(this)
-                .load(getPhotoUrl(user.ttd))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(binding.ivSignature)
+            binding.ivSignature.setImageFromUrl(user.ttd, this)
         }else binding.tvSignIsEmpty.isVisible = true
     }
     private fun initView() {

@@ -9,7 +9,7 @@ class PilihKendaraanViewModel : ViewModel() {
 
     private val _kendaraan = MutableLiveData<AllKendaraan?>(null)
     val kendaraan: LiveData<AllKendaraan?> = _kendaraan
-    fun setKendaraan(kendaraan: AllKendaraan) {
+    fun setKendaraan(kendaraan: AllKendaraan?) {
         _kendaraan.value = kendaraan
     }
 }

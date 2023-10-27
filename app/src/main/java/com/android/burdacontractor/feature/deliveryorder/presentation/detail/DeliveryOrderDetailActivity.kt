@@ -88,7 +88,7 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
     }
     private fun initUi(){
         with(binding){
-            poAdapter = ListPreOrderAdapter()
+            poAdapter = ListPreOrderAdapter(false, {}, {})
             poAdapter.submitList(deliveryOrder!!.preOrder)
             rvPreOrder.layoutManager = GridLayoutManager(this@DeliveryOrderDetailActivity,2,GridLayoutManager.VERTICAL,false)
             rvPreOrder.adapter = poAdapter

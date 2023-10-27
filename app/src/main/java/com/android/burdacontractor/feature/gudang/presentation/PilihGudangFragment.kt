@@ -11,7 +11,6 @@ import android.widget.FrameLayout
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
@@ -124,12 +123,12 @@ class PilihGudangFragment : BottomSheetDialogFragment() {
                 .setOnEditorActionListener { textView, actionId, event ->
                     searchBar.setText(searchView.text)
                     gudangViewModel.setSearch(searchView.text.toString())
-                    setAdapter(true)
+                    setAdapter()
                     searchView.hide()
                     false
                 }
             srLayout.setOnRefreshListener {
-                setAdapter(true)
+                setAdapter()
             }
             binding.rvGudang.layoutManager = GridLayoutManager(
                 requireContext(), 1,
@@ -153,11 +152,7 @@ class PilihGudangFragment : BottomSheetDialogFragment() {
                     }
 
                     is LoadState.Loading -> {
-                        if (adapter.itemCount == 0) {
-                            gudangViewModel.setState(StateResponse.LOADING)
-                        } else {
-                            gudangViewModel.setState(StateResponse.SUCCESS)
-                        }
+                        gudangViewModel.setState(StateResponse.LOADING)
                     }
 
                     is LoadState.Error -> {
@@ -171,13 +166,19 @@ class PilihGudangFragment : BottomSheetDialogFragment() {
                 }
             )
             setAdapter()
+            btnFilter.setOnClickListener {
+                filterDialog.setOnClickListener(object :
+                    FilterGudangFragment.OnClickListener {
+                    override fun onClickListener() {
+                        setAdapter()
+                    }
+                })
+                filterDialog.show(requireActivity().supportFragmentManager)
+            }
         }
     }
 
-    private fun setAdapter(isRefresh: Boolean = false) {
-        if (isRefresh) {
-            adapter.submitData(lifecycle, PagingData.empty())
-        }
+    private fun setAdapter() {
         gudangViewModel.getAllGudang().observe(this) {
             adapter.submitData(lifecycle, it)
         }

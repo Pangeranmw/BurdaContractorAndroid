@@ -10,6 +10,7 @@ import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.StorageViewModel
+import com.android.burdacontractor.core.presentation.customview.CustomDialog
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.openActivity
 import com.android.burdacontractor.core.utils.setVisible
@@ -19,6 +20,7 @@ import com.android.burdacontractor.feature.deliveryorder.presentation.create.Add
 import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.PerusahaanActivity
+import com.android.burdacontractor.feature.profile.presentation.SignatureActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanActivity
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
@@ -100,7 +102,19 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelec
             if (storageViewModel.role == UserRole.PURCHASING.name) {
                 btnAdd.setVisible()
                 btnAdd.setOnClickListener {
-                    openActivity(AddDeliveryOrderActivity::class.java, false)
+                    if (storageViewModel.ttd.isBlank()) {
+                        CustomDialog(
+                            mainButtonText = "Tambah Tanda Tangan",
+                            title = "Buat Tanda Tangan",
+                            subtitle = "Anda belum memiliki tanda tangan, harap membuat tanda tangan terlebih dahulu",
+                            blockMainButton = {
+                                openActivity(SignatureActivity::class.java, false)
+                            },
+                            blockSecondaryButton = {}
+                        ).show(supportFragmentManager, "MyCustomFragment")
+                    } else {
+                        openActivity(AddDeliveryOrderActivity::class.java, false)
+                    }
                 }
             }
             btnFilter.setOnClickListener {

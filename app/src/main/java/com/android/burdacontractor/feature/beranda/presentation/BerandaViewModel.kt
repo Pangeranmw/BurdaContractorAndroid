@@ -128,7 +128,6 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _user.value = it.data!!
-                        _messageResponse.value = Event("Berhasil Mendapatkan Data User")
                     }
                     is Resource.Error -> {
                         _messageResponse.value = Event(it.message)
@@ -146,7 +145,6 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _statistikMenungguSuratJalan.value = it.data!!
-                        _messageResponse.value = Event("Berhasil Mendapatkan Data Menunggu Surat Jalan")
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
@@ -164,7 +162,6 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _deliveryOrder.value = it.data!!
-                        _messageResponse.value = Event("Berhasil Mendapatkan Delivery Order Aktif")
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
@@ -183,7 +180,6 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _doDalamPerjalanan.value = it.data!!
-                        _messageResponse.value = Event("Berhasil Mendapatkan Delivery Order Dalam Perjalanan")
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
@@ -204,15 +200,12 @@ class BerandaViewModel @Inject constructor(
                         when (tipe) {
                             SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK -> {
                                 _sjPengirimanGp.value = it.data!!
-                                _messageResponse.value = Event("Berhasil Mendapatkan Surat Jalan Pengiriman Gudang Proyek Aktif")
                             }
                             SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK -> {
                                 _sjPengirimanPp.value = it.data!!
-                                _messageResponse.value = Event("Berhasil Mendapatkan Surat Jalan Pengiriman Proyek Proyek Aktif")
                             }
                             SuratJalanTipe.PENGEMBALIAN -> {
                                 _sjPengembalian.value = it.data!!
-                                _messageResponse.value = Event("Berhasil Mendapatkan Surat Jalan Pengembalian Aktif")
                             }
                         }
                     }
@@ -233,7 +226,6 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _sjDalamPerjalanan.value = it.data!!
-                        _messageResponse.value = Event("Berhasil Mendapatkan Surat Jalan Dalam Perjalanan")
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
@@ -252,7 +244,6 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _kendaraanByLogistic.value = it.data!!
-                        _messageResponse.value = Event("Berhasil Mendapatkan Kendaraan")
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
