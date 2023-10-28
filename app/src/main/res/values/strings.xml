@@ -241,4 +241,7 @@
     <string name="jenis_kendaraan">Jenis Kendaraan</string>
     <string name="tidak_ada_kendaraan">Tidak Ada Kendaraan</string>
     <string name="tambah_pre_order">Tambah Pre Order</string>
+    <string name="satuan">Satuan</string>
+    <string name="jumlah">Jumlah</string>
+    <string name="ubah_pre_order">Ubah Pre Order</string>
 </resources>

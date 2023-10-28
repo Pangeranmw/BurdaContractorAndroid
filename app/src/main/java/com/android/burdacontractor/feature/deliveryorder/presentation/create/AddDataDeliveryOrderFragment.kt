@@ -55,6 +55,9 @@ class AddDataDeliveryOrderFragment : Fragment() {
         addDeliveryOrderViewModel.perihal.value?.let {
             binding.etPerihal.setEditableText(it)
         }
+        addDeliveryOrderViewModel.untukPerhatian.value?.let {
+            binding.etUntukPerhatian.setEditableText(it)
+        }
         binding.cvTglPengambilan.setOnClickListener {
             val builder = MaterialDatePicker.Builder.datePicker()
             builder.setTitleText("Pilih Tanggal Pengambilan")
@@ -201,39 +204,5 @@ class AddDataDeliveryOrderFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-//    override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-//        when (view) {
-//            binding.mainLayout -> {
-//                val editTextPerihal = binding.etPerihal
-//                val editTextUP = binding.etUntukPerhatian
-//                when (motionEvent.action){
-//                    MotionEvent.ACTION_DOWN -> {
-//                        val v = requireActivity().currentFocus!!
-//                        checkEditTextFocus(editTextPerihal, motionEvent, v)
-//                        checkEditTextFocus(editTextUP, motionEvent, v)
-//                    }
-//                    MotionEvent.ACTION_UP -> {
-//                        view.requestFocus()
-//                        view.performClick()
-//                    }
-//                }
-//            }
-//        }
-//        return true
-//    }
-//
-//    private fun checkEditTextFocus(et: TextInputEditText, motionEvent: MotionEvent, v: View){
-//        if (et.isFocused) {
-//            val outRect = Rect()
-//            et.getGlobalVisibleRect(outRect)
-//            if (!outRect.contains(motionEvent.rawX.toInt(), motionEvent.rawY.toInt())) {
-//                et.clearFocus()
-//                val imm = v.context
-//                    .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//                imm.hideSoftInputFromWindow(v.windowToken, 0)
-//            }
-//        }
-//    }
 
 }

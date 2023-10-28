@@ -541,15 +541,4 @@
         </LinearLayout>
     </ScrollView>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_selanjutnya"
-        style="@style/ButtonFullWidth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_state"
-        android:enabled="false"
-        android:visibility="gone"
-        android:text="@string/selanjutnya"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

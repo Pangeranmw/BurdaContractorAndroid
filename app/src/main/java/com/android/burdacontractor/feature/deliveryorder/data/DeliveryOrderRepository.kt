@@ -45,26 +45,25 @@ class DeliveryOrderRepository @Inject constructor(
             storageDataSource.getToken(), status, date_start, date_end, size, search, createdByOrFor
         ).asLiveData()
 
-    override suspend fun getDeliveryOrderById(id: String): Flow<Resource<DeliveryOrderDetailItem>> = flow{
-        try {
-            emit(Resource.Loading())
-            when(val response = deliveryOrderRemoteDataSource.getDeliveryOrderById(storageDataSource.getToken(), id).first()){
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> {
-                    val result = response.data.deliveryOrder
-                    emit(Resource.Success(result))
-                }
-
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+    override suspend fun getDeliveryOrderById(id: String): Flow<Resource<DeliveryOrderDetailItem>> = flow {
+        emit(Resource.Loading())
+        when (val response =
+            deliveryOrderRemoteDataSource.getDeliveryOrderById(storageDataSource.getToken(), id)
+                .first()) {
+            is ApiResponse.Empty -> {}
+            is ApiResponse.Success -> {
+                val result = response.data.deliveryOrder
+                emit(Resource.Success(result))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
+
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
-    }
+    }.catch {
+        emit(Resource.Error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun getAllDeliveryOrderDalamPerjalananByUser(): Flow<Resource<List<AllDeliveryOrder>>> =
         flow {
-            try {
                 emit(Resource.Loading())
                 when (val response =
                     deliveryOrderRemoteDataSource.getAllDeliveryOrderDalamPerjalananByUser(
@@ -78,14 +77,12 @@ class DeliveryOrderRepository @Inject constructor(
 
                     is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
                 }
-            } catch (ex: Exception) {
-                emit(Resource.Error(ex.message.toString()))
-            }
-        }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
 
     override suspend fun getSomeActiveDeliveryOrder(size: Int): Flow<Resource<DataAllDeliveryOrderWithCountItem>> =
         flow {
-            try {
                 emit(Resource.Loading())
                 when (val response = deliveryOrderRemoteDataSource.getAllDeliveryOrderWithCount(
                     storageDataSource.getToken(),
@@ -93,31 +90,31 @@ class DeliveryOrderRepository @Inject constructor(
                 ).first()) {
                     is ApiResponse.Empty -> {}
                     is ApiResponse.Success -> {
-                    val result = response.data.data!!
-                    emit(Resource.Success(result))
-                }
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
-            }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
-        }
-    }
-    override suspend fun getCountActiveDeliveryOrder(): Flow<Resource<CountActiveResponse>> = flow{
-        try {
-            emit(Resource.Loading())
-            when(val response = deliveryOrderRemoteDataSource.getCountActiveDeliveryOrder(storageDataSource.getToken()).first()){
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> {
-                    val result = response.data
-                    emit(Resource.Success(result))
-                }
+                        val result = response.data.data!!
+                        emit(Resource.Success(result))
+                    }
 
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+                    is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+                }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+    override suspend fun getCountActiveDeliveryOrder(): Flow<Resource<CountActiveResponse>> = flow{
+        emit(Resource.Loading())
+        when (val response =
+            deliveryOrderRemoteDataSource.getCountActiveDeliveryOrder(storageDataSource.getToken())
+                .first()) {
+            is ApiResponse.Empty -> {}
+            is ApiResponse.Success -> {
+                val result = response.data
+                emit(Resource.Success(result))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
+
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
-    }
+    }.catch {
+        emit(Resource.Error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun addDeliveryOrderStepOne(
         addDeliveryOrderStepOneBody: AddDeliveryOrderStepOneBody
@@ -140,24 +137,20 @@ class DeliveryOrderRepository @Inject constructor(
     override suspend fun addDeliveryOrderStepTwo(
         addDeliveryOrderStepTwoBody: AddDeliveryOrderStepTwoBody
     ): Flow<Resource<String>> = flow {
-        try {
-            emit(Resource.Loading())
-            when (val response = deliveryOrderRemoteDataSource.addDeliveryOrderStepTwo(
-                storageDataSource.getToken(),
-                addDeliveryOrderStepTwoBody
-            ).first()) {
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> {
-                    val result = response.data.id
-                    emit(Resource.Success(result))
-                }
-
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+        emit(Resource.Loading())
+        when (val response = deliveryOrderRemoteDataSource.addDeliveryOrderStepTwo(
+            storageDataSource.getToken(),
+            addDeliveryOrderStepTwoBody
+        ).first()) {
+            is ApiResponse.Empty -> {}
+            is ApiResponse.Success -> {
+                val result = response.data.id
+                emit(Resource.Success(result))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
+
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
-    }
+    }.catch { emit(Resource.Error(it.message.toString())) }
 
     override suspend fun updateDeliveryOrder(
         adminGudangId: String,
@@ -170,21 +163,24 @@ class DeliveryOrderRepository @Inject constructor(
     override suspend fun uploadFotoBuktiDeliveryOrder(
         id: String,
         fotoBukti: File
-    ): Flow<Resource<ErrorMessageResponse>> = flow{
-        try {
-            emit(Resource.Loading())
-            when(val response = deliveryOrderRemoteDataSource.uploadFotoBuktiDeliveryOrder(storageDataSource.getToken(), id, fotoBukti).first()){
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> {
-                    val result = response.data
-                    emit(Resource.Success(result))
-                }
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+    ): Flow<Resource<ErrorMessageResponse>> = flow {
+        emit(Resource.Loading())
+        when (val response = deliveryOrderRemoteDataSource.uploadFotoBuktiDeliveryOrder(
+            storageDataSource.getToken(),
+            id,
+            fotoBukti
+        ).first()) {
+            is ApiResponse.Empty -> {}
+            is ApiResponse.Success -> {
+                val result = response.data
+                emit(Resource.Success(result))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
+
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
-    }
+    }.catch {
+        emit(Resource.Error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun deleteDeliveryOrder(deliveryOrderId: String): Flow<Resource<ErrorMessageResponse>> {
         TODO("Not yet implemented")
