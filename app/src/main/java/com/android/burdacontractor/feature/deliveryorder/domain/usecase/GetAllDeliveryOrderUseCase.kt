@@ -9,8 +9,8 @@ import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliver
 interface GetAllDeliveryOrderUseCase {
     fun execute(
         status: DeliveryOrderStatus,
-        date_start: String? = null,
-        date_end: String? = null,
+        dateStart: String? = null,
+        dateEnd: String? = null,
         size: Int = 5,
         search: String? = null,
         createdByOrFor: CreatedByOrFor,

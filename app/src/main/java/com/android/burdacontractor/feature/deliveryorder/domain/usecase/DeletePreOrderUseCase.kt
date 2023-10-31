@@ -4,11 +4,8 @@ import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import kotlinx.coroutines.flow.Flow
 
-interface UpdateDeliveryOrderUseCase {
+interface DeletePreOrderUseCase {
     suspend fun execute(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        peminjamanId: String,
+        preOrderId: String,
     ): Flow<Resource<ErrorMessageResponse>>
 }

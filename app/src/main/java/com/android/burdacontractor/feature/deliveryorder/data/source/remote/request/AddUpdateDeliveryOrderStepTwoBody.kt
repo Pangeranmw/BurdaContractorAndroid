@@ -1,8 +1,9 @@
 package com.android.burdacontractor.feature.deliveryorder.data.source.remote.request
 
+import com.android.burdacontractor.feature.deliveryorder.domain.model.PreOrder
 import com.google.gson.annotations.SerializedName
 
-data class AddDeliveryOrderStepOneBody(
+data class AddUpdateDeliveryOrderStepTwoBody(
     @SerializedName("logistic_id")
     val logisticId: String,
     @SerializedName("purchasing_id")
@@ -14,9 +15,11 @@ data class AddDeliveryOrderStepOneBody(
     @SerializedName("kendaraan_id")
     val kendaraanId: String,
     @SerializedName("perihal")
-    val perihal : String,
+    val perihal: String,
     @SerializedName("tgl_pengambilan")
-    val tglPengambilan : String,
+    val tglPengambilan: String,
     @SerializedName("untuk_perhatian")
-    val untukPerhatian : String,
+    val untukPerhatian: String,
+    @SerializedName("preorder")
+    val preOrder: List<PreOrder>,
 )

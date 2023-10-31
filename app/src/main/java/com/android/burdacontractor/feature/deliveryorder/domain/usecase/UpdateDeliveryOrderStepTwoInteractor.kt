@@ -4,9 +4,10 @@ import com.android.burdacontractor.feature.deliveryorder.data.source.remote.requ
 import com.android.burdacontractor.feature.deliveryorder.domain.repository.IDeliveryOrderRepository
 import javax.inject.Inject
 
-class AddDeliveryOrderStepTwoInteractor @Inject constructor(private val deliveryOrderRepository: IDeliveryOrderRepository) :
-    AddDeliveryOrderStepTwoUseCase {
+class UpdateDeliveryOrderStepTwoInteractor @Inject constructor(private val deliveryOrderRepository: IDeliveryOrderRepository) :
+    UpdateDeliveryOrderStepTwoUseCase {
     override suspend fun execute(
+        id: String,
         addUpdateDeliveryOrderStepTwoBody: AddUpdateDeliveryOrderStepTwoBody
-    ) = deliveryOrderRepository.addDeliveryOrderStepTwo(addUpdateDeliveryOrderStepTwoBody)
+    ) = deliveryOrderRepository.updateDeliveryOrderStepTwo(id, addUpdateDeliveryOrderStepTwoBody)
 }

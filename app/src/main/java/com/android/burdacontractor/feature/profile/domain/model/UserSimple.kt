@@ -17,5 +17,8 @@ data class UserSimple(
     val foto: String,
 
     @field:SerializedName("no_hp")
-    val noHp: String
+    val noHp: String,
+
+    @field:SerializedName("role")
+    val role: String
 ) : Parcelable

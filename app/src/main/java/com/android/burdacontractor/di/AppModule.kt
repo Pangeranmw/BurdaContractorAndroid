@@ -131,11 +131,39 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun provideAddDeliveryOrderStepOneUseCase(getAddDeliveryOrderStepOneUseCaseInteractor: AddDeliveryOrderStepOneInteractor): AddDeliveryOrderStepOneUseCase
+    abstract fun provideAddDeliveryOrderStepOneUseCase(addDeliveryOrderStepOneUseCaseInteractor: AddDeliveryOrderStepOneInteractor): AddDeliveryOrderStepOneUseCase
 
     @Binds
     @ViewModelScoped
-    abstract fun provideAddDeliveryOrderStepTwoUseCase(getAddDeliveryOrderStepTwoUseCaseInteractor: AddDeliveryOrderStepTwoInteractor): AddDeliveryOrderStepTwoUseCase
+    abstract fun provideAddDeliveryOrderStepTwoUseCase(addDeliveryOrderStepTwoUseCaseInteractor: AddDeliveryOrderStepTwoInteractor): AddDeliveryOrderStepTwoUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideUpdateDeliveryOrderStepOneUseCase(
+        updateDeliveryOrderStepOneUseCaseInteractor: UpdateDeliveryOrderStepOneInteractor
+    ): UpdateDeliveryOrderStepOneUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideUpdateDeliveryOrderStepTwoUseCase(
+        updateDeliveryOrderStepTwoUseCaseInteractor: UpdateDeliveryOrderStepTwoInteractor
+    ): UpdateDeliveryOrderStepTwoUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideDeleteDeliveryOrderUseCase(deleteDeliveryOrderUseCaseInteractor: DeleteDeliveryOrderInteractor): DeleteDeliveryOrderUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideDeletePreOrderUseCase(deletePreOrderUseCaseInteractor: DeletePreOrderInteractor): DeletePreOrderUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideSendDeliveryOrderUseCase(sendDeliveryOrderUseCaseInteractor: SendDeliveryOrderInteractor): SendDeliveryOrderUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideMarkCompleteDeliveryOrderUseCase(markCompleteDeliveryOrderUseCaseInteractor: MarkCompleteDeliveryOrderInteractor): MarkCompleteDeliveryOrderUseCase
 
     // USER USE CASE
     @Binds

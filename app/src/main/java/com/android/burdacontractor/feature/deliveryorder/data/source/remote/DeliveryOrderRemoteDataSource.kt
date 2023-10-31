@@ -10,9 +10,9 @@ import com.android.burdacontractor.core.data.source.remote.response.ErrorMessage
 import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.DeliveryOrderService
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepOneBody
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepTwoBody
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AddDeliveryOrderStepOneResponse
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddUpdateDeliveryOrderStepOneBody
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddUpdateDeliveryOrderStepTwoBody
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AddUpdateDeliveryOrderStepOneResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderWithCountResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailResponse
@@ -34,8 +34,8 @@ class DeliveryOrderRemoteDataSource @Inject constructor(
     fun getAllDeliveryOrder(
         token: String,
         status: DeliveryOrderStatus,
-        date_start: String? = null,
-        date_end: String? = null,
+        dateStart: String? = null,
+        dateEnd: String? = null,
         size: Int = 5,
         search: String? = null,
         createdByOrFor: CreatedByOrFor,
@@ -49,8 +49,8 @@ class DeliveryOrderRemoteDataSource @Inject constructor(
                     deliveryOrderService,
                     token,
                     status.name,
-                    date_start,
-                    date_end,
+                    dateStart,
+                    dateEnd,
                     size,
                     search,
                     createdByOrFor
@@ -84,10 +84,10 @@ class DeliveryOrderRemoteDataSource @Inject constructor(
 
     suspend fun addDeliveryOrderStepOne(
         token: String,
-        addDeliveryOrderStepOneBody: AddDeliveryOrderStepOneBody,
-    ): Flow<ApiResponse<AddDeliveryOrderStepOneResponse>> = flow {
+        addUpdateDeliveryOrderStepOneBody: AddUpdateDeliveryOrderStepOneBody,
+    ): Flow<ApiResponse<AddUpdateDeliveryOrderStepOneResponse>> = flow {
         val response =
-            deliveryOrderService.addDeliveryOrderStepOne(token, addDeliveryOrderStepOneBody)
+            deliveryOrderService.addDeliveryOrderStepOne(token, addUpdateDeliveryOrderStepOneBody)
         if (!response.error) {
             emit(ApiResponse.Success(response))
         } else {
@@ -97,10 +97,98 @@ class DeliveryOrderRemoteDataSource @Inject constructor(
 
     suspend fun addDeliveryOrderStepTwo(
         token: String,
-        addDeliveryOrderStepTwoBody: AddDeliveryOrderStepTwoBody,
+        addUpdateDeliveryOrderStepTwoBody: AddUpdateDeliveryOrderStepTwoBody,
     ): Flow<ApiResponse<ErrorMessageWithIdResponse>> = flow {
         val response =
-            deliveryOrderService.addDeliveryOrderStepTwo(token, addDeliveryOrderStepTwoBody)
+            deliveryOrderService.addDeliveryOrderStepTwo(token, addUpdateDeliveryOrderStepTwoBody)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
+    suspend fun updateDeliveryOrderStepOne(
+        token: String,
+        id: String,
+        addUpdateDeliveryOrderStepOneBody: AddUpdateDeliveryOrderStepOneBody,
+    ): Flow<ApiResponse<AddUpdateDeliveryOrderStepOneResponse>> = flow {
+        val response =
+            deliveryOrderService.updateDeliveryOrderStepOne(
+                token,
+                id,
+                addUpdateDeliveryOrderStepOneBody
+            )
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
+    suspend fun updateDeliveryOrderStepTwo(
+        token: String,
+        id: String,
+        addUpdateDeliveryOrderStepTwoBody: AddUpdateDeliveryOrderStepTwoBody,
+    ): Flow<ApiResponse<ErrorMessageWithIdResponse>> = flow {
+        val response =
+            deliveryOrderService.updateDeliveryOrderStepTwo(
+                token,
+                id,
+                addUpdateDeliveryOrderStepTwoBody
+            )
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
+    suspend fun deleteDeliveryOrder(
+        token: String,
+        id: String,
+    ): Flow<ApiResponse<ErrorMessageResponse>> = flow {
+        val response =
+            deliveryOrderService.deleteDeliveryOrder(token, id)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
+    suspend fun deletePreOrder(
+        token: String,
+        id: String,
+    ): Flow<ApiResponse<ErrorMessageResponse>> = flow {
+        val response =
+            deliveryOrderService.deletePreOrder(token, id)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
+    suspend fun sendDeliveryOrder(
+        token: String,
+        id: String,
+    ): Flow<ApiResponse<ErrorMessageResponse>> = flow {
+        val response =
+            deliveryOrderService.sendDeliveryOrder(token, id)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
+    suspend fun markCompleteDeliveryOrder(
+        token: String,
+        id: String,
+    ): Flow<ApiResponse<ErrorMessageResponse>> = flow {
+        val response =
+            deliveryOrderService.markCompleteDeliveryOrder(token, id)
         if (!response.error) {
             emit(ApiResponse.Success(response))
         } else {

@@ -13,7 +13,6 @@ import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.StorageRepository
 import com.android.burdacontractor.core.data.source.local.storage.SessionManager
 import com.android.burdacontractor.core.domain.model.Constant
-import com.android.burdacontractor.core.presentation.SplashActivity
 import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.toIntegerNumber
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -94,7 +93,11 @@ class BurdaFirebaseMessagingService: FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
         }
         notificationManager.apply {
-            notify(Calendar.getInstance().timeInMillis.toInt(), notificationBuilder.build())
+            notify(
+                intentId!!,
+                Calendar.getInstance().timeInMillis.toInt(),
+                notificationBuilder.build()
+            )
             notify(title!!.toIntegerNumber(), notificationSummaryBuilder.build())
         }
     }

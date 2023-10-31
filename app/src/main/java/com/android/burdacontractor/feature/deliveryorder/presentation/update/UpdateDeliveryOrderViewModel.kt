@@ -1,4 +1,4 @@
-package com.android.burdacontractor.feature.deliveryorder.presentation.create
+package com.android.burdacontractor.feature.deliveryorder.presentation.update
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,18 +11,20 @@ import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddUpdateDeliveryOrderStepOneBody
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddUpdateDeliveryOrderStepTwoBody
 import com.android.burdacontractor.feature.deliveryorder.domain.model.PreOrder
-import com.android.burdacontractor.feature.deliveryorder.domain.usecase.AddDeliveryOrderStepOneUseCase
-import com.android.burdacontractor.feature.deliveryorder.domain.usecase.AddDeliveryOrderStepTwoUseCase
+import com.android.burdacontractor.feature.deliveryorder.domain.usecase.DeletePreOrderUseCase
+import com.android.burdacontractor.feature.deliveryorder.domain.usecase.UpdateDeliveryOrderStepOneUseCase
+import com.android.burdacontractor.feature.deliveryorder.domain.usecase.UpdateDeliveryOrderStepTwoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class AddDeliveryOrderViewModel @Inject constructor(
+class UpdateDeliveryOrderViewModel @Inject constructor(
     val liveNetworkChecker: LiveNetworkChecker,
-    val addDeliveryOrderStepOneUseCase: AddDeliveryOrderStepOneUseCase,
-    val addDeliveryOrderStepTwoUseCase: AddDeliveryOrderStepTwoUseCase,
+    private val updateDeliveryOrderStepOneUseCase: UpdateDeliveryOrderStepOneUseCase,
+    private val updateDeliveryOrderStepTwoUseCase: UpdateDeliveryOrderStepTwoUseCase,
+    private val deletePreOrderUseCase: DeletePreOrderUseCase,
 ) : ViewModel() {
     private val _state = MutableLiveData<StateResponse?>()
     val state: LiveData<StateResponse?> = _state
@@ -30,11 +32,11 @@ class AddDeliveryOrderViewModel @Inject constructor(
     private val _canSwipe = MutableLiveData(false)
     val canSwipe: LiveData<Boolean> = _canSwipe
 
-    private val _createStepOneDoBody = MutableLiveData<AddUpdateDeliveryOrderStepOneBody>()
-    val createStepOneDoBody: LiveData<AddUpdateDeliveryOrderStepOneBody> = _createStepOneDoBody
-
     private val _untukPerhatian = MutableLiveData<String?>(null)
     val untukPerhatian: LiveData<String?> = _untukPerhatian
+
+    private val _deliveryOrderId = MutableLiveData<String>()
+    val deliveryOrderId: LiveData<String> = _deliveryOrderId
 
     private val _perihal = MutableLiveData("Delivery Order")
     val perihal: LiveData<String?> = _perihal
@@ -51,7 +53,7 @@ class AddDeliveryOrderViewModel @Inject constructor(
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse: LiveData<Event<String?>> = _messageResponse
 
-    fun addCreateStepOneDo(
+    fun updateCreateStepOneDo(
         logisticId: String,
         purchasingId: String,
         perusahaanId: String,
@@ -72,7 +74,7 @@ class AddDeliveryOrderViewModel @Inject constructor(
             untukPerhatian = untukPerhatian
         )
         viewModelScope.launch {
-            addDeliveryOrderStepOneUseCase.execute(data).collect {
+            updateDeliveryOrderStepOneUseCase.execute(deliveryOrderId.value!!, data).collect {
                 when (it) {
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {
@@ -88,7 +90,7 @@ class AddDeliveryOrderViewModel @Inject constructor(
         }
     }
 
-    fun addCreateStepTwoDo(
+    fun updateCreateStepTwoDo(
         logisticId: String,
         purchasingId: String,
         perusahaanId: String,
@@ -112,7 +114,7 @@ class AddDeliveryOrderViewModel @Inject constructor(
             preOrder = listPreOrder,
         )
         viewModelScope.launch {
-            addDeliveryOrderStepTwoUseCase.execute(data).collect {
+            updateDeliveryOrderStepTwoUseCase.execute(deliveryOrderId.value!!, data).collect {
                 when (it) {
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {
@@ -138,18 +140,47 @@ class AddDeliveryOrderViewModel @Inject constructor(
         val id = UUID.randomUUID().toString()
         val data = PreOrder(
             id = id,
-            kodePo = id,
+            kodePo = "",
             ukuran = ukuran,
             keterangan = keterangan,
             jumlah = jumlah,
             namaMaterial = namaMaterial,
-            satuan = satuan
+            satuan = satuan,
+            deliveryOrderId = "",
         )
         _listPreOrder.value!!.add(data)
     }
 
-    fun removePreOrder(preOrderBody: PreOrder) {
-        _listPreOrder.value!!.remove(preOrderBody)
+    fun removePreOrder(preOrderBody: PreOrder, successListener: () -> Unit) {
+        val createdPo = _listPreOrder.value!!.count { !it.deliveryOrderId.isNullOrBlank() }
+        if (preOrderBody.deliveryOrderId.isNullOrBlank()) {
+            _listPreOrder.value!!.remove(preOrderBody)
+            successListener()
+        } else {
+            if (createdPo > 1) {
+                _listPreOrder.value!!.remove(preOrderBody)
+                viewModelScope.launch {
+                    deletePreOrderUseCase.execute(preOrderBody.id.toString()).collect {
+                        when (it) {
+                            is Resource.Loading -> _state.value = StateResponse.LOADING
+                            is Resource.Success -> {
+                                _state.value = StateResponse.SUCCESS
+                                _messageResponse.value = Event(it.data?.message)
+                                successListener()
+                            }
+
+                            is Resource.Error -> {
+                                _state.value = StateResponse.ERROR
+                                _messageResponse.value = Event(it.message)
+                            }
+                        }
+                    }
+                }
+            } else {
+                _messageResponse.value =
+                    Event("Gagal Menghapus Pre Order, Minimal 1 PO Yang Telah Terbuat")
+            }
+        }
     }
 
     fun changePreOrder(
@@ -169,6 +200,14 @@ class AddDeliveryOrderViewModel @Inject constructor(
 
     fun setUntukPerhatian(untukPerhatian: String?) {
         _untukPerhatian.value = untukPerhatian
+    }
+
+    fun setDeliveryOrderId(deliveryOrderId: String) {
+        _deliveryOrderId.value = deliveryOrderId
+    }
+
+    fun setListPreOrder(listPreOrder: List<PreOrder>) {
+        _listPreOrder.value = listPreOrder.toMutableList()
     }
 
     fun setPerihal(perihal: String?) {

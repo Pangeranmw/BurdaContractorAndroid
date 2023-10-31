@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.Constant
+import com.android.burdacontractor.core.domain.model.Constant.INTENT_PARCEL
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
@@ -29,6 +30,7 @@ import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOr
 import com.android.burdacontractor.feature.deliveryorder.presentation.location.PantauLokasiDeliveryOrderActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.location.TelusuriLokasiDeliveryOrderActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.print.DeliveryOrderCetakActivity
+import com.android.burdacontractor.feature.deliveryorder.presentation.update.UpdateDeliveryOrderActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.uploadphoto.UploadFotoBuktiDeliveryOrderActivity
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.google.android.material.snackbar.Snackbar
@@ -99,25 +101,41 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                 DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
                     tvStatus.setTextColor(ContextCompat.getColor(this@DeliveryOrderDetailActivity,R.color.orange_dark_full))
                 }
+
                 DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
-                    tvStatus.setTextColor(ContextCompat.getColor(this@DeliveryOrderDetailActivity,R.color.red))
+                    tvStatus.setTextColor(
+                        ContextCompat.getColor(
+                            this@DeliveryOrderDetailActivity,
+                            R.color.red
+                        )
+                    )
                 }
+
                 DeliveryOrderStatus.SELESAI.name -> {
-                    tvStatus.setTextColor(ContextCompat.getColor(this@DeliveryOrderDetailActivity,R.color.secondary_main))
+                    tvStatus.setTextColor(
+                        ContextCompat.getColor(
+                            this@DeliveryOrderDetailActivity,
+                            R.color.secondary_main
+                        )
+                    )
                 }
             }
             tvCreatedAt.text = getDateFromMillis(deliveryOrder!!.createdAt)
             tvUpdatedAt.text = getDateFromMillis(deliveryOrder!!.updatedAt)
 
-            tvAlamatAsal.text = deliveryOrder!!.tempatAsal.alamat
-            tvNamaAsal.text = deliveryOrder!!.tempatAsal.nama
-            tvNamaTujuan.text = deliveryOrder!!.tempatTujuan.nama
-            tvAlamatTujuan.text = deliveryOrder!!.tempatTujuan.alamat
+            tvAlamatAsal.text = deliveryOrder!!.gudang.alamat
+            tvNamaAsal.text = deliveryOrder!!.gudang.nama
+            tvNamaTujuan.text = deliveryOrder!!.perusahaan.nama
+            tvAlamatTujuan.text = deliveryOrder!!.perusahaan.alamat
 
-            tvTglPengambilan.text = getDateFromMillis(deliveryOrder!!.tglPengambilan, "dd MMMM yyyy")
+            tvTglPengambilan.text =
+                getDateFromMillis(deliveryOrder!!.tglPengambilan, "dd MMMM yyyy")
 
-            ivPurchasing.setImageFromUrl(deliveryOrder!!.purchasing.foto,this@DeliveryOrderDetailActivity)
-            if(deliveryOrder?.purchasing?.foto!=null){
+            ivPurchasing.setImageFromUrl(
+                deliveryOrder!!.purchasing.foto,
+                this@DeliveryOrderDetailActivity
+            )
+            if (deliveryOrder?.purchasing?.foto != null) {
                 ivPurchasing.layoutParams.width = 100
                 ivPurchasing.layoutParams.height = 100
                 ivPurchasing.requestLayout()
@@ -224,7 +242,7 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                 UserRole.ADMIN_GUDANG.name, UserRole.PURCHASING.name, UserRole.ADMIN.name -> {
                     btnPantauLokasi.setOnClickListener {
                         openActivityWithExtras(PantauLokasiDeliveryOrderActivity::class.java,false){
-                            putParcelable(Constant.INTENT_PARCEL, deliveryOrder)
+                            putParcelable(INTENT_PARCEL, deliveryOrder)
                         }
                     }
                 }
@@ -237,16 +255,19 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                             btnTandaiSelesai.setOnClickListener {
                                 CustomDialog(
                                     mainButtonText = "Selesai",
-                                    secondaryButtonText = "Batalkan",
+                                    secondaryButtonText = "Batal",
                                     title = "Tandai Selesai Delivery Order",
                                     subtitle = "Apakah anda yakin ingin menandai selesai delivery order ${deliveryOrder!!.kodeDo} ?",
                                     image = null,
                                     blockMainButton = {
-                                        //exec viewmodel selesai
-                                        refreshData()
+                                        deliveryOrderDetailViewModel.markCompleteDeliveryOrder(
+                                            deliveryOrder!!.id
+                                        ) {
+                                            refreshData()
+                                        }
                                     },
                                     blockSecondaryButton = {}
-                                ).show(supportFragmentManager, "MyCustomFragment")
+                                ).show(supportFragmentManager, "MarkCompleteFragment")
                             }
                         }
                     }
@@ -273,14 +294,26 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                     btnTelusuriLokasi.setVisible()
                     btnTelusuriLokasi.setOnClickListener {
                         openActivityWithExtras(TelusuriLokasiDeliveryOrderActivity::class.java,false){
-                            putParcelable(Constant.INTENT_PARCEL, deliveryOrder)
+                            putParcelable(INTENT_PARCEL, deliveryOrder)
                         }
                     }
                     when(deliveryOrder!!.status){
                         DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
                             btnAmbilBarang.setVisible()
                             btnAmbilBarang.setOnClickListener {
-
+                                CustomDialog(
+                                    mainButtonText = "Antar",
+                                    secondaryButtonText = "Batal",
+                                    title = "Antarkan Barang",
+                                    subtitle = "Apakah anda yakin ingin mengantar delivery order ${deliveryOrder!!.kodeDo} ?",
+                                    image = null,
+                                    blockMainButton = {
+                                        deliveryOrderDetailViewModel.sendDeliveryOrder(deliveryOrder!!.id) {
+                                            refreshData()
+                                        }
+                                    },
+                                    blockSecondaryButton = {}
+                                ).show(supportFragmentManager, "SendDoFragment")
                             }
                         }
                         DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
@@ -300,10 +333,34 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                                 btnUbahDo.setVisible()
                                 btnDelete.setVisible()
                                 btnUbahDo.setOnClickListener {
-
+                                    openActivityWithExtras(
+                                        UpdateDeliveryOrderActivity::class.java,
+                                        false
+                                    ) {
+                                        putParcelable(INTENT_PARCEL, deliveryOrder!!)
+                                    }
                                 }
-                                btnDelete.setOnClickListener{
-
+                                btnDelete.setOnClickListener {
+                                    CustomDialog(
+                                        mainButtonText = "Ya",
+                                        secondaryButtonText = "Tidak",
+                                        secondaryButtonBackgroundDrawable = R.drawable.semi_rounded_outline_red,
+                                        secondaryButtonTextColor = R.color.red,
+                                        mainButtonBackgroundDrawable = R.drawable.semi_rounded_red,
+                                        title = "Hapus Delivery Order",
+                                        subtitle = "Apakah anda yakin ingin menghapus delivery order ${deliveryOrder!!.kodeDo} ?",
+                                        image = null,
+                                        blockMainButton = {
+                                            deliveryOrderDetailViewModel.deleteDeliveryOrder(
+                                                deliveryOrder!!.id
+                                            ) {
+                                                finish()
+                                            }
+                                        },
+                                        blockSecondaryButton = {}).show(
+                                        supportFragmentManager,
+                                        "DeleteDo"
+                                    )
                                 }
                             }
                         }
@@ -311,6 +368,5 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 }

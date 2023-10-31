@@ -7,8 +7,8 @@ import com.android.burdacontractor.core.data.source.remote.response.CountActiveR
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepOneBody
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepTwoBody
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddUpdateDeliveryOrderStepOneBody
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddUpdateDeliveryOrderStepTwoBody
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DataAllDeliveryOrderWithCountItem
 import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetailItem
@@ -19,8 +19,8 @@ interface IDeliveryOrderRepository {
 
     fun getAllDeliveryOrder(
         status: DeliveryOrderStatus,
-        date_start: String? = null,
-        date_end: String? = null,
+        dateStart: String? = null,
+        dateEnd: String? = null,
         size: Int = 5,
         search: String? = null,
         createdByOrFor: CreatedByOrFor,
@@ -33,19 +33,22 @@ interface IDeliveryOrderRepository {
     suspend fun getCountActiveDeliveryOrder(): Flow<Resource<CountActiveResponse>>
 
     suspend fun addDeliveryOrderStepOne(
-        addDeliveryOrderStepOneBody: AddDeliveryOrderStepOneBody
+        addUpdateDeliveryOrderStepOneBody: AddUpdateDeliveryOrderStepOneBody
     ): Flow<Resource<String>>
 
     suspend fun addDeliveryOrderStepTwo(
-        addDeliveryOrderStepTwoBody: AddDeliveryOrderStepTwoBody
+        addUpdateDeliveryOrderStepTwoBody: AddUpdateDeliveryOrderStepTwoBody
     ): Flow<Resource<String>>
 
-    suspend fun updateDeliveryOrder(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        peminjamanId: String
-    ): Flow<Resource<ErrorMessageResponse>>
+    suspend fun updateDeliveryOrderStepOne(
+        id: String,
+        addUpdateDeliveryOrderStepOneBody: AddUpdateDeliveryOrderStepOneBody
+    ): Flow<Resource<String>>
+
+    suspend fun updateDeliveryOrderStepTwo(
+        id: String,
+        addUpdateDeliveryOrderStepTwoBody: AddUpdateDeliveryOrderStepTwoBody
+    ): Flow<Resource<String>>
 
     suspend fun uploadFotoBuktiDeliveryOrder(
         id: String,
@@ -53,6 +56,18 @@ interface IDeliveryOrderRepository {
     ): Flow<Resource<ErrorMessageResponse>>
 
     suspend fun deleteDeliveryOrder(
-        deliveryOrderId: String,
+        id: String,
+    ): Flow<Resource<ErrorMessageResponse>>
+
+    suspend fun deletePreOrder(
+        preOrderId: String,
+    ): Flow<Resource<ErrorMessageResponse>>
+
+    suspend fun sendDeliveryOrder(
+        id: String,
+    ): Flow<Resource<ErrorMessageResponse>>
+
+    suspend fun markCompleteDeliveryOrder(
+        id: String,
     ): Flow<Resource<ErrorMessageResponse>>
 }

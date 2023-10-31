@@ -8,9 +8,12 @@ import com.android.burdacontractor.core.data.source.remote.response.ErrorMessage
 import com.android.burdacontractor.feature.auth.data.source.remote.AuthRemoteDataSource
 import com.android.burdacontractor.feature.auth.data.source.remote.response.LoginItem
 import com.android.burdacontractor.feature.auth.domain.repository.IAuthRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,62 +28,71 @@ class AuthRepository @Inject constructor(
         noHp: String,
         email: String,
         password: String,
-    ): Flow<Resource<ErrorMessageResponse>> = flow{
-        try {
-            when(val response = authRemoteDataSource.register(nama,noHp,email,password).first()){
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> emit(Resource.Success(response.data))
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
-            }
-        }catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
+    ): Flow<Resource<ErrorMessageResponse>> = flow {
+        emit(Resource.Loading())
+        when (val response = authRemoteDataSource.register(nama, noHp, email, password).first()) {
+            is ApiResponse.Empty -> {}
+            is ApiResponse.Success -> emit(Resource.Success(response.data))
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
-    }
+    }.catch {
+        emit(Resource.Error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
 
-    override suspend fun login(email: String, password: String): Flow<Resource<LoginItem>> = flow{
-        try {
-            emit(Resource.Loading())
-            when(val response = authRemoteDataSource.login(email,password,storageDataSource.getPreferences(SessionManager.KEY_DEVICE_TOKEN)).first()){
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> {
-                    val user = response.data.user
-                    storageDataSource.loginUser(user.id, user.token, user.role, user.nama, user.ttd.toString(), user.foto)
-                    emit(Resource.Success(user))
-                }
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+    override suspend fun login(email: String, password: String): Flow<Resource<LoginItem>> = flow {
+        emit(Resource.Loading())
+        when (val response = authRemoteDataSource.login(
+            email,
+            password,
+            storageDataSource.getPreferences(SessionManager.KEY_DEVICE_TOKEN)
+        ).first()) {
+            is ApiResponse.Empty -> {}
+            is ApiResponse.Success -> {
+                val user = response.data.user
+                storageDataSource.loginUser(
+                    user.id,
+                    user.token,
+                    user.role,
+                    user.nama,
+                    user.ttd.toString(),
+                    user.foto
+                )
+                emit(Resource.Success(user))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
-        }
-    }
 
-    override suspend fun loginWithPin(pin: String): Flow<Resource<ErrorMessageResponse>> = flow{
-        try {
-            emit(Resource.Loading())
-            when(val response = authRemoteDataSource.loginWithPin(pin).first()){
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> emit(Resource.Success(response.data))
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
-            }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
-    }
+    }.catch {
+        emit(Resource.Error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
 
-    override suspend fun logout(): Flow<Resource<ErrorMessageResponse>> = flow{
-        try {
-            emit(Resource.Loading())
-            when(val response = authRemoteDataSource.logout(storageDataSource.getToken(), storageDataSource.getPreferences(SessionManager.KEY_DEVICE_TOKEN)).first()){
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> {
-                    storageDataSource.logoutUser()
-                    emit(Resource.Success(response.data))
-                }
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
-            }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
+    override suspend fun loginWithPin(pin: String): Flow<Resource<ErrorMessageResponse>> = flow {
+        emit(Resource.Loading())
+        when (val response = authRemoteDataSource.loginWithPin(pin).first()) {
+            is ApiResponse.Empty -> {}
+            is ApiResponse.Success -> emit(Resource.Success(response.data))
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
-    }
+    }.catch {
+        emit(Resource.Error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun logout(): Flow<Resource<ErrorMessageResponse>> = flow {
+        emit(Resource.Loading())
+        when (val response = authRemoteDataSource.logout(
+            storageDataSource.getToken(),
+            storageDataSource.getPreferences(SessionManager.KEY_DEVICE_TOKEN)
+        ).first()) {
+            is ApiResponse.Empty -> {}
+            is ApiResponse.Success -> {
+                storageDataSource.logoutUser()
+                emit(Resource.Success(response.data))
+            }
+
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+        }
+    }.catch {
+        emit(Resource.Error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
 }
 

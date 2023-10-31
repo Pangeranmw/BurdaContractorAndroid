@@ -244,4 +244,5 @@
     <string name="satuan">Satuan</string>
     <string name="jumlah">Jumlah</string>
     <string name="ubah_pre_order">Ubah Pre Order</string>
+    <string name="material_pre_order_belum_ditambahkan">Material Pre Order Belum Ditambahkan</string>
 </resources>

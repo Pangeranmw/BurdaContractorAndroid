@@ -10,9 +10,12 @@ import com.android.burdacontractor.feature.gudang.data.source.remote.GudangRemot
 import com.android.burdacontractor.feature.gudang.domain.model.AllGudang
 import com.android.burdacontractor.feature.gudang.domain.model.GudangById
 import com.android.burdacontractor.feature.gudang.domain.repository.IGudangRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,42 +25,38 @@ class GudangRepository @Inject constructor(
     private val storageDataSource: StorageDataSource
 ) : IGudangRepository {
     override suspend fun getGudangById(id: String): Flow<Resource<GudangById>> = flow {
-        try {
-            emit(Resource.Loading())
-            when (val response =
-                gudangRemoteDataSource.getGudangById(storageDataSource.getToken(), id)
-                    .first()) {
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> {
-                    val result = response.data.gudang
-                    emit(Resource.Success(result))
-                }
-
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+        emit(Resource.Loading())
+        when (val response =
+            gudangRemoteDataSource.getGudangById(storageDataSource.getToken(), id)
+                .first()) {
+            is ApiResponse.Empty -> {}
+            is ApiResponse.Success -> {
+                val result = response.data.gudang
+                emit(Resource.Success(result))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
+
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
-    }
+    }.catch {
+        emit(Resource.Error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun getGudangProvinsi(): Flow<Resource<List<String>>> = flow {
-        try {
-            emit(Resource.Loading())
-            when (val response =
-                gudangRemoteDataSource.getGudangProvinsi(storageDataSource.getToken())
-                    .first()) {
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> {
-                    val result = response.data.provinsi
-                    emit(Resource.Success(result))
-                }
-
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+        emit(Resource.Loading())
+        when (val response =
+            gudangRemoteDataSource.getGudangProvinsi(storageDataSource.getToken())
+                .first()) {
+            is ApiResponse.Empty -> {}
+            is ApiResponse.Success -> {
+                val result = response.data.provinsi
+                emit(Resource.Success(result))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
+
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
-    }
+    }.catch {
+        emit(Resource.Error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
 
     override fun getAllGudang(
         size: Int,

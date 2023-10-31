@@ -14,12 +14,16 @@ import com.android.burdacontractor.R
 
 class CustomDialog(
     private val mainButtonText: String? = null,
+    private val mainButtonBackgroundDrawable: Int? = null,
     private val secondaryButtonText: String? = null,
+    private val secondaryButtonTextColor: Int? = null,
+    private val mainButtonTextColor: Int? = null,
+    private val secondaryButtonBackgroundDrawable: Int? = null,
     private val title: String? = null,
     private val subtitle: String? = null,
     private val image: Drawable? = null,
-    private val blockMainButton : () -> Unit,
-    private val blockSecondaryButton : () -> Unit,
+    private val blockMainButton: () -> Unit,
+    private val blockSecondaryButton: () -> Unit,
 ): DialogFragment() {
     private lateinit var mainButton: Button
     private lateinit var secondaryButton: Button
@@ -31,15 +35,27 @@ class CustomDialog(
         dialog?.window?.setBackgroundDrawableResource(R.drawable.round_corner)
         val view = inflater.inflate(R.layout.dialaogue_two_button, container, false)
         mainButton = view.findViewById(R.id.main_button_dialog)
+        if (mainButtonBackgroundDrawable != null)
+            mainButton.setBackgroundResource(mainButtonBackgroundDrawable)
+
         secondaryButton = view.findViewById(R.id.secondary_button_dialog)
+        if (secondaryButtonBackgroundDrawable != null)
+            secondaryButton.setBackgroundResource(secondaryButtonBackgroundDrawable)
+
+        if (secondaryButtonTextColor != null)
+            secondaryButton.setTextColor(requireContext().getColor(secondaryButtonTextColor))
+
+        if (mainButtonTextColor != null)
+            mainButton.setTextColor(requireContext().getColor(mainButtonTextColor))
+
         tvTitle = view.findViewById(R.id.tv_title_dialog)
         tvSubtitle = view.findViewById(R.id.tv_subtitle_dialog)
         ivDialog = view.findViewById(R.id.iv_dialog)
 
-        if(title==null) tvTitle.isGone = true
+        if (title == null) tvTitle.isGone = true
         else tvTitle.text = title
 
-        if(subtitle==null) tvSubtitle.isGone = true
+        if (subtitle == null) tvSubtitle.isGone = true
         else tvSubtitle.text = subtitle
 
         if(image==null) ivDialog.isGone = true

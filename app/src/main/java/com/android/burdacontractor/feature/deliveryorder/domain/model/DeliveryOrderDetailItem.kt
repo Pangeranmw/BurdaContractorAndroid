@@ -3,6 +3,7 @@ package com.android.burdacontractor.feature.deliveryorder.domain.model
 import android.os.Parcelable
 import com.android.burdacontractor.core.domain.model.TempatSimple
 import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanSimple
+import com.android.burdacontractor.feature.profile.domain.model.UserSimple
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -13,10 +14,10 @@ data class DeliveryOrderDetailItem(
     val kendaraan: KendaraanSimple,
 
     @field:SerializedName("admin_gudang")
-    val adminGudang: UserDeliveryOrder? = null,
+    val adminGudang: UserSimple? = null,
 
     @field:SerializedName("tempat_asal")
-    val tempatAsal: TempatSimple,
+    val gudang: TempatSimple,
 
     @field:SerializedName("ttd")
     val ttd: String,
@@ -34,7 +35,7 @@ data class DeliveryOrderDetailItem(
     val fotoBukti: String? = null,
 
     @field:SerializedName("logistic")
-    val logistic: UserDeliveryOrder,
+    val logistic: UserSimple,
 
     @field:SerializedName("updated_at")
     val updatedAt: Long,
@@ -43,7 +44,7 @@ data class DeliveryOrderDetailItem(
     val tglPengambilan: Long,
 
     @field:SerializedName("tempat_tujuan")
-    val tempatTujuan: TempatSimple,
+    val perusahaan: TempatSimple,
 
     @field:SerializedName("pre_order")
     val preOrder: List<PreOrder>? = null,
@@ -55,27 +56,8 @@ data class DeliveryOrderDetailItem(
     val id: String,
 
     @field:SerializedName("purchasing")
-    val purchasing: UserDeliveryOrder,
+    val purchasing: UserSimple,
 
     @field:SerializedName("status")
     val status: String,
-) : Parcelable
-
-@Parcelize
-data class UserDeliveryOrder(
-
-    @field:SerializedName("id")
-    val id: String,
-
-    @field:SerializedName("nama")
-    val nama: String,
-
-    @field:SerializedName("foto")
-    val foto: String,
-
-    @field:SerializedName("no_hp")
-    val noHp: String,
-
-    @field:SerializedName("role")
-    val role: String
 ) : Parcelable

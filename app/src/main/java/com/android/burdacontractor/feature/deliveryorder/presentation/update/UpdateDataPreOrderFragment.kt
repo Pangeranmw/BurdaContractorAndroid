@@ -1,4 +1,4 @@
-package com.android.burdacontractor.feature.deliveryorder.presentation.create
+package com.android.burdacontractor.feature.deliveryorder.presentation.update
 
 import android.animation.LayoutTransition
 import android.os.Bundle
@@ -13,9 +13,7 @@ import com.android.burdacontractor.core.domain.model.Constant.INTENT_ID
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListPreOrderAdapter
 import com.android.burdacontractor.core.utils.openActivityWithExtras
-import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setImageFromUrl
-import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.core.utils.withDateFormat
 import com.android.burdacontractor.databinding.FragmentAddDataPreOrderBinding
 import com.android.burdacontractor.feature.deliveryorder.presentation.detail.DeliveryOrderDetailActivity
@@ -26,9 +24,9 @@ import com.android.burdacontractor.feature.perusahaan.presentation.PilihPerusaha
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddDataPreOrderFragment : Fragment() {
+class UpdateDataPreOrderFragment : Fragment() {
     private var _binding: FragmentAddDataPreOrderBinding? = null
-    private val addDeliveryOrderViewModel: AddDeliveryOrderViewModel by activityViewModels()
+    private val updateDeliveryOrderViewModel: UpdateDeliveryOrderViewModel by activityViewModels()
     private val storageViewModel: StorageViewModel by activityViewModels()
     private val pilihPerusahaanViewModel: PilihPerusahaanViewModel by activityViewModels()
     private val pilihKendaraanViewModel: PilihKendaraanViewModel by activityViewModels()
@@ -51,14 +49,16 @@ class AddDataPreOrderFragment : Fragment() {
 
     private fun initObserver() {
         with(binding) {
+            btnSubmit.text = getString(R.string.ubah_delivery_order)
             adapter = ListPreOrderAdapter(true, { preOrder ->
-                val addPOFragment = AddPreOrderFragment.newInstance(preOrderId = preOrder.id) {
+                val addPOFragment = UpdatePreOrderFragment.newInstance(preOrderId = preOrder.id) {
                     refreshAdapter()
                 }
                 addPOFragment.show(requireActivity().supportFragmentManager)
             }, { preOrder ->
-                addDeliveryOrderViewModel.removePreOrder(preOrder)
-                refreshAdapter()
+                updateDeliveryOrderViewModel.removePreOrder(preOrder) {
+                    refreshAdapter()
+                }
             })
             dataDeliveryOrder.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             cvDataDeliveryOrder.setOnClickListener {
@@ -66,23 +66,21 @@ class AddDataPreOrderFragment : Fragment() {
                 ivDown.visibility = dataDeliveryOrder.visibility
                 dataDeliveryOrder.visibility = v
             }
-            addDeliveryOrderViewModel.listPreOrder.observe(viewLifecycleOwner) {
+            updateDeliveryOrderViewModel.listPreOrder.observe(viewLifecycleOwner) {
                 refreshAdapter()
-                if (it.size == 0) tvPoEmpty.setVisible()
-                else tvPoEmpty.setGone()
             }
             btnSubmit.setOnClickListener {
-                with(addDeliveryOrderViewModel) {
-                    addCreateStepTwoDo(
+                with(updateDeliveryOrderViewModel) {
+                    updateCreateStepTwoDo(
                         logisticId = pilihLogisticViewModel.logistic.value!!.id,
                         purchasingId = storageViewModel.userId,
                         perusahaanId = pilihPerusahaanViewModel.perusahaan.value!!.id,
                         gudangId = pilihGudangViewModel.gudang.value!!.id,
                         kendaraanId = pilihKendaraanViewModel.kendaraan.value!!.id,
-                        perihal = addDeliveryOrderViewModel.perihal.value!!,
-                        tglPengambilan = addDeliveryOrderViewModel.tglPengambilan.value!!,
-                        untukPerhatian = addDeliveryOrderViewModel.untukPerhatian.value!!,
-                        listPreOrder = addDeliveryOrderViewModel.listPreOrder.value!!
+                        perihal = updateDeliveryOrderViewModel.perihal.value!!,
+                        tglPengambilan = updateDeliveryOrderViewModel.tglPengambilan.value!!,
+                        untukPerhatian = updateDeliveryOrderViewModel.untukPerhatian.value!!,
+                        listPreOrder = updateDeliveryOrderViewModel.listPreOrder.value!!
                     ) {
                         requireActivity().openActivityWithExtras(DeliveryOrderDetailActivity::class.java) {
                             putString(INTENT_ID, it)
@@ -91,21 +89,21 @@ class AddDataPreOrderFragment : Fragment() {
                 }
             }
             btnTambahPreOrder.setOnClickListener {
-                val addPOFragment = AddPreOrderFragment.newInstance {
+                val addPOFragment = UpdatePreOrderFragment.newInstance {
                     refreshAdapter()
                 }
                 addPOFragment.show(requireActivity().supportFragmentManager)
             }
-            addDeliveryOrderViewModel.kodeDo.observe(viewLifecycleOwner) { kodeDo ->
+            updateDeliveryOrderViewModel.kodeDo.observe(viewLifecycleOwner) { kodeDo ->
                 pilihLogisticViewModel.logistic.observe(viewLifecycleOwner) { logistic ->
                     pilihKendaraanViewModel.kendaraan.observe(viewLifecycleOwner) { kendaraan ->
                         pilihPerusahaanViewModel.perusahaan.observe(viewLifecycleOwner) { perusahaan ->
                             pilihGudangViewModel.gudang.observe(viewLifecycleOwner) { gudang ->
-                                addDeliveryOrderViewModel.perihal.observe(viewLifecycleOwner) { perihal ->
-                                    addDeliveryOrderViewModel.tglPengambilan.observe(
+                                updateDeliveryOrderViewModel.perihal.observe(viewLifecycleOwner) { perihal ->
+                                    updateDeliveryOrderViewModel.tglPengambilan.observe(
                                         viewLifecycleOwner
                                     ) { tglPengambilan ->
-                                        addDeliveryOrderViewModel.untukPerhatian.observe(
+                                        updateDeliveryOrderViewModel.untukPerhatian.observe(
                                             viewLifecycleOwner
                                         ) { untukPerhatian ->
                                             if (logistic != null &&
@@ -165,7 +163,7 @@ class AddDataPreOrderFragment : Fragment() {
     }
 
     private fun isPoAvailable() {
-        val listNotNull = addDeliveryOrderViewModel.listPreOrder.value!!.size > 0
+        val listNotNull = updateDeliveryOrderViewModel.listPreOrder.value!!.size > 0
         binding.btnSubmit.isEnabled = listNotNull
     }
 
@@ -174,7 +172,7 @@ class AddDataPreOrderFragment : Fragment() {
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         binding.rvPreOrder.adapter = adapter
         adapter.submitList(null)
-        adapter.submitList(addDeliveryOrderViewModel.listPreOrder.value!!)
+        adapter.submitList(updateDeliveryOrderViewModel.listPreOrder.value!!)
         isPoAvailable()
     }
 

@@ -70,8 +70,8 @@ class DeliveryOrderViewModel @Inject constructor(
         return getAllDeliveryOrderUseCase.execute(
             status = _status.value!!,
             search = _search.value,
-            date_start = _dateStart.value,
-            date_end = _dateEnd.value,
+            dateStart = _dateStart.value,
+            dateEnd = _dateEnd.value,
             createdByOrFor = _createdByOrFor.value!!,
         ).cachedIn(viewModelScope)
     }

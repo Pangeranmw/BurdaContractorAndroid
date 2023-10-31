@@ -6,16 +6,18 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TempatSimple(
-
     @field:SerializedName("coordinate")
     val coordinate: String,
 
     @field:SerializedName("nama")
     val nama: String,
 
-    @field:SerializedName("foto")
-    val foto: String,
+    @field:SerializedName("gambar")
+    val gambar: String,
 
     @field:SerializedName("alamat")
-    val alamat: String
+    val alamat: String,
+
+    @field:SerializedName("id")
+    val id: String
 ) : Parcelable

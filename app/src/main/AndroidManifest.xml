@@ -31,6 +31,9 @@
             android:name=".feature.deliveryorder.presentation.create.AddDeliveryOrderActivity"
             android:exported="false" />
         <activity
+            android:name=".feature.deliveryorder.presentation.update.UpdateDeliveryOrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.deliveryorder.presentation.uploadphoto.UploadFotoBuktiDeliveryOrderActivity"
             android:exported="true" />
         <activity

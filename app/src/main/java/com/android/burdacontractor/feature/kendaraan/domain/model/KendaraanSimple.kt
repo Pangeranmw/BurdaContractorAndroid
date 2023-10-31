@@ -17,5 +17,8 @@ data class KendaraanSimple(
     val platNomor: String,
 
     @field:SerializedName("gambar")
-    val gambar: String
+    val gambar: String,
+
+    @field:SerializedName("id")
+    val id: String
 ) : Parcelable

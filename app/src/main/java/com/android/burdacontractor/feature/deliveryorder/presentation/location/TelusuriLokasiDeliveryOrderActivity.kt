@@ -131,13 +131,13 @@ class TelusuriLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiv
         Configuration.getInstance().userAgentValue = userAgent
 
         if(deliveryOrder!=null){
-            val startLat = deliveryOrder!!.tempatAsal.coordinate.getLatitude()
-            val startLong = deliveryOrder!!.tempatAsal.coordinate.getLongitude()
-            val desLat = deliveryOrder!!.tempatTujuan.coordinate.getLatitude()
-            val desLong = deliveryOrder!!.tempatTujuan.coordinate.getLongitude()
+            val startLat = deliveryOrder!!.gudang.coordinate.getLatitude()
+            val startLong = deliveryOrder!!.gudang.coordinate.getLongitude()
+            val desLat = deliveryOrder!!.perusahaan.coordinate.getLatitude()
+            val desLong = deliveryOrder!!.perusahaan.coordinate.getLongitude()
             destinationPoint = GeoPoint(desLat, desLong)
-            originPoint = GeoPoint(startLat,startLong)
-            markerStartPoint = GeoPoint(startLat,startLong)
+            originPoint = GeoPoint(startLat, startLong)
+            markerStartPoint = GeoPoint(startLat, startLong)
             markerDestinationPoint = GeoPoint(desLat, desLong)
         }
         map = binding.map
@@ -193,7 +193,7 @@ class TelusuriLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiv
     }
     private fun initUi(){
         with(binding){
-            tvTrackingTo.text = getString(R.string.rute_menuju,deliveryOrder!!.tempatTujuan.nama)
+            tvTrackingTo.text = getString(R.string.rute_menuju, deliveryOrder!!.perusahaan.nama)
             tvNamaDriver.text = deliveryOrder!!.logistic.nama
             tvNamaPurchasing.text = deliveryOrder!!.purchasing.nama
             tvRolePurchasing.text = enumValueToNormal(deliveryOrder!!.purchasing.role)
@@ -210,13 +210,21 @@ class TelusuriLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiv
                 val tempOriginPoint = originPoint
                 originPoint = destinationPoint
                 destinationPoint = tempOriginPoint
-                changeTrackingTo(getString(R.string.rute_menuju, deliveryOrder?.tempatAsal?.nama), btnTrackOrigin, btnTrackDestination)
+                changeTrackingTo(
+                    getString(R.string.rute_menuju, deliveryOrder?.gudang?.nama),
+                    btnTrackOrigin,
+                    btnTrackDestination
+                )
             }
             btnTrackDestination.setOnClickListener {
                 val tempDesPoint = destinationPoint
                 destinationPoint = originPoint
                 originPoint = tempDesPoint
-                changeTrackingTo(getString(R.string.rute_menuju, deliveryOrder?.tempatTujuan?.nama), btnTrackDestination, btnTrackOrigin)
+                changeTrackingTo(
+                    getString(R.string.rute_menuju, deliveryOrder?.perusahaan?.nama),
+                    btnTrackDestination,
+                    btnTrackOrigin
+                )
             }
             btnZoomDriver.setOnClickListener {
                 map.controller.animateTo(driverPoint, 18.0, null)
@@ -373,8 +381,18 @@ class TelusuriLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiv
     private fun updateUIWithItineraryMarkers() {
         mItineraryMarkers.closeAllInfoWindows()
         mItineraryMarkers.items.clear()
-        markerStart = updateItineraryMarker(markerStartPoint, deliveryOrder!!.tempatAsal.nama, R.drawable.marker_ic_gudang_location, deliveryOrder!!.tempatAsal.alamat)
-        markerDestination = updateItineraryMarker(markerDestinationPoint, deliveryOrder!!.tempatTujuan.nama, R.drawable.marker_ic_perusahaan_location, deliveryOrder!!.tempatTujuan.alamat)
+        markerStart = updateItineraryMarker(
+            markerStartPoint,
+            deliveryOrder!!.gudang.nama,
+            R.drawable.marker_ic_gudang_location,
+            deliveryOrder!!.gudang.alamat
+        )
+        markerDestination = updateItineraryMarker(
+            markerDestinationPoint,
+            deliveryOrder!!.perusahaan.nama,
+            R.drawable.marker_ic_perusahaan_location,
+            deliveryOrder!!.perusahaan.alamat
+        )
     }
     private fun updateUIWithRoads(roads: Array<Road>?) {
         val mapOverlays = map.overlays

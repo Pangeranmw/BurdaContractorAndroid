@@ -3,9 +3,9 @@ package com.android.burdacontractor.feature.deliveryorder.data.source.remote.net
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageWithIdResponse
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepOneBody
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddDeliveryOrderStepTwoBody
-import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AddDeliveryOrderStepOneResponse
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddUpdateDeliveryOrderStepOneBody
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.request.AddUpdateDeliveryOrderStepTwoBody
+import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AddUpdateDeliveryOrderStepOneResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.AllDeliveryOrderWithCountResponse
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.response.DeliveryOrderDetailResponse
@@ -54,44 +54,57 @@ interface DeliveryOrderService {
     ): DeliveryOrderDetailResponse
 
     @Headers("Content-Type: application/json", "Accept: application/json")
-    @POST("delivery-order/create")
+    @POST("delivery-order/step-one")
     suspend fun addDeliveryOrderStepOne(
         @Header("Authorization") token: String,
-        @Body addDeliveryOrderStepOneBody: AddDeliveryOrderStepOneBody
-    ): AddDeliveryOrderStepOneResponse
+        @Body addUpdateDeliveryOrderStepOneBody: AddUpdateDeliveryOrderStepOneBody
+    ): AddUpdateDeliveryOrderStepOneResponse
 
     @Headers("Content-Type: application/json", "Accept: application/json")
-    @POST("delivery-order/create/pre-order")
+    @POST("delivery-order/step-two")
     suspend fun addDeliveryOrderStepTwo(
         @Header("Authorization") token: String,
-        @Body addDeliveryOrderStepTwoBody: AddDeliveryOrderStepTwoBody
+        @Body addUpdateDeliveryOrderStepTwoBody: AddUpdateDeliveryOrderStepTwoBody
     ): ErrorMessageWithIdResponse
 
-    @FormUrlEncoded
-    @POST("delivery-order")
-    suspend fun updateDeliveryOrderPengirimanGp(
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @PUT("delivery-order/{id}/step-one")
+    suspend fun updateDeliveryOrderStepOne(
         @Header("Authorization") token: String,
-        @Field("admin_gudang_id") adminGudangId: String,
-        @Field("logistic_id") logisticId: String,
-        @Field("kendaraan_id") kendaraanId: String,
-        @Field("peminjaman_id") peminjamanId: String,
-    ): ErrorMessageResponse
+        @Path("id") id: String,
+        @Body addUpdateDeliveryOrderStepOneBody: AddUpdateDeliveryOrderStepOneBody
+    ): AddUpdateDeliveryOrderStepOneResponse
 
-    @FormUrlEncoded
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @PUT("delivery-order/{id}/step-two")
+    suspend fun updateDeliveryOrderStepTwo(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+        @Body addUpdateDeliveryOrderStepTwoBody: AddUpdateDeliveryOrderStepTwoBody
+    ): ErrorMessageWithIdResponse
+
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @DELETE("delivery-order/{id}")
     suspend fun deleteDeliveryOrder(
         @Header("Authorization") token: String,
         @Path("id") deliveryOrderId: String,
     ): ErrorMessageResponse
 
-    @FormUrlEncoded
-    @POST("delivery-order/{id}/send")
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @DELETE("delivery-order/pre-order/{id}")
+    suspend fun deletePreOrder(
+        @Header("Authorization") token: String,
+        @Path("id") deliveryOrderId: String,
+    ): ErrorMessageResponse
+
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("delivery-order/{id}/mark-deliver")
     suspend fun sendDeliveryOrder(
         @Header("Authorization") token: String,
         @Path("id") deliveryOrderId: String,
     ): ErrorMessageResponse
 
-    @FormUrlEncoded
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("delivery-order/{id}/mark-complete")
     suspend fun markCompleteDeliveryOrder(
         @Header("Authorization") token: String,
@@ -99,7 +112,7 @@ interface DeliveryOrderService {
     ): ErrorMessageResponse
 
     @Multipart
-    @POST("delivery-order/upload-foto")
+    @POST("delivery-order/upload-photo")
     suspend fun uploadFotoBuktiDeliveryOrder(
         @Header("Authorization") token: String,
         @Part("id") id: RequestBody,

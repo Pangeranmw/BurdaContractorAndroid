@@ -449,9 +449,20 @@
                         android:id="@+id/layout_po"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_below="@id/btn_tambah_pre_order"
                         android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/tv_po_empty"
+                            android:textAlignment="center"
+                            android:textColor="@color/red"
+                            android:fontFamily="@font/inter_medium"
+                            android:visibility="gone"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/material_pre_order_belum_ditambahkan" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_pre_order"
@@ -460,6 +471,7 @@
                             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                             app:spanCount="2"
                             tools:itemCount="6"
+                            android:paddingBottom="20dp"
                             tools:listitem="@layout/item_pre_order" />
                     </LinearLayout>
                 </RelativeLayout>

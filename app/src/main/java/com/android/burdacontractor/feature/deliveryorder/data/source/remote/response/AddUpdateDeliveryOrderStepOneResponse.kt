@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class AddDeliveryOrderStepOneResponse(
+data class AddUpdateDeliveryOrderStepOneResponse(
 
     @field:SerializedName("kode_do")
     val kodeDo: String,

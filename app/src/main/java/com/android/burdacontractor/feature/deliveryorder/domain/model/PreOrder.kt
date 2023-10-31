@@ -26,5 +26,14 @@ data class PreOrder(
     var id: String? = null,
 
     @field:SerializedName("keterangan")
-    var keterangan: String? = null
+    var keterangan: String? = null,
+
+    @field:SerializedName("delivery_order_id")
+    var deliveryOrderId: String? = null,
+
+    @field:SerializedName("created_at")
+    val createdAt: Long? = null,
+
+    @field:SerializedName("updated_at")
+    val updatedAt: Long? = null,
 ) : Parcelable
