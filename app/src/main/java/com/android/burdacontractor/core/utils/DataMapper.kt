@@ -2,6 +2,7 @@ package com.android.burdacontractor.core.utils
 
 import com.android.burdacontractor.core.domain.model.TempatSimple
 import com.android.burdacontractor.feature.gudang.domain.model.AllGudang
+import com.android.burdacontractor.feature.gudang.domain.model.GudangById
 import com.android.burdacontractor.feature.kendaraan.domain.model.AllKendaraan
 import com.android.burdacontractor.feature.kendaraan.domain.model.Kendaraan
 import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanSimple
@@ -27,6 +28,22 @@ object DataMapper {
             status = ""
         )
     }
+
+    fun gudangByIdToAllGudang(gudangById: GudangById): AllGudang = AllGudang(
+        provinsi = gudangById.provinsi,
+        kota = gudangById.kota,
+        jarak = null,
+        latitude = gudangById.latitude,
+        totalData = 0,
+        createdAt = 0,
+        gambar = gudangById.gambar,
+        alamat = gudangById.alamat,
+        nama = gudangById.nama,
+        updatedAt = 0,
+        id = gudangById.id,
+        durasi = null,
+        longitude = gudangById.longitude
+    )
 
     fun tempatSimpleToAllGudang(tempatSimple: TempatSimple): AllGudang = AllGudang(
         provinsi = "",

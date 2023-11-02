@@ -13,7 +13,7 @@ import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
+import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSuratJalanUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetCountActiveSuratJalanUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,6 +58,7 @@ class SuratJalanViewModel @Inject constructor(
         _dateStart.value = date_start
         _dateEnd.value = date_end
     }
+
     fun getAllSuratJalan(
         tipe: SuratJalanTipe,
         status: SuratJalanStatus,
@@ -65,7 +66,7 @@ class SuratJalanViewModel @Inject constructor(
         date_end: String? = null,
         size: Int = 10,
         search: String? = null
-    ): LiveData<PagingData<SuratJalanItem>> =
+    ): LiveData<PagingData<AllSuratJalan>> =
         allSuratJalanUseCase.execute(
             tipe = tipe,
             status = status,
@@ -74,7 +75,8 @@ class SuratJalanViewModel @Inject constructor(
             size = size,
             search = search
         ).cachedIn(viewModelScope).asLiveData()
-    fun getCountActiveSuratJalan(){
+
+    fun getCountActiveSuratJalan() {
         viewModelScope.launch {
             getCountActiveSuratJalanUseCase.execute().collect{
                 when(it){

@@ -16,8 +16,8 @@ data class LogisticById(
 	@field:SerializedName("ttd")
 	val ttd: String,
 
-	@field:SerializedName("do_active")
-	val doActive: Int,
+	@field:SerializedName("count_do_active")
+	val countDoActive: Int,
 
 	@field:SerializedName("created_at")
 	val createdAt: Long,
@@ -31,14 +31,14 @@ data class LogisticById(
 	@field:SerializedName("updated_at")
 	val updatedAt: Long,
 
-	@field:SerializedName("sjgp_active")
-	val sjgpActive: Int,
+	@field:SerializedName("count_sjgp_active")
+	val countSjgpActive: Int,
 
-	@field:SerializedName("sjpp_active")
-	val sjppActive: Int,
+	@field:SerializedName("count_sjpp_active")
+	val countSjppActive: Int,
 
-	@field:SerializedName("sjpg_active")
-	val sjpgActive: Int,
+	@field:SerializedName("count_sjpg_active")
+	val countSjpgActive: Int,
 
 	@field:SerializedName("id")
 	val id: String,

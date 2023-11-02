@@ -14,7 +14,7 @@ import com.android.burdacontractor.feature.suratjalan.data.source.remote.respons
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanWithCountResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
+import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -32,13 +32,22 @@ class SuratJalanRemoteDataSource @Inject constructor(
         date_end: String? = null,
         size: Int = 5,
         search: String? = null,
-    ): Flow<PagingData<SuratJalanItem>> {
+    ): Flow<PagingData<AllSuratJalan>> {
         return Pager(
             config = PagingConfig(
                 pageSize = size
             ),
             pagingSourceFactory = {
-                SuratJalanPagingSource(suratJalanService, token, tipe.name, status.name, date_start, date_end, size, search)
+                SuratJalanPagingSource(
+                    suratJalanService,
+                    token,
+                    tipe.name,
+                    status.name,
+                    date_start,
+                    date_end,
+                    size,
+                    search
+                )
             }
         ).flow
     }

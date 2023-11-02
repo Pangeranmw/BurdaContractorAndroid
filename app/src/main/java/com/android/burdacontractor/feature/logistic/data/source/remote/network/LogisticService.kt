@@ -1,6 +1,7 @@
 package com.android.burdacontractor.feature.logistic.data.source.remote.network
 
 import com.android.burdacontractor.feature.logistic.data.source.remote.response.GetAllLogisticResponse
+import com.android.burdacontractor.feature.logistic.data.source.remote.response.GetLogisticByIdResponse
 import retrofit2.http.*
 
 interface LogisticService {
@@ -13,4 +14,11 @@ interface LogisticService {
         @Query("search") search: String? = null,
         @Query("coordinate") coordinate: String? = null,
     ): GetAllLogisticResponse
+
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @GET("logistic/{id}")
+    suspend fun getLogisticById(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): GetLogisticByIdResponse
 }

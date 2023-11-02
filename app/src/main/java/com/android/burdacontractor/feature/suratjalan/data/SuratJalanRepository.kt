@@ -12,7 +12,7 @@ import com.android.burdacontractor.feature.suratjalan.data.source.remote.SuratJa
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
+import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.repository.ISuratJalanRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +36,7 @@ class SuratJalanRepository @Inject constructor(
         date_end: String?,
         size: Int,
         search: String?
-    ): Flow<PagingData<SuratJalanItem>> =
+    ): Flow<PagingData<AllSuratJalan>> =
         suratJalanRemoteDataSource.getAllSuratJalan(
             storageDataSource.getToken(), tipe, status, date_start, date_end, size, search
         )
@@ -59,7 +59,7 @@ class SuratJalanRepository @Inject constructor(
             emit(Resource.Error(it.message.toString()))
         }.flowOn(Dispatchers.IO)
 
-    override suspend fun getAllSuratJalanDalamPerjalananByUser(): Flow<Resource<List<SuratJalanItem>>> =
+    override suspend fun getAllSuratJalanDalamPerjalananByUser(): Flow<Resource<List<AllSuratJalan>>> =
         flow {
             emit(Resource.Loading())
             when (val response =

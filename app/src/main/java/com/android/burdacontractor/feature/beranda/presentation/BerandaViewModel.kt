@@ -22,7 +22,7 @@ import com.android.burdacontractor.feature.profile.data.source.remote.response.U
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
+import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSuratJalanDalamPerjalananByUserUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetSomeActiveSuratJalanUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetStatistikMenungguSuratJalanUseCase
@@ -63,8 +63,8 @@ class BerandaViewModel @Inject constructor(
     private val _sjPengembalian = MutableLiveData<DataAllSuratJalanWithCountItem>()
     val sjPengembalian: LiveData<DataAllSuratJalanWithCountItem> = _sjPengembalian
 
-    private val _sjDalamPerjalanan = MutableLiveData<List<SuratJalanItem>>()
-    val sjDalamPerjalanan: LiveData<List<SuratJalanItem>> = _sjDalamPerjalanan
+    private val _sjDalamPerjalanan = MutableLiveData<List<AllSuratJalan>>()
+    val sjDalamPerjalanan: LiveData<List<AllSuratJalan>> = _sjDalamPerjalanan
 
     private val _doDalamPerjalanan = MutableLiveData<List<AllDeliveryOrder>>()
     val doDalamPerjalanan: LiveData<List<AllDeliveryOrder>> = _doDalamPerjalanan

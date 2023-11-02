@@ -55,7 +55,6 @@ class DeliveryOrderRepository @Inject constructor(
                 val result = response.data.deliveryOrder
                 emit(Resource.Success(result, response.data.message))
             }
-
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
     }.catch {
@@ -109,7 +108,6 @@ class DeliveryOrderRepository @Inject constructor(
                 val result = response.data
                 emit(Resource.Success(result, response.data.message))
             }
-
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
     }.catch {
@@ -129,7 +127,6 @@ class DeliveryOrderRepository @Inject constructor(
                 val result = response.data.kodeDo
                 emit(Resource.Success(result, response.data.message))
             }
-
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
     }.catch { emit(Resource.Error(it.toString())) }.flowOn(Dispatchers.IO)
@@ -147,7 +144,6 @@ class DeliveryOrderRepository @Inject constructor(
                 val result = response.data.id
                 emit(Resource.Success(result, response.data.message))
             }
-
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
     }.catch { emit(Resource.Error(it.message.toString())) }
@@ -167,7 +163,6 @@ class DeliveryOrderRepository @Inject constructor(
                 val result = response.data.kodeDo
                 emit(Resource.Success(result, response.data.message))
             }
-
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
     }.catch { emit(Resource.Error(it.toString())) }.flowOn(Dispatchers.IO)
@@ -187,7 +182,6 @@ class DeliveryOrderRepository @Inject constructor(
                 val result = response.data.id
                 emit(Resource.Success(result, response.data.message))
             }
-
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
     }.catch { emit(Resource.Error(it.message.toString())) }
@@ -207,7 +201,6 @@ class DeliveryOrderRepository @Inject constructor(
                 val result = response.data
                 emit(Resource.Success(result, response.data.message))
             }
-
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
     }.catch {

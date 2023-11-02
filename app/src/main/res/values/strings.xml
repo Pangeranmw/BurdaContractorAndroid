@@ -249,4 +249,18 @@
     <string name="jumlah">Jumlah</string>
     <string name="ubah_pre_order">Ubah Pre Order</string>
     <string name="material_pre_order_belum_ditambahkan">Material Pre Order Belum Ditambahkan</string>
+    <string name="tambah_kendaraan">Tambah Kendaraan</string>
+    <string name="merk">Merk Kendaraan</string>
+    <string name="jenis_kendaraan_belum_diatur">Jenis Kendaraan Belum Diatur</string>
+    <string name="gambar">Gambar</string>
+    <string name="gambar_belum_diatur">Gambar Belum Diatur</string>
+    <string name="detail_kendaraan">Detail Kendaraan</string>
+    <string name="tidak_ada_surat_jalan_pengembalian_aktif">Tidak Ada Surat Jalan Pengembalian Aktif</string>
+    <string name="tidak_ada_surat_jalan_pengiriman_gp_aktif">Tidak Ada Surat Jalan Pengiriman Gudang Proyek Aktif</string>
+    <string name="pengendara">Pengendara</string>
+    <string name="hapus_pengendara">Hapus\nPengendara</string>
+    <string name="pantau_pengendara">Pantau Pengendara</string>
+    <string name="ubah_kendaraan">Ubah Kendaraan</string>
+    <string name="lokasi_gudang_kendaraan">Lokasi Gudang Kendaraan</string>
+    <string name="tidak_ada_delivery_order_aktif">Tidak Ada Delivery Order Aktif</string>
 </resources>

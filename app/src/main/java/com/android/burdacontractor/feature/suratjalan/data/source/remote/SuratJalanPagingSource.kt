@@ -3,7 +3,7 @@ package com.android.burdacontractor.feature.suratjalan.data.source.remote
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
+import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 
 class SuratJalanPagingSource(
     private val suratJalanService: SuratJalanService,
@@ -14,11 +14,12 @@ class SuratJalanPagingSource(
     private val date_end: String? = null,
     private val size: Int = 5,
     private val search: String? = null,
-) : PagingSource<Int, SuratJalanItem>() {
+) : PagingSource<Int, AllSuratJalan>() {
     private companion object {
         const val INITIAL_PAGE_INDEX = 1
     }
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SuratJalanItem> {
+
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AllSuratJalan> {
         return try {
             val page = params.key ?: INITIAL_PAGE_INDEX
             val response = suratJalanService.getAllSuratJalan(
@@ -35,7 +36,7 @@ class SuratJalanPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, SuratJalanItem>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, AllSuratJalan>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)

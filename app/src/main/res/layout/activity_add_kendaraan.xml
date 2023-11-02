@@ -1,0 +1,361 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".feature.kendaraan.presentation.create.AddKendaraanActivity"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="10dp"
+                android:layout_centerVertical="true"
+                android:background="@color/white"
+                android:contentDescription="@string/toggle_menu"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/tv_app_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/inter_semi_bold"
+                android:text="@string/tambah_kendaraan"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginVertical="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_submit"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_gudang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/white"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_arrow_right"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/header_gudang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:gravity="center"
+                        android:text="@string/gudang"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_gudang_belum_dipilih"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/header_gudang"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/inter_regular"
+                        android:gravity="center"
+                        android:text="@string/belum_dipilih"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout_gudang"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/header_gudang"
+                        android:visibility="gone">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/iv_gudang"
+                            android:layout_width="50dp"
+                            android:layout_height="60dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:scaleType="centerCrop"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+                            tools:src="@tools:sample/avatars" />
+
+                        <TextView
+                            android:id="@+id/tv_nama_gudang"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/iv_gudang"
+                            android:layout_toEndOf="@+id/iv_gudang"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="@string/gudang"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tv_alamat_gudang"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_nama_gudang"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@+id/iv_gudang"
+                            android:fontFamily="@font/inter_regular"
+                            android:maxWidth="200dp"
+                            android:maxLines="2"
+                            android:text="@string/alamat_asal"
+                            android:textColor="@color/black" />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_merk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_gudang"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/white"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/header_merk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:gravity="center"
+                        android:text="@string/merk"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout
+                        android:id="@+id/et_merk_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/header_merk">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_merk"
+                            style="@style/CustomEditText"
+                            android:hint="@string/merk" />
+                    </com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_plat_nomor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_merk"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/white"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/header_plat_nomor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:gravity="center"
+                        android:text="@string/plat_nomor"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout
+                        android:id="@+id/et_plat_nomor_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/header_plat_nomor">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_plat_nomor"
+                            style="@style/CustomEditText"
+                            android:hint="@string/plat_nomor" />
+                    </com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_jenis_kendaraan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_plat_nomor"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/white"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/header_jenis_kendaraan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:gravity="center"
+                        android:text="@string/jenis_kendaraan"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <com.skydoves.powerspinner.PowerSpinnerView
+                        android:id="@+id/spinner_jenis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/header_jenis_kendaraan"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/semi_rounded_outline_gray_light"
+                        android:drawableTint="@color/black"
+                        android:hint="@string/jenis_kendaraan_belum_diatur"
+                        android:padding="15dp"
+                        android:textColorHint="@color/gray"
+                        app:fontFamily="@font/inter_medium"
+                        app:spinner_arrow_tint="@color/black"
+                        app:spinner_popup_background="@drawable/smooth_gray_shadow"
+                        app:spinner_selected_item_background="@drawable/bg_selected_spinner_with_shadow" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_gambar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_jenis_kendaraan"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/white"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_arrow_right"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/header_gambar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:gravity="center"
+                        android:text="@string/gambar"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:drawableStartCompat="@drawable/ic_image" />
+
+                    <TextView
+                        android:id="@+id/tv_gambar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/header_gambar"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/inter_regular"
+                        android:gravity="center"
+                        android:text="@string/gambar_belum_diatur"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_gambar"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:visibility="gone"
+                        android:layout_below="@id/header_gambar"
+                        android:layout_marginTop="10dp"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+                        tools:src="@tools:sample/avatars" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/rounded_white"
+                android:elevation="100dp"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_submit"
+        style="@style/ButtonFullWidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_state"
+        android:enabled="false"
+        android:text="@string/tambah_kendaraan"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

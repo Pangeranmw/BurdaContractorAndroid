@@ -9,7 +9,7 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
+import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import kotlinx.coroutines.flow.Flow
 
 interface ISuratJalanRepository {
@@ -21,13 +21,13 @@ interface ISuratJalanRepository {
         date_end: String? = null,
         size: Int = 5,
         search: String? = null,
-    ): Flow<PagingData<SuratJalanItem>>
+    ): Flow<PagingData<AllSuratJalan>>
 
     suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetailItem>>
 
     suspend fun getSomeActiveSuratJalan(tipe: SuratJalanTipe, size: Int = 5): Flow<Resource<DataAllSuratJalanWithCountItem>>
     suspend fun getStatistikMenungguSuratJalan(): Flow<Resource<List<StatisticCountTitleItem>>>
-    suspend fun getAllSuratJalanDalamPerjalananByUser(): Flow<Resource<List<SuratJalanItem>>>
+    suspend fun getAllSuratJalanDalamPerjalananByUser(): Flow<Resource<List<AllSuratJalan>>>
     suspend fun getCountActiveSuratJalan(): Flow<Resource<CountActiveResponse>>
 
     suspend fun addSuratJalanPengirimanGp(

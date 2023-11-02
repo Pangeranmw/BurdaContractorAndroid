@@ -1,4 +1,4 @@
-package com.android.burdacontractor.feature.kendaraan.presentation
+package com.android.burdacontractor.feature.kendaraan.presentation.main
 
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +9,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.domain.model.Constant.INTENT_ID
 import com.android.burdacontractor.core.domain.model.FilterSelected
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
@@ -19,12 +20,16 @@ import com.android.burdacontractor.core.presentation.adapter.PagingListKendaraan
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.enumValueToNormal
 import com.android.burdacontractor.core.utils.openActivity
+import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityKendaraanBinding
 import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.main.DeliveryOrderActivity
 import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
+import com.android.burdacontractor.feature.kendaraan.presentation.FilterKendaraanFragment
+import com.android.burdacontractor.feature.kendaraan.presentation.create.AddKendaraanActivity
+import com.android.burdacontractor.feature.kendaraan.presentation.detail.KendaraanDetailActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanActivity
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
@@ -142,7 +147,7 @@ class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedL
             if (storageViewModel.role == UserRole.ADMIN_GUDANG.name || storageViewModel.role == UserRole.ADMIN.name) {
                 btnAdd.setVisible()
                 btnAdd.setOnClickListener {
-//                    openActivity(AddKendaraanActivity::class.java)
+                    openActivity(AddKendaraanActivity::class.java, false)
                 }
             }
             binding.rvKendaraan.layoutManager = GridLayoutManager(
@@ -150,9 +155,9 @@ class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedL
                 GridLayoutManager.VERTICAL, false
             )
             adapter = PagingListKendaraanAdapter { kendaraan ->
-//                requireActivity().openActivityWithExtras(KendaraanDetailActivity::class.java, false) {
-//                    putString(INTENT_ID, kendaraan.id)
-//                }
+                openActivityWithExtras(KendaraanDetailActivity::class.java, false) {
+                    putString(INTENT_ID, kendaraan.id)
+                }
             }
             adapter.addLoadStateListener { loadState ->
                 when (loadState.source.refresh) {

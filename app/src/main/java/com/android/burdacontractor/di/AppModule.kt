@@ -21,6 +21,16 @@ import com.android.burdacontractor.feature.gudang.domain.usecase.GetGudangByIdIn
 import com.android.burdacontractor.feature.gudang.domain.usecase.GetGudangByIdUseCase
 import com.android.burdacontractor.feature.gudang.domain.usecase.GetGudangProvinsiInteractor
 import com.android.burdacontractor.feature.gudang.domain.usecase.GetGudangProvinsiUseCase
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.AddKendaraanInteractor
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.AddKendaraanUseCase
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.DeleteKendaraanInteractor
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.DeleteKendaraanUseCase
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.DeletePengendaraInteractor
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.DeletePengendaraUseCase
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetActiveDeliveryOrderByKendaraanInteractor
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetActiveDeliveryOrderByKendaraanUseCase
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetActiveSuratJalanByKendaraanInteractor
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetActiveSuratJalanByKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetAllKendaraanInteractor
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetAllKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByIdInteractor
@@ -29,8 +39,12 @@ import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraan
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanGudangInteractor
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanGudangUseCase
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.UpdateKendaraanInteractor
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.UpdateKendaraanUseCase
 import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisticInteractor
 import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisticUseCase
+import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticByIdInteractor
+import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticByIdUseCase
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetAllPerusahaanInteractor
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetAllPerusahaanUseCase
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetPerusahaanByIdInteractor
@@ -191,6 +205,35 @@ abstract class AppModule {
     @ViewModelScoped
     abstract fun provideGetAllKendaraanUseCase(getAllKendaraanInteractor: GetAllKendaraanInteractor): GetAllKendaraanUseCase
 
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetActiveDeliveryOrderByKendaraanUseCase(
+        getActiveDeliveryOrderByKendaraanInteractor: GetActiveDeliveryOrderByKendaraanInteractor
+    ): GetActiveDeliveryOrderByKendaraanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetActiveSuratJalanByKendaraanUseCase(
+        getActiveSuratJalanByKendaraanInteractor: GetActiveSuratJalanByKendaraanInteractor
+    ): GetActiveSuratJalanByKendaraanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideAddKendaraanUseCase(addKendaraanInteractor: AddKendaraanInteractor): AddKendaraanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideUpdateKendaraanUseCase(updateKendaraanInteractor: UpdateKendaraanInteractor): UpdateKendaraanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideDeleteKendaraanUseCase(deleteKendaraanInteractor: DeleteKendaraanInteractor): DeleteKendaraanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideDeletePengendaraUseCase(deletePengendaraInteractor: DeletePengendaraInteractor): DeletePengendaraUseCase
+
+
     // PERUSAHAAN USE CASE
     @Binds
     @ViewModelScoped
@@ -221,4 +264,8 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideGetAllLogisticUseCase(getAllLogisticInteractor: GetAllLogisticInteractor): GetAllLogisticUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetLogisticByIdUseCase(getLogisticByIdInteractor: GetLogisticByIdInteractor): GetLogisticByIdUseCase
 }

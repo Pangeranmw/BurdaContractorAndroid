@@ -238,9 +238,9 @@ fun <T> Activity.openActivityWithExtras(it: Class<T>, isFinished: Boolean = true
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     intent.putExtras(Bundle().apply(extras))
-    if(clearAllTask) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-    startActivity(intent)
-    if (isFinished) finish()
+    if (clearAllTask) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+    this.startActivity(intent)
+    if (isFinished) this.finish()
     overridePendingTransition(0, 0)
 }
 fun <T> Activity.openActivity(it: Class<T>, isFinished: Boolean = true, clearAllTask: Boolean = false) {

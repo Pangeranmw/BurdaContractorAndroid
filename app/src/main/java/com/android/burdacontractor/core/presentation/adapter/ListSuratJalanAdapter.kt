@@ -14,12 +14,17 @@ import com.android.burdacontractor.core.utils.getFirstName
 import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.getTimeDifference
 import com.android.burdacontractor.databinding.ItemSuratJalanBinding
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
+import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.bumptech.glide.Glide
 
-class ListSuratJalanAdapter(val role: String, val id: String, val listener: (SuratJalanItem)->Unit) : ListAdapter<SuratJalanItem, ListSuratJalanAdapter.ListSuratJalanViewHolder>(DIFF_CALLBACK) {
+class ListSuratJalanAdapter(
+    val role: String,
+    val id: String,
+    val listener: (AllSuratJalan) -> Unit
+) : ListAdapter<AllSuratJalan, ListSuratJalanAdapter.ListSuratJalanViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListSuratJalanViewHolder {
-        val binding = ItemSuratJalanBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemSuratJalanBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListSuratJalanViewHolder(binding)
     }
 
@@ -27,8 +32,9 @@ class ListSuratJalanAdapter(val role: String, val id: String, val listener: (Sur
         holder.bind(getItem(position))
     }
 
-    inner class ListSuratJalanViewHolder(private val binding: ItemSuratJalanBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(sj: SuratJalanItem) {
+    inner class ListSuratJalanViewHolder(private val binding: ItemSuratJalanBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(sj: AllSuratJalan) {
 //            when(user.role){
 //                UserRole.ADMIN_GUDANG.name -> {
 //                    binding.layoutAdminGudang.setGone()
@@ -101,11 +107,15 @@ class ListSuratJalanAdapter(val role: String, val id: String, val listener: (Sur
         }
     }
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SuratJalanItem>() {
-            override fun areItemsTheSame(oldItem: SuratJalanItem, newItem: SuratJalanItem): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AllSuratJalan>() {
+            override fun areItemsTheSame(oldItem: AllSuratJalan, newItem: AllSuratJalan): Boolean {
                 return oldItem == newItem
             }
-            override fun areContentsTheSame(oldItem: SuratJalanItem, newItem: SuratJalanItem): Boolean {
+
+            override fun areContentsTheSame(
+                oldItem: AllSuratJalan,
+                newItem: AllSuratJalan
+            ): Boolean {
                 return oldItem == newItem
             }
         }

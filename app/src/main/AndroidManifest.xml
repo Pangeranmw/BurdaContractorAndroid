@@ -28,6 +28,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".feature.kendaraan.presentation.detail.KendaraanDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.kendaraan.presentation.create.AddKendaraanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.kendaraan.presentation.update.UpdateKendaraanActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.deliveryorder.presentation.create.AddDeliveryOrderActivity"
             android:exported="false" />
         <activity
@@ -78,7 +87,7 @@
             android:name=".feature.beranda.presentation.BerandaActivity"
             android:exported="true" />
         <activity
-            android:name=".feature.kendaraan.presentation.KendaraanActivity"
+            android:name=".feature.kendaraan.presentation.main.KendaraanActivity"
             android:exported="true" />
         <activity
             android:name=".feature.gudang.presentation.GudangActivity"

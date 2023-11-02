@@ -25,6 +25,7 @@ import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setToastLong
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.FragmentPilihKendaraanBinding
+import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

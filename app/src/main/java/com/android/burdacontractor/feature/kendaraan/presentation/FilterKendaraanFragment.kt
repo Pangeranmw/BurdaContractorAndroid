@@ -17,6 +17,7 @@ import com.android.burdacontractor.core.utils.enumValueToNormal
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.FragmentFilterKendaraanDialogBinding
+import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
