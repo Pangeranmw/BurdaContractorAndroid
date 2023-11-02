@@ -13,6 +13,7 @@ import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.presentation.adapter.ListDeliveryOrderAdapter
 import com.android.burdacontractor.core.presentation.adapter.ListSuratJalanAdapter
+import com.android.burdacontractor.core.presentation.customview.CustomDialog
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.enumValueToNormal
 import com.android.burdacontractor.core.utils.openActivityWithExtras
@@ -248,9 +249,40 @@ class KendaraanDetailActivity : AppCompatActivity() {
             tvStatus.text = enumValueToNormal(kendaraan.status)
 
             btnDelete.setOnClickListener {
-                kendaraanDetailViewModel.deleteKendaraan(kendaraan.id) {
-                    finish()
-                }
+                CustomDialog(
+                    mainButtonText = "Hapus",
+                    mainButtonBackgroundDrawable = R.drawable.semi_rounded_red,
+                    secondaryButtonText = "Batal",
+                    secondaryButtonTextColor = R.color.red,
+                    mainButtonTextColor = null,
+                    secondaryButtonBackgroundDrawable = R.drawable.semi_rounded_outline_red,
+                    title = "Hapus Kendaraan",
+                    subtitle = "Apakah anda yakin ingin menghapus kendaraan ${kendaraan.merk} ${kendaraan.platNomor}?",
+                    image = null,
+                    blockMainButton = {
+                        kendaraanDetailViewModel.deleteKendaraan(kendaraan.id) {
+                            finish()
+                        }
+                    },
+                    blockSecondaryButton = {}).show(supportFragmentManager, "DeleteKendaraan")
+            }
+            btnHapusPengendara.setOnClickListener {
+                CustomDialog(
+                    mainButtonText = "Hapus",
+                    mainButtonBackgroundDrawable = R.drawable.semi_rounded_red,
+                    secondaryButtonText = "Batal",
+                    secondaryButtonTextColor = R.color.red,
+                    mainButtonTextColor = null,
+                    secondaryButtonBackgroundDrawable = R.drawable.semi_rounded_outline_red,
+                    title = "Hapus Pengendara",
+                    subtitle = "Apakah anda yakin ingin menghapus pengendara pada kendaraan ini?",
+                    image = null,
+                    blockMainButton = {
+                        kendaraanDetailViewModel.deletePengendara(kendaraan.id) {
+                            refreshData()
+                        }
+                    },
+                    blockSecondaryButton = {}).show(supportFragmentManager, "DeleteKendaraan")
             }
             btnUbahKendaraan.setOnClickListener {
                 openActivityWithExtras(UpdateKendaraanActivity::class.java, false) {
@@ -258,6 +290,7 @@ class KendaraanDetailActivity : AppCompatActivity() {
                     putParcelable(UpdateKendaraanActivity.GUDANG_BY_ID, gudang)
                 }
             }
+
         }
     }
 

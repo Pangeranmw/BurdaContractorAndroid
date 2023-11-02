@@ -132,6 +132,26 @@ class KendaraanDetailViewModel @Inject constructor(
         }
     }
 
+    fun deletePengendara(id: String, listener: () -> Unit) {
+        viewModelScope.launch {
+            deleteKendaraanUseCase.execute(id).collect {
+                when (it) {
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _state.value = StateResponse.SUCCESS
+                        _messageResponse.value = Event(it.message)
+                        listener()
+                    }
+
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
+                    }
+                }
+            }
+        }
+    }
+
     fun getActiveDeliveryOrder(id: String) {
         viewModelScope.launch {
             getActiveDeliveryOrderByKendaraanUseCase.execute(id).collect { res ->
