@@ -12,9 +12,12 @@ import com.android.burdacontractor.feature.kendaraan.domain.model.AllKendaraan
 import com.android.burdacontractor.feature.kendaraan.domain.model.Kendaraan
 import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanByLogistic
 import com.android.burdacontractor.feature.kendaraan.domain.repository.IKendaraanRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,29 +28,25 @@ class KendaraanRepository @Inject constructor(
 ) : IKendaraanRepository {
 
     override suspend fun getKendaraanByLogistic(): Flow<Resource<KendaraanByLogistic>> = flow {
-        try {
-            emit(Resource.Loading())
-            when (val response =
-                kendaraanRemoteDataSource.getKendaraanByLogistic(storageDataSource.getToken())
-                    .first()) {
-                is ApiResponse.Empty -> {}
-                is ApiResponse.Success -> {
-                    if (response.data.kendaraaan == null) {
-                        emit(Resource.Error(response.data.message, response.data.kendaraaan))
-                    }
-                    val result = response.data.kendaraaan!!
-                    emit(Resource.Success(result))
-                }
-
-                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+        emit(Resource.Loading())
+        when (val response =
+            kendaraanRemoteDataSource.getKendaraanByLogistic(storageDataSource.getToken())
+                .first()) {
+            is ApiResponse.Empty -> {}
+            is ApiResponse.Success -> {
+                val result = response.data.kendaraaan
+                emit(Resource.Success(result, response.data.message))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
-        }
-    }
 
-    override suspend fun getKendaraanGudang(): Flow<Resource<List<GudangById>>> = flow {
-        try {
+            is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+        }
+    }.catch {
+        emit(Resource.Error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
+
+
+    override suspend fun getKendaraanGudang(): Flow<Resource<List<GudangById>>> =
+        flow {
             emit(Resource.Loading())
             when (val response =
                 kendaraanRemoteDataSource.getKendaraanGudang(storageDataSource.getToken())
@@ -60,13 +59,13 @@ class KendaraanRepository @Inject constructor(
 
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
-        }
-    }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
 
-    override suspend fun getKendaraanById(id: String): Flow<Resource<Kendaraan>> = flow {
-        try {
+
+    override suspend fun getKendaraanById(id: String): Flow<Resource<Kendaraan>> =
+        flow {
             emit(Resource.Loading())
             when (val response =
                 kendaraanRemoteDataSource.getKendaraanById(storageDataSource.getToken(), id)
@@ -79,10 +78,10 @@ class KendaraanRepository @Inject constructor(
 
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
-        }
-    }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+
 
     override fun getAllKendaraan(
         size: Int,

@@ -53,7 +53,7 @@ class DeliveryOrderRepository @Inject constructor(
             is ApiResponse.Empty -> {}
             is ApiResponse.Success -> {
                 val result = response.data.deliveryOrder
-                emit(Resource.Success(result))
+                emit(Resource.Success(result, response.data.message))
             }
 
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -72,7 +72,7 @@ class DeliveryOrderRepository @Inject constructor(
                     is ApiResponse.Empty -> {}
                     is ApiResponse.Success -> {
                         val result = response.data.deliveryOrder!!
-                        emit(Resource.Success(result))
+                        emit(Resource.Success(result, response.data.message))
                     }
 
                     is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -91,7 +91,7 @@ class DeliveryOrderRepository @Inject constructor(
                     is ApiResponse.Empty -> {}
                     is ApiResponse.Success -> {
                         val result = response.data.data!!
-                        emit(Resource.Success(result))
+                        emit(Resource.Success(result, response.data.message))
                     }
 
                     is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -107,7 +107,7 @@ class DeliveryOrderRepository @Inject constructor(
             is ApiResponse.Empty -> {}
             is ApiResponse.Success -> {
                 val result = response.data
-                emit(Resource.Success(result))
+                emit(Resource.Success(result, response.data.message))
             }
 
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -127,7 +127,7 @@ class DeliveryOrderRepository @Inject constructor(
             is ApiResponse.Empty -> {}
             is ApiResponse.Success -> {
                 val result = response.data.kodeDo
-                emit(Resource.Success(result))
+                emit(Resource.Success(result, response.data.message))
             }
 
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -145,7 +145,7 @@ class DeliveryOrderRepository @Inject constructor(
             is ApiResponse.Empty -> {}
             is ApiResponse.Success -> {
                 val result = response.data.id
-                emit(Resource.Success(result))
+                emit(Resource.Success(result, response.data.message))
             }
 
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -165,7 +165,7 @@ class DeliveryOrderRepository @Inject constructor(
             is ApiResponse.Empty -> {}
             is ApiResponse.Success -> {
                 val result = response.data.kodeDo
-                emit(Resource.Success(result))
+                emit(Resource.Success(result, response.data.message))
             }
 
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -185,7 +185,7 @@ class DeliveryOrderRepository @Inject constructor(
             is ApiResponse.Empty -> {}
             is ApiResponse.Success -> {
                 val result = response.data.id
-                emit(Resource.Success(result))
+                emit(Resource.Success(result, response.data.message))
             }
 
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -205,7 +205,7 @@ class DeliveryOrderRepository @Inject constructor(
             is ApiResponse.Empty -> {}
             is ApiResponse.Success -> {
                 val result = response.data
-                emit(Resource.Success(result))
+                emit(Resource.Success(result, response.data.message))
             }
 
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -224,7 +224,7 @@ class DeliveryOrderRepository @Inject constructor(
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
                     val result = response.data
-                    emit(Resource.Success(result))
+                    emit(Resource.Success(result, response.data.message))
                 }
 
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -243,7 +243,7 @@ class DeliveryOrderRepository @Inject constructor(
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
                     val result = response.data
-                    emit(Resource.Success(result))
+                    emit(Resource.Success(result, response.data.message))
                 }
 
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -262,7 +262,7 @@ class DeliveryOrderRepository @Inject constructor(
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
                     val result = response.data
-                    emit(Resource.Success(result))
+                    emit(Resource.Success(result, response.data.message))
                 }
 
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -281,7 +281,7 @@ class DeliveryOrderRepository @Inject constructor(
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
                     val result = response.data
-                    emit(Resource.Success(result))
+                    emit(Resource.Success(result, response.data.message))
                 }
 
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))

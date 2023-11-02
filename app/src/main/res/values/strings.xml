@@ -31,6 +31,7 @@
     <string name="beranda">Beranda</string>
     <string name="surat_jalan">Surat Jalan</string>
     <string name="delivery_order">Delivery Order</string>
+    <string name="delivery_order_aktif">Delivery Order Aktif</string>
     <string name="kendaraan">Kendaraan</string>
     <string name="gudang">Gudang</string>
     <string name="surat_jalan_gp">Pengiriman Gud-Pro</string>
@@ -82,10 +83,13 @@
     <string name="icon_filter">Icon Filter</string>
     <string name="dalam_nperjalanan">Dalam\nPerjalanan</string>
     <string name="sj_pengiriman_gudang_proyek">Surat Jalan Pengiriman Gudang-Proyek</string>
+    <string name="sj_pengiriman_gudang_proyek_aktif">Surat Jalan Pengiriman Gudang-Proyek Aktif</string>
     <string name="number_placeholder">0</string>
     <string name="lihat_semua">Lihat Semua</string>
     <string name="sj_pengiriman_proyek_proyek">Surat Jalan Pengiriman Proyek-Proyek</string>
+    <string name="sj_pengiriman_proyek_proyek_aktif">Surat Jalan Pengiriman Proyek-Proyek Aktif</string>
     <string name="sj_pengembalian">Surat Jalan Pengembalian</string>
+    <string name="sj_pengembalian_aktif">Surat Jalan Pengembalian Aktif</string>
     <string name="toggle_menu">toggle menu</string>
     <string name="sj_dalam_perjalanan">Surat Jalan Sedang Diantarkan</string>
     <string name="do_dalam_perjalanan">Delivery Order Sedang Diantarkan</string>

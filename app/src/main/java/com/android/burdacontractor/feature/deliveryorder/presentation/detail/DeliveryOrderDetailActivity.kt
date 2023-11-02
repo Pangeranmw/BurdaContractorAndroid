@@ -293,19 +293,23 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                     btnPantauLokasi.setGone()
                     btnTelusuriLokasi.setVisible()
                     btnTelusuriLokasi.setOnClickListener {
-                        openActivityWithExtras(TelusuriLokasiDeliveryOrderActivity::class.java,false){
+                        openActivityWithExtras(
+                            TelusuriLokasiDeliveryOrderActivity::class.java,
+                            false
+                        ) {
                             putParcelable(INTENT_PARCEL, deliveryOrder)
                         }
                     }
+                    btnAmbilBarang.setGone()
                     when(deliveryOrder!!.status){
                         DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
                             btnAmbilBarang.setVisible()
                             btnAmbilBarang.setOnClickListener {
                                 CustomDialog(
-                                    mainButtonText = "Antar",
+                                    mainButtonText = "Ambil",
                                     secondaryButtonText = "Batal",
-                                    title = "Antarkan Barang",
-                                    subtitle = "Apakah anda yakin ingin mengantar delivery order ${deliveryOrder!!.kodeDo} ?",
+                                    title = "Ambil Barang",
+                                    subtitle = "Apakah anda yakin ingin mengambil delivery order ${deliveryOrder!!.kodeDo} ?",
                                     image = null,
                                     blockMainButton = {
                                         deliveryOrderDetailViewModel.sendDeliveryOrder(deliveryOrder!!.id) {

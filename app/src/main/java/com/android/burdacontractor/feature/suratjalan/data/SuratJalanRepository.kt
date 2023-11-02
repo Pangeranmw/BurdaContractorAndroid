@@ -14,9 +14,12 @@ import com.android.burdacontractor.feature.suratjalan.data.source.remote.respons
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanItem
 import com.android.burdacontractor.feature.suratjalan.domain.repository.ISuratJalanRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -35,84 +38,103 @@ class SuratJalanRepository @Inject constructor(
         search: String?
     ): Flow<PagingData<SuratJalanItem>> =
         suratJalanRemoteDataSource.getAllSuratJalan(
-            storageDataSource.getToken(),tipe,status,date_start,date_end,size,search
+            storageDataSource.getToken(), tipe, status, date_start, date_end, size, search
         )
 
-    override suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetailItem>> = flow{
-        try {
+    override suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetailItem>> =
+        flow {
             emit(Resource.Loading())
-            when(val response = suratJalanRemoteDataSource.getSuratJalanById(storageDataSource.getToken(), id).first()){
+            when (val response =
+                suratJalanRemoteDataSource.getSuratJalanById(storageDataSource.getToken(), id)
+                    .first()) {
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
                     val result = response.data.suratJalan
-                    emit(Resource.Success(result))
+                    emit(Resource.Success(result, response.data.message))
                 }
+
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
-        }
-    }
-    override suspend fun getAllSuratJalanDalamPerjalananByUser(): Flow<Resource<List<SuratJalanItem>>> = flow{
-        try {
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun getAllSuratJalanDalamPerjalananByUser(): Flow<Resource<List<SuratJalanItem>>> =
+        flow {
             emit(Resource.Loading())
-            when(val response = suratJalanRemoteDataSource.getAllSuratJalanDalamPerjalananByUser(storageDataSource.getToken()).first()){
+            when (val response =
+                suratJalanRemoteDataSource.getAllSuratJalanDalamPerjalananByUser(storageDataSource.getToken())
+                    .first()) {
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
                     val result = response.data.suratJalan!!
-                    emit(Resource.Success(result))
+                    emit(Resource.Success(result, response.data.message))
                 }
+
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
-        }
-    }
-    override suspend fun getSomeActiveSuratJalan(tipe: SuratJalanTipe, size: Int): Flow<Resource<DataAllSuratJalanWithCountItem>> = flow{
-        try {
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun getSomeActiveSuratJalan(
+        tipe: SuratJalanTipe,
+        size: Int
+    ): Flow<Resource<DataAllSuratJalanWithCountItem>> =
+        flow {
             emit(Resource.Loading())
-            when(val response = suratJalanRemoteDataSource.getAllSuratJalanWithCount(storageDataSource.getToken(), tipe, size).first()){
+            when (val response = suratJalanRemoteDataSource.getAllSuratJalanWithCount(
+                storageDataSource.getToken(),
+                tipe,
+                size
+            ).first()) {
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
                     val result = response.data.data!!
-                    emit(Resource.Success(result))
+                    emit(Resource.Success(result, response.data.message))
                 }
+
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
-        }
-    }
-    override suspend fun getStatistikMenungguSuratJalan(): Flow<Resource<List<StatisticCountTitleItem>>> = flow{
-        try {
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun getStatistikMenungguSuratJalan(): Flow<Resource<List<StatisticCountTitleItem>>> =
+        flow {
             emit(Resource.Loading())
-            when(val response = suratJalanRemoteDataSource.getStatistikMenungguSuratJalan(storageDataSource.getToken()).first()){
+            when (val response =
+                suratJalanRemoteDataSource.getStatistikMenungguSuratJalan(storageDataSource.getToken())
+                    .first()) {
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
                     val result = response.data.statisticCountTitleItems
-                    emit(Resource.Success(result))
+                    emit(Resource.Success(result, response.data.message))
                 }
+
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
-        }
-    }
-    override suspend fun getCountActiveSuratJalan(): Flow<Resource<CountActiveResponse>> = flow{
-        try {
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun getCountActiveSuratJalan(): Flow<Resource<CountActiveResponse>> =
+        flow {
             emit(Resource.Loading())
-            when(val response = suratJalanRemoteDataSource.getCountActiveSuratJalan(storageDataSource.getToken()).first()){
+            when (val response =
+                suratJalanRemoteDataSource.getCountActiveSuratJalan(storageDataSource.getToken())
+                    .first()) {
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
                     val result = response.data
-                    emit(Resource.Success(result))
+                    emit(Resource.Success(result, response.data.message))
                 }
+
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
             }
-        } catch (ex: Exception) {
-            emit(Resource.Error(ex.message.toString()))
-        }
-    }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
 
     override suspend fun addSuratJalanPengirimanGp(
         adminGudangId: String,

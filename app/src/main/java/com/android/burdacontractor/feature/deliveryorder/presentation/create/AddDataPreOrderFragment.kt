@@ -68,8 +68,7 @@ class AddDataPreOrderFragment : Fragment() {
             }
             addDeliveryOrderViewModel.listPreOrder.observe(viewLifecycleOwner) {
                 refreshAdapter()
-                if (it.size == 0) tvPoEmpty.setVisible()
-                else tvPoEmpty.setGone()
+
             }
             btnSubmit.setOnClickListener {
                 with(addDeliveryOrderViewModel) {
@@ -176,6 +175,8 @@ class AddDataPreOrderFragment : Fragment() {
         adapter.submitList(null)
         adapter.submitList(addDeliveryOrderViewModel.listPreOrder.value!!)
         isPoAvailable()
+        if (addDeliveryOrderViewModel.listPreOrder.value!!.size == 0) binding.tvPoEmpty.setVisible()
+        else binding.tvPoEmpty.setGone()
     }
 
     override fun onDestroyView() {

@@ -392,7 +392,8 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_toEndOf="@+id/tv_count_sj_pengiriman_gp"
                                 android:fontFamily="@font/inter_bold"
-                                android:text="@string/sj_pengiriman_gudang_proyek"
+                                android:text="@string/sj_pengiriman_gudang_proyek_aktif"
+                                android:layout_marginEnd="50dp"
                                 android:textColor="@color/black"
                                 android:textSize="16sp" />
 
@@ -459,7 +460,8 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_toEndOf="@+id/tv_count_sj_pengiriman_pp"
                                 android:fontFamily="@font/inter_bold"
-                                android:text="@string/sj_pengiriman_proyek_proyek"
+                                android:text="@string/sj_pengiriman_proyek_proyek_aktif"
+                                android:layout_marginEnd="50dp"
                                 android:textColor="@color/black"
                                 android:textSize="16sp" />
 
@@ -525,7 +527,8 @@
                                 android:layout_toEndOf="@+id/tv_count_sj_pengembalian"
                                 android:layout_toStartOf="@id/btn_see_all_sj_pengembalian"
                                 android:fontFamily="@font/inter_bold"
-                                android:text="@string/sj_pengembalian"
+                                android:text="@string/sj_pengembalian_aktif"
+                                android:layout_marginEnd="50dp"
                                 android:textColor="@color/black"
                                 android:textSize="16sp" />
 
@@ -590,7 +593,8 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_toEndOf="@+id/tv_count_delivery_order"
                                 android:fontFamily="@font/inter_bold"
-                                android:text="@string/delivery_order"
+                                android:text="@string/delivery_order_aktif"
+                                android:layout_marginEnd="50dp"
                                 android:textColor="@color/black"
                                 android:textSize="16sp" />
 

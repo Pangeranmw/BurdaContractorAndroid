@@ -1,5 +1,6 @@
 package com.android.burdacontractor.feature.beranda.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -131,6 +132,7 @@ class BerandaViewModel @Inject constructor(
                     }
                     is Resource.Error -> {
                         _messageResponse.value = Event(it.message)
+                        Log.d("error", it.message.toString())
                         _state.value = StateResponse.ERROR
                     }
                 }
@@ -149,6 +151,7 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)
+                        Log.d("error", it.message.toString())
                     }
                 }
             }
@@ -166,6 +169,7 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)
+                        Log.d("error", it.message.toString())
                     }
                 }
             }
@@ -184,6 +188,7 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)
+                        Log.d("error", it.message.toString())
                     }
                 }
             }
@@ -212,6 +217,7 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)
+                        Log.d("error", it.message.toString())
                     }
                 }
             }
@@ -230,6 +236,7 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)
+                        Log.d("error", it.message.toString())
                     }
                 }
             }
@@ -243,11 +250,12 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
-                        _kendaraanByLogistic.value = it.data!!
+                        _kendaraanByLogistic.value = it.data
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)
+                        Log.d("error", it.message.toString())
                     }
                 }
             }

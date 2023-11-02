@@ -186,7 +186,7 @@
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/inter_regular"
                     android:layout_toEndOf="@+id/iv_admin_gudang"
-                    android:text="@string/admin_gudang"
+                    android:text="@string/penanda_selesai"
                     android:textColor="@color/gray_dark"
                     android:textSize="11sp" />
             </RelativeLayout>

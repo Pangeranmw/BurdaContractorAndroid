@@ -32,7 +32,7 @@ class AuthRepository @Inject constructor(
         emit(Resource.Loading())
         when (val response = authRemoteDataSource.register(nama, noHp, email, password).first()) {
             is ApiResponse.Empty -> {}
-            is ApiResponse.Success -> emit(Resource.Success(response.data))
+            is ApiResponse.Success -> emit(Resource.Success(response.data, response.data.message))
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
     }.catch {
@@ -57,7 +57,7 @@ class AuthRepository @Inject constructor(
                     user.ttd.toString(),
                     user.foto
                 )
-                emit(Resource.Success(user))
+                emit(Resource.Success(user, response.data.message))
             }
 
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
@@ -70,7 +70,7 @@ class AuthRepository @Inject constructor(
         emit(Resource.Loading())
         when (val response = authRemoteDataSource.loginWithPin(pin).first()) {
             is ApiResponse.Empty -> {}
-            is ApiResponse.Success -> emit(Resource.Success(response.data))
+            is ApiResponse.Success -> emit(Resource.Success(response.data, response.data.message))
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
         }
     }.catch {
@@ -86,7 +86,7 @@ class AuthRepository @Inject constructor(
             is ApiResponse.Empty -> {}
             is ApiResponse.Success -> {
                 storageDataSource.logoutUser()
-                emit(Resource.Success(response.data))
+                emit(Resource.Success(response.data, response.data.message))
             }
 
             is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
