@@ -282,7 +282,7 @@ class KendaraanDetailActivity : AppCompatActivity() {
                             refreshData()
                         }
                     },
-                    blockSecondaryButton = {}).show(supportFragmentManager, "DeleteKendaraan")
+                    blockSecondaryButton = {}).show(supportFragmentManager, "DeletePengendara")
             }
             btnUbahKendaraan.setOnClickListener {
                 openActivityWithExtras(UpdateKendaraanActivity::class.java, false) {
