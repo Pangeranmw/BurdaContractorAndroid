@@ -27,4 +27,8 @@ class StorageViewModel @Inject constructor(private val storageUseCase: StorageUs
     fun updateTtd(ttd: String) {
         storageUseCase.setPreferences(SessionManager.KEY_TTD, ttd)
     }
+
+    fun setTracking(bool: Boolean) {
+        storageUseCase.setTracking(bool)
+    }
 }

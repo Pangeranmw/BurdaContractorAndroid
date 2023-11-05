@@ -55,15 +55,11 @@ class BurdaFirebaseMessagingService: FirebaseMessagingService() {
 
     private fun sendNotification() {
         val channelName = getString(R.string.default_notification_channel_name)
-        var intent = Intent()
-        intentId?.let{value->
-            clickAction?.let{
-                intent = Intent(it)
-                intent.putExtra(Constant.INTENT_ID,value)
-            }
-        }
-        val contentPendingIntent = PendingIntent.getActivity(this, Constant.NOTIFICATION_ID, intent,
-            PendingIntent.FLAG_IMMUTABLE)
+        val intent = Intent(clickAction).putExtra(Constant.INTENT_ID, intentId)
+        val contentPendingIntent = PendingIntent.getActivity(
+            this, Constant.NOTIFICATION_ID, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId.toString())
             .setSmallIcon(R.drawable.logo_burda)

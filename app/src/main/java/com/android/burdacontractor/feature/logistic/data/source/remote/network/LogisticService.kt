@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface LogisticService {
     @Headers("Content-Type: application/json", "Accept: application/json")
-    @GET("logistic/all")
+    @GET("logistics")
     suspend fun getAllLogistic(
         @Header("Authorization") token: String,
         @Query("page") page: Int = 1,

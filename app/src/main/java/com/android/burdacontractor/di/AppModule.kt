@@ -1,7 +1,15 @@
 package com.android.burdacontractor.di
 
+import com.android.burdacontractor.core.domain.usecase.GetCityByProvinceInteractor
+import com.android.burdacontractor.core.domain.usecase.GetCityByProvinceUseCase
 import com.android.burdacontractor.core.domain.usecase.GetDistanceMatrixInteractor
 import com.android.burdacontractor.core.domain.usecase.GetDistanceMatrixUseCase
+import com.android.burdacontractor.core.domain.usecase.GetLocationFromAddressInteractor
+import com.android.burdacontractor.core.domain.usecase.GetLocationFromAddressUseCase
+import com.android.burdacontractor.core.domain.usecase.GetLocationFromCoordinateInteractor
+import com.android.burdacontractor.core.domain.usecase.GetLocationFromCoordinateUseCase
+import com.android.burdacontractor.core.domain.usecase.GetProvinceInteractor
+import com.android.burdacontractor.core.domain.usecase.GetProvinceUseCase
 import com.android.burdacontractor.core.domain.usecase.LogisticFirebaseFirebaseInteractor
 import com.android.burdacontractor.core.domain.usecase.LogisticFirebaseUseCase
 import com.android.burdacontractor.core.domain.usecase.StorageInteractor
@@ -15,12 +23,26 @@ import com.android.burdacontractor.feature.auth.domain.usecase.LogoutUseCase
 import com.android.burdacontractor.feature.auth.domain.usecase.RegisterInteractor
 import com.android.burdacontractor.feature.auth.domain.usecase.RegisterUseCase
 import com.android.burdacontractor.feature.deliveryorder.domain.usecase.*
+import com.android.burdacontractor.feature.gudang.domain.usecase.AddGudangInteractor
+import com.android.burdacontractor.feature.gudang.domain.usecase.AddGudangUseCase
+import com.android.burdacontractor.feature.gudang.domain.usecase.DeleteGudangInteractor
+import com.android.burdacontractor.feature.gudang.domain.usecase.DeleteGudangUseCase
+import com.android.burdacontractor.feature.gudang.domain.usecase.GetActiveDeliveryOrderByGudangInteractor
+import com.android.burdacontractor.feature.gudang.domain.usecase.GetActiveDeliveryOrderByGudangUseCase
+import com.android.burdacontractor.feature.gudang.domain.usecase.GetActiveSuratJalanByGudangInteractor
+import com.android.burdacontractor.feature.gudang.domain.usecase.GetActiveSuratJalanByGudangUseCase
 import com.android.burdacontractor.feature.gudang.domain.usecase.GetAllGudangInteractor
 import com.android.burdacontractor.feature.gudang.domain.usecase.GetAllGudangUseCase
 import com.android.burdacontractor.feature.gudang.domain.usecase.GetGudangByIdInteractor
 import com.android.burdacontractor.feature.gudang.domain.usecase.GetGudangByIdUseCase
 import com.android.burdacontractor.feature.gudang.domain.usecase.GetGudangProvinsiInteractor
 import com.android.burdacontractor.feature.gudang.domain.usecase.GetGudangProvinsiUseCase
+import com.android.burdacontractor.feature.gudang.domain.usecase.GetStatistikDeliveryOrderByGudangInteractor
+import com.android.burdacontractor.feature.gudang.domain.usecase.GetStatistikDeliveryOrderByGudangUseCase
+import com.android.burdacontractor.feature.gudang.domain.usecase.GetStatistikSuratJalanByGudangInteractor
+import com.android.burdacontractor.feature.gudang.domain.usecase.GetStatistikSuratJalanByGudangUseCase
+import com.android.burdacontractor.feature.gudang.domain.usecase.UpdateGudangInteractor
+import com.android.burdacontractor.feature.gudang.domain.usecase.UpdateGudangUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.AddKendaraanInteractor
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.AddKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.DeleteKendaraanInteractor
@@ -45,12 +67,22 @@ import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisti
 import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisticUseCase
 import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticByIdInteractor
 import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticByIdUseCase
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.AddPerusahaanInteractor
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.AddPerusahaanUseCase
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.DeletePerusahaanInteractor
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.DeletePerusahaanUseCase
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetActiveDeliveryOrderByPerusahaanInteractor
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetActiveDeliveryOrderByPerusahaanUseCase
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetAllPerusahaanInteractor
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetAllPerusahaanUseCase
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetPerusahaanByIdInteractor
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetPerusahaanByIdUseCase
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetPerusahaanProvinsiInteractor
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetPerusahaanProvinsiUseCase
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetStatistikDeliveryOrderByPerusahaanInteractor
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetStatistikDeliveryOrderByPerusahaanUseCase
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.UpdatePerusahaanInteractor
+import com.android.burdacontractor.feature.perusahaan.domain.usecase.UpdatePerusahaanUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenInteractor
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.UploadTtdInteractor
@@ -247,6 +279,31 @@ abstract class AppModule {
     @ViewModelScoped
     abstract fun provideGetAllPerusahaanUseCase(getAllPerusahaanInteractor: GetAllPerusahaanInteractor): GetAllPerusahaanUseCase
 
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetActiveDeliveryOrderByPerusahaanUseCase(
+        getActiveDeliveryOrderByPerusahaanInteractor: GetActiveDeliveryOrderByPerusahaanInteractor
+    ): GetActiveDeliveryOrderByPerusahaanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideAddPerusahaanUseCase(addPerusahaanInteractor: AddPerusahaanInteractor): AddPerusahaanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideUpdatePerusahaanUseCase(updatePerusahaanInteractor: UpdatePerusahaanInteractor): UpdatePerusahaanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideDeletePerusahaanUseCase(deletePerusahaanInteractor: DeletePerusahaanInteractor): DeletePerusahaanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetStatistikDeliveryOrderByPerusahaanUseCase(
+        getStatistikDeliveryOrderByPerusahaanInteractor: GetStatistikDeliveryOrderByPerusahaanInteractor
+    ): GetStatistikDeliveryOrderByPerusahaanUseCase
+
+
     // GUDANG USE CASE
     @Binds
     @ViewModelScoped
@@ -260,6 +317,40 @@ abstract class AppModule {
     @ViewModelScoped
     abstract fun provideGetAllGudangUseCase(getAllGudangInteractor: GetAllGudangInteractor): GetAllGudangUseCase
 
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetActiveDeliveryOrderByGudangUseCase(
+        getActiveDeliveryOrderByGudangInteractor: GetActiveDeliveryOrderByGudangInteractor
+    ): GetActiveDeliveryOrderByGudangUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetActiveSuratJalanByGudangUseCase(getActiveSuratJalanByGudangInteractor: GetActiveSuratJalanByGudangInteractor): GetActiveSuratJalanByGudangUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideAddGudangUseCase(addGudangInteractor: AddGudangInteractor): AddGudangUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideUpdateGudangUseCase(updateGudangInteractor: UpdateGudangInteractor): UpdateGudangUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideDeleteGudangUseCase(deleteGudangInteractor: DeleteGudangInteractor): DeleteGudangUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetStatistikDeliveryOrderByGudangUseCase(
+        getStatistikDeliveryOrderByGudangInteractor: GetStatistikDeliveryOrderByGudangInteractor
+    ): GetStatistikDeliveryOrderByGudangUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetStatistikSuratJalanByGudangUseCase(
+        getStatistikSuratJalanByGudangInteractor: GetStatistikSuratJalanByGudangInteractor
+    ): GetStatistikSuratJalanByGudangUseCase
+
     // LOGISTIC USE CASE
     @Binds
     @ViewModelScoped
@@ -268,4 +359,23 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideGetLogisticByIdUseCase(getLogisticByIdInteractor: GetLogisticByIdInteractor): GetLogisticByIdUseCase
+
+    // DAERAH USE CASE
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetProvinceUseCase(getProvinceInteractor: GetProvinceInteractor): GetProvinceUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetCityByProvinceUseCase(getCityByProvinceInteractor: GetCityByProvinceInteractor): GetCityByProvinceUseCase
+
+    // GEO CODER USE CASE
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetLocationFromCoordinateUseCase(getLocationFromCoordinateInteractor: GetLocationFromCoordinateInteractor): GetLocationFromCoordinateUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetLocationFromAddressUseCase(getLocationFromAddressInteractor: GetLocationFromAddressInteractor): GetLocationFromAddressUseCase
+
 }

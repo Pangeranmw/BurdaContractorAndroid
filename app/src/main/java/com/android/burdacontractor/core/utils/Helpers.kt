@@ -11,7 +11,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
@@ -223,16 +222,6 @@ fun View.setVisible() {
 }
 
 // Lambda with receiver (extras: Bundle.() -> Unit = {})
-fun <T> Activity.openActivityWithExtrasTes(it: Class<T>, isFinished: Boolean = true, clearAllTask: Boolean = false, extras: Intent.() -> Unit = {}) {
-    val intent = Intent(this, it)
-    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-    intent.putExtras(Intent().apply(extras))
-    if(clearAllTask) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-    this.startActivity(intent)
-    if (isFinished) this.finish()
-    this.overridePendingTransition(0, 0)
-}
 fun <T> Activity.openActivityWithExtras(it: Class<T>, isFinished: Boolean = true, clearAllTask: Boolean = false, extras: Bundle.() -> Unit = {}) {
     val intent = Intent(this.applicationContext, it)
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
@@ -247,10 +236,12 @@ fun <T> Activity.openActivity(it: Class<T>, isFinished: Boolean = true, clearAll
     val intent = Intent(this, it)
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-    if(clearAllTask) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-    this.startActivity(intent)
-    if (isFinished) this.finish()
-    this.overridePendingTransition(0, 0)
+    if (clearAllTask) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+    startActivity(intent)
+    if (isFinished) {
+        finish()
+        overridePendingTransition(0, 0)
+    }
 }
 fun setParcelable(fragment: Fragment, parcelable: Bundle.() -> Unit = {}) {
     val bundle = Bundle()
@@ -291,50 +282,22 @@ fun Context.hasLocationPermission(): Boolean {
 fun TextInputEditText.setEditableText(text: String) {
     this.text = Editable.Factory.getInstance().newEditable(text)
 }
-
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun getAddress(location: LatLng, context: Context): String {
     val lat = location.latitude
     val lng = location.longitude
     val geocoder = Geocoder(context, Locale("id", "ID"))
     var result = context.getString(R.string.unknown_address)
-    geocoder.getFromLocation(
-        lat, lng, 1,
-        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-        object : Geocoder.GeocodeListener {
-            override fun onGeocode(addresses: MutableList<Address>) {
-            result = addresses[0].getAddressLine(0)
-        }
-        override fun onError(errorMessage: String?) {
-            super.onError(errorMessage)
-            result = errorMessage.toString()
-        }
-    })
+    geocoder.getFromLocation(lat, lng, 1) { addresses -> result = addresses[0].getAddressLine(0) }
     return result
 }
-//fun getAddress(latitude: Double, longitude: Double, context: Context): String? {
-//    val geocoder = Geocoder(context, Locale("id", "ID"))
-//    val addresses: List<Address> = geocoder.getFromLocation(latitude, longitude, 1) as List<Address>
-//    if (addresses.isNotEmpty()) {
-//        return addresses[0].getAddressLine(0)
-//    }
-//    return null
-//}
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun getCity(latitude: Double, longitude: Double, context: Context): String {
     var result = context.getString(R.string.unknown_address)
     val geocoder = Geocoder(context, Locale("id", "ID"))
-    geocoder.getFromLocation(latitude,longitude,1,
-        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-        object : Geocoder.GeocodeListener{
-            override fun onGeocode(addresses: MutableList<Address>) {
-                result = addresses[0].subAdminArea
-            }
-            override fun onError(errorMessage: String?) {
-                super.onError(errorMessage)
-                result = errorMessage.toString()
-            }
-        })
+    geocoder.getFromLocation(latitude, longitude, 1) { addresses ->
+        result = addresses[0].subAdminArea
+    }
     return result
 }
 fun Context.checkPassword(text: String, customTextInputLayout: CustomTextInputLayout){

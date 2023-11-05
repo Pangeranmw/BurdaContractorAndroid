@@ -1,4 +1,4 @@
-package com.android.burdacontractor.feature.perusahaan.presentation
+package com.android.burdacontractor.feature.perusahaan.presentation.main
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -8,6 +8,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.domain.model.Constant.INTENT_ID
 import com.android.burdacontractor.core.domain.model.FilterSelected
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
@@ -18,12 +19,16 @@ import com.android.burdacontractor.core.presentation.adapter.PagingListPerusahaa
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.getDistanceMatrixCoordinate
 import com.android.burdacontractor.core.utils.openActivity
+import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityPerusahaanBinding
 import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.main.DeliveryOrderActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
+import com.android.burdacontractor.feature.perusahaan.presentation.FilterPerusahaanFragment
+import com.android.burdacontractor.feature.perusahaan.presentation.create.AddPerusahaanActivity
+import com.android.burdacontractor.feature.perusahaan.presentation.detail.PerusahaanDetailActivity
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -118,7 +123,7 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
             if (storageViewModel.role == UserRole.PURCHASING.name) {
                 btnAdd.setVisible()
                 btnAdd.setOnClickListener {
-//                    openActivity(AddPerusahaanActivity::class.java)
+                    openActivity(AddPerusahaanActivity::class.java, false)
                 }
             }
             binding.rvPerusahaan.layoutManager = GridLayoutManager(
@@ -126,9 +131,9 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                 GridLayoutManager.VERTICAL, false
             )
             adapter = PagingListPerusahaanAdapter { perusahaan ->
-//                requireActivity().openActivityWithExtras(PerusahaanDetailActivity::class.java, false) {
-//                    putString(INTENT_ID, perusahaan.id)
-//                }
+                openActivityWithExtras(PerusahaanDetailActivity::class.java, false) {
+                    putString(INTENT_ID, perusahaan.id)
+                }
             }
             adapter.addLoadStateListener { loadState ->
                 when (loadState.source.refresh) {

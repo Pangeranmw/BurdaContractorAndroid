@@ -134,7 +134,7 @@ class KendaraanDetailViewModel @Inject constructor(
 
     fun deletePengendara(id: String, listener: () -> Unit) {
         viewModelScope.launch {
-            deleteKendaraanUseCase.execute(id).collect {
+            deletePengendaraUseCase.execute(id).collect {
                 when (it) {
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {

@@ -11,8 +11,8 @@ import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface SuratJalanService {
-    @Headers("Content-Type: application/json","Accept: application/json")
-    @GET("surat-jalan/all")
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @GET("surat-jalans")
     suspend fun getAllSuratJalan(
         @Header("Authorization") token: String,
         @Query("tipe") tipe: String,
@@ -30,8 +30,8 @@ interface SuratJalanService {
         @Header("Authorization") token: String,
     ): StatisticCountTitleResponse
 
-    @Headers("Content-Type: application/json","Accept: application/json")
-    @GET("surat-jalan/all/dalam-perjalanan")
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @GET("surat-jalans/dalam-perjalanan")
     suspend fun getAllSuratJalanDalamPerjalananByUser(
         @Header("Authorization") token: String,
     ): AllSuratJalanResponse

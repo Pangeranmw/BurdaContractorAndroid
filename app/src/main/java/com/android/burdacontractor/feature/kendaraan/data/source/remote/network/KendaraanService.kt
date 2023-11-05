@@ -80,7 +80,7 @@ interface KendaraanService {
 
 
     @Headers("Content-Type: application/json", "Accept: application/json")
-    @GET("kendaraan/all")
+    @GET("kendaraans")
     suspend fun getAllKendaraan(
         @Header("Authorization") token: String,
         @Query("page") page: Int = 1,

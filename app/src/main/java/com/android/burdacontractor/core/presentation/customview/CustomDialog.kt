@@ -22,6 +22,7 @@ class CustomDialog(
     private val title: String? = null,
     private val subtitle: String? = null,
     private val image: Drawable? = null,
+    private val canTouchOutside: Boolean = true,
     private val blockMainButton: () -> Unit,
     private val blockSecondaryButton: () -> Unit,
 ): DialogFragment() {
@@ -37,6 +38,8 @@ class CustomDialog(
         mainButton = view.findViewById(R.id.main_button_dialog)
         if (mainButtonBackgroundDrawable != null)
             mainButton.setBackgroundResource(mainButtonBackgroundDrawable)
+
+        dialog?.setCanceledOnTouchOutside(canTouchOutside)
 
         secondaryButton = view.findViewById(R.id.secondary_button_dialog)
         if (secondaryButtonBackgroundDrawable != null)

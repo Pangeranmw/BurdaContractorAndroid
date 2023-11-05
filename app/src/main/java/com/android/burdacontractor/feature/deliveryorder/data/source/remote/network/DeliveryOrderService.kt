@@ -14,8 +14,8 @@ import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface DeliveryOrderService {
-    @Headers("Content-Type: application/json","Accept: application/json")
-    @GET("delivery-order/all")
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @GET("delivery-orders")
     suspend fun getAllDeliveryOrder(
         @Header("Authorization") token: String,
         @Query("status") status: String,
@@ -27,8 +27,8 @@ interface DeliveryOrderService {
         @Query("for") createdByOrFor: String,
     ): AllDeliveryOrderResponse
 
-    @Headers("Content-Type: application/json","Accept: application/json")
-    @GET("delivery-order/all/dalam-perjalanan")
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @GET("delivery-orders/dalam-perjalanan")
     suspend fun getAllDeliveryOrderDalamPerjalananByUser(
         @Header("Authorization") token: String,
     ): AllDeliveryOrderResponse

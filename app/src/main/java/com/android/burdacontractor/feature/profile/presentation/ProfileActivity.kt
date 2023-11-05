@@ -12,13 +12,12 @@ import androidx.core.view.isVisible
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
+import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.service.location.LocationService
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.enumValueToNormal
 import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.openActivity
-import com.android.burdacontractor.core.utils.setGone
-import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityProfileBinding
 import com.android.burdacontractor.feature.auth.presentation.LoginActivity
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
@@ -31,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileBinding
     private val profileViewModel: ProfileViewModel by viewModels()
+    private val storageViewModel: StorageViewModel by viewModels()
     private var snackbar: Snackbar? = null
     private lateinit var user: UserByTokenItem
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,14 +91,16 @@ class ProfileActivity : AppCompatActivity() {
             profileViewModel.isTracking.observe(this){
                 binding.switchTracking.isChecked = it
             }
-        }else{
-            binding.switchTracking.isChecked = profileViewModel.getIsTrackingStorage
+        }else {
+//            binding.switchTracking.isChecked = profileViewModel.getIsTrackingStorage
+            binding.switchTracking.isChecked = storageViewModel.getTracking
         }
         binding.switchTracking.setOnCheckedChangeListener { _, b ->
             if(user.role == UserRole.LOGISTIC.name){
                 profileViewModel.setIsTrackingRealtime(user.id, b)
-            }else{
-                profileViewModel.setIsTrackingStorage(b)
+            }else {
+//                profileViewModel.setIsTrackingStorage(b)
+                storageViewModel.setTracking(b)
             }
             if(!b) {
                 stopService()

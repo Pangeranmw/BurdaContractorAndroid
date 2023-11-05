@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="@drawable/semi_rounded_gray_dark"
+    android:background="@drawable/semi_rounded_outline_gray_light"
     >
     <TextView
         android:id="@+id/tv_count_statistik"
@@ -17,7 +17,7 @@
         android:textSize="24sp"
         android:fontFamily="@font/inter_bold"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         />
     <TextView
         android:id="@+id/tv_nama_statistik"
@@ -28,6 +28,6 @@
         android:textSize="12sp"
         android:fontFamily="@font/inter_medium"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         />
 </LinearLayout>

@@ -230,15 +230,31 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
     }
     private fun initLayout(){
         with(binding){
+
+            if (user!!.role == UserRole.LOGISTIC.name && (deliveryOrder!!.logistic.id != user!!.id)) {
+                CustomDialog(
+                    mainButtonText = "Keluar",
+                    mainButtonBackgroundDrawable = null,
+                    secondaryButtonText = null,
+                    secondaryButtonTextColor = null,
+                    mainButtonTextColor = null,
+                    secondaryButtonBackgroundDrawable = null,
+                    title = "Tidak Bisa Melihat Delivery Order",
+                    subtitle = "Delivery order ini sudah bukan untuk anda",
+                    canTouchOutside = false,
+                    image = AppCompatResources.getDrawable(applicationContext, R.drawable.ic_error),
+                    blockMainButton = { finish() },
+                    blockSecondaryButton = {}).show(supportFragmentManager, "DOUnavailable")
+            }
             // Hilangkan button hubungi pada data diri sendiri
-            if(deliveryOrder!!.purchasing.id == user!!.id)
+            if (deliveryOrder!!.purchasing.id == user!!.id)
                 layoutHubungiPurchasing.setGone()
-            if(deliveryOrder!!.adminGudang?.id == user!!.id)
+            if (deliveryOrder!!.adminGudang?.id == user!!.id)
                 layoutHubungiAdminGudang.setGone()
-            if(deliveryOrder!!.logistic.id == user!!.id)
+            if (deliveryOrder!!.logistic.id == user!!.id)
                 layoutHubungiDriver.setGone()
 
-            when(user!!.role){
+            when (user!!.role) {
                 UserRole.ADMIN_GUDANG.name, UserRole.PURCHASING.name, UserRole.ADMIN.name -> {
                     btnPantauLokasi.setOnClickListener {
                         openActivityWithExtras(PantauLokasiDeliveryOrderActivity::class.java,false){
@@ -272,6 +288,7 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                         }
                     }
                 }
+
                 DeliveryOrderStatus.SELESAI.name -> {
                     layoutButton.setGone()
                 }
@@ -283,12 +300,14 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                             btnPantauLokasi.setVisible()
                             setButtonStyle(btnPantauLokasi, true)
                         }
+
                         DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
                             if(deliveryOrder!!.adminGudang?.id == user!!.id)
                                 btnPantauLokasi.setVisible()
                         }
                     }
                 }
+
                 UserRole.LOGISTIC.name ->{
                     btnPantauLokasi.setGone()
                     btnTelusuriLokasi.setVisible()
@@ -320,6 +339,7 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                                 ).show(supportFragmentManager, "SendDoFragment")
                             }
                         }
+
                         DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
                             btnUploadFotoBukti.setVisible()
                             btnUploadFotoBukti.setOnClickListener{
@@ -330,6 +350,7 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                         }
                     }
                 }
+
                 UserRole.PURCHASING.name -> {
                     when(deliveryOrder!!.status){
                         DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {

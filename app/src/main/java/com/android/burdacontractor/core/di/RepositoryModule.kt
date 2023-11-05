@@ -1,7 +1,11 @@
 package com.android.burdacontractor.core.di
 
+import com.android.burdacontractor.core.data.DaerahRepository
+import com.android.burdacontractor.core.data.GeoCoderRepository
 import com.android.burdacontractor.core.data.LogisticFirebaseRepository
 import com.android.burdacontractor.core.data.StorageRepository
+import com.android.burdacontractor.core.domain.repository.IDaerahRepository
+import com.android.burdacontractor.core.domain.repository.IGeoCoderRepository
 import com.android.burdacontractor.core.domain.repository.ILogisticFirebaseRepository
 import com.android.burdacontractor.core.domain.repository.IStorageRepository
 import com.android.burdacontractor.core.service.location.DefaultLocationClient
@@ -61,6 +65,12 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun provideStorageRepository(storageRepository: StorageRepository): IStorageRepository
+
+    @Binds
+    abstract fun provideDaerahRepository(daerahRepository: DaerahRepository): IDaerahRepository
+
+    @Binds
+    abstract fun provideGeoCoderRepository(geoCoderRepository: GeoCoderRepository): IGeoCoderRepository
 
     @Singleton
     @Binds

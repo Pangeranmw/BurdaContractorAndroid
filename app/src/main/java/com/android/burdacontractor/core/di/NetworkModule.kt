@@ -3,7 +3,9 @@ package com.android.burdacontractor.core.di
 import android.content.Context
 import android.net.ConnectivityManager
 import com.android.burdacontractor.BuildConfig
+import com.android.burdacontractor.core.data.source.remote.network.DaerahService
 import com.android.burdacontractor.core.data.source.remote.network.DistanceMatrixService
+import com.android.burdacontractor.core.data.source.remote.network.GeoCoderService
 import com.android.burdacontractor.core.data.source.remote.network.PeminjamanService
 import com.android.burdacontractor.core.data.source.remote.network.PengembalianService
 import com.android.burdacontractor.feature.auth.data.source.remote.network.AuthService
@@ -57,22 +59,34 @@ class NetworkModule {
             .readTimeout(120, TimeUnit.SECONDS)
             .build()
     }
+
     @Provides
-    fun provideDistanceMatrixService(client: OkHttpClient): DistanceMatrixService{
+    fun provideDistanceMatrixService(client: OkHttpClient): DistanceMatrixService {
         val retrofit = Retrofit.Builder()
-        .baseUrl("http://router.project-osrm.org/route/v1/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(client)
-        .build()
+            .baseUrl("http://router.project-osrm.org/route/v1/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
         return retrofit.create(DistanceMatrixService::class.java)
     }
+
     @Provides
-    fun provideRetrofit(client: OkHttpClient): Retrofit{
+    fun provideGeoCoderService(client: OkHttpClient): GeoCoderService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://geocode.maps.co/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+        return retrofit.create(GeoCoderService::class.java)
+    }
+
+    @Provides
+    fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-        .baseUrl("${BuildConfig.BASE_URL}/api/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(client)
-        .build()
+            .baseUrl("${BuildConfig.BASE_URL}/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
     }
 
     @Provides
@@ -125,5 +139,10 @@ class NetworkModule {
     @Provides
     fun provideSuratJalanService(retrofit: Retrofit): SuratJalanService {
         return retrofit.create(SuratJalanService::class.java)
+    }
+
+    @Provides
+    fun provideDaerahService(retrofit: Retrofit): DaerahService {
+        return retrofit.create(DaerahService::class.java)
     }
 }

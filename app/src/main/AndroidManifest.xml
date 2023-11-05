@@ -28,6 +28,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".feature.perusahaan.presentation.create.AddPerusahaanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.perusahaan.presentation.update.UpdatePerusahaanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.perusahaan.presentation.detail.PerusahaanDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.kendaraan.presentation.detail.KendaraanDetailActivity"
             android:exported="false" />
         <activity
@@ -66,7 +75,7 @@
             android:value="@string/default_notification_channel_id" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAa0CW3ORoM1mEgZyX2Zdj2K0OXKUoSjKs" />
+            android:value="${GOOGLE_MAPS_API_KEY}" />
 
         <activity
             android:name=".feature.deliveryorder.presentation.main.DeliveryOrderActivity"
@@ -93,7 +102,7 @@
             android:name=".feature.gudang.presentation.GudangActivity"
             android:exported="true" />
         <activity
-            android:name=".feature.perusahaan.presentation.PerusahaanActivity"
+            android:name=".feature.perusahaan.presentation.main.PerusahaanActivity"
             android:exported="true" />
         <activity
             android:name=".feature.suratjalan.presentation.SuratJalanActivity"
