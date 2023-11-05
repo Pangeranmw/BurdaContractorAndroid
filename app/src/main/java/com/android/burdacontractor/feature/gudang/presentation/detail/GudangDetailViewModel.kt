@@ -176,7 +176,6 @@ class GudangDetailViewModel @Inject constructor(
                                 res.data!!
                         }
                     }
-
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(res.message)
@@ -195,7 +194,6 @@ class GudangDetailViewModel @Inject constructor(
                         _state.value = StateResponse.SUCCESS
                         _statDeliveryOrder.value = res.data!!
                     }
-
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(res.message)
@@ -221,7 +219,6 @@ class GudangDetailViewModel @Inject constructor(
                                 res.data!!
                         }
                     }
-
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(res.message)

@@ -45,7 +45,7 @@ interface GudangService {
     ): StatisticCountTitleResponse
 
     @Headers("Content-Type: application/json", "Accept: application/json")
-    @GET("gudang/{id}/statistic/delivery-order")
+    @GET("gudang/{id}/statistic/surat-jalan")
     suspend fun getStatistikSuratJalanByGudang(
         @Header("Authorization") token: String,
         @Path("id") id: String,
