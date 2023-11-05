@@ -26,10 +26,11 @@ import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityKendaraanBinding
 import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.main.DeliveryOrderActivity
-import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
+import com.android.burdacontractor.feature.gudang.presentation.main.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.FilterKendaraanFragment
 import com.android.burdacontractor.feature.kendaraan.presentation.create.AddKendaraanActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.detail.KendaraanDetailActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.BottomNavigationViewModel
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanActivity
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
@@ -39,6 +40,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
     private val storageViewModel: StorageViewModel by viewModels()
     private val kendaraanViewModel: KendaraanViewModel by viewModels()
+    private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
     private lateinit var filterDialog: FilterKendaraanFragment
     private lateinit var adapter: PagingListKendaraanAdapter
     private lateinit var binding: ActivityKendaraanBinding
@@ -84,7 +86,7 @@ class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedL
                             if (it.index == 1) setJenisIndex(null)
                             if (it.index == 2) setGudangIndex(null)
                             listFilter.remove(it)
-                            setAdapter()
+                            refreshData()
                         }
                         if (statusIndex != null) {
                             listFilter.add(
@@ -137,12 +139,12 @@ class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedL
                 .setOnEditorActionListener { textView, actionId, event ->
                     searchBar.setText(searchView.text)
                     kendaraanViewModel.setSearch(searchView.text.toString())
-                    setAdapter()
+                    refreshData()
                     searchView.hide()
                     false
                 }
             srLayout.setOnRefreshListener {
-                setAdapter()
+                refreshData()
             }
             if (storageViewModel.role == UserRole.ADMIN_GUDANG.name || storageViewModel.role == UserRole.ADMIN.name) {
                 btnAdd.setVisible()
@@ -186,12 +188,13 @@ class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedL
                     adapter.retry()
                 }
             )
-            setAdapter()
+            refreshData()
+            initBadge()
             btnFilter.setOnClickListener {
                 filterDialog.setOnClickListener(object :
                     FilterKendaraanFragment.OnClickListener {
                     override fun onClickListener() {
-                        setAdapter()
+                        refreshData()
                     }
                 })
                 filterDialog.show(supportFragmentManager)
@@ -199,10 +202,12 @@ class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedL
         }
     }
 
-    private fun setAdapter() {
+    private fun refreshData() {
         kendaraanViewModel.getAllKendaraan().observe(this) {
             adapter.submitData(lifecycle, it)
         }
+        refreshBadgeValue()
+        kendaraanViewModel.getKendaraanGudang()
     }
 
     private fun setBottomNavigationMenu(menu: Int, item: Int) {
@@ -233,5 +238,30 @@ class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedL
             }
         }
         return true
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        refreshData()
+    }
+
+    private fun refreshBadgeValue() {
+        bottomNavigationViewModel.getCountActiveDeliveryOrder()
+        bottomNavigationViewModel.getCountActiveSuratJalan()
+    }
+
+    private fun initBadge() {
+        bottomNavigationViewModel.totalActiveSuratJalan.observe(this) {
+            val badgeSjAdminGudang =
+                binding.kendaraanBottomNavigation.getOrCreateBadge(R.id.surat_jalan_admin_gudang)
+            badgeSjAdminGudang.isVisible = true
+            badgeSjAdminGudang.number = it
+        }
+        bottomNavigationViewModel.totalActiveDeliveryOrder.observe(this) {
+            val badgeDoAdminGudang =
+                binding.kendaraanBottomNavigation.getOrCreateBadge(R.id.delivery_order_admin_gudang)
+            badgeDoAdminGudang.isVisible = true
+            badgeDoAdminGudang.number = it
+        }
     }
 }

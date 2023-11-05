@@ -13,6 +13,7 @@ import com.android.burdacontractor.R
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.FragmentFilterGudangDialogBinding
+import com.android.burdacontractor.feature.gudang.presentation.main.GudangViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener

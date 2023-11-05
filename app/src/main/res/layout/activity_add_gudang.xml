@@ -39,7 +39,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="10dp"
                 android:fontFamily="@font/inter_semi_bold"
-                android:text="@string/tambah_perusahaan"
+                android:text="@string/tambah_gudang"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -353,8 +353,8 @@
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:visibility="gone"
+            android:layout_gravity="center"
             android:background="@drawable/rounded_white"
             android:elevation="5dp" />
     </FrameLayout>
@@ -366,7 +366,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/button_state"
         android:enabled="false"
-        android:text="@string/tambah_perusahaan"
+        android:text="@string/tambah_gudang"
         android:layout_margin="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

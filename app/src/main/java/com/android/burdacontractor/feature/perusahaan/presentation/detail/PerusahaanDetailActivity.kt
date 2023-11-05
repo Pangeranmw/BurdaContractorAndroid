@@ -72,15 +72,6 @@ class PerusahaanDetailActivity : AppCompatActivity() {
                 perusahaanDetailViewModel.statDeliveryOrder.observe(this) {
                     setStatAdapter(binding.rvStatDo, it)
                 }
-//                perusahaanDetailViewModel.sjPengembalian.observe(this) {
-//                    setSuratJalanAdapter(user, it, SuratJalanTipe.PENGEMBALIAN)
-//                }
-//                perusahaanDetailViewModel.sjPengirimanGp.observe(this) {
-//                    setSuratJalanAdapter(user, it, SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
-//                }
-//                perusahaanDetailViewModel.sjPengirimanPp.observe(this) {
-//                    setSuratJalanAdapter(user, it, SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
-//                }
                 initUi(perusahaan)
             }
         }
@@ -91,21 +82,20 @@ class PerusahaanDetailActivity : AppCompatActivity() {
 
     private fun setDeliveryOrderAdapter(user: UserByTokenItem, listDo: List<AllDeliveryOrder>) {
         binding.apply {
-            if (listDo.isNotEmpty()) {
-                tvEmptyDeliveryOrderAktif.setGone()
-                val adapter = ListDeliveryOrderAdapter(user.role, user.id) {
-                    openActivityWithExtras(DeliveryOrderDetailActivity::class.java, false) {
-                        putString(INTENT_ID, it.id)
-                    }
+            tvEmptyDeliveryOrderAktif.setGone()
+            val adapter = ListDeliveryOrderAdapter(user.role, user.id) {
+                openActivityWithExtras(DeliveryOrderDetailActivity::class.java, false) {
+                    putString(INTENT_ID, it.id)
                 }
-                adapter.submitList(listDo)
-                rvDeliveryOrder.layoutManager = LinearLayoutManager(
-                    this@PerusahaanDetailActivity,
-                    LinearLayoutManager.HORIZONTAL,
-                    false
-                )
-                rvDeliveryOrder.adapter = adapter
-            } else {
+            }
+            adapter.submitList(listDo)
+            rvDeliveryOrder.layoutManager = LinearLayoutManager(
+                this@PerusahaanDetailActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            rvDeliveryOrder.adapter = adapter
+            if (listDo.isEmpty()) {
                 tvEmptyDeliveryOrderAktif.setVisible()
             }
         }
@@ -118,59 +108,6 @@ class PerusahaanDetailActivity : AppCompatActivity() {
             GridLayoutManager(this@PerusahaanDetailActivity, 3, GridLayoutManager.VERTICAL, false)
         rv.adapter = adapter
     }
-//    private fun setSuratJalanAdapter(
-//        user: UserByTokenItem,
-//        listSj: List<AllSuratJalan>,
-//        tipe: SuratJalanTipe
-//    ) {
-//        binding.apply {
-//            if (listSj.isNotEmpty()) {
-//                val adapter = ListSuratJalanAdapter(user.role, user.id) {
-//                    openActivityWithExtras(SuratJalanDetailActivity::class.java, false) {
-//                        putString(INTENT_ID, it.id)
-//                    }
-//                }
-//                adapter.submitList(listSj)
-//                when (tipe) {
-//                    SuratJalanTipe.PENGEMBALIAN -> {
-//                        tvEmptySjPengembalianAktif.setGone()
-//                        rvSjPengembalian.layoutManager = LinearLayoutManager(
-//                            this@PerusahaanDetailActivity,
-//                            LinearLayoutManager.HORIZONTAL,
-//                            false
-//                        )
-//                        rvSjPengembalian.adapter = adapter
-//                    }
-//
-//                    SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK -> {
-//                        tvEmptySjPengirimanGudangProyekAktif.setGone()
-//                        rvSjPengirimanGudangProyek.layoutManager = LinearLayoutManager(
-//                            this@PerusahaanDetailActivity,
-//                            LinearLayoutManager.HORIZONTAL,
-//                            false
-//                        )
-//                        rvSjPengirimanGudangProyek.adapter = adapter
-//                    }
-//
-//                    SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK -> {
-//                        tvEmptySjPengirimanProyekProyekAktif.setGone()
-//                        rvSjPengirimanProyekProyek.layoutManager = LinearLayoutManager(
-//                            this@PerusahaanDetailActivity,
-//                            LinearLayoutManager.HORIZONTAL,
-//                            false
-//                        )
-//                        rvSjPengirimanProyekProyek.adapter = adapter
-//                    }
-//                }
-//            } else {
-//                when (tipe) {
-//                    SuratJalanTipe.PENGEMBALIAN -> tvEmptySjPengembalianAktif.setVisible()
-//                    SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK -> tvEmptySjPengirimanGudangProyekAktif.setVisible()
-//                    SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK -> tvEmptySjPengirimanProyekProyekAktif.setVisible()
-//                }
-//            }
-//        }
-//    }
 
     private fun initUi(perusahaan: PerusahaanById) {
         binding.apply {

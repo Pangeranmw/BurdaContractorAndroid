@@ -37,6 +37,15 @@
             android:name=".feature.perusahaan.presentation.detail.PerusahaanDetailActivity"
             android:exported="false" />
         <activity
+            android:name=".feature.gudang.presentation.create.AddGudangActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.gudang.presentation.update.UpdateGudangActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.gudang.presentation.detail.GudangDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.kendaraan.presentation.detail.KendaraanDetailActivity"
             android:exported="false" />
         <activity
@@ -63,7 +72,6 @@
         <activity
             android:name=".feature.profile.presentation.SignatureActivity"
             android:exported="true" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/logo_burda" />
@@ -99,7 +107,7 @@
             android:name=".feature.kendaraan.presentation.main.KendaraanActivity"
             android:exported="true" />
         <activity
-            android:name=".feature.gudang.presentation.GudangActivity"
+            android:name=".feature.gudang.presentation.main.GudangActivity"
             android:exported="true" />
         <activity
             android:name=".feature.perusahaan.presentation.main.PerusahaanActivity"
@@ -109,7 +117,13 @@
             android:exported="true" />
         <activity
             android:name=".feature.suratjalan.presentation.SuratJalanDetailActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="SuratJalanDetailActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".feature.profile.presentation.ProfileActivity"
             android:exported="true" />
@@ -126,7 +140,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <service
             android:name=".core.service.fcm.BurdaFirebaseMessagingService"
             android:exported="false">

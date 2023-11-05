@@ -17,10 +17,11 @@ import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityDeliveryOrderBinding
 import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.create.AddDeliveryOrderActivity
-import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
+import com.android.burdacontractor.feature.gudang.presentation.main.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.main.PerusahaanActivity
 import com.android.burdacontractor.feature.profile.presentation.SignatureActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.BottomNavigationViewModel
 import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanActivity
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
@@ -32,6 +33,7 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelec
     private lateinit var binding: ActivityDeliveryOrderBinding
     private val storageViewModel: StorageViewModel by viewModels()
     private val deliveryOrderViewModel: DeliveryOrderViewModel by viewModels()
+    private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
     private lateinit var filterDialog: FilterDeliveryOrderFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +82,7 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelec
     }
     private fun initUi(){
         with(binding){
+            initBadge()
             filterDialog = FilterDeliveryOrderFragment.newInstance()
             val sectionsPagerAdapter = DeliveryOrderStatusPagerAdapter(this@DeliveryOrderActivity)
             viewPager.adapter = sectionsPagerAdapter
@@ -98,6 +101,7 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelec
                 }
             srLayout.setOnRefreshListener {
                 refreshViewPager(viewPager, viewPager.currentItem)
+                refreshBadgeValue()
             }
             if (storageViewModel.role == UserRole.PURCHASING.name) {
                 btnAdd.setVisible()
@@ -128,11 +132,18 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelec
             }
         }
     }
-    private fun setBottomNavigationMenu(menu: Int, item: Int){
+
+    override fun onRestart() {
+        super.onRestart()
+        refreshBadgeValue()
+    }
+
+    private fun setBottomNavigationMenu(menu: Int, item: Int) {
         binding.deliveryOrderBottomNavigation.inflateMenu(menu)
         binding.deliveryOrderBottomNavigation.menu.findItem(item).isChecked = true
         binding.deliveryOrderBottomNavigation.setOnItemSelectedListener(this)
     }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.beranda_sv_pm, R.id.beranda_logistic, R.id.beranda_purchasing, R.id.beranda_admin_gudang -> {
@@ -147,14 +158,63 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelec
             R.id.gudang_admin_gudang -> {
                 openActivity(GudangActivity::class.java)
             }
+
             R.id.perusahaan_purchasing -> {
                 openActivity(PerusahaanActivity::class.java)
             }
+
             R.id.delivery_order_admin_gudang, R.id.delivery_order_logistic, R.id.delivery_order_purchasing -> {
             }
         }
         return true
     }
+
+    private fun refreshBadgeValue() {
+        if (storageViewModel.role == UserRole.LOGISTIC.name ||
+            storageViewModel.role == UserRole.ADMIN_GUDANG.name ||
+            storageViewModel.role == UserRole.ADMIN.name ||
+            storageViewModel.role == UserRole.PURCHASING.name
+        ) {
+            bottomNavigationViewModel.getCountActiveDeliveryOrder()
+        }
+        if (storageViewModel.role == UserRole.LOGISTIC.name ||
+            storageViewModel.role == UserRole.ADMIN_GUDANG.name ||
+            storageViewModel.role == UserRole.ADMIN.name
+        ) {
+            bottomNavigationViewModel.getCountActiveSuratJalan()
+        }
+    }
+
+    private fun initBadge() {
+        bottomNavigationViewModel.totalActiveSuratJalan.observe(this) {
+            val badgeSjAdminGudang =
+                binding.deliveryOrderBottomNavigation.getOrCreateBadge(R.id.surat_jalan_admin_gudang)
+            badgeSjAdminGudang.isVisible = true
+            badgeSjAdminGudang.number = it
+
+            val badgeSjLogistic =
+                binding.deliveryOrderBottomNavigation.getOrCreateBadge(R.id.surat_jalan_logistic)
+            badgeSjLogistic.isVisible = true
+            badgeSjLogistic.number = it
+        }
+        bottomNavigationViewModel.totalActiveDeliveryOrder.observe(this) {
+            val badgeDoAdminGudang =
+                binding.deliveryOrderBottomNavigation.getOrCreateBadge(R.id.delivery_order_admin_gudang)
+            badgeDoAdminGudang.isVisible = true
+            badgeDoAdminGudang.number = it
+
+            val badgeDoPurc =
+                binding.deliveryOrderBottomNavigation.getOrCreateBadge(R.id.delivery_order_purchasing)
+            badgeDoPurc.isVisible = true
+            badgeDoPurc.number = it
+
+            val badgeDoLogistic =
+                binding.deliveryOrderBottomNavigation.getOrCreateBadge(R.id.delivery_order_logistic)
+            badgeDoLogistic.isVisible = true
+            badgeDoLogistic.number = it
+        }
+    }
+
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(

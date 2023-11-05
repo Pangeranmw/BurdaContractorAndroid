@@ -1,4 +1,4 @@
-package com.android.burdacontractor.feature.gudang.presentation
+package com.android.burdacontractor.feature.gudang.presentation.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,18 +10,18 @@ import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.Event
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
-import com.android.burdacontractor.feature.perusahaan.domain.model.AllPerusahaan
-import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetAllPerusahaanUseCase
-import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetPerusahaanProvinsiUseCase
+import com.android.burdacontractor.feature.gudang.domain.model.AllGudang
+import com.android.burdacontractor.feature.gudang.domain.usecase.GetAllGudangUseCase
+import com.android.burdacontractor.feature.gudang.domain.usecase.GetGudangProvinsiUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PerusahaanViewModel @Inject constructor(
+class GudangViewModel @Inject constructor(
     val liveNetworkChecker: LiveNetworkChecker,
-    private val getAllPerusahaanUseCase: GetAllPerusahaanUseCase,
-    private val getPerusahaanProvinsiUseCase: GetPerusahaanProvinsiUseCase,
+    private val getAllGudangUseCase: GetAllGudangUseCase,
+    private val getGudangProvinsiUseCase: GetGudangProvinsiUseCase,
 ) : ViewModel() {
     private val _state = MutableLiveData<StateResponse?>()
     val state: LiveData<StateResponse?> = _state
@@ -41,11 +41,6 @@ class PerusahaanViewModel @Inject constructor(
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse: LiveData<Event<String?>> = _messageResponse
 
-    init {
-        getPerusahaanProvinsi()
-        getAllPerusahaan()
-    }
-
     fun setProvinsiIndex(provinsiIndex: Int?) {
         _provinsiIndex.value = provinsiIndex
     }
@@ -62,15 +57,14 @@ class PerusahaanViewModel @Inject constructor(
         _search.value = search
     }
 
-    fun getPerusahaanProvinsi() {
+    fun getGudangProvinsi() {
         viewModelScope.launch {
-            getPerusahaanProvinsiUseCase.execute().collect {
+            getGudangProvinsiUseCase.execute().collect {
                 when (it) {
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _listProvinsi.value = it.data!!
-                        _messageResponse.value = Event("Berhasil Mendapatkan Data Provinsi")
                     }
 
                     is Resource.Error -> {
@@ -82,20 +76,17 @@ class PerusahaanViewModel @Inject constructor(
         }
     }
 
-    fun getAllPerusahaan(): LiveData<PagingData<AllPerusahaan>> {
+    fun getAllGudang(): LiveData<PagingData<AllGudang>> {
         var filterProv: String? = null
         _provinsiIndex.value?.let { index ->
             _listProvinsi.value?.let {
                 filterProv = it[index]
             }
         }
-        return getAllPerusahaanUseCase.execute(
+        return getAllGudangUseCase.execute(
             filter = filterProv,
             search = _search.value,
             coordinate = _coordinate.value,
         ).cachedIn(viewModelScope)
     }
 }
-
-
-

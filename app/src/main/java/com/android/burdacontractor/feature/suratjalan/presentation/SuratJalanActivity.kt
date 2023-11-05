@@ -12,7 +12,7 @@ import com.android.burdacontractor.core.utils.openActivity
 import com.android.burdacontractor.databinding.ActivitySuratJalanBinding
 import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.main.DeliveryOrderActivity
-import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
+import com.android.burdacontractor.feature.gudang.presentation.main.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint

@@ -42,9 +42,6 @@ class DeliveryOrderViewModel @Inject constructor(
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse : LiveData<Event<String?>> = _messageResponse
 
-    init{
-        getAllDelivery()
-    }
     fun setStatus(status: DeliveryOrderStatus){
         _status.value = status
     }

@@ -24,6 +24,7 @@ import com.android.burdacontractor.core.utils.getDistanceMatrixCoordinate
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.FragmentPilihGudangBinding
+import com.android.burdacontractor.feature.gudang.presentation.main.GudangViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

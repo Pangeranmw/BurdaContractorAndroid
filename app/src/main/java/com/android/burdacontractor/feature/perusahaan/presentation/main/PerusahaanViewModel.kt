@@ -41,11 +41,6 @@ class PerusahaanViewModel @Inject constructor(
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse: LiveData<Event<String?>> = _messageResponse
 
-    init {
-        getPerusahaanProvinsi()
-        getAllPerusahaan()
-    }
-
     fun setProvinsiIndex(provinsiIndex: Int?) {
         _provinsiIndex.value = provinsiIndex
     }

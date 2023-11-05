@@ -146,45 +146,44 @@ class KendaraanDetailActivity : AppCompatActivity() {
         tipe: SuratJalanTipe
     ) {
         binding.apply {
-            if (listSj.isNotEmpty()) {
-                val adapter = ListSuratJalanAdapter(user.role, user.id) {
-                    openActivityWithExtras(SuratJalanDetailActivity::class.java, false) {
-                        putString(INTENT_ID, it.id)
-                    }
+            val adapter = ListSuratJalanAdapter(user.role, user.id) {
+                openActivityWithExtras(SuratJalanDetailActivity::class.java, false) {
+                    putString(INTENT_ID, it.id)
                 }
-                adapter.submitList(listSj)
-                when (tipe) {
-                    SuratJalanTipe.PENGEMBALIAN -> {
-                        tvEmptySjPengembalianAktif.setGone()
-                        rvSjPengembalian.layoutManager = LinearLayoutManager(
-                            this@KendaraanDetailActivity,
-                            LinearLayoutManager.HORIZONTAL,
-                            false
-                        )
-                        rvSjPengembalian.adapter = adapter
-                    }
-
-                    SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK -> {
-                        tvEmptySjPengirimanGudangProyekAktif.setGone()
-                        rvSjPengirimanGudangProyek.layoutManager = LinearLayoutManager(
-                            this@KendaraanDetailActivity,
-                            LinearLayoutManager.HORIZONTAL,
-                            false
-                        )
-                        rvSjPengirimanGudangProyek.adapter = adapter
-                    }
-
-                    SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK -> {
-                        tvEmptySjPengirimanProyekProyekAktif.setGone()
-                        rvSjPengirimanProyekProyek.layoutManager = LinearLayoutManager(
-                            this@KendaraanDetailActivity,
-                            LinearLayoutManager.HORIZONTAL,
-                            false
-                        )
-                        rvSjPengirimanProyekProyek.adapter = adapter
-                    }
+            }
+            adapter.submitList(listSj)
+            when (tipe) {
+                SuratJalanTipe.PENGEMBALIAN -> {
+                    tvEmptySjPengembalianAktif.setGone()
+                    rvSjPengembalian.layoutManager = LinearLayoutManager(
+                        this@KendaraanDetailActivity,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                    rvSjPengembalian.adapter = adapter
                 }
-            } else {
+
+                SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK -> {
+                    tvEmptySjPengirimanGudangProyekAktif.setGone()
+                    rvSjPengirimanGudangProyek.layoutManager = LinearLayoutManager(
+                        this@KendaraanDetailActivity,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                    rvSjPengirimanGudangProyek.adapter = adapter
+                }
+
+                SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK -> {
+                    tvEmptySjPengirimanProyekProyekAktif.setGone()
+                    rvSjPengirimanProyekProyek.layoutManager = LinearLayoutManager(
+                        this@KendaraanDetailActivity,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                    rvSjPengirimanProyekProyek.adapter = adapter
+                }
+            }
+            if (listSj.isEmpty()) {
                 when (tipe) {
                     SuratJalanTipe.PENGEMBALIAN -> tvEmptySjPengembalianAktif.setVisible()
                     SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK -> tvEmptySjPengirimanGudangProyekAktif.setVisible()
@@ -309,7 +308,16 @@ class KendaraanDetailActivity : AppCompatActivity() {
         })
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        refreshData()
+    }
+
     private fun refreshData() {
         kendaraanDetailViewModel.getKendaraanById(id)
+        kendaraanDetailViewModel.getActiveDeliveryOrder(id)
+        kendaraanDetailViewModel.getActiveSuratJalan(id, SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
+        kendaraanDetailViewModel.getActiveSuratJalan(id, SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
+        kendaraanDetailViewModel.getActiveSuratJalan(id, SuratJalanTipe.PENGEMBALIAN)
     }
 }

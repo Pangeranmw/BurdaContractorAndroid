@@ -18,7 +18,6 @@ import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetStatisti
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
-import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -54,15 +53,6 @@ class PerusahaanDetailViewModel @Inject constructor(
     private val _statDeliveryOrder = MutableLiveData<List<StatisticCountTitleItem>>()
     val statDeliveryOrder: LiveData<List<StatisticCountTitleItem>> = _statDeliveryOrder
 
-    private val _sjPengirimanGp = MutableLiveData<List<AllSuratJalan>>()
-    val sjPengirimanGp: LiveData<List<AllSuratJalan>> = _sjPengirimanGp
-
-    private val _sjPengirimanPp = MutableLiveData<List<AllSuratJalan>>()
-    val sjPengirimanPp: LiveData<List<AllSuratJalan>> = _sjPengirimanPp
-
-    private val _sjPengembalian = MutableLiveData<List<AllSuratJalan>>()
-    val sjPengembalian: LiveData<List<AllSuratJalan>> = _sjPengembalian
-
     init {
         getUserByToken()
         viewModelScope.launch {
@@ -71,9 +61,6 @@ class PerusahaanDetailViewModel @Inject constructor(
                     getPerusahaanById(id)
                     getActiveDeliveryOrder(id)
                     getStatistikDeliveryOrder(id)
-//                    getActiveSuratJalan(id, SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
-//                    getActiveSuratJalan(id, SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
-//                    getActiveSuratJalan(id, SuratJalanTipe.PENGEMBALIAN)
                 }
             }
         }
@@ -158,32 +145,6 @@ class PerusahaanDetailViewModel @Inject constructor(
             }
         }
     }
-
-    //    fun getActiveSuratJalan(id: String, tipe: SuratJalanTipe) {
-//        viewModelScope.launch {
-//            getActiveSuratJalanByPerusahaanUseCase.execute(id, tipe).collect { res ->
-//                when (res) {
-//                    is Resource.Loading -> _state.value = StateResponse.LOADING
-//                    is Resource.Success -> {
-//                        _state.value = StateResponse.SUCCESS
-//                        when (tipe) {
-//                            SuratJalanTipe.PENGEMBALIAN -> _sjPengembalian.value = res.data!!
-//                            SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK -> _sjPengirimanGp.value =
-//                                res.data!!
-//
-//                            SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK -> _sjPengirimanPp.value =
-//                                res.data!!
-//                        }
-//                    }
-//
-//                    is Resource.Error -> {
-//                        _state.value = StateResponse.ERROR
-//                        _messageResponse.value = Event(res.message)
-//                    }
-//                }
-//            }
-//        }
-//    }
     fun getPerusahaanById(id: String) {
         viewModelScope.launch {
             getPerusahaanByIdUseCase.execute(id).collect { res ->

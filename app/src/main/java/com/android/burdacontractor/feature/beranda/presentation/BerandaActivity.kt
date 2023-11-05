@@ -37,7 +37,7 @@ import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityBerandaBinding
 import com.android.burdacontractor.feature.deliveryorder.presentation.detail.DeliveryOrderDetailActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.main.DeliveryOrderActivity
-import com.android.burdacontractor.feature.gudang.presentation.GudangActivity
+import com.android.burdacontractor.feature.gudang.presentation.main.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.main.PerusahaanActivity
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity

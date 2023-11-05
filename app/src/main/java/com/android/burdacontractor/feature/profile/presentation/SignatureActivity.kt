@@ -2,6 +2,7 @@ package com.android.burdacontractor.feature.profile.presentation
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -65,6 +66,7 @@ class SignatureActivity : AppCompatActivity() {
         signatureViewModel.user.observe(this){user->
             initProfile(user)
         }
+        onBackPressedCallback()
         initView()
         setClickListener()
     }
@@ -103,5 +105,20 @@ class SignatureActivity : AppCompatActivity() {
             //Clear captured signature
             binding.signaturePad.clear()
         }
+    }
+
+    fun onBackPressedCallback() {
+        val finishAction = {
+            finish()
+            overridePendingTransition(0, 0)
+        }
+        binding.btnBack.setOnClickListener {
+            finishAction()
+        }
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                finishAction()
+            }
+        })
     }
 }

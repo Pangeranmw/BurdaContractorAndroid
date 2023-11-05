@@ -71,11 +71,6 @@ class KendaraanViewModel @Inject constructor(
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse: LiveData<Event<String?>> = _messageResponse
 
-    init {
-        getKendaraanGudang()
-        getAllKendaraan()
-    }
-
     fun setGudangIndex(gudangIndex: Int?) {
         _gudangIndex.value = gudangIndex
     }

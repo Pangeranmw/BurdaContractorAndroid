@@ -29,6 +29,7 @@ import com.android.burdacontractor.feature.kendaraan.presentation.main.Kendaraan
 import com.android.burdacontractor.feature.perusahaan.presentation.FilterPerusahaanFragment
 import com.android.burdacontractor.feature.perusahaan.presentation.create.AddPerusahaanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.detail.PerusahaanDetailActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.BottomNavigationViewModel
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
     private val storageViewModel: StorageViewModel by viewModels()
+    private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
     private val perusahaanViewModel: PerusahaanViewModel by viewModels()
     private lateinit var filterDialog: FilterPerusahaanFragment
     private lateinit var adapter: PagingListPerusahaanAdapter
@@ -85,7 +87,7 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                     val filterAdapter = ListFilterSelectedAdapter {
                         if (it.index == 0) setProvinsiIndex(null)
                         listFilter.remove(it)
-                        setAdapter()
+                        refreshData()
                     }
                     listFilter.add(FilterSelected(0, listProvinsi.value!![provinsiIndex]))
                     binding.rvFilter.setVisible()
@@ -113,12 +115,12 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                 .setOnEditorActionListener { textView, actionId, event ->
                     searchBar.setText(searchView.text)
                     perusahaanViewModel.setSearch(searchView.text.toString())
-                    setAdapter()
+                    refreshData()
                     searchView.hide()
                     false
                 }
             srLayout.setOnRefreshListener {
-                setAdapter()
+                refreshData()
             }
             if (storageViewModel.role == UserRole.PURCHASING.name) {
                 btnAdd.setVisible()
@@ -166,13 +168,13 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                     adapter.retry()
                 }
             )
-            setAdapter()
+            refreshData()
+            initBadge()
             btnFilter.setOnClickListener {
-
                 filterDialog.setOnClickListener(object :
                     FilterPerusahaanFragment.OnClickListener {
                     override fun onClickListener() {
-                        setAdapter()
+                        refreshData()
                     }
                 })
                 filterDialog.show(supportFragmentManager)
@@ -180,10 +182,12 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
         }
     }
 
-    private fun setAdapter() {
+    private fun refreshData() {
         perusahaanViewModel.getAllPerusahaan().observe(this) {
             adapter.submitData(lifecycle, it)
         }
+        refreshBadgeValue()
+        perusahaanViewModel.getPerusahaanProvinsi()
     }
 
     private fun setBottomNavigationMenu(menu: Int, item: Int) {
@@ -192,20 +196,41 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
         binding.perusahaanBottomNavigation.setOnItemSelectedListener(this)
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        refreshData()
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.beranda_sv_pm, R.id.beranda_logistic, R.id.beranda_purchasing, R.id.beranda_admin_gudang -> {
                 openActivity(BerandaActivity::class.java)
             }
+
             R.id.kendaraan_admin_gudang -> {
                 openActivity(KendaraanActivity::class.java)
             }
+
             R.id.perusahaan_purchasing -> {
             }
+
             R.id.delivery_order_admin_gudang, R.id.delivery_order_logistic, R.id.delivery_order_purchasing -> {
                 openActivity(DeliveryOrderActivity::class.java)
             }
         }
         return true
+    }
+
+    private fun refreshBadgeValue() {
+        bottomNavigationViewModel.getCountActiveDeliveryOrder()
+    }
+
+    private fun initBadge() {
+        bottomNavigationViewModel.totalActiveDeliveryOrder.observe(this) {
+            val badgeDoPurc =
+                binding.perusahaanBottomNavigation.getOrCreateBadge(R.id.delivery_order_purchasing)
+            badgeDoPurc.isVisible = true
+            badgeDoPurc.number = it
+        }
     }
 }
