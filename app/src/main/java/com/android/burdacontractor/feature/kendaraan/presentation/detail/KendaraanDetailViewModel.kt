@@ -14,11 +14,13 @@ import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliver
 import com.android.burdacontractor.feature.gudang.domain.model.GudangById
 import com.android.burdacontractor.feature.gudang.domain.usecase.GetGudangByIdUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.model.Kendaraan
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.CancelReturnKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.DeleteKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.DeletePengendaraUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetActiveDeliveryOrderByKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetActiveSuratJalanByKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByIdUseCase
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.ReturnKendaraanUseCase
 import com.android.burdacontractor.feature.logistic.domain.model.LogisticById
 import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticByIdUseCase
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
@@ -39,8 +41,9 @@ class KendaraanDetailViewModel @Inject constructor(
     private val getLogisticByIdUseCase: GetLogisticByIdUseCase,
     private val getActiveDeliveryOrderByKendaraanUseCase: GetActiveDeliveryOrderByKendaraanUseCase,
     private val getActiveSuratJalanByKendaraanUseCase: GetActiveSuratJalanByKendaraanUseCase,
-
-    ) : ViewModel() {
+    private val returnKendaraanUseCase: ReturnKendaraanUseCase,
+    private val cancelReturnKendaraanUseCase: CancelReturnKendaraanUseCase,
+) : ViewModel() {
 
     private val _state = MutableLiveData<StateResponse?>()
     val state: LiveData<StateResponse?> = _state
@@ -115,6 +118,46 @@ class KendaraanDetailViewModel @Inject constructor(
     fun deleteKendaraan(id: String, listener: () -> Unit) {
         viewModelScope.launch {
             deleteKendaraanUseCase.execute(id).collect {
+                when (it) {
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _state.value = StateResponse.SUCCESS
+                        _messageResponse.value = Event(it.message)
+                        listener()
+                    }
+
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
+                    }
+                }
+            }
+        }
+    }
+
+    fun returnKendaraan(id: String, listener: () -> Unit) {
+        viewModelScope.launch {
+            returnKendaraanUseCase.execute(id).collect {
+                when (it) {
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _state.value = StateResponse.SUCCESS
+                        _messageResponse.value = Event(it.message)
+                        listener()
+                    }
+
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
+                    }
+                }
+            }
+        }
+    }
+
+    fun cancelReturnKendaraan(id: String, listener: () -> Unit) {
+        viewModelScope.launch {
+            cancelReturnKendaraanUseCase.execute(id).collect {
                 when (it) {
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {

@@ -49,6 +49,20 @@ interface KendaraanService {
     ): ErrorMessageResponse
 
     @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("kendaraan/{id}/cancel-return")
+    suspend fun cancelReturnKendaraan(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+    ): ErrorMessageResponse
+
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("kendaraan/{id}/return")
+    suspend fun returnKendaraan(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+    ): ErrorMessageResponse
+
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @DELETE("kendaraan/{id}/pengendara")
     suspend fun deletePengendara(
         @Header("Authorization") token: String,
@@ -92,7 +106,7 @@ interface KendaraanService {
     ): GetAllKendaraanResponse
 
     @Headers("Content-Type: application/json", "Accept: application/json")
-    @GET("kendaraan/gudang")
+    @GET("kendaraan/filter/gudang")
     suspend fun getKendaraanGudang(
         @Header("Authorization") token: String,
     ): GetKendaraanGudangResponse

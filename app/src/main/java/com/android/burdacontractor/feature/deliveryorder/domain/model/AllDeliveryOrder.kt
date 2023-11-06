@@ -48,6 +48,9 @@ data class AllDeliveryOrder(
     @field:SerializedName("kode_do")
     val kodeDo: String? = null,
 
+    @field:SerializedName("id_driver")
+    val idDriver: String? = null,
+
     @field:SerializedName("nama_driver")
     val namaDriver: String? = null,
 

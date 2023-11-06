@@ -31,7 +31,7 @@ interface PerusahaanService {
     ): GetAllPerusahaanResponse
 
     @Headers("Content-Type: application/json", "Accept: application/json")
-    @GET("perusahaan/provinsi")
+    @GET("perusahaan/filter/provinsi")
     suspend fun getPerusahaanProvinsi(
         @Header("Authorization") token: String,
     ): GetPerusahaanProvinsiResponse

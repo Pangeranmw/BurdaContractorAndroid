@@ -192,14 +192,30 @@
                         android:layout_height="wrap_content"
                         android:text="@string/ubah_kendaraan"
                         android:background="@drawable/semi_rounded_primary"
+                        android:visibility="gone"
                         android:textColor="@color/white"
                         android:textAllCaps="false"
+                        android:fontFamily="@font/inter_bold"
+                        app:layout_flexGrow="1" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_ajukan_pengembalian"
+                        android:layout_width="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ajukan_pengembalian"
+                        android:background="@drawable/semi_rounded_primary"
+                        android:textColor="@color/white"
+                        android:textAllCaps="false"
+                        android:visibility="gone"
                         android:fontFamily="@font/inter_bold"
                         app:layout_flexGrow="1" />
 
                     <ImageButton
                         android:contentDescription="@string/cd_button"
                         android:id="@+id/btn_delete"
+                        android:visibility="gone"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/ic_trash"
@@ -273,7 +289,8 @@
                     <RelativeLayout
                         android:id="@+id/top_layout_pengendara"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
 
                         <TextView
                             android:id="@+id/tv_heading_logistic"
@@ -290,6 +307,7 @@
                         <Button
                             android:id="@+id/btn_hapus_pengendara"
                             style="@style/ButtonSeeAll"
+                            android:visibility="gone"
                             android:layout_marginStart="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

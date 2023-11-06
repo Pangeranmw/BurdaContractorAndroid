@@ -162,6 +162,42 @@ class KendaraanRepository @Inject constructor(
             emit(Resource.Error(it.message.toString()))
         }.flowOn(Dispatchers.IO)
 
+    override suspend fun returnKendaraan(id: String): Flow<Resource<ErrorMessageResponse>> =
+        flow {
+            emit(Resource.Loading())
+            when (val response =
+                kendaraanRemoteDataSource.returnKendaraan(storageDataSource.getToken(), id)
+                    .first()) {
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = response.data
+                    emit(Resource.Success(result, response.data.message))
+                }
+
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun cancelReturnKendaraan(id: String): Flow<Resource<ErrorMessageResponse>> =
+        flow {
+            emit(Resource.Loading())
+            when (val response =
+                kendaraanRemoteDataSource.cancelReturnKendaraan(storageDataSource.getToken(), id)
+                    .first()) {
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = response.data
+                    emit(Resource.Success(result, response.data.message))
+                }
+
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+
     override suspend fun deleteKendaraan(id: String): Flow<Resource<ErrorMessageResponse>> =
         flow {
             emit(Resource.Loading())

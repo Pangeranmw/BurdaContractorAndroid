@@ -50,6 +50,28 @@ class KendaraanRemoteDataSource @Inject constructor(
         }
     }
 
+    suspend fun cancelReturnKendaraan(
+        token: String, id: String
+    ): Flow<ApiResponse<ErrorMessageResponse>> = flow {
+        val response = kendaraanService.cancelReturnKendaraan(token, id)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
+    suspend fun returnKendaraan(
+        token: String, id: String
+    ): Flow<ApiResponse<ErrorMessageResponse>> = flow {
+        val response = kendaraanService.returnKendaraan(token, id)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
     suspend fun deleteKendaraan(
         token: String, id: String
     ): Flow<ApiResponse<ErrorMessageResponse>> = flow {

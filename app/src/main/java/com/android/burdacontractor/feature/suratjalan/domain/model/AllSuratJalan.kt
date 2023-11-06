@@ -21,6 +21,9 @@ data class AllSuratJalan(
     @field:SerializedName("foto_driver")
     val fotoDriver: String? = null,
 
+    @field:SerializedName("id_driver")
+    val idDriver: String? = null,
+
     @field:SerializedName("coordinate_tempat_tujuan")
     val coordinateTempatTujuan: String? = null,
 

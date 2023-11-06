@@ -10,7 +10,9 @@ import com.android.burdacontractor.core.domain.model.Constant.INTENT_ID
 import com.android.burdacontractor.core.domain.model.Constant.INTENT_PARCEL
 import com.android.burdacontractor.core.domain.model.enums.JenisKendaraan
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
+import com.android.burdacontractor.core.domain.model.enums.StatusKendaraan
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
+import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.adapter.ListDeliveryOrderAdapter
 import com.android.burdacontractor.core.presentation.adapter.ListSuratJalanAdapter
 import com.android.burdacontractor.core.presentation.customview.CustomDialog
@@ -25,6 +27,7 @@ import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliver
 import com.android.burdacontractor.feature.deliveryorder.presentation.detail.DeliveryOrderDetailActivity
 import com.android.burdacontractor.feature.gudang.domain.model.GudangById
 import com.android.burdacontractor.feature.kendaraan.domain.model.Kendaraan
+import com.android.burdacontractor.feature.kendaraan.presentation.pantau.PantauLokasiPengendaraActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.update.UpdateKendaraanActivity
 import com.android.burdacontractor.feature.logistic.domain.model.LogisticById
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
@@ -69,9 +72,32 @@ class KendaraanDetailActivity : AppCompatActivity() {
         }
         kendaraanDetailViewModel.kendaraan.observe(this) { kendaraan ->
             kendaraanDetailViewModel.user.observe(this) { user ->
+                if (user.role == UserRole.LOGISTIC.name) {
+                    binding.btnUbahKendaraan.setGone()
+                    binding.btnDelete.setGone()
+                    binding.btnHapusPengendara.setGone()
+                    binding.btnAjukanPengembalian.setVisible()
+                } else {
+                    binding.btnUbahKendaraan.setVisible()
+                    binding.btnDelete.setVisible()
+                    binding.btnHapusPengendara.setVisible()
+                }
                 kendaraan.logisticId?.let {
                     kendaraanDetailViewModel.logistic.observe(this) {
                         setPengendara(it)
+                        binding.btnPantauPengendara.setOnClickListener { view ->
+                            openActivityWithExtras(
+                                PantauLokasiPengendaraActivity::class.java,
+                                false
+                            ) {
+                                putString(INTENT_ID, kendaraan.logisticId)
+                                putString(PantauLokasiPengendaraActivity.NAMA_PENGENDARA, it.nama)
+                                putString(
+                                    PantauLokasiPengendaraActivity.NAMA_KENDARAAN,
+                                    "${kendaraan.merk} (${kendaraan.platNomor})"
+                                )
+                            }
+                        }
                     }
                 } ?: binding.layoutLogistic.setGone()
                 kendaraanDetailViewModel.deliveryOrder.observe(this) {
@@ -120,21 +146,25 @@ class KendaraanDetailActivity : AppCompatActivity() {
 
     private fun setDeliveryOrderAdapter(user: UserByTokenItem, listDo: List<AllDeliveryOrder>) {
         binding.apply {
-            if (listDo.isNotEmpty()) {
-                tvEmptyDeliveryOrderAktif.setGone()
-                val adapter = ListDeliveryOrderAdapter(user.role, user.id) {
-                    openActivityWithExtras(DeliveryOrderDetailActivity::class.java, false) {
-                        putString(INTENT_ID, it.id)
-                    }
-                }
-                adapter.submitList(listDo)
-                rvDeliveryOrder.layoutManager = LinearLayoutManager(
-                    this@KendaraanDetailActivity,
-                    LinearLayoutManager.HORIZONTAL,
-                    false
-                )
-                rvDeliveryOrder.adapter = adapter
+            val newList = if (user.role == UserRole.LOGISTIC.name) {
+                listDo.filter { it.idDriver == user.id }
             } else {
+                listDo
+            }
+            tvEmptyDeliveryOrderAktif.setGone()
+            val adapter = ListDeliveryOrderAdapter(user.role, user.id) {
+                openActivityWithExtras(DeliveryOrderDetailActivity::class.java, false) {
+                    putString(INTENT_ID, it.id)
+                }
+            }
+            adapter.submitList(newList)
+            rvDeliveryOrder.layoutManager = LinearLayoutManager(
+                this@KendaraanDetailActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            rvDeliveryOrder.adapter = adapter
+            if (newList.isEmpty()) {
                 tvEmptyDeliveryOrderAktif.setVisible()
             }
         }
@@ -146,12 +176,17 @@ class KendaraanDetailActivity : AppCompatActivity() {
         tipe: SuratJalanTipe
     ) {
         binding.apply {
+            val newList = if (user.role == UserRole.LOGISTIC.name) {
+                listSj.filter { it.idDriver == user.id }
+            } else {
+                listSj
+            }
             val adapter = ListSuratJalanAdapter(user.role, user.id) {
                 openActivityWithExtras(SuratJalanDetailActivity::class.java, false) {
                     putString(INTENT_ID, it.id)
                 }
             }
-            adapter.submitList(listSj)
+            adapter.submitList(newList)
             when (tipe) {
                 SuratJalanTipe.PENGEMBALIAN -> {
                     tvEmptySjPengembalianAktif.setGone()
@@ -183,7 +218,7 @@ class KendaraanDetailActivity : AppCompatActivity() {
                     rvSjPengirimanProyekProyek.adapter = adapter
                 }
             }
-            if (listSj.isEmpty()) {
+            if (newList.isEmpty()) {
                 when (tipe) {
                     SuratJalanTipe.PENGEMBALIAN -> tvEmptySjPengembalianAktif.setVisible()
                     SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK -> tvEmptySjPengirimanGudangProyekAktif.setVisible()
@@ -289,7 +324,43 @@ class KendaraanDetailActivity : AppCompatActivity() {
                     putParcelable(UpdateKendaraanActivity.GUDANG_BY_ID, gudang)
                 }
             }
+            if (kendaraan.status == StatusKendaraan.AJUKAN_PENGEMBALIAN.name) {
+                btnAjukanPengembalian.text = getString(R.string.batalkan_pengajuan_pengembalian)
+            } else btnAjukanPengembalian.text = getString(R.string.ajukan_pengembalian)
 
+            btnAjukanPengembalian.setOnClickListener {
+                if (kendaraan.status == StatusKendaraan.AJUKAN_PENGEMBALIAN.name) {
+                    CustomDialog(
+                        mainButtonText = "Batal Ajukan",
+                        secondaryButtonText = "Kembali",
+                        title = "Batalkan Pengajuan Pengembalian",
+                        subtitle = "Apakah anda yakin ingin membatalkan pengajuan pengembalian pada kendaraan ini?",
+                        blockMainButton = {
+                            kendaraanDetailViewModel.cancelReturnKendaraan(kendaraan.id) {
+                                refreshData()
+                            }
+                        },
+                        blockSecondaryButton = {}).show(
+                        supportFragmentManager,
+                        "AjukanPengembalian"
+                    )
+                } else {
+                    CustomDialog(
+                        mainButtonText = "Ajukan",
+                        secondaryButtonText = "Batal",
+                        title = "Ajukan Pengembalian",
+                        subtitle = "Apakah anda yakin ingin mengajukan pengembalian pada kendaraan ini?",
+                        blockMainButton = {
+                            kendaraanDetailViewModel.returnKendaraan(kendaraan.id) {
+                                refreshData()
+                            }
+                        },
+                        blockSecondaryButton = {}).show(
+                        supportFragmentManager,
+                        "AjukanPengembalian"
+                    )
+                }
+            }
         }
     }
 

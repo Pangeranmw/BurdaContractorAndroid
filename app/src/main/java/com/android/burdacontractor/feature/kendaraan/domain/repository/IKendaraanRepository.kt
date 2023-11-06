@@ -41,6 +41,14 @@ interface IKendaraanRepository {
         gambar: File,
     ): Flow<Resource<String>>
 
+    suspend fun returnKendaraan(
+        id: String,
+    ): Flow<Resource<ErrorMessageResponse>>
+
+    suspend fun cancelReturnKendaraan(
+        id: String,
+    ): Flow<Resource<ErrorMessageResponse>>
+
     suspend fun deleteKendaraan(
         id: String,
     ): Flow<Resource<ErrorMessageResponse>>

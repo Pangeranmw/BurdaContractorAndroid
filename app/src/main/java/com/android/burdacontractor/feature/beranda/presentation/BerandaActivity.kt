@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.Constant
+import com.android.burdacontractor.core.domain.model.Constant.INTENT_ID
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.core.domain.model.enums.JenisKendaraan
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
@@ -38,6 +39,7 @@ import com.android.burdacontractor.databinding.ActivityBerandaBinding
 import com.android.burdacontractor.feature.deliveryorder.presentation.detail.DeliveryOrderDetailActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.main.DeliveryOrderActivity
 import com.android.burdacontractor.feature.gudang.presentation.main.GudangActivity
+import com.android.burdacontractor.feature.kendaraan.presentation.detail.KendaraanDetailActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.main.PerusahaanActivity
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
@@ -257,13 +259,18 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
                     binding.tvMerkKendaraan.text = it.merk
                     binding.tvPlatKendaraan.text = it.platNomor
                     binding.ivKendaraan.setImageFromUrl(it.gambar, this)
-                    when(it.jenis){
+                    when (it.jenis) {
                         JenisKendaraan.MINIBUS.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_minibus)
                         JenisKendaraan.MOBIL.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_car)
                         JenisKendaraan.MOTOR.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_motorcycle)
                         JenisKendaraan.PICKUP.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_truck_pickup)
                         JenisKendaraan.TRONTON.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_truck_tronton)
                         JenisKendaraan.TRUCK.name -> binding.ivJenisKendaraan.setImageResource(R.drawable.vehicle_truck_box)
+                    }
+                    binding.cvKendaraan.setOnClickListener { view ->
+                        openActivityWithExtras(KendaraanDetailActivity::class.java, false) {
+                            putString(INTENT_ID, it.id)
+                        }
                     }
                 }
             }

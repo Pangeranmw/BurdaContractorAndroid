@@ -287,4 +287,7 @@
     <string name="detail_gudang">Detail Gudang</string>
     <string name="ubah_gudang">Ubah Gudang</string>
     <string name="lokasi_gudang">Lokasi Gudang</string>
+    <string name="ajukan_pengembalian">Ajukan Pengembalian</string>
+    <string name="track_driver">Track Driver</string>
+    <string name="batalkan_pengajuan_pengembalian">Batalkan Pengajuan Pengembalian</string>
 </resources>

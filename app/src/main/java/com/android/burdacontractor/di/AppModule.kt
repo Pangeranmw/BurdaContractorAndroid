@@ -45,6 +45,8 @@ import com.android.burdacontractor.feature.gudang.domain.usecase.UpdateGudangInt
 import com.android.burdacontractor.feature.gudang.domain.usecase.UpdateGudangUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.AddKendaraanInteractor
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.AddKendaraanUseCase
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.CancelReturnKendaraanInteractor
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.CancelReturnKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.DeleteKendaraanInteractor
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.DeleteKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.DeletePengendaraInteractor
@@ -61,10 +63,14 @@ import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraan
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByLogisticUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanGudangInteractor
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanGudangUseCase
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.ReturnKendaraanInteractor
+import com.android.burdacontractor.feature.kendaraan.domain.usecase.ReturnKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.UpdateKendaraanInteractor
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.UpdateKendaraanUseCase
 import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisticInteractor
 import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisticUseCase
+import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticActiveSjDoLocationInteractor
+import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticActiveSjDoLocationUseCase
 import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticByIdInteractor
 import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticByIdUseCase
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.AddPerusahaanInteractor
@@ -265,6 +271,14 @@ abstract class AppModule {
     @ViewModelScoped
     abstract fun provideDeletePengendaraUseCase(deletePengendaraInteractor: DeletePengendaraInteractor): DeletePengendaraUseCase
 
+    @Binds
+    @ViewModelScoped
+    abstract fun provideReturnKendaraanUseCase(returnKendaraanInteractor: ReturnKendaraanInteractor): ReturnKendaraanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideCancelReturnKendaraanUseCase(cancelReturnKendaraanInteractor: CancelReturnKendaraanInteractor): CancelReturnKendaraanUseCase
+
 
     // PERUSAHAAN USE CASE
     @Binds
@@ -359,6 +373,10 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideGetLogisticByIdUseCase(getLogisticByIdInteractor: GetLogisticByIdInteractor): GetLogisticByIdUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetLogisticActiveSjDoLocationUseCase(getLogisticActiveSjDoLocationInteractor: GetLogisticActiveSjDoLocationInteractor): GetLogisticActiveSjDoLocationUseCase
 
     // DAERAH USE CASE
     @Binds

@@ -32,7 +32,7 @@ interface GudangService {
     ): GetAllGudangResponse
 
     @Headers("Content-Type: application/json", "Accept: application/json")
-    @GET("gudang/provinsi")
+    @GET("gudang/filter/provinsi")
     suspend fun getGudangProvinsi(
         @Header("Authorization") token: String,
     ): GetGudangProvinsiResponse
