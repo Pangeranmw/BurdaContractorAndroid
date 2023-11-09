@@ -87,6 +87,10 @@ class ListPenggunaanSuratJalanAdapter(
                         deleteListener(penggunaan)
                     }
                 }
+
+                cvPenggunaan.setOnClickListener {
+                    listener(penggunaan)
+                }
             }
         }
     }
