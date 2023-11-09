@@ -35,6 +35,7 @@ import com.android.burdacontractor.core.data.source.remote.response.Routes
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.google.android.gms.maps.model.LatLng
@@ -97,11 +98,15 @@ fun ShapeableImageView.setImageFromUrl(
             .load(getPhotoUrl(url))
             .apply(requestOptionWithLoading(context))
             .signature(ObjectKey(System.currentTimeMillis().toString()))
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .into(this)
     } else if (url != null && !useLoad) {
         Glide.with(context)
             .load(getPhotoUrl(url))
             .signature(ObjectKey(System.currentTimeMillis().toString()))
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .into(this)
     }
 }
@@ -113,11 +118,15 @@ fun ImageView.setImageFromUrl(
             .load(getPhotoUrl(url))
             .apply(requestOptionWithLoading(context))
             .signature(ObjectKey(System.currentTimeMillis().toString()))
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .into(this)
     } else if (url != null && !useLoad) {
         Glide.with(context)
             .load(getPhotoUrl(url))
             .signature(ObjectKey(System.currentTimeMillis().toString()))
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .into(this)
     }
 }
