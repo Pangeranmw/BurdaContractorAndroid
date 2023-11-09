@@ -136,11 +136,17 @@ abstract class AppModule {
     // SURAT JALAN USE CASE
     @Binds
     @ViewModelScoped
+    abstract fun provideDeleteSuratJalanUseCase(deleteSuratJalanInteractor: DeleteSuratJalanInteractor): DeleteSuratJalanUseCase
+
+    @Binds
+    @ViewModelScoped
     abstract fun provideGetAllSuratJalanUseCase(getAllSuratJalanInteractor: GetAllSuratJalanInteractor): GetAllSuratJalanUseCase
 
     @Binds
     @ViewModelScoped
-    abstract fun provideGetStatistikMenungguSuratJalanUseCase(getStatistikMenungguSuratJalanInteractor: GetStatistikMenungguSuratJalanInteractor): GetStatistikMenungguSuratJalanUseCase
+    abstract fun provideGetStatistikMenungguSuratJalanUseCase(
+        getStatistikMenungguSuratJalanInteractor: GetStatistikMenungguSuratJalanInteractor
+    ): GetStatistikMenungguSuratJalanUseCase
 
     @Binds
     @ViewModelScoped
@@ -152,7 +158,13 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun provideGetAllSuratJalanDalamPerjalananByUserUseCase(getAllSuratJalanDalamPerjalananByUserInteractor: GetAllSuratJalanDalamPerjalananByUserInteractor): GetAllSuratJalanDalamPerjalananByUserUseCase
+    abstract fun provideGetAllSuratJalanDalamPerjalananByUserUseCase(
+        getAllSuratJalanDalamPerjalananByUserInteractor: GetAllSuratJalanDalamPerjalananByUserInteractor
+    ): GetAllSuratJalanDalamPerjalananByUserUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetSuratJalanByIdUseCase(getSuratJalanByIdInteractor: GetSuratJalanByIdInteractor): GetSuratJalanByIdUseCase
 
     // DELIVERY ORDER USE CASE
     @Binds

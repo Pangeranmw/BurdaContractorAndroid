@@ -22,6 +22,7 @@ interface SuratJalanService {
         @Query("page") page: Int = 1,
         @Query("size") size: Int = 5,
         @Query("search") search: String? = null,
+        @Query("for") createdByOrFor: String,
     ): AllSuratJalanResponse
 
     @Headers("Content-Type: application/json","Accept: application/json")

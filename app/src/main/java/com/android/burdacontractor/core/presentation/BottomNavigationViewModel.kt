@@ -1,4 +1,4 @@
-package com.android.burdacontractor.feature.suratjalan.presentation
+package com.android.burdacontractor.core.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

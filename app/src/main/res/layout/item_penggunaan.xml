@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_penggunaan"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="20dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginHorizontal="5dp"
+    app:strokeColor="@color/input"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/appCompatCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_kode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/inter_bold"
+            android:maxLines="2"
+            android:text="@string/kode"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/appCompatCheckBox"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_asal"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_asal"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_kode"
+            app:layout_constraintTop_toBottomOf="@+id/tv_kode"
+            android:contentDescription="@string/icon_jenis" />
+
+        <TextView
+            android:id="@+id/tv_nama_asal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/inter_medium"
+            android:maxLines="2"
+            android:text="@string/nama_asal"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_asal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_asal"
+            app:layout_constraintTop_toTopOf="@+id/iv_asal" />
+
+        <TextView
+            android:id="@+id/tv_alamat_asal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/inter_light"
+            android:maxLines="2"
+            android:text="@string/alamat_asal"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/iv_asal"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nama_asal" />
+
+        <LinearLayout
+            android:id="@+id/layout_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/tv_alamat_asal"
+            app:layout_constraintTop_toBottomOf="@+id/tv_alamat_asal"
+            android:layout_marginTop="15dp">
+
+            <RelativeLayout
+                android:id="@+id/layout_pengaju"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
+                    android:id="@+id/iv_pengaju"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/unit_supervisor"
+                    app:tint="@color/gray_dark"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/tv_nama_pengaju"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/iv_pengaju"
+                    android:text="@string/nama_user"
+                    android:maxWidth="80dp"
+                    android:maxLines="2"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_role_pengaju"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_nama_pengaju"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/inter_regular"
+                    android:layout_toEndOf="@+id/iv_pengaju"
+                    android:text="@string/pengaju"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="11sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_pemberi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:visibility="visible">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
+                    android:id="@+id/iv_pemberi"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/unit_supervisor"
+                    app:tint="@color/gray_dark"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/tv_nama_pemberi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/iv_pemberi"
+                    android:text="@string/nama_user"
+                    android:maxWidth="80dp"
+                    android:maxLines="2"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_role_pemberi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_nama_pemberi"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/inter_regular"
+                    android:layout_toEndOf="@+id/iv_pemberi"
+                    android:text="@string/pemberi"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="11sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_barang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/layout_user"
+            app:layout_constraintTop_toBottomOf="@+id/layout_user">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_barang"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_barang_guna_preview" />
+
+            <TextView
+                android:id="@+id/tv_count_barang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/semi_rounded_outline_secondary_main"
+                android:fontFamily="@font/inter_medium"
+                android:padding="10dp"
+                android:text="@string/count_barang"
+                android:textAlignment="center"
+                android:textColor="@color/secondary_main" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_tanggal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/tanggal_update"
+            android:textColor="@color/gray_dark"
+            app:layout_constraintTop_toBottomOf="@+id/layout_barang"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@drawable/semi_rounded_outline_red"
+            android:padding="10dp"
+            android:src="@drawable/ic_trash"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/surat_jalan_fragment"
         tools:layout="@layout/fragment_surat_jalan"
-        android:name="com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanFragment">
+        android:name="com.android.burdacontractor.feature.suratjalan.presentation.main.SuratJalanFragment">
         <action
             android:id="@+id/action_surat_jalan_fragment_to_detailSuratJalanFragment"
             app:destination="@id/detailSuratJalanFragment" />

@@ -22,6 +22,7 @@ import com.android.burdacontractor.core.domain.model.enums.JenisKendaraan
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.UserRole
+import com.android.burdacontractor.core.presentation.BottomNavigationViewModel
 import com.android.burdacontractor.core.presentation.LogisticFirebaseViewModel
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListDeliveryOrderAdapter
@@ -43,9 +44,8 @@ import com.android.burdacontractor.feature.kendaraan.presentation.detail.Kendara
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.main.PerusahaanActivity
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
-import com.android.burdacontractor.feature.suratjalan.presentation.BottomNavigationViewModel
-import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanActivity
-import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanDetailActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.detail.SuratJalanDetailActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.main.SuratJalanActivity
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -383,7 +383,7 @@ class BerandaActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLis
     private fun initAdapterSj(): ListSuratJalanAdapter{
         return ListSuratJalanAdapter(storageViewModel.role, storageViewModel.userId) {
             openActivityWithExtras(SuratJalanDetailActivity::class.java, false) {
-                putString(SuratJalanDetailActivity.ID_SURAT_JALAN, it.id)
+                putString(INTENT_ID, it.id)
             }
         }
     }

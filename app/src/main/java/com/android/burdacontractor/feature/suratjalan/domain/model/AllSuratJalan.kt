@@ -18,8 +18,14 @@ data class AllSuratJalan(
     @field:SerializedName("nama_admin_gudang")
     val namaAdminGudang: String? = null,
 
+    @field:SerializedName("id_admin_gudang")
+    val idAdminGudang: String? = null,
+
     @field:SerializedName("foto_driver")
     val fotoDriver: String? = null,
+
+    @field:SerializedName("foto_bukti")
+    val fotoBukti: String? = null,
 
     @field:SerializedName("id_driver")
     val idDriver: String? = null,
@@ -38,6 +44,9 @@ data class AllSuratJalan(
 
     @field:SerializedName("nama_tempat_asal")
     val namaTempatAsal: String? = null,
+
+    @field:SerializedName("id_site_manager")
+    val idSiteManager: String? = null,
 
     @field:SerializedName("foto_site_manager")
     val fotoSiteManager: String? = null,
@@ -59,4 +68,7 @@ data class AllSuratJalan(
 
     @field:SerializedName("status")
     val status: String? = null,
+
+    @field:SerializedName("total_data")
+    val totalData: Int? = null,
 )

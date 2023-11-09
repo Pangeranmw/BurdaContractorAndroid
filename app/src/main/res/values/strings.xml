@@ -195,6 +195,8 @@
     <string name="do_menunggu_konfirmasi_driver">DO Menunggu Konfirmasi Driver</string>
     <string name="do_driver_dalam_perjalanan">DO Driver Dalam Perjalanan</string>
     <string name="do_selesai">DO Selesai</string>
+    <string name="menunggu_konfirmasi_driver">Menunggu Konfirmasi Driver</string>
+    <string name="driver_dalam_perjalanan">Driver Dalam Perjalanan</string>
     <string name="dibuat_untuk">Dibuat Untuk</string>
     <string name="filter">Filter</string>
     <string name="diri_sendiri">Diri Sendiri</string>
@@ -290,4 +292,12 @@
     <string name="ajukan_pengembalian">Ajukan Pengembalian</string>
     <string name="track_driver">Track Driver</string>
     <string name="batalkan_pengajuan_pengembalian">Batalkan Pengajuan Pengembalian</string>
+    <string name="tidak_ada_surat_jalan">Tidak Ada Surat Jalan</string>
+    <string name="pengaju">Pengaju</string>
+    <string name="kode">Kode</string>
+    <string name="count_barang">+%d Barang</string>
+    <string name="penggunaan">Penggunaan</string>
+    <string name="nama_dan_role">%1$s (%2$s)</string>
+    <string name="cetak_surat_jalan">Cetak Surat Jalan</string>
+    <string name="pengembalian">Pengembalian</string>
 </resources>

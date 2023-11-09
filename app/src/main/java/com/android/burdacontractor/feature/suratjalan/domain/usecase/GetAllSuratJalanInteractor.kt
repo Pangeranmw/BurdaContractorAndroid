@@ -1,5 +1,6 @@
 package com.android.burdacontractor.feature.suratjalan.domain.usecase
 
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.domain.repository.ISuratJalanRepository
@@ -11,9 +12,18 @@ class GetAllSuratJalanInteractor @Inject constructor(private val suratJalanRepos
     override fun execute(
         tipe: SuratJalanTipe,
         status: SuratJalanStatus,
-        date_start: String?,
-        date_end: String?,
+        dateStart: String?,
+        dateEnd: String?,
         size: Int,
-        search: String?
-    )= suratJalanRepository.getAllSuratJalan(tipe, status, date_start, date_end, size, search)
+        search: String?,
+        createdByOrFor: CreatedByOrFor,
+    ) = suratJalanRepository.getAllSuratJalan(
+        tipe,
+        status,
+        dateStart,
+        dateEnd,
+        size,
+        search,
+        createdByOrFor
+    )
 }

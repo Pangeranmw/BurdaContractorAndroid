@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
+import com.android.burdacontractor.core.presentation.BottomNavigationViewModel
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.customview.CustomDialog
 import com.android.burdacontractor.core.utils.checkConnection
@@ -21,8 +22,7 @@ import com.android.burdacontractor.feature.gudang.presentation.main.GudangActivi
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.main.PerusahaanActivity
 import com.android.burdacontractor.feature.profile.presentation.SignatureActivity
-import com.android.burdacontractor.feature.suratjalan.presentation.BottomNavigationViewModel
-import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.main.SuratJalanActivity
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
@@ -71,12 +71,6 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelec
                     ).show()
                 }
             }
-            createdByOrFor.observe(this@DeliveryOrderActivity){create->
-                dateStart.observe(this@DeliveryOrderActivity){start->
-                    dateEnd.observe(this@DeliveryOrderActivity){end->
-                    }
-                }
-            }
         }
         initUi()
     }
@@ -92,7 +86,7 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationBarView.OnItemSelec
             searchView.setupWithSearchBar(searchBar)
             searchView
                 .editText
-                .setOnEditorActionListener { textView, actionId, event ->
+                .setOnEditorActionListener { _, _, _ ->
                     searchBar.setText(searchView.text)
                     deliveryOrderViewModel.setSearch(searchView.text.toString())
                     searchView.hide()

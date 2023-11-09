@@ -7,6 +7,7 @@ import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
@@ -28,10 +29,11 @@ class SuratJalanRemoteDataSource @Inject constructor(
         token: String,
         tipe: SuratJalanTipe,
         status: SuratJalanStatus,
-        date_start: String? = null,
-        date_end: String? = null,
+        dateStart: String? = null,
+        dateEnd: String? = null,
         size: Int = 5,
         search: String? = null,
+        createdByOrFor: CreatedByOrFor,
     ): Flow<PagingData<AllSuratJalan>> {
         return Pager(
             config = PagingConfig(
@@ -43,10 +45,11 @@ class SuratJalanRemoteDataSource @Inject constructor(
                     token,
                     tipe.name,
                     status.name,
-                    date_start,
-                    date_end,
+                    dateStart,
+                    dateEnd,
                     size,
-                    search
+                    search,
+                    createdByOrFor
                 )
             }
         ).flow

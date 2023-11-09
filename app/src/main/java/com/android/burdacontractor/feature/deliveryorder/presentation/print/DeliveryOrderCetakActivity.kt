@@ -22,7 +22,7 @@ import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.Constant
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.utils.*
-import com.android.burdacontractor.databinding.ActivityDeliveryOrderCetakBinding
+import com.android.burdacontractor.databinding.ActivityCetakBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -30,7 +30,7 @@ import java.io.File
 
 @AndroidEntryPoint
 class DeliveryOrderCetakActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityDeliveryOrderCetakBinding
+    private lateinit var binding: ActivityCetakBinding
     private val storageViewModel: StorageViewModel by viewModels()
     private val deliveryOrderCetakViewModel: DeliveryOrderCetakViewModel by viewModels()
     private var deliveryOrderId: String? = null
@@ -42,7 +42,7 @@ class DeliveryOrderCetakActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDeliveryOrderCetakBinding.inflate(layoutInflater)
+        binding = ActivityCetakBinding.inflate(layoutInflater)
         setContentView(binding.root)
         deliveryOrderId = intent.getStringExtra(Constant.INTENT_ID)
         deliveryOrderKode = intent.getStringExtra(Constant.INTENT_KODE)

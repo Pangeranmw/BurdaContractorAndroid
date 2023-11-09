@@ -6,13 +6,14 @@ import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.SuratJalanRemoteDataSource
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
+import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetailItem
 import com.android.burdacontractor.feature.suratjalan.domain.repository.ISuratJalanRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -32,13 +33,21 @@ class SuratJalanRepository @Inject constructor(
     override fun getAllSuratJalan(
         tipe: SuratJalanTipe,
         status: SuratJalanStatus,
-        date_start: String?,
-        date_end: String?,
+        dateStart: String?,
+        dateEnd: String?,
         size: Int,
-        search: String?
+        search: String?,
+        createdByOrFor: CreatedByOrFor,
     ): Flow<PagingData<AllSuratJalan>> =
         suratJalanRemoteDataSource.getAllSuratJalan(
-            storageDataSource.getToken(), tipe, status, date_start, date_end, size, search
+            storageDataSource.getToken(),
+            tipe,
+            status,
+            dateStart,
+            dateEnd,
+            size,
+            search,
+            createdByOrFor
         )
 
     override suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetailItem>> =
@@ -93,7 +102,6 @@ class SuratJalanRepository @Inject constructor(
                     val result = response.data.data!!
                     emit(Resource.Success(result, response.data.message))
                 }
-
                 is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
             }
         }.catch {

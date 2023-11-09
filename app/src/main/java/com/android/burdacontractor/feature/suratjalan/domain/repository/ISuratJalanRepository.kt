@@ -4,12 +4,13 @@ import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
-import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
+import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetailItem
 import kotlinx.coroutines.flow.Flow
 
 interface ISuratJalanRepository {
@@ -17,10 +18,11 @@ interface ISuratJalanRepository {
     fun getAllSuratJalan(
         tipe: SuratJalanTipe,
         status: SuratJalanStatus,
-        date_start: String? = null,
-        date_end: String? = null,
+        dateStart: String? = null,
+        dateEnd: String? = null,
         size: Int = 5,
         search: String? = null,
+        createdByOrFor: CreatedByOrFor,
     ): Flow<PagingData<AllSuratJalan>>
 
     suspend fun getSuratJalanById(id: String): Flow<Resource<SuratJalanDetailItem>>

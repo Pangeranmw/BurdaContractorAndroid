@@ -2,6 +2,7 @@ package com.android.burdacontractor.feature.suratjalan.data.source.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 
@@ -10,10 +11,11 @@ class SuratJalanPagingSource(
     private val token: String,
     private val tipe: String,
     private val status: String,
-    private val date_start: String? = null,
-    private val date_end: String? = null,
+    private val dateStart: String? = null,
+    private val dateEnd: String? = null,
     private val size: Int = 5,
     private val search: String? = null,
+    private val createdByOrFor: CreatedByOrFor,
 ) : PagingSource<Int, AllSuratJalan>() {
     private companion object {
         const val INITIAL_PAGE_INDEX = 1
@@ -23,7 +25,7 @@ class SuratJalanPagingSource(
         return try {
             val page = params.key ?: INITIAL_PAGE_INDEX
             val response = suratJalanService.getAllSuratJalan(
-                token, tipe, status, date_start, date_end, page, size, search
+                token, tipe, status, dateStart, dateEnd, page, size, search, createdByOrFor.name
             ).suratJalan!!
 
             LoadResult.Page(

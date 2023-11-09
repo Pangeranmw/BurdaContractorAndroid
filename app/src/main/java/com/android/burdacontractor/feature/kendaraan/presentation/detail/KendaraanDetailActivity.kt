@@ -32,7 +32,7 @@ import com.android.burdacontractor.feature.kendaraan.presentation.update.UpdateK
 import com.android.burdacontractor.feature.logistic.domain.model.LogisticById
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
-import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanDetailActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.detail.SuratJalanDetailActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 

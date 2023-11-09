@@ -5,7 +5,8 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature.suratjalan.presentation.SuratJalanDetailActivity">
+    tools:context=".feature.suratjalan.presentation.detail.SuratJalanDetailActivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
@@ -43,826 +44,968 @@
 
         </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
-    <ScrollView
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/sr_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_bar_layout">
-        <LinearLayout
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:padding="20dp"
-                android:orientation="vertical"
-                android:background="@drawable/bottom_outline_gray"
-                >
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    >
-                    <ImageButton
-                        android:id="@+id/btn_download"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/ic_download"
-                        android:background="@drawable/semi_rounded_outline_main"
-                        />
-                    <ImageButton
-                        android:id="@+id/btn_delete"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/ic_trash"
-                        android:background="@drawable/semi_rounded_outline_main"
-                        android:layout_marginStart="10dp"
-                        />
-                    <TextView
-                        android:id="@+id/tv_status"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:padding="20dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bottom_outline_gray">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/status"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="@color/red_light"
-                        android:gravity="end"
-                        />
+                        android:gravity="center_vertical">
+
+                        <ImageButton
+                            android:id="@+id/btn_download"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/ic_download"
+                            android:background="@drawable/semi_rounded_outline_main" />
+
+                        <ImageButton
+                            android:id="@+id/btn_delete"
+                            android:visibility="gone"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/ic_trash"
+                            android:background="@drawable/semi_rounded_outline_main"
+                            android:layout_marginStart="10dp" />
+
+                        <TextView
+                            android:id="@+id/tv_status"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/status"
+                            android:fontFamily="@font/inter_medium"
+                            android:textColor="@color/red_light"
+                            android:gravity="end" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp">
+
+                        <ImageView
+                            android:id="@+id/iv_jenis"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_send_req"
+                            app:tint="@color/black"
+                            android:layout_marginEnd="10dp" />
+
+                        <TextView
+                            android:id="@+id/tv_kode_sj"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/kode_surat"
+                            android:fontFamily="@font/inter_bold"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tanggal_dibuat"
+                                android:fontFamily="@font/inter_semi_bold"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tv_created_at"
+                                android:text="@string/dummy_date"
+                                android:fontFamily="@font/inter_medium"
+                                android:textColor="@color/black"
+                                android:layout_marginTop="2dp"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/terakhir_diperbarui"
+                                android:fontFamily="@font/inter_semi_bold"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tv_updated_at"
+                                android:text="@string/dummy_date"
+                                android:fontFamily="@font/inter_medium"
+                                android:textColor="@color/black"
+                                android:layout_marginTop="2dp"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/layout_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    app:flexWrap="wrap"
+                    app:justifyContent="space_between"
+                    android:background="@drawable/bottom_outline_gray">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_antar_barang"
+                        android:layout_width="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/antar_barang"
+                        android:background="@drawable/semi_rounded_primary"
+                        android:textColor="@color/white"
+                        android:textAllCaps="false"
+                        android:fontFamily="@font/inter_bold"
+                        android:visibility="gone"
+                        app:layout_flexGrow="1" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_upload_foto_bukti"
+                        android:layout_width="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/upload_foto_bukti"
+                        android:background="@drawable/semi_rounded_primary"
+                        android:textColor="@color/white"
+                        android:textAllCaps="false"
+                        android:fontFamily="@font/inter_bold"
+                        android:visibility="gone"
+                        app:layout_flexGrow="1" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_ubah_sj"
+                        android:layout_width="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ubah_surat_jalan"
+                        android:background="@drawable/semi_rounded_primary"
+                        android:textColor="@color/white"
+                        android:textAllCaps="false"
+                        android:fontFamily="@font/inter_bold"
+                        android:visibility="gone"
+                        app:layout_flexGrow="1" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_pantau_lokasi"
+                        android:layout_width="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pantau_lokasi"
+                        android:background="@drawable/semi_rounded_outline_main"
+                        android:textColor="@color/primary_main"
+                        android:fontFamily="@font/inter_bold"
+                        android:textAllCaps="false"
+                        app:layout_flexGrow="1" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_telusuri_lokasi"
+                        android:layout_width="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/telusuri_rute_lokasi"
+                        android:background="@drawable/semi_rounded_outline_main"
+                        android:textColor="@color/primary_main"
+                        android:fontFamily="@font/inter_bold"
+                        android:textAllCaps="false"
+                        android:visibility="gone"
+                        app:layout_flexGrow="1" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_tandai_selesai"
+                        android:layout_width="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tandai_selesai"
+                        android:background="@drawable/semi_rounded_primary"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/inter_bold"
+                        android:textAllCaps="false"
+                        android:visibility="gone"
+                        app:layout_flexGrow="1" />
+                </com.google.android.flexbox.FlexboxLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="10dp"
-                    >
-                    <ImageView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bottom_outline_gray">
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_send_req"
-                        app:tint="@color/black"
-                        android:layout_marginEnd="10dp"
-                        />
-                    <TextView
-                        android:id="@+id/tv_kode_do"
+                        android:text="@string/proyek"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/inter_semi_bold"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/kode_surat"
-                        android:fontFamily="@font/inter_bold"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:weightSum="2"
-                    android:orientation="horizontal"
-                    >
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        >
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_tujuan" />
+
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tanggal_dibuat"
-                            android:fontFamily="@font/inter_semi_bold"
+                            android:id="@+id/tv_nama_tujuan"
+                            android:layout_marginStart="5dp"
                             android:textColor="@color/black"
-                            android:textSize="12sp"
-                            />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tv_created_at"
-                            android:text="@string/dummy_date"
+                            android:text="@string/nama_tujuan"
                             android:fontFamily="@font/inter_medium"
-                            android:textColor="@color/black"
-                            android:layout_marginTop="2dp"
-                            android:textSize="11sp"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        >
-                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/terakhir_diperbarui"
-                            android:fontFamily="@font/inter_semi_bold"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tv_updated_at"
-                            android:text="@string/dummy_date"
-                            android:fontFamily="@font/inter_medium"
-                            android:textColor="@color/black"
-                            android:layout_marginTop="2dp"
-                            android:textSize="11sp"
-                            />
+                            android:textSize="12sp" />
                     </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/layout_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:padding="20dp"
-                android:orientation="vertical"
-                android:background="@drawable/bottom_outline_gray"
-                >
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_antar_barang"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/antar_barang"
-                    android:background="@drawable/semi_rounded_primary"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
-                    android:fontFamily="@font/inter_bold"
-                    android:visibility="gone"
-                    />
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_telusuri_rute_lokasi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/telusuri_rute_lokasi"
-                    android:background="@drawable/semi_rounded_primary"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
-                    android:fontFamily="@font/inter_bold"
-                    android:visibility="gone"
-                    />
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_tambah_foto_bukti"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tambah_foto_bukti"
-                    android:background="@drawable/semi_rounded_outline_main"
-                    android:textColor="@color/primary_main"
-                    android:textAllCaps="false"
-                    android:fontFamily="@font/inter_bold"
-                    android:visibility="gone"
-                    />
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_ubah_do"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ubah_surat_jalan"
-                    android:background="@drawable/semi_rounded_primary"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
-                    android:fontFamily="@font/inter_bold"
-                    android:visibility="gone"
-                    />
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_pantau_lokasi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pantau_lokasi"
-                    android:background="@drawable/semi_rounded_primary"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/inter_bold"
-                    android:visibility="gone"
-                    android:textAllCaps="false"
-                    />
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_tambah_ttd_dan_tandai_selesai"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tambah_ttd_tandai_selesai"
-                    android:background="@drawable/semi_rounded_primary"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/inter_bold"
-                    android:visibility="gone"
-                    android:textAllCaps="false"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/bottom_outline_gray"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/proyek"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/inter_semi_bold"
-                    android:textColor="@color/black"
-                    />
-                <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    >
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_tujuan"
-                        />
+
                     <TextView
-                        android:id="@+id/tv_nama_tujuan"
-                        android:layout_marginStart="5dp"
+                        android:id="@+id/tv_alamat_tujuan"
                         android:textColor="@color/black"
-                        android:text="@string/nama_tujuan"
-                        android:fontFamily="@font/inter_medium"
+                        android:text="@string/alamat_tujuan"
+                        android:fontFamily="@font/inter_light"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        />
+                        android:layout_marginTop="2dp" />
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_alamat_tujuan"
-                    android:textColor="@color/black"
-                    android:text="@string/alamat_tujuan"
-                    android:fontFamily="@font/inter_light"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:layout_marginTop="2dp"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/bottom_outline_gray"
-                >
+
                 <LinearLayout
-                    android:id="@+id/layout_kendaraan"
+                    android:id="@+id/layout_kendaraan_driver"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    >
-                    <TextView
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:baselineAligned="false"
+                    android:background="@drawable/bottom_outline_gray">
+
+                    <LinearLayout
+                        android:id="@+id/layout_kendaraan"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:text="@string/kendaraan"
+                            android:fontFamily="@font/inter_semi_bold"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/iv_kendaraan"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:scaleType="centerCrop"
+                                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
+                                android:src="@drawable/vehicle_car" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_toEndOf="@+id/iv_kendaraan"
+                                android:layout_marginStart="5dp">
+
+                                <TextView
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="match_parent"
+                                    android:id="@+id/tv_merk_kendaraan"
+                                    android:text="@string/kendaraan"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:layout_marginEnd="10dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_plat_kendaraan"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="match_parent"
+                                    android:text="@string/kendaraan"
+                                    android:fontFamily="@font/inter_light"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_driver"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:text="@string/driver"
+                            android:fontFamily="@font/inter_semi_bold"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/iv_driver"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:scaleType="centerCrop"
+                                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
+                                android:src="@drawable/unit_driver" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_toEndOf="@+id/iv_driver"
+                                android:layout_marginStart="5dp">
+
+                                <TextView
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="match_parent"
+                                    android:id="@+id/tv_nama_driver"
+                                    android:text="@string/nama_user"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_no_hp_driver"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="match_parent"
+                                    android:text="@string/driver"
+                                    android:fontFamily="@font/inter_light"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout_hubungi_driver"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatImageButton
+                                android:id="@+id/btn_hubungi_driver"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@drawable/semi_rounded_outline_main"
+                                android:src="@drawable/ic_tel"
+                                android:contentDescription="@string/cd_button"
+                                android:padding="10dp"
+                                android:layout_marginTop="5dp"
+                                app:tint="@color/primary_main"
+                                android:layout_marginEnd="10dp" />
+
+                            <androidx.appcompat.widget.AppCompatImageButton
+                                android:id="@+id/btn_wa_driver"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@drawable/semi_rounded_outline_main"
+                                android:src="@drawable/ic_whatsapp"
+                                android:contentDescription="@string/cd_button"
+                                android:padding="10dp"
+                                android:layout_marginTop="5dp"
+                                app:tint="@color/primary_main" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bottom_outline_gray">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:text="@string/kendaraan"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_marginEnd="10dp"
+                            android:id="@+id/layout_site_manager"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:text="@string/site_manager"
+                                android:fontFamily="@font/inter_semi_bold"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp">
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/iv_site_manager"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:scaleType="centerCrop"
+                                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
+                                    android:src="@drawable/unit_project_manager" />
+
+                                <LinearLayout
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_toEndOf="@+id/iv_site_manager"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="2dp">
+
+                                    <TextView
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/tv_nama_site_manager"
+                                        android:text="@string/nama_user"
+                                        android:fontFamily="@font/inter_medium"
+                                        android:textColor="@color/black"
+                                        android:textSize="11sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_no_hp_site_manager"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:text="@string/site_manager"
+                                        android:fontFamily="@font/inter_light"
+                                        android:textColor="@color/black"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:id="@+id/layout_hubungi_site_manager"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/btn_hubungi_site_manager"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:background="@drawable/semi_rounded_outline_main"
+                                    android:src="@drawable/ic_tel"
+                                    android:contentDescription="@string/cd_button"
+                                    android:padding="10dp"
+                                    android:layout_marginTop="5dp"
+                                    app:tint="@color/primary_main"
+                                    android:layout_marginEnd="10dp" />
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/btn_wa_site_manager"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:background="@drawable/semi_rounded_outline_main"
+                                    android:src="@drawable/ic_whatsapp"
+                                    android:contentDescription="@string/cd_button"
+                                    android:padding="10dp"
+                                    android:layout_marginTop="5dp"
+                                    app:tint="@color/primary_main" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginEnd="10dp"
+                            android:id="@+id/layout_admin_gudang"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:text="@string/admin_gudang"
+                                android:fontFamily="@font/inter_semi_bold"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp">
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/iv_admin_gudang"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:scaleType="centerCrop"
+                                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
+                                    android:src="@drawable/unit_admin_gudang" />
+
+                                <LinearLayout
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_toEndOf="@+id/iv_admin_gudang"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="2dp">
+
+                                    <TextView
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/tv_nama_admin_gudang"
+                                        android:text="@string/nama_user"
+                                        android:fontFamily="@font/inter_medium"
+                                        android:textColor="@color/black"
+                                        android:textSize="11sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_no_hp_admin_gudang"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:text="@string/admin_gudang"
+                                        android:fontFamily="@font/inter_light"
+                                        android:textColor="@color/black"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:id="@+id/layout_hubungi_admin_gudang"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/btn_hubungi_admin_gudang"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:background="@drawable/semi_rounded_outline_main"
+                                    android:src="@drawable/ic_tel"
+                                    android:contentDescription="@string/cd_button"
+                                    android:padding="10dp"
+                                    android:layout_marginTop="5dp"
+                                    app:tint="@color/primary_main"
+                                    android:layout_marginEnd="10dp" />
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/btn_wa_admin_gudang"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:background="@drawable/semi_rounded_outline_main"
+                                    android:src="@drawable/ic_whatsapp"
+                                    android:contentDescription="@string/cd_button"
+                                    android:padding="10dp"
+                                    android:layout_marginTop="5dp"
+                                    app:tint="@color/primary_main" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bottom_outline_gray">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tanda_tangan"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/inter_semi_bold"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:id="@+id/layout_ttd_admin_gudang"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_weight="1">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/input"
+                                android:padding="20dp">
+
+                                <ImageView
+                                    android:id="@+id/iv_ttd_admin_gudang"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="75dp"
+                                    android:layout_centerInParent="true" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tv_tertanda_admin_gudang"
+                                android:textAlignment="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/none"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/inter_medium"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:id="@+id/tv_sebagai_admin"
+                                android:textAlignment="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pemberi"
+                                android:textSize="11sp"
+                                android:fontFamily="@font/inter_regular"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout_ttd_driver"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_weight="1">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/input"
+                                android:padding="20dp">
+
+                                <ImageView
+                                    android:id="@+id/iv_ttd_driver"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="75dp"
+                                    android:layout_centerInParent="true" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tv_tertanda_driver"
+                                android:textAlignment="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/none"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/inter_medium"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:id="@+id/tv_sebagai_driver"
+                                android:textAlignment="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pengirim"
+                                android:textSize="11sp"
+                                android:fontFamily="@font/inter_regular"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:layout_marginTop="10dp">
+
+                        <LinearLayout
+                            android:id="@+id/layout_ttd_tgg_jwb"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_weight="1">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/input"
+                                android:padding="20dp">
+
+                                <ImageView
+                                    android:id="@+id/iv_ttd_tgg_jwb"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="75dp"
+                                    android:layout_centerInParent="true" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tv_tertanda_tgg_jwb"
+                                android:textAlignment="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/none"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/inter_medium"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:id="@+id/tv_sebagai_tgg_jwb"
+                                android:textAlignment="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/penerima"
+                                android:textSize="11sp"
+                                android:fontFamily="@font/inter_regular"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout_ttd_tgg_jwb_peminjam"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_weight="1"
+                            android:visibility="gone">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/input"
+                                android:padding="20dp">
+
+                                <ImageView
+                                    android:id="@+id/iv_ttd_tgg_jwb_peminjam"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="75dp"
+                                    android:layout_centerInParent="true" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tv_tertanda_tgg_jwb_peminjam"
+                                android:textAlignment="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/none"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/inter_medium"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:id="@+id/tv_sebagai_tgg_jwb_peminjam"
+                                android:textAlignment="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/penerima"
+                                android:textSize="11sp"
+                                android:fontFamily="@font/inter_regular"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_foto_bukti"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bottom_outline_gray"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_foto_bukti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/foto_bukti"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/inter_semi_bold"
+                        android:textColor="@color/black" />
+
+                    <ImageView
+                        android:id="@+id/iv_foto_bukti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="5dp"
+                        android:scaleType="fitStart"
+                        android:layout_gravity="start"
+                        tools:src="@tools:sample/avatars" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bottom_outline_gray">
+
+                    <TextView
+                        android:id="@+id/tv_heading_daftar_barang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
                         android:fontFamily="@font/inter_semi_bold"
                         android:textColor="@color/black"
-                        android:textSize="12sp"
-                        />
+                        android:text="@string/daftar_barang"
+                        android:layout_marginEnd="50dp" />
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        >
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/iv_kendaraan"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:scaleType="centerCrop"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                            android:src="@drawable/vehicle_car"
-                            />
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:id="@+id/tv_peminjaman"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_toEndOf="@+id/iv_kendaraan"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="2dp"
-                            >
-                            <TextView
-                                android:layout_height="wrap_content"
-                                android:layout_width="match_parent"
-                                android:id="@+id/tv_merk_kendaraan"
-                                android:text="@string/kendaraan"
-                                android:fontFamily="@font/inter_medium"
-                                android:textColor="@color/black"
-                                android:textSize="11sp"
-                                />
-                            <TextView
-                                android:id="@+id/tv_plat_kendaraan"
-                                android:layout_height="wrap_content"
-                                android:layout_width="match_parent"
-                                android:text="@string/kendaraan"
-                                android:fontFamily="@font/inter_light"
-                                android:textColor="@color/black"
-                                android:textSize="11sp"
-                                />
-                        </LinearLayout>
+                            android:text="@string/peminjaman"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/inter_semi_bold"
+                            android:textColor="@color/black" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_peminjaman"
+                            android:layout_below="@+id/tv_peminjaman"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="4"
+                            tools:listitem="@layout/item_peminjaman" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp">
+
+                        <TextView
+                            android:id="@+id/tv_penggunaan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/penggunaan"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/inter_semi_bold"
+                            android:textColor="@color/black" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_penggunaan"
+                            android:layout_below="@+id/tv_penggunaan"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="4"
+                            tools:listitem="@layout/item_penggunaan" />
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/bottom_outline_gray"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2"
-                    >
-                    <LinearLayout
-                        android:paddingHorizontal="10dp"
-                        android:id="@+id/layout_project_manager"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_weight="1"
-                        >
-                        <TextView
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent"
-                            android:text="@string/site_manager"
-                            android:fontFamily="@font/inter_semi_bold"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            >
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/iv_site_manager"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                                android:src="@drawable/unit_project_manager"
-                                />
-                            <LinearLayout
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_toEndOf="@+id/iv_site_manager"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginTop="2dp"
-                                >
-                                <TextView
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="match_parent"
-                                    android:id="@+id/tv_nama_site_manager"
-                                    android:text="@string/nama_user"
-                                    android:fontFamily="@font/inter_medium"
-                                    android:textColor="@color/black"
-                                    android:textSize="11sp"
-                                    />
-                                <TextView
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="match_parent"
-                                    android:text="@string/site_manager"
-                                    android:fontFamily="@font/inter_light"
-                                    android:textColor="@color/black"
-                                    android:textSize="11sp"
-                                    />
-                            </LinearLayout>
-                        </RelativeLayout>
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_hubungi_project_manager"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/semi_rounded_secondary_main"
-                            android:text="@string/hubungi"
-                            android:minHeight="0dp"
-                            android:textAllCaps="false"
-                            android:paddingVertical="5dp"
-                            android:paddingHorizontal="10dp"
-                            android:layout_marginTop="5dp"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:paddingHorizontal="10dp"
-                        android:id="@+id/layout_admin_gudang"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_weight="1"
-                        >
-                        <TextView
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent"
-                            android:text="@string/admin_gudang"
-                            android:fontFamily="@font/inter_semi_bold"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            >
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/iv_admin_gudang"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                                android:src="@drawable/unit_admin_gudang"
-                                />
-                            <LinearLayout
-
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_toEndOf="@+id/iv_admin_gudang"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginTop="2dp"
-                                >
-                                <TextView
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="match_parent"
-                                    android:id="@+id/tv_nama_admin_gudang"
-                                    android:text="@string/nama_user"
-                                    android:fontFamily="@font/inter_medium"
-                                    android:textColor="@color/black"
-                                    android:textSize="11sp"
-                                    />
-                                <TextView
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="match_parent"
-                                    android:text="@string/admin_gudang"
-                                    android:fontFamily="@font/inter_light"
-                                    android:textColor="@color/black"
-                                    android:textSize="11sp"
-                                    />
-                            </LinearLayout>
-                        </RelativeLayout>
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_hubungi_admin_gudang"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/semi_rounded_secondary_main"
-                            android:text="@string/hubungi"
-                            android:minHeight="0dp"
-                            android:textAllCaps="false"
-                            android:paddingVertical="5dp"
-                            android:paddingHorizontal="10dp"
-                            android:layout_marginTop="5dp"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"
-                            />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/bottom_outline_gray"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tanda_tangan"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/inter_semi_bold"
-                    android:textColor="@color/black"
-                    />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2"
-                    >
-                    <LinearLayout
-                        android:id="@+id/layout_ttd_admin_gudang"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_weight="1"
-                        >
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/input"
-                            android:padding="20dp"
-                            >
-                            <ImageView
-                                android:id="@+id/iv_ttd_admin_gudang"
-                                android:layout_width="match_parent"
-                                android:layout_height="75dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/ic_signature" />
-                        </RelativeLayout>
-                        <TextView
-                            android:id="@+id/tv_tertanda_admin_gudang"
-                            android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/none"
-                            android:textSize="12sp"
-                            android:fontFamily="@font/inter_medium"
-                            android:textColor="@color/black"
-                            />
-                        <TextView
-                            android:id="@+id/tv_sebagai_admin"
-                            android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/pemberi"
-                            android:textSize="11sp"
-                            android:fontFamily="@font/inter_regular"
-                            android:textColor="@color/black"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/layout_ttd_driver"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_weight="1"
-                        >
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/input"
-                            android:padding="20dp"
-                            >
-
-                            <ImageView
-                                android:id="@+id/iv_ttd_driver"
-                                android:layout_width="match_parent"
-                                android:layout_height="75dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/ic_signature" />
-                        </RelativeLayout>
-                        <TextView
-                            android:id="@+id/tv_tertanda_driver"
-                            android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/none"
-                            android:textSize="12sp"
-                            android:fontFamily="@font/inter_medium"
-                            android:textColor="@color/black"
-                            />
-                        <TextView
-                            android:id="@+id/tv_sebagai_driver"
-                            android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/pengirim"
-                            android:textSize="11sp"
-                            android:fontFamily="@font/inter_regular"
-                            android:textColor="@color/black"
-                            />
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:layout_marginTop="10dp"
-                    >
-                    <LinearLayout
-                        android:id="@+id/layout_ttd_supervisor"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_weight="1"
-                        >
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/input"
-                            android:padding="20dp"
-                            >
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="75dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/ic_signature" />
-                        </RelativeLayout>
-                        <TextView
-                            android:id="@+id/tv_tertanda_tgg_jwb"
-                            android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/none"
-                            android:textSize="12sp"
-                            android:fontFamily="@font/inter_medium"
-                            android:textColor="@color/black"
-                            />
-                        <TextView
-                            android:id="@+id/tv_sebagai_tgg_jwb"
-                            android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/penerima"
-                            android:textSize="11sp"
-                            android:fontFamily="@font/inter_regular"
-                            android:textColor="@color/black"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/layout_ttd_tgg_jwb_peminjam"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_weight="1"
-                        android:visibility="gone"
-                        >
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/input"
-                            android:padding="20dp"
-                            >
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="75dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/ic_signature" />
-                        </RelativeLayout>
-                        <TextView
-                            android:id="@+id/tv_tertanda_tgg_jwb_peminjam"
-                            android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/none"
-                            android:textSize="12sp"
-                            android:fontFamily="@font/inter_medium"
-                            android:textColor="@color/black"
-                            />
-                        <TextView
-                            android:id="@+id/tv_sebagai_tgg_jwb_peminjam"
-                            android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/penerima"
-                            android:textSize="11sp"
-                            android:fontFamily="@font/inter_regular"
-                            android:textColor="@color/black"
-                            />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/layout_foto_bukti"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/bottom_outline_gray"
-                android:visibility="gone"
-                >
-                <TextView
-                    android:id="@+id/tv_foto_bukti"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/foto_bukti"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/inter_semi_bold"
-                    android:textColor="@color/black"
-                    />
-                <ImageView
-                    android:id="@+id/iv_foto_bukti"
-                    android:layout_width="wrap_content"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="5dp"
-                    android:scaleType="centerCrop"
-                    android:layout_gravity="start"
-                    tools:src="@tools:sample/avatars"
-                    android:src="@drawable/ic_signature" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/bottom_outline_gray"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/daftar_barang"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/inter_semi_bold"
-                    android:textColor="@color/black"
-                    />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    >
-                    <TextView
-                        android:id="@+id/tv_peminjaman"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/peminjaman"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/inter_semi_bold"
-                        android:textColor="@color/black"
-                        />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_peminjaman"
-                        android:layout_below="@+id/tv_peminjaman"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="4"
-                        tools:listitem="@layout/item_peminjaman" />
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    >
-                    <TextView
-                        android:id="@+id/tv_barang_habis_pakai"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/barang_habis_pakai"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/inter_semi_bold"
-                        android:textColor="@color/black"
-                        />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_barang_habis_pakai"
-                        android:layout_below="@+id/tv_barang_habis_pakai"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:spanCount="2"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        tools:itemCount="4"
-                        tools:listitem="@layout/item_pinjam_barang_habis_pakai" />
-                </RelativeLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

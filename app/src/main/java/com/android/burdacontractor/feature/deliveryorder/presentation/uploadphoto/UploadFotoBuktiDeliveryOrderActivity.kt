@@ -23,21 +23,21 @@ import com.android.burdacontractor.core.utils.setImageFromUrl
 import com.android.burdacontractor.core.utils.setToastLong
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.core.utils.uriToFile
-import com.android.burdacontractor.databinding.ActivityUploadFotoBuktiDeliveryOrderBinding
+import com.android.burdacontractor.databinding.ActivityUploadFotoBuktiBinding
 import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetailItem
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class UploadFotoBuktiDeliveryOrderActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityUploadFotoBuktiDeliveryOrderBinding
+    private lateinit var binding: ActivityUploadFotoBuktiBinding
     private val uploadFotoBuktiDeliveryOrderViewModel: UploadFotoBuktiDeliveryOrderViewModel by viewModels()
     private var deliveryOrder: DeliveryOrderDetailItem? = null
     private var snackbar: Snackbar? = null
     private var currentImageUri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUploadFotoBuktiDeliveryOrderBinding.inflate(layoutInflater)
+        binding = ActivityUploadFotoBuktiBinding.inflate(layoutInflater)
         setContentView(binding.root)
         deliveryOrder = intent.parcelable(DELIVERY_ORDER)
         if (!allPermissionsGranted()) {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/cv_surat_jalan"
+    android:id="@+id/cv_pinjam_barang_habis_pakai"
     app:cardElevation="2dp"
     app:cardCornerRadius="10dp"
     android:layout_margin="5dp"

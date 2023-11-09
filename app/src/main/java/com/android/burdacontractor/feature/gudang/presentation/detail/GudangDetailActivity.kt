@@ -30,7 +30,7 @@ import com.android.burdacontractor.feature.gudang.presentation.update.UpdateGuda
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
-import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanDetailActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.detail.SuratJalanDetailActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 

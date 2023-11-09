@@ -3,30 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/cv_delivery_order"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_peminjaman"
     app:cardElevation="5dp"
     app:cardCornerRadius="20dp"
     android:layout_marginBottom="10dp"
     android:layout_marginTop="5dp"
     android:layout_marginHorizontal="5dp"
-    app:strokeColor="@color/orange_dark_full"
-    app:strokeWidth="1dp"
-    >
+    app:strokeColor="@color/input"
+    app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        >
-        <TextView
-            android:id="@+id/tv_status"
+        android:padding="15dp">
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/appCompatCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_medium"
-            android:text="@string/status"
-            android:textColor="@color/orange_light_full"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,15 +31,14 @@
             android:id="@+id/tv_kode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/inter_bold"
             android:maxLines="2"
-            android:text="@string/kode_do"
+            android:text="@string/kode"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_status"/>
+            app:layout_constraintStart_toEndOf="@+id/appCompatCheckBox"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/iv_asal"
@@ -93,29 +89,29 @@
             android:layout_marginTop="15dp"
             >
             <RelativeLayout
-                android:id="@+id/layout_admin_gudang"
+                android:id="@+id/layout_pengaju"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 >
                 <com.google.android.material.imageview.ShapeableImageView
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                    android:id="@+id/iv_admin_gudang"
+                    android:id="@+id/iv_pengaju"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/unit_admin_gudang"
+                    android:src="@drawable/unit_supervisor"
                     app:tint="@color/gray_dark"
                     android:layout_centerVertical="true"
                     />
 
                 <TextView
-                    android:id="@+id/tv_nama_admin_gudang"
+                    android:id="@+id/tv_nama_pengaju"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@+id/iv_admin_gudang"
+                    android:layout_toEndOf="@+id/iv_pengaju"
                     android:text="@string/nama_user"
                     android:maxWidth="80dp"
                     android:maxLines="2"
@@ -124,20 +120,20 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tv_role_admin_gudang"
+                    android:id="@+id/tv_role_pengaju"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_nama_admin_gudang"
+                    android:layout_below="@+id/tv_nama_pengaju"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/inter_regular"
-                    android:layout_toEndOf="@+id/iv_admin_gudang"
-                    android:text="@string/admin_gudang"
+                    android:layout_toEndOf="@+id/iv_pengaju"
+                    android:text="@string/pengaju"
                     android:textColor="@color/gray_dark"
                     android:textSize="11sp" />
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/layout_driver"
+                android:id="@+id/layout_pemberi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -145,22 +141,22 @@
                 >
                 <com.google.android.material.imageview.ShapeableImageView
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                    android:id="@+id/iv_driver"
+                    android:id="@+id/iv_pemberi"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/unit_driver"
+                    android:src="@drawable/unit_supervisor"
                     app:tint="@color/gray_dark"
                     android:layout_centerVertical="true"
                     />
 
                 <TextView
-                    android:id="@+id/tv_nama_driver"
+                    android:id="@+id/tv_nama_pemberi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@+id/iv_driver"
+                    android:layout_toEndOf="@+id/iv_pemberi"
                     android:text="@string/nama_user"
                     android:maxWidth="80dp"
                     android:maxLines="2"
@@ -169,64 +165,59 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tv_role_driver"
+                    android:id="@+id/tv_role_pemberi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_nama_driver"
+                    android:layout_below="@+id/tv_nama_pemberi"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/inter_regular"
-                    android:layout_toEndOf="@+id/iv_driver"
-                    android:text="@string/driver"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="11sp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/layout_purchasing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:visibility="visible"
-                >
-                <com.google.android.material.imageview.ShapeableImageView
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
-                    android:id="@+id/iv_purchasing"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/unit_purchasing"
-                    app:tint="@color/gray_dark"
-                    android:layout_centerVertical="true"
-                    />
-
-                <TextView
-                    android:id="@+id/tv_nama_purchasing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@+id/iv_purchasing"
-                    android:text="@string/nama_user"
-                    android:maxWidth="80dp"
-                    android:maxLines="2"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_role_purchasing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_nama_purchasing"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_toEndOf="@+id/iv_purchasing"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="@string/purchasing"
+                    android:layout_toEndOf="@+id/iv_pemberi"
+                    android:text="@string/pemberi"
                     android:textColor="@color/gray_dark"
                     android:textSize="11sp" />
             </RelativeLayout>
         </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_barang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/layout_user"
+            app:layout_constraintTop_toBottomOf="@+id/layout_user">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_barang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_count_barang"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_barang_pinjam_preview" />
+
+            <TextView
+                android:id="@+id/tv_count_barang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/semi_rounded_outline_secondary_main"
+                android:fontFamily="@font/inter_medium"
+                android:padding="10dp"
+                android:text="@string/count_barang"
+                android:textAlignment="center"
+                android:textColor="@color/secondary_main"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/tv_tanggal"
@@ -236,9 +227,20 @@
             android:fontFamily="@font/inter_regular"
             android:text="@string/tanggal_update"
             android:textColor="@color/gray_dark"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_barang"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_user" />
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@drawable/semi_rounded_outline_red"
+            android:padding="10dp"
+            android:src="@drawable/ic_trash"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

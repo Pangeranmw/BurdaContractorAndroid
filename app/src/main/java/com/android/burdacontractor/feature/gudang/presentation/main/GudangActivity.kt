@@ -12,6 +12,7 @@ import com.android.burdacontractor.core.domain.model.Constant.INTENT_ID
 import com.android.burdacontractor.core.domain.model.FilterSelected
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
+import com.android.burdacontractor.core.presentation.BottomNavigationViewModel
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListFilterSelectedAdapter
 import com.android.burdacontractor.core.presentation.adapter.LoadingStateAdapter
@@ -29,8 +30,7 @@ import com.android.burdacontractor.feature.gudang.presentation.FilterGudangFragm
 import com.android.burdacontractor.feature.gudang.presentation.create.AddGudangActivity
 import com.android.burdacontractor.feature.gudang.presentation.detail.GudangDetailActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
-import com.android.burdacontractor.feature.suratjalan.presentation.BottomNavigationViewModel
-import com.android.burdacontractor.feature.suratjalan.presentation.SuratJalanActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.main.SuratJalanActivity
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
