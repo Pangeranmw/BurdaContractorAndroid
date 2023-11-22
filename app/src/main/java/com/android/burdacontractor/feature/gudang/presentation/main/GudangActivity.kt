@@ -139,25 +139,17 @@ class GudangActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedList
                 }
             }
             adapter.addLoadStateListener { loadState ->
-                when (loadState.source.refresh) {
-                    is LoadState.NotLoading -> {
-                        if (loadState.source.refresh is LoadState.NotLoading) {
-                            if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
-                                binding.tvEmptyGudang.setVisible()
-                            } else {
-                                binding.tvEmptyGudang.setGone()
-                            }
-                            gudangViewModel.setState(StateResponse.SUCCESS)
-                        }
+                if ((loadState.refresh is LoadState.Loading) || (loadState.append is LoadState.Loading)) {
+                    gudangViewModel.setState(StateResponse.LOADING)
+                } else if ((loadState.append is LoadState.NotLoading) && (loadState.refresh is LoadState.NotLoading)) {
+                    if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
+                        binding.tvEmptyGudang.setVisible()
+                    } else {
+                        binding.tvEmptyGudang.setGone()
                     }
-
-                    is LoadState.Loading -> {
-                        gudangViewModel.setState(StateResponse.LOADING)
-                    }
-
-                    is LoadState.Error -> {
-                        gudangViewModel.setState(StateResponse.ERROR)
-                    }
+                    gudangViewModel.setState(StateResponse.SUCCESS)
+                } else if ((loadState.refresh is LoadState.Error) || (loadState.append is LoadState.Error)) {
+                    gudangViewModel.setState(StateResponse.ERROR)
                 }
             }
             rvGudang.adapter = adapter.withLoadStateFooter(

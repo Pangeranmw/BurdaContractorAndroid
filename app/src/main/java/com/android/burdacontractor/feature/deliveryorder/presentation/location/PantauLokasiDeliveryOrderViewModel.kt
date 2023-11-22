@@ -34,12 +34,16 @@ class PantauLokasiDeliveryOrderViewModel @Inject constructor(
     fun getDistanceMatrix(coordinates:String){
         viewModelScope.launch {
             getDistanceMatrixUseCase.execute(coordinates).collect{
-                when(it){
-                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                when (it) {
+                    is Resource.Loading -> {
+//                        _state.value = StateResponse.LOADING
+                    }
+
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _distanceMatrix.value = it.data!!
                     }
+
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                     }
@@ -52,7 +56,7 @@ class PantauLokasiDeliveryOrderViewModel @Inject constructor(
             logisticFirebaseUseCase.getCoordinate(logisticId).collect {
                 when (it) {
                     is Resource.Loading -> {
-                        _state.value = StateResponse.LOADING
+//                        _state.value = StateResponse.LOADING
                     }
 
                     is Resource.Success -> {

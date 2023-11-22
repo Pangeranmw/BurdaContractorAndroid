@@ -7,8 +7,6 @@ import android.print.PrintDocumentAdapter.WriteResultCallback
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.android.burdacontractor.core.domain.model.Event
-import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import java.io.File
 
 

@@ -177,7 +177,7 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_barang"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -189,26 +189,18 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_barang"
-                android:layout_width="220dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:itemCount="5"
                 tools:listitem="@layout/item_barang_guna_preview" />
-
-            <TextView
-                android:id="@+id/tv_count_barang"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/semi_rounded_outline_secondary_main"
-                android:fontFamily="@font/inter_medium"
-                android:padding="10dp"
-                android:text="@string/count_barang"
-                android:textAlignment="center"
-                android:textColor="@color/secondary_main" />
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/tv_tanggal"

@@ -49,9 +49,32 @@ class PagingListSuratJalanAdapter(
             when (role) {
                 UserRole.SITE_MANAGER.name, UserRole.ADMIN_GUDANG.name, UserRole.ADMIN.name, UserRole.SUPERVISOR.name -> {
                     if (suratJalan.status == DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name) {
-                        suratJalan.fotoBukti?.let {
-                            binding.tvKonfirmasiSelesai.setVisible()
-                        } ?: binding.tvKonfirmasiSelesai.setGone()
+                        when (suratJalan.tipe) {
+                            SuratJalanTipe.PENGEMBALIAN.name -> {
+                                if (role == UserRole.ADMIN_GUDANG.name || role == UserRole.ADMIN.name) {
+                                    suratJalan.ttdPenanggungJawab?.let {
+                                        binding.tvKonfirmasiSelesai.setVisible()
+                                    } ?: binding.tvKonfirmasiSelesai.setGone()
+                                }
+                            }
+
+                            SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK.name -> {
+                                if (role == UserRole.SITE_MANAGER.name || role == UserRole.SUPERVISOR.name) {
+                                    suratJalan.ttdPenanggungJawab?.let {
+                                        binding.tvKonfirmasiSelesai.setVisible()
+                                    } ?: binding.tvKonfirmasiSelesai.setGone()
+                                }
+                            }
+
+                            SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK.name -> {
+                                if (role == UserRole.SITE_MANAGER.name || role == UserRole.SUPERVISOR.name) {
+                                    suratJalan.fotoBukti?.let {
+                                        binding.tvKonfirmasiSelesai.setVisible()
+                                    } ?: binding.tvKonfirmasiSelesai.setGone()
+                                }
+                            }
+                        }
+
                     }
                 }
             }

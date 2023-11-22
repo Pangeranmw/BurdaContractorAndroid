@@ -49,11 +49,6 @@ class FilterKendaraanFragment : BottomSheetDialogFragment() {
             val bottomSheet =
                 bsd.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.setBackgroundResource(R.drawable.semi_rounded_top_white)
-//            val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet!!)
-//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-//            val layoutParams = bottomSheet.layoutParams
-//            layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
-//            bottomSheet.layoutParams = layoutParams
         }
         return bottomSheetDialog
     }

@@ -97,7 +97,6 @@ class KendaraanViewModel @Inject constructor(
                 when (it) {
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {
-                        _state.value = StateResponse.SUCCESS
                         _listGudang.value = it.data!!
                     }
 

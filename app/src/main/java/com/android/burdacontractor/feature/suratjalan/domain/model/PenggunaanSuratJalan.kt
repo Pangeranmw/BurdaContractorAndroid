@@ -6,6 +6,12 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PenggunaanSuratJalan(
+    @field:SerializedName("sj_child_id")
+    val sjChildId: String? = null,
+
+    @field:SerializedName("id")
+    val id: String,
+
     @field:SerializedName("created_at")
     val createdAt: Long,
 
@@ -20,9 +26,6 @@ data class PenggunaanSuratJalan(
 
     @field:SerializedName("barang")
     val barang: List<PenggunaanBarangHabisPakaiItem>,
-
-    @field:SerializedName("total_barang")
-    val totalBarang: Int,
 
     @field:SerializedName("kode")
     val kode: String

@@ -197,26 +197,11 @@
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tv_count_barang"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:itemCount="5"
                 tools:listitem="@layout/item_barang_pinjam_preview" />
-
-            <TextView
-                android:id="@+id/tv_count_barang"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/semi_rounded_outline_secondary_main"
-                android:fontFamily="@font/inter_medium"
-                android:padding="10dp"
-                android:text="@string/count_barang"
-                android:textAlignment="center"
-                android:textColor="@color/secondary_main"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView

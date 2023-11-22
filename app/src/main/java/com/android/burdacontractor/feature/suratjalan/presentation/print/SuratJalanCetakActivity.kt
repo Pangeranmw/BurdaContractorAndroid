@@ -127,6 +127,9 @@ class SuratJalanCetakActivity : AppCompatActivity() {
             binding.progressBar.isVisible = !it
             binding.btnOpenFile.isVisible = it
             binding.btnDownload.isVisible = !it
+            if (it == true) {
+                setToastShort("Berhasil Mengunduh File")
+            }
         }
     }
 

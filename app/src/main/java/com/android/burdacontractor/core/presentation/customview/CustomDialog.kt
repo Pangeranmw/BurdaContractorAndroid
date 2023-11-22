@@ -40,6 +40,7 @@ class CustomDialog(
             mainButton.setBackgroundResource(mainButtonBackgroundDrawable)
 
         dialog?.setCanceledOnTouchOutside(canTouchOutside)
+        isCancelable = canTouchOutside
 
         secondaryButton = view.findViewById(R.id.secondary_button_dialog)
         if (secondaryButtonBackgroundDrawable != null)

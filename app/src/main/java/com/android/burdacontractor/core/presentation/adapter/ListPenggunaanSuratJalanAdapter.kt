@@ -2,6 +2,7 @@ package com.android.burdacontractor.core.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -23,6 +24,7 @@ class ListPenggunaanSuratJalanAdapter(
     private val deleteListener: (PenggunaanSuratJalan) -> Unit,
     private val checkedDataListener: (PenggunaanSuratJalan, Boolean) -> Unit,
     private val barangListener: (PenggunaanBarangHabisPakaiItem) -> Unit,
+    private val userId: String,
 ) : ListAdapter<PenggunaanSuratJalan, ListPenggunaanSuratJalanAdapter.ListViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding =
@@ -41,13 +43,6 @@ class ListPenggunaanSuratJalanAdapter(
                 tvAlamatAsal.text = penggunaan.asal.alamat
                 tvKode.text = penggunaan.kode
                 tvNamaAsal.text = penggunaan.asal.nama
-                val totalBarang = penggunaan.totalBarang - penggunaan.barang.size
-                if (totalBarang < 1) tvCountBarang.setGone()
-                else tvCountBarang.setVisible()
-                tvCountBarang.text = itemView.context.getString(
-                    R.string.count_barang,
-                    totalBarang
-                )
 
                 penggunaan.menanganiAsalUser?.let {
                     layoutPemberi.setVisible()
@@ -88,6 +83,10 @@ class ListPenggunaanSuratJalanAdapter(
                     }
                 }
 
+                if (penggunaan.menanganiUser.userId == userId || penggunaan.menanganiAsalUser?.userId == userId) cvPenggunaan.strokeColor =
+                    ContextCompat.getColor(itemView.context, R.color.secondary_main)
+                else cvPenggunaan.strokeColor =
+                    ContextCompat.getColor(itemView.context, R.color.input)
                 cvPenggunaan.setOnClickListener {
                     listener(penggunaan)
                 }

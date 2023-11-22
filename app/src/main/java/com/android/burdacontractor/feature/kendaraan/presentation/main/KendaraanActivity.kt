@@ -1,7 +1,6 @@
 package com.android.burdacontractor.feature.kendaraan.presentation.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -110,13 +109,6 @@ class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedL
                         if (listFilter.isNotEmpty()) binding.rvFilter.setVisible()
                         else binding.rvFilter.setGone()
                         filterAdapter.submitList(listFilter)
-                        Log.d(
-                            "CEK ISI FILTER", "statusIndex = $statusIndex" +
-                                    " listFilter = $listFilter" +
-                                    " gudangIndex = $gudangIndex" +
-                                    " filterAdapter = $filterAdapter" +
-                                    " jenisIndex = $jenisIndex"
-                        )
                         binding.rvFilter.layoutManager = LinearLayoutManager(
                             this@KendaraanActivity,
                             LinearLayoutManager.HORIZONTAL,
@@ -162,25 +154,17 @@ class KendaraanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedL
                 }
             }
             adapter.addLoadStateListener { loadState ->
-                when (loadState.source.refresh) {
-                    is LoadState.NotLoading -> {
-                        if (loadState.source.refresh is LoadState.NotLoading) {
-                            if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
-                                binding.tvEmptyKendaraan.setVisible()
-                            } else {
-                                binding.tvEmptyKendaraan.setGone()
-                            }
-                            kendaraanViewModel.setState(StateResponse.SUCCESS)
-                        }
+                if ((loadState.refresh is LoadState.Loading) || (loadState.append is LoadState.Loading)) {
+                    kendaraanViewModel.setState(StateResponse.LOADING)
+                } else if ((loadState.append is LoadState.NotLoading) && (loadState.refresh is LoadState.NotLoading)) {
+                    if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
+                        binding.tvEmptyKendaraan.setVisible()
+                    } else {
+                        binding.tvEmptyKendaraan.setGone()
                     }
-
-                    is LoadState.Loading -> {
-                        kendaraanViewModel.setState(StateResponse.LOADING)
-                    }
-
-                    is LoadState.Error -> {
-                        kendaraanViewModel.setState(StateResponse.ERROR)
-                    }
+                    kendaraanViewModel.setState(StateResponse.SUCCESS)
+                } else if ((loadState.refresh is LoadState.Error) || (loadState.append is LoadState.Error)) {
+                    kendaraanViewModel.setState(StateResponse.ERROR)
                 }
             }
             rvKendaraan.adapter = adapter.withLoadStateFooter(

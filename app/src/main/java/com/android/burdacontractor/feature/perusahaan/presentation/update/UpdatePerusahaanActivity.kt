@@ -113,6 +113,7 @@ class UpdatePerusahaanActivity : AppCompatActivity() {
                 }
             }
             spinnerProvinsi.setOnSpinnerItemSelectedListener(OnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
+                selectedKota = null
                 selectedProvinsi = newItem
                 updatePerusahaanViewModel.getCityByProvince(newItem)
                 spinnerKota.clearSelectedItem()

@@ -124,4 +124,5 @@ class DeliveryOrderFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

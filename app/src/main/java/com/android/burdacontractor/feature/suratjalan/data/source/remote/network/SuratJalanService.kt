@@ -8,6 +8,7 @@ import com.android.burdacontractor.feature.suratjalan.data.source.remote.respons
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface SuratJalanService {
@@ -126,38 +127,47 @@ interface SuratJalanService {
         @Field("tipe") tipe: String = SuratJalanTipe.PENGEMBALIAN.name,
     ): ErrorMessageResponse
 
-    @FormUrlEncoded
-    @DELETE("surat-jalan/{surat_jalan_id}")
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @DELETE("surat-jalan/{id}")
     suspend fun deleteSuratJalan(
         @Header("Authorization") token: String,
-        @Path("surat_jalan_id") suratJalanId: String,
+        @Path("id") suratJalanId: String,
     ): ErrorMessageResponse
 
-    @FormUrlEncoded
-    @POST("surat-jalan/{surat_jalan_id}/send")
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @DELETE("surat-jalan/child/{id}")
+    suspend fun deleteSuratJalanChild(
+        @Header("Authorization") token: String,
+        @Path("id") suratJalanId: String,
+        @Query("tipe") tipe: String,
+    ): ErrorMessageResponse
+
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("surat-jalan/{id}/mark-deliver")
     suspend fun sendSuratJalan(
         @Header("Authorization") token: String,
-        @Path("surat_jalan_id") suratJalanId: String,
+        @Path("id") suratJalanId: String,
     ): ErrorMessageResponse
 
-    @FormUrlEncoded
-    @POST("surat-jalan/{surat_jalan_id}/mark-complete")
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("surat-jalan/{id}/give-ttd")
+    suspend fun giveTtdSuratJalan(
+        @Header("Authorization") token: String,
+        @Path("id") suratJalanId: String,
+    ): ErrorMessageResponse
+
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("surat-jalan/{id}/mark-complete")
     suspend fun markCompleteSuratJalan(
         @Header("Authorization") token: String,
-        @Path("surat_jalan_id") suratJalanId: String,
-    ): ErrorMessageResponse
-
-    @FormUrlEncoded
-    @POST("surat-jalan/{surat_jalan_id}/add-ttd")
-    suspend fun addTTDSuratJalan(
-        @Header("Authorization") token: String,
-        @Path("surat_jalan_id") suratJalanId: String,
+        @Path("id") suratJalanId: String,
     ): ErrorMessageResponse
 
     @Multipart
-    @POST("surat-jalan/{surat_jalan_id}/upload-foto")
+    @POST("surat-jalan/upload-photo")
     suspend fun uploadFotoBuktiSuratJalan(
         @Header("Authorization") token: String,
-        @Part("foto") foto: MultipartBody.Part,
+        @Part("id") id: RequestBody,
+        @Part foto: MultipartBody.Part,
     ): ErrorMessageResponse
 }

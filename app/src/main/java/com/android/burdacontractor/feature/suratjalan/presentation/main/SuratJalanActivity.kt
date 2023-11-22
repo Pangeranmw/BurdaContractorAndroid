@@ -18,6 +18,7 @@ import com.android.burdacontractor.core.utils.openActivity
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivitySuratJalanBinding
 import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
+import com.android.burdacontractor.feature.deliveryorder.presentation.main.DeliveryOrderActivity
 import com.android.burdacontractor.feature.gudang.presentation.main.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
 import com.android.burdacontractor.feature.profile.presentation.SignatureActivity
@@ -201,31 +202,52 @@ class SuratJalanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
 
     private fun initBadge() {
         bottomNavigationViewModel.totalActiveSuratJalan.observe(this) {
-            val badgeSjAdminGudang =
-                binding.suratJalanBottomNavigation.getOrCreateBadge(R.id.surat_jalan_admin_gudang)
-            badgeSjAdminGudang.isVisible = true
-            badgeSjAdminGudang.number = it
+            when (storageViewModel.role) {
+                UserRole.ADMIN_GUDANG.name, UserRole.ADMIN.name -> {
+                    val badgeSjAdminGudang =
+                        binding.suratJalanBottomNavigation.getOrCreateBadge(R.id.surat_jalan_admin_gudang)
+                    badgeSjAdminGudang.isVisible = true
+                    badgeSjAdminGudang.number = it
+                }
 
-            val badgeSjLogistic =
-                binding.suratJalanBottomNavigation.getOrCreateBadge(R.id.surat_jalan_logistic)
-            badgeSjLogistic.isVisible = true
-            badgeSjLogistic.number = it
+                UserRole.SUPERVISOR.name, UserRole.PROJECT_MANAGER.name, UserRole.SITE_MANAGER.name -> {
+                    val badgeSjPmSvSm =
+                        binding.suratJalanBottomNavigation.getOrCreateBadge(R.id.surat_jalan_sv_pm)
+                    badgeSjPmSvSm.isVisible = true
+                    badgeSjPmSvSm.number = it
+                }
+
+                UserRole.LOGISTIC.name -> {
+                    val badgeSjLogistic =
+                        binding.suratJalanBottomNavigation.getOrCreateBadge(R.id.surat_jalan_logistic)
+                    badgeSjLogistic.isVisible = true
+                    badgeSjLogistic.number = it
+                }
+            }
         }
         bottomNavigationViewModel.totalActiveDeliveryOrder.observe(this) {
-            val badgeDoAdminGudang =
-                binding.suratJalanBottomNavigation.getOrCreateBadge(R.id.delivery_order_admin_gudang)
-            badgeDoAdminGudang.isVisible = true
-            badgeDoAdminGudang.number = it
+            when (storageViewModel.role) {
+                UserRole.ADMIN_GUDANG.name, UserRole.ADMIN.name -> {
+                    val badgeDoAdminGudang =
+                        binding.suratJalanBottomNavigation.getOrCreateBadge(R.id.delivery_order_admin_gudang)
+                    badgeDoAdminGudang.isVisible = true
+                    badgeDoAdminGudang.number = it
+                }
 
-            val badgeDoPurc =
-                binding.suratJalanBottomNavigation.getOrCreateBadge(R.id.delivery_order_purchasing)
-            badgeDoPurc.isVisible = true
-            badgeDoPurc.number = it
+                UserRole.PURCHASING.name -> {
+                    val badgeDoPurc =
+                        binding.suratJalanBottomNavigation.getOrCreateBadge(R.id.delivery_order_purchasing)
+                    badgeDoPurc.isVisible = true
+                    badgeDoPurc.number = it
+                }
 
-            val badgeDoLogistic =
-                binding.suratJalanBottomNavigation.getOrCreateBadge(R.id.delivery_order_logistic)
-            badgeDoLogistic.isVisible = true
-            badgeDoLogistic.number = it
+                UserRole.LOGISTIC.name -> {
+                    val badgeDoLogistic =
+                        binding.suratJalanBottomNavigation.getOrCreateBadge(R.id.delivery_order_logistic)
+                    badgeDoLogistic.isVisible = true
+                    badgeDoLogistic.number = it
+                }
+            }
         }
     }
 
@@ -240,9 +262,6 @@ class SuratJalanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
             R.id.beranda_sv_pm, R.id.beranda_logistic, R.id.beranda_purchasing, R.id.beranda_admin_gudang -> {
                 openActivity(BerandaActivity::class.java)
             }
-            R.id.surat_jalan_admin_gudang, R.id.surat_jalan_sv_pm, R.id.surat_jalan_logistic -> {
-
-            }
             R.id.kendaraan_admin_gudang -> {
                 openActivity(KendaraanActivity::class.java)
             }
@@ -252,7 +271,7 @@ class SuratJalanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
             }
 
             R.id.delivery_order_admin_gudang, R.id.delivery_order_logistic, R.id.delivery_order_purchasing -> {
-                openActivity(SuratJalanActivity::class.java)
+                openActivity(DeliveryOrderActivity::class.java)
             }
         }
         return true

@@ -1,19 +1,16 @@
 package com.android.burdacontractor.feature.gudang.presentation
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.FrameLayout
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.burdacontractor.R
+import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.core.domain.model.FilterSelected
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.presentation.StorageViewModel
@@ -25,14 +22,11 @@ import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.FragmentPilihGudangBinding
 import com.android.burdacontractor.feature.gudang.presentation.main.GudangViewModel
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PilihGudangFragment : BottomSheetDialogFragment() {
+class PilihGudangFragment : DialogFragment() {
     private var _binding: FragmentPilihGudangBinding? = null
     private val pilihGudangViewModel: PilihGudangViewModel by activityViewModels()
     private val gudangViewModel: GudangViewModel by activityViewModels()
@@ -53,21 +47,14 @@ class PilihGudangFragment : BottomSheetDialogFragment() {
         initObserver()
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-        bottomSheetDialog.setOnShowListener { dialog: DialogInterface ->
-            val bsd = dialog as BottomSheetDialog
-            val bottomSheet =
-                bsd.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-            bottomSheet?.setBackgroundResource(R.drawable.semi_rounded_top_white)
-            // FullScreen
-            val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet!!)
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            val layoutParams = bottomSheet.layoutParams
-            layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
-            bottomSheet.layoutParams = layoutParams
+    override fun onStart() {
+        super.onStart()
+        val dialog = dialog
+        if (dialog != null) {
+            val width = ViewGroup.LayoutParams.MATCH_PARENT
+            val height = ViewGroup.LayoutParams.MATCH_PARENT
+            dialog.window?.setLayout(width, height)
         }
-        return bottomSheetDialog
     }
 
     private fun initObserver() {
@@ -131,34 +118,37 @@ class PilihGudangFragment : BottomSheetDialogFragment() {
             srLayout.setOnRefreshListener {
                 setAdapter()
             }
-            binding.rvGudang.layoutManager = GridLayoutManager(
+            val gridLayoutManager = GridLayoutManager(
                 requireContext(), 1,
                 GridLayoutManager.VERTICAL, false
             )
+            binding.rvGudang.layoutManager = gridLayoutManager
+            binding.rvGudang.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    srLayout.isEnabled =
+                        gridLayoutManager.findFirstCompletelyVisibleItemPosition() == 0
+                }
+            })
             adapter = PagingListGudangAdapter { gudang ->
                 pilihGudangViewModel.setGudang(gudang)
                 dismiss()
             }
+            binding.btnClose.setOnClickListener {
+                dismiss()
+            }
             adapter.addLoadStateListener { loadState ->
-                when (loadState.source.refresh) {
-                    is LoadState.NotLoading -> {
-                        if (loadState.source.refresh is LoadState.NotLoading) {
-                            if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
-                                binding.tvEmptyGudang.setVisible()
-                            } else {
-                                binding.tvEmptyGudang.setGone()
-                            }
-                            gudangViewModel.setState(StateResponse.SUCCESS)
-                        }
+                if ((loadState.refresh is LoadState.Loading) || (loadState.append is LoadState.Loading)) {
+                    gudangViewModel.setState(StateResponse.LOADING)
+                } else if ((loadState.append is LoadState.NotLoading) && (loadState.refresh is LoadState.NotLoading)) {
+                    if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
+                        binding.tvEmptyGudang.setVisible()
+                    } else {
+                        binding.tvEmptyGudang.setGone()
                     }
-
-                    is LoadState.Loading -> {
-                        gudangViewModel.setState(StateResponse.LOADING)
-                    }
-
-                    is LoadState.Error -> {
-                        gudangViewModel.setState(StateResponse.ERROR)
-                    }
+                    gudangViewModel.setState(StateResponse.SUCCESS)
+                } else if ((loadState.refresh is LoadState.Error) || (loadState.append is LoadState.Error)) {
+                    gudangViewModel.setState(StateResponse.ERROR)
                 }
             }
             rvGudang.adapter = adapter.withLoadStateFooter(
@@ -183,6 +173,7 @@ class PilihGudangFragment : BottomSheetDialogFragment() {
         gudangViewModel.getAllGudang().observe(this) {
             adapter.submitData(lifecycle, it)
         }
+        gudangViewModel.getGudangProvinsi()
     }
 
     override fun onDestroyView() {

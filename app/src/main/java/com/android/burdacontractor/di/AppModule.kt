@@ -140,6 +140,10 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
+    abstract fun provideDeleteSuratJalanChildUseCase(deleteSuratJalanChildInteractor: DeleteSuratJalanChildInteractor): DeleteSuratJalanChildUseCase
+
+    @Binds
+    @ViewModelScoped
     abstract fun provideGetAllSuratJalanUseCase(getAllSuratJalanInteractor: GetAllSuratJalanInteractor): GetAllSuratJalanUseCase
 
     @Binds
@@ -165,6 +169,22 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideGetSuratJalanByIdUseCase(getSuratJalanByIdInteractor: GetSuratJalanByIdInteractor): GetSuratJalanByIdUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideUploadFotoBuktiSuratJalanUseCase(uploadFotoBuktiSuratJalanInteractor: UploadFotoBuktiSuratJalanInteractor): UploadFotoBuktiSuratJalanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideSendSuratJalanUseCase(sendSuratJalanInteractor: SendSuratJalanInteractor): SendSuratJalanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideMarkCompleteSuratJalanUseCase(markCompleteSuratJalanInteractor: MarkCompleteSuratJalanInteractor): MarkCompleteSuratJalanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGiveTtdSuratJalanUseCase(giveTtdSuratJalanInteractor: GiveTtdSuratJalanInteractor): GiveTtdSuratJalanUseCase
 
     // DELIVERY ORDER USE CASE
     @Binds

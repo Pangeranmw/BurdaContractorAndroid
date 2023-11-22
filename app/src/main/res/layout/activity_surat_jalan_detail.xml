@@ -247,6 +247,7 @@
                         android:textColor="@color/primary_main"
                         android:fontFamily="@font/inter_bold"
                         android:textAllCaps="false"
+                        android:visibility="gone"
                         app:layout_flexGrow="1" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -270,6 +271,20 @@
                         android:layout_margin="5dp"
                         android:layout_height="wrap_content"
                         android:text="@string/tandai_selesai"
+                        android:background="@drawable/semi_rounded_primary"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/inter_bold"
+                        android:textAllCaps="false"
+                        android:visibility="gone"
+                        app:layout_flexGrow="1" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_beri_ttd"
+                        android:layout_width="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="Berikan TTD"
                         android:background="@drawable/semi_rounded_primary"
                         android:textColor="@color/white"
                         android:fontFamily="@font/inter_bold"
@@ -674,6 +689,211 @@
 
                                 <androidx.appcompat.widget.AppCompatImageButton
                                     android:id="@+id/btn_wa_admin_gudang"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:background="@drawable/semi_rounded_outline_main"
+                                    android:src="@drawable/ic_whatsapp"
+                                    android:contentDescription="@string/cd_button"
+                                    android:padding="10dp"
+                                    android:layout_marginTop="5dp"
+                                    app:tint="@color/primary_main" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bottom_outline_gray">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:layout_marginEnd="10dp"
+                            android:id="@+id/layout_penanggung_jawab"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/tv_title_penanggung_jawab"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:text="@string/penanggung_jawab"
+                                android:fontFamily="@font/inter_semi_bold"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp">
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/iv_penanggung_jawab"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:scaleType="centerCrop"
+                                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
+                                    android:src="@drawable/unit_project_manager" />
+
+                                <LinearLayout
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_toEndOf="@+id/iv_penanggung_jawab"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="2dp">
+
+                                    <TextView
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/tv_nama_penanggung_jawab"
+                                        android:text="@string/nama_user"
+                                        android:fontFamily="@font/inter_medium"
+                                        android:textColor="@color/black"
+                                        android:textSize="11sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_no_hp_penanggung_jawab"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:text="@string/penanggung_jawab"
+                                        android:fontFamily="@font/inter_light"
+                                        android:textColor="@color/black"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:id="@+id/layout_hubungi_penanggung_jawab"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/btn_hubungi_penanggung_jawab"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:background="@drawable/semi_rounded_outline_main"
+                                    android:src="@drawable/ic_tel"
+                                    android:contentDescription="@string/cd_button"
+                                    android:padding="10dp"
+                                    android:layout_marginTop="5dp"
+                                    app:tint="@color/primary_main"
+                                    android:layout_marginEnd="10dp" />
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/btn_wa_penanggung_jawab"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:background="@drawable/semi_rounded_outline_main"
+                                    android:src="@drawable/ic_whatsapp"
+                                    android:contentDescription="@string/cd_button"
+                                    android:padding="10dp"
+                                    android:layout_marginTop="5dp"
+                                    app:tint="@color/primary_main" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:layout_marginEnd="10dp"
+                            android:id="@+id/layout_penerima"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/tv_title_penerima"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:text="@string/penerima"
+                                android:fontFamily="@font/inter_semi_bold"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp">
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/iv_penerima"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:scaleType="centerCrop"
+                                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
+                                    android:src="@drawable/unit_supervisor" />
+
+                                <LinearLayout
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_toEndOf="@+id/iv_penerima"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="2dp">
+
+                                    <TextView
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/tv_nama_penerima"
+                                        android:text="@string/nama_user"
+                                        android:fontFamily="@font/inter_medium"
+                                        android:textColor="@color/black"
+                                        android:textSize="11sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_no_hp_penerima"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:text="@string/penerima"
+                                        android:fontFamily="@font/inter_light"
+                                        android:textColor="@color/black"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:id="@+id/layout_hubungi_penerima"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/btn_hubungi_penerima"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:background="@drawable/semi_rounded_outline_main"
+                                    android:src="@drawable/ic_tel"
+                                    android:contentDescription="@string/cd_button"
+                                    android:padding="10dp"
+                                    android:layout_marginTop="5dp"
+                                    app:tint="@color/primary_main"
+                                    android:layout_marginEnd="10dp" />
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/btn_wa_penerima"
                                     android:layout_width="48dp"
                                     android:layout_height="48dp"
                                     android:background="@drawable/semi_rounded_outline_main"

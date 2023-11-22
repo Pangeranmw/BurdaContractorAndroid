@@ -2,6 +2,7 @@ package com.android.burdacontractor.core.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -23,6 +24,7 @@ class ListPeminjamanSuratJalanAdapter(
     private val deleteListener: (PeminjamanSuratJalan) -> Unit,
     private val checkedDataListener: (PeminjamanSuratJalan, Boolean) -> Unit,
     private val barangListener: (PeminjamanBarangTidakHabisPakaiItem) -> Unit,
+    private val userId: String,
 ) : ListAdapter<PeminjamanSuratJalan, ListPeminjamanSuratJalanAdapter.ListViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding =
@@ -42,14 +44,6 @@ class ListPeminjamanSuratJalanAdapter(
                 tvKode.text = peminjaman.kode
                 tvNamaAsal.text = peminjaman.asal.nama
 
-                val totalBarang = peminjaman.totalBarang - peminjaman.barang.size
-                if (totalBarang < 1) tvCountBarang.setGone()
-                else tvCountBarang.setVisible()
-                tvCountBarang.text = itemView.context.getString(
-                    R.string.count_barang,
-                    totalBarang
-                )
-
                 peminjaman.menanganiAsalUser?.let {
                     layoutPemberi.setVisible()
                     tvNamaPemberi.text = it.nama
@@ -65,6 +59,10 @@ class ListPeminjamanSuratJalanAdapter(
                     ivPengaju.setImageFromUrl(it, itemView.context)
                 }
 
+                if (peminjaman.menanganiUser.userId == userId || peminjaman.menanganiAsalUser?.userId == userId) cvPeminjaman.strokeColor =
+                    ContextCompat.getColor(itemView.context, R.color.secondary_main)
+                else cvPeminjaman.strokeColor =
+                    ContextCompat.getColor(itemView.context, R.color.input)
                 cvPeminjaman.setOnClickListener {
                     listener(peminjaman)
                 }

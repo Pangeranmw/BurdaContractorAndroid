@@ -458,7 +458,7 @@ class PantauLokasiSuratJalanActivity : AppCompatActivity(), MapEventsReceiver, L
         val prevLocation = myLocationOverlay.location
         myLocationOverlay.location = newLocation
         myLocationOverlay.setAccuracy(pLoc.accuracy.toInt())
-        if (prevLocation != null && pLoc.provider == LocationManager.GPS_PROVIDER) {
+        if (prevLocation != null && (pLoc.provider == LocationManager.GPS_PROVIDER || pLoc.provider == LocationManager.FUSED_PROVIDER)) {
             mSpeed = pLoc.speed * 3.6
             //TODO: check if speed is not too small
             if (mSpeed >= 0.1) {
@@ -467,10 +467,9 @@ class PantauLokasiSuratJalanActivity : AppCompatActivity(), MapEventsReceiver, L
             }
         }
         if (mTrackingMode) {
-            map.zoomToBoundingBox(getBoundingBox(newLocation, destinationPoint), false, 100)
+            map.controller.animateTo(newLocation)
             map.mapOrientation = -mAzimuthAngleSpeed
         } else {
-            //just redraw the location overlay:
             map.invalidate()
         }
     }

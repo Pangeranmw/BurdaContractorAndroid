@@ -113,6 +113,7 @@ class UpdateGudangActivity : AppCompatActivity() {
                 }
             }
             spinnerProvinsi.setOnSpinnerItemSelectedListener(OnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
+                selectedKota = null
                 selectedProvinsi = newItem
                 updateGudangViewModel.getCityByProvince(newItem)
                 spinnerKota.clearSelectedItem()

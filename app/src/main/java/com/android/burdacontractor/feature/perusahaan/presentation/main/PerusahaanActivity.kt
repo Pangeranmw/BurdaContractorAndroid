@@ -1,6 +1,7 @@
 package com.android.burdacontractor.feature.perusahaan.presentation.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -64,6 +65,7 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
     private fun initObserver() {
         with(perusahaanViewModel) {
             state.observe(this@PerusahaanActivity) {
+                Log.d("addLoadStateListener", it.toString())
                 binding.srLayout.isRefreshing = it == StateResponse.LOADING
             }
             setCoordinate(
@@ -138,35 +140,21 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                 }
             }
             adapter.addLoadStateListener { loadState ->
-                when (loadState.source.refresh) {
-                    is LoadState.NotLoading -> {
-                        if (loadState.source.refresh is LoadState.NotLoading) {
-                            if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
-                                binding.tvEmptyPerusahaan.setVisible()
-                            } else {
-                                binding.tvEmptyPerusahaan.setGone()
-                            }
-                            perusahaanViewModel.setState(StateResponse.SUCCESS)
-                        }
+                if ((loadState.refresh is LoadState.Loading) || (loadState.append is LoadState.Loading)) {
+                    perusahaanViewModel.setState(StateResponse.LOADING)
+                } else if ((loadState.append is LoadState.NotLoading) && (loadState.refresh is LoadState.NotLoading)) {
+                    if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
+                        binding.tvEmptyPerusahaan.setVisible()
+                    } else {
+                        binding.tvEmptyPerusahaan.setGone()
                     }
-
-                    is LoadState.Loading -> {
-                        if (adapter.itemCount == 0) {
-                            perusahaanViewModel.setState(StateResponse.LOADING)
-                        } else {
-                            perusahaanViewModel.setState(StateResponse.SUCCESS)
-                        }
-                    }
-
-                    is LoadState.Error -> {
-                        perusahaanViewModel.setState(StateResponse.ERROR)
-                    }
+                    perusahaanViewModel.setState(StateResponse.SUCCESS)
+                } else if ((loadState.refresh is LoadState.Error) || (loadState.append is LoadState.Error)) {
+                    perusahaanViewModel.setState(StateResponse.ERROR)
                 }
             }
             rvPerusahaan.adapter = adapter.withLoadStateFooter(
-                footer = LoadingStateAdapter {
-                    adapter.retry()
-                }
+                footer = LoadingStateAdapter { adapter.retry() }
             )
             refreshData()
             initBadge()

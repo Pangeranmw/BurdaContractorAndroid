@@ -13,7 +13,13 @@ data class SuratJalanDetailItem(
     val kendaraan: KendaraanSimple,
 
     @field:SerializedName("admin_gudang")
-    val adminGudang: UserSimple? = null,
+    val adminGudang: UserSimple,
+
+    @field:SerializedName("penanggung_jawab")
+    val penanggungJawab: UserSimple? = null,
+
+    @field:SerializedName("penanggung_jawab_peminjam")
+    val penanggungJawabPeminjam: UserSimple? = null,
 
     @field:SerializedName("tempat_asal")
     val tempatAsal: List<TempatSuratJalan>,
@@ -32,6 +38,9 @@ data class SuratJalanDetailItem(
 
     @field:SerializedName("logistic")
     val logistic: UserSimple,
+
+    @field:SerializedName("untuk_saya")
+    val untukSaya: Boolean,
 
     @field:SerializedName("updated_at")
     val updatedAt: Long,

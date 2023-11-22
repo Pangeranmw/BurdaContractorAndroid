@@ -27,6 +27,12 @@ data class AllSuratJalan(
     @field:SerializedName("foto_bukti")
     val fotoBukti: String? = null,
 
+    @field:SerializedName("ttd_penanggung_jawab_peminjam")
+    val ttdPenanggungJawabPeminjam: String? = null,
+
+    @field:SerializedName("ttd_penanggung_jawab")
+    val ttdPenanggungJawab: String? = null,
+
     @field:SerializedName("id_driver")
     val idDriver: String? = null,
 

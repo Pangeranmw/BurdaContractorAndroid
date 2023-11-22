@@ -64,7 +64,7 @@ class SuratJalanDetailActivity : AppCompatActivity() {
         }
         suratJalanDetailViewModel.suratJalan.observe(this) { suratJalan ->
             suratJalanDetailViewModel.user.observe(this) { user ->
-                suratJalan?.let { sj ->
+                suratJalan.let { sj ->
                     user?.let { us ->
                         this.suratJalan = sj
                         this.user = us
@@ -109,16 +109,48 @@ class SuratJalanDetailActivity : AppCompatActivity() {
         suratJalanDetailViewModel.getSuratJalanById(id)
     }
 
-    private fun initUi() {
-        with(binding) {
+    private fun initBarang() {
+        binding.apply {
+            val deleteVisible = suratJalan!!.adminGudang.id == user!!.id
+                    && suratJalan!!.status == SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER.name
+
             val peminjamanAdapter = ListPeminjamanSuratJalanAdapter(
                 checkedVisible = false,
-                deleteVisible = false,
+                deleteVisible = deleteVisible,
                 checkedListData = listOf(),
                 listener = {},
-                deleteListener = {},
+                deleteListener = {
+                    val type = if (suratJalan!!.tipe != SuratJalanTipe.PENGEMBALIAN.name) {
+                        "peminjaman"
+                    } else {
+                        "pengembalian"
+                    }
+                    CustomDialog(
+                        mainButtonText = "Ya",
+                        secondaryButtonText = "Tidak",
+                        secondaryButtonBackgroundDrawable = R.drawable.semi_rounded_outline_red,
+                        secondaryButtonTextColor = R.color.red,
+                        mainButtonBackgroundDrawable = R.drawable.semi_rounded_red,
+                        title = "Hapus $type",
+                        subtitle = "Apakah anda yakin ingin menghapus $type ${it.kode} dari surat jalan ${suratJalan!!.kodeSurat} ?",
+                        image = null,
+                        blockMainButton = {
+                            suratJalanDetailViewModel.deleteSuratJalanChild(
+                                it.sjChildId.toString(),
+                                suratJalan!!.tipe
+                            ) {
+                                refreshData()
+                            }
+                        },
+                        blockSecondaryButton = {}).show(
+                        supportFragmentManager,
+                        "DeleteSjChild"
+                    )
+                },
                 checkedDataListener = { _, _ -> },
-                barangListener = {})
+                barangListener = {},
+                userId = user!!.id
+            )
             peminjamanAdapter.submitList(suratJalan!!.peminjaman.sortedBy { it.asal.id })
             rvPeminjaman.layoutManager = LinearLayoutManager(
                 this@SuratJalanDetailActivity,
@@ -129,12 +161,41 @@ class SuratJalanDetailActivity : AppCompatActivity() {
 
             val penggunaanAdapter = ListPenggunaanSuratJalanAdapter(
                 checkedVisible = false,
-                deleteVisible = false,
+                deleteVisible = deleteVisible,
                 checkedListData = listOf(),
                 listener = {},
-                deleteListener = {},
+                deleteListener = {
+                    val type = if (suratJalan!!.tipe != SuratJalanTipe.PENGEMBALIAN.name) {
+                        "penggunaan"
+                    } else {
+                        "pengembalian penggunaan"
+                    }
+                    CustomDialog(
+                        mainButtonText = "Ya",
+                        secondaryButtonText = "Tidak",
+                        secondaryButtonBackgroundDrawable = R.drawable.semi_rounded_outline_red,
+                        secondaryButtonTextColor = R.color.red,
+                        mainButtonBackgroundDrawable = R.drawable.semi_rounded_red,
+                        title = "Hapus $type",
+                        subtitle = "Apakah anda yakin ingin menghapus $type ${it.kode} dari surat jalan ${suratJalan!!.kodeSurat} ?",
+                        image = null,
+                        blockMainButton = {
+                            suratJalanDetailViewModel.deleteSuratJalanChild(
+                                it.sjChildId.toString(),
+                                suratJalan!!.tipe
+                            ) {
+                                refreshData()
+                            }
+                        },
+                        blockSecondaryButton = {}).show(
+                        supportFragmentManager,
+                        "DeleteSjChild"
+                    )
+                },
                 checkedDataListener = { _, _ -> },
-                barangListener = {})
+                barangListener = {},
+                userId = user!!.id
+            )
             penggunaanAdapter.submitList(suratJalan!!.penggunaan.sortedBy { it.asal.id })
             rvPenggunaan.layoutManager = LinearLayoutManager(
                 this@SuratJalanDetailActivity,
@@ -142,9 +203,14 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                 false
             )
             rvPenggunaan.adapter = penggunaanAdapter
+        }
+    }
 
+    private fun initUi() {
+        with(binding) {
             tvKodeSj.text = suratJalan!!.kodeSurat
             tvStatus.text = enumValueToNormal(suratJalan!!.status)
+            initBarang()
             when (suratJalan!!.status) {
                 SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name -> {
                     tvStatus.setTextColor(
@@ -171,6 +237,7 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                             R.color.secondary_main
                         )
                     )
+                    layoutButton.setGone()
                 }
             }
             tvCreatedAt.text = getDateFromMillis(suratJalan!!.createdAt)
@@ -183,42 +250,11 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                 suratJalan!!.siteManager.foto,
                 this@SuratJalanDetailActivity
             )
-            if (suratJalan?.siteManager?.foto != null) {
-                ivSiteManager.layoutParams.width = 100
-                ivSiteManager.layoutParams.height = 100
-                ivSiteManager.requestLayout()
-            }
+            ivSiteManager.layoutParams.width = 100
+            ivSiteManager.layoutParams.height = 100
+            ivSiteManager.requestLayout()
             tvNoHpSiteManager.text = suratJalan!!.siteManager.noHp
             tvNamaSiteManager.text = suratJalan!!.siteManager.nama
-
-            ivKendaraan.setImageFromUrl(
-                suratJalan!!.kendaraan.gambar,
-                this@SuratJalanDetailActivity
-            )
-            if (suratJalan?.kendaraan?.gambar != null) {
-                ivKendaraan.layoutParams.width = 100
-                ivKendaraan.layoutParams.height = 100
-                ivKendaraan.requestLayout()
-            }
-            tvMerkKendaraan.text = suratJalan!!.kendaraan.merk
-            tvPlatKendaraan.text = suratJalan!!.kendaraan.platNomor
-
-            tvNamaDriver.text = suratJalan!!.logistic.nama
-            tvNoHpDriver.text = suratJalan!!.logistic.noHp
-            ivDriver.setImageFromUrl(suratJalan!!.logistic.foto, this@SuratJalanDetailActivity)
-            if (suratJalan?.logistic?.foto != null) {
-                ivDriver.layoutParams.width = 100
-                ivDriver.layoutParams.height = 100
-                ivDriver.requestLayout()
-            }
-
-            btnWaDriver.setOnClickListener {
-                it.openWhatsAppChat(suratJalan!!.logistic.noHp)
-            }
-            btnHubungiDriver.setOnClickListener {
-                dialIntent(suratJalan!!.logistic.noHp)
-            }
-
             btnWaSiteManager.setOnClickListener {
                 it.openWhatsAppChat(suratJalan!!.siteManager.noHp)
             }
@@ -226,27 +262,48 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                 dialIntent(suratJalan!!.siteManager.noHp)
             }
 
-            suratJalan?.fotoBukti?.let {
-                layoutFotoBukti.setVisible()
-                ivFotoBukti.setImageFromUrl(it, this@SuratJalanDetailActivity, false)
-            }
-
-            ivAdminGudang.setImageFromUrl(
-                suratJalan!!.adminGudang!!.foto,
+            ivKendaraan.setImageFromUrl(
+                suratJalan!!.kendaraan.gambar,
                 this@SuratJalanDetailActivity
             )
-            if (suratJalan?.adminGudang?.foto != null) {
-                ivAdminGudang.layoutParams.width = 100
-                ivAdminGudang.layoutParams.height = 100
-                ivAdminGudang.requestLayout()
+            ivKendaraan.layoutParams.width = 100
+            ivKendaraan.layoutParams.height = 100
+            ivKendaraan.requestLayout()
+            tvMerkKendaraan.text = suratJalan!!.kendaraan.merk
+            tvPlatKendaraan.text = suratJalan!!.kendaraan.platNomor
+
+            tvNamaDriver.text = suratJalan!!.logistic.nama
+            tvNoHpDriver.text = suratJalan!!.logistic.noHp
+            ivDriver.setImageFromUrl(suratJalan!!.logistic.foto, this@SuratJalanDetailActivity)
+            ivDriver.layoutParams.width = 100
+            ivDriver.layoutParams.height = 100
+            ivDriver.requestLayout()
+            btnWaDriver.setOnClickListener {
+                it.openWhatsAppChat(suratJalan!!.logistic.noHp)
             }
-            tvNoHpAdminGudang.text = suratJalan!!.adminGudang!!.noHp
-            tvNamaAdminGudang.text = suratJalan!!.adminGudang!!.nama
+            btnHubungiDriver.setOnClickListener {
+                dialIntent(suratJalan!!.logistic.noHp)
+            }
+
+            suratJalan!!.fotoBukti?.let {
+                layoutFotoBukti.setVisible()
+                ivFotoBukti.setImageFromUrl(it, this@SuratJalanDetailActivity, false)
+            } ?: layoutFotoBukti.setGone()
+
+            ivAdminGudang.setImageFromUrl(
+                suratJalan!!.adminGudang.foto,
+                this@SuratJalanDetailActivity
+            )
+            ivAdminGudang.layoutParams.width = 100
+            ivAdminGudang.layoutParams.height = 100
+            ivAdminGudang.requestLayout()
+            tvNoHpAdminGudang.text = suratJalan!!.adminGudang.noHp
+            tvNamaAdminGudang.text = suratJalan!!.adminGudang.nama
             btnWaAdminGudang.setOnClickListener {
-                it.openWhatsAppChat(suratJalan!!.adminGudang!!.noHp)
+                it.openWhatsAppChat(suratJalan!!.adminGudang.noHp)
             }
             btnHubungiAdminGudang.setOnClickListener {
-                dialIntent(suratJalan!!.adminGudang!!.noHp)
+                dialIntent(suratJalan!!.adminGudang.noHp)
             }
 
             btnDownload.setOnClickListener {
@@ -280,6 +337,26 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                 tvTertandaTggJwb.text =
                     getString(R.string.nama_dan_role, verif.nama, enumValueToNormal(verif.role))
                 tvSebagaiTggJwb.text = enumValueToNormal(verif.sebagai)
+
+                layoutPenanggungJawab.setVisible()
+                tvTitlePenanggungJawab.text = enumValueToNormal(verif.sebagai)
+                suratJalan!!.penanggungJawab?.let { penanggungJawab ->
+                    ivPenanggungJawab.setImageFromUrl(
+                        penanggungJawab.foto,
+                        this@SuratJalanDetailActivity
+                    )
+                    ivPenanggungJawab.layoutParams.width = 100
+                    ivPenanggungJawab.layoutParams.height = 100
+                    ivPenanggungJawab.requestLayout()
+                    tvNoHpPenanggungJawab.text = penanggungJawab.noHp
+                    tvNamaPenanggungJawab.text = penanggungJawab.nama
+                    btnWaPenanggungJawab.setOnClickListener {
+                        it.openWhatsAppChat(penanggungJawab.noHp)
+                    }
+                    btnHubungiPenanggungJawab.setOnClickListener {
+                        dialIntent(penanggungJawab.noHp)
+                    }
+                }
             } ?: layoutTtdTggJwb.setGone()
 
             suratJalan!!.ttdPenanggungJawabPeminjam?.let { verif ->
@@ -288,6 +365,25 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                 tvTertandaTggJwbPeminjam.text =
                     getString(R.string.nama_dan_role, verif.nama, enumValueToNormal(verif.role))
                 tvSebagaiTggJwbPeminjam.text = enumValueToNormal(verif.sebagai)
+
+                layoutPenerima.setVisible()
+                suratJalan!!.penanggungJawabPeminjam?.let { penanggungJawab ->
+                    ivPenerima.setImageFromUrl(
+                        penanggungJawab.foto,
+                        this@SuratJalanDetailActivity
+                    )
+                    ivPenerima.layoutParams.width = 100
+                    ivPenerima.layoutParams.height = 100
+                    ivPenerima.requestLayout()
+                    tvNoHpPenerima.text = penanggungJawab.noHp
+                    tvNamaPenerima.text = penanggungJawab.nama
+                    btnWaPenerima.setOnClickListener {
+                        it.openWhatsAppChat(penanggungJawab.noHp)
+                    }
+                    btnHubungiPenerima.setOnClickListener {
+                        dialIntent(penanggungJawab.noHp)
+                    }
+                }
             } ?: layoutTtdTggJwbPeminjam.setGone()
 
             when (suratJalan!!.tipe) {
@@ -324,7 +420,9 @@ class SuratJalanDetailActivity : AppCompatActivity() {
 
     private fun initLayout() {
         with(binding) {
-            if (user!!.role == UserRole.LOGISTIC.name && (suratJalan!!.logistic.id != user!!.id)) {
+            val role = user!!.role
+            val userId = user!!.id
+            if ((role == UserRole.LOGISTIC.name && (suratJalan!!.logistic.id != userId))) {
                 CustomDialog(
                     mainButtonText = "Keluar",
                     mainButtonBackgroundDrawable = null,
@@ -332,61 +430,51 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                     secondaryButtonTextColor = null,
                     mainButtonTextColor = null,
                     secondaryButtonBackgroundDrawable = null,
-                    title = "Tidak Bisa Melihat Delivery Order",
-                    subtitle = "Delivery order ini sudah bukan untuk anda",
+                    title = "Tidak Bisa Melihat Surat Jalan",
+                    subtitle = "Surat jalan ini sudah bukan untuk anda",
                     canTouchOutside = false,
                     image = AppCompatResources.getDrawable(applicationContext, R.drawable.ic_error),
                     blockMainButton = { finish() },
                     blockSecondaryButton = {}).show(supportFragmentManager, "DOUnavailable")
+
             }
 
             // Hilangkan button hubungi pada data diri sendiri
-            if (suratJalan!!.siteManager.id == user!!.id)
+            if (suratJalan!!.siteManager.id == userId)
                 layoutHubungiSiteManager.setGone()
-            if (suratJalan!!.adminGudang?.id == user!!.id)
+            if (suratJalan!!.adminGudang.id == userId)
                 layoutHubungiAdminGudang.setGone()
-            if (suratJalan!!.logistic.id == user!!.id)
+            suratJalan!!.penanggungJawab?.let {
+                if (it.id == userId)
+                    layoutHubungiPenanggungJawab.setGone()
+            }
+            suratJalan!!.penanggungJawabPeminjam?.let {
+                if (it.id == userId)
+                    layoutHubungiPenerima.setGone()
+            }
+            if (suratJalan!!.logistic.id == userId)
                 layoutHubungiDriver.setGone()
 
             when (user!!.role) {
-                UserRole.ADMIN_GUDANG.name, UserRole.PURCHASING.name, UserRole.ADMIN.name -> {
-                    btnPantauLokasi.setOnClickListener {
-                        openActivityWithExtras(PantauLokasiSuratJalanActivity::class.java, false) {
-                            putParcelable(Constant.INTENT_PARCEL, suratJalan)
-                        }
-                    }
-                }
-            }
-            when (suratJalan!!.status) {
-                SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name -> {
-                    when (user!!.role) {
-                        UserRole.ADMIN_GUDANG.name, UserRole.PURCHASING.name, UserRole.ADMIN.name -> {
-                            btnTandaiSelesai.setVisible()
-                            btnTandaiSelesai.setOnClickListener {
-                                CustomDialog(
-                                    mainButtonText = "Selesai",
-                                    secondaryButtonText = "Batal",
-                                    title = "Tandai Selesai Delivery Order",
-                                    subtitle = "Apakah anda yakin ingin menandai selesai surat jalan ${suratJalan!!.kodeSurat} ?",
-                                    image = null,
-                                    blockMainButton = {
-                                        suratJalanDetailViewModel.markCompleteSuratJalan(
-                                            suratJalan!!.id
-                                        ) {
-                                            refreshData()
-                                        }
-                                    },
-                                    blockSecondaryButton = {}
-                                ).show(supportFragmentManager, "MarkCompleteFragment")
+                UserRole.ADMIN_GUDANG.name,
+                UserRole.SUPERVISOR.name,
+                UserRole.PROJECT_MANAGER.name,
+                UserRole.SITE_MANAGER.name,
+                UserRole.ADMIN.name -> {
+                    if (suratJalan!!.status != SuratJalanStatus.SELESAI.name) {
+                        btnPantauLokasi.setVisible()
+                        btnPantauLokasi.setOnClickListener {
+                            openActivityWithExtras(
+                                PantauLokasiSuratJalanActivity::class.java,
+                                false
+                            ) {
+                                putParcelable(Constant.INTENT_PARCEL, suratJalan)
                             }
                         }
                     }
                 }
-
-                SuratJalanStatus.SELESAI.name -> {
-                    layoutButton.setGone()
-                }
             }
+            initButtonGiveTtdAndMarkComplete()
             when (user!!.role) {
                 UserRole.ADMIN_GUDANG.name -> {
                     when (suratJalan!!.status) {
@@ -396,7 +484,21 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                         }
 
                         SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name -> {
-                            if (suratJalan!!.adminGudang?.id == user!!.id)
+                            btnPantauLokasi.setVisible()
+                            setButtonStyle(btnPantauLokasi, true)
+                        }
+                    }
+                }
+
+                UserRole.SUPERVISOR.name, UserRole.PROJECT_MANAGER.name, UserRole.SITE_MANAGER.name -> {
+                    when (suratJalan!!.status) {
+                        SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
+                            btnPantauLokasi.setVisible()
+                            setButtonStyle(btnPantauLokasi, true)
+                        }
+
+                        SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name -> {
+                            if (suratJalan!!.adminGudang.id == user!!.id)
                                 btnPantauLokasi.setVisible()
                         }
                     }
@@ -451,10 +553,10 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                     }
                 }
 
-                UserRole.PURCHASING.name -> {
+                UserRole.ADMIN_GUDANG.name -> {
                     when (suratJalan!!.status) {
                         SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
-                            if (suratJalan!!.siteManager.id == user!!.id) {
+                            if (suratJalan!!.adminGudang.id == user!!.id) {
                                 btnUbahSj.setVisible()
                                 btnDelete.setVisible()
                                 btnUbahSj.setOnClickListener {
@@ -472,7 +574,7 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                                         secondaryButtonBackgroundDrawable = R.drawable.semi_rounded_outline_red,
                                         secondaryButtonTextColor = R.color.red,
                                         mainButtonBackgroundDrawable = R.drawable.semi_rounded_red,
-                                        title = "Hapus Delivery Order",
+                                        title = "Hapus Surat Jalan",
                                         subtitle = "Apakah anda yakin ingin menghapus surat jalan ${suratJalan!!.kodeSurat} ?",
                                         image = null,
                                         blockMainButton = {
@@ -487,6 +589,73 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                                         "DeleteSj"
                                     )
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initButtonGiveTtdAndMarkComplete() {
+        binding.apply {
+            when (user!!.role) {
+                UserRole.ADMIN_GUDANG.name,
+                UserRole.SUPERVISOR.name,
+                UserRole.SITE_MANAGER.name,
+                UserRole.ADMIN.name -> {
+                    if (suratJalan!!.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name) {
+                        if (
+                            (suratJalan!!.tipe == SuratJalanTipe.PENGEMBALIAN.name
+                                    && (user!!.role == UserRole.ADMIN_GUDANG.name || user!!.role == UserRole.ADMIN.name)
+                                    && suratJalan!!.ttdPenanggungJawab != null)
+                            || (suratJalan!!.tipe == SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK.name
+                                    && (user!!.role == UserRole.SUPERVISOR.name || user!!.role == UserRole.SITE_MANAGER.name))
+                            || (suratJalan!!.tipe == SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK.name
+                                    && (user!!.role == UserRole.SUPERVISOR.name || user!!.role == UserRole.SITE_MANAGER.name)
+                                    && suratJalan!!.ttdPenanggungJawab != null)
+                        ) {
+                            btnTandaiSelesai.setVisible()
+                            btnTandaiSelesai.setOnClickListener {
+                                CustomDialog(
+                                    mainButtonText = "Selesai",
+                                    secondaryButtonText = "Batal",
+                                    title = "Tandai Selesai Surat Jalan",
+                                    subtitle = "Apakah anda yakin ingin menandai selesai surat jalan ${suratJalan!!.kodeSurat} ?",
+                                    image = null,
+                                    blockMainButton = {
+                                        suratJalanDetailViewModel.markCompleteSuratJalan(
+                                            suratJalan!!.id
+                                        ) {
+                                            refreshData()
+                                        }
+                                    },
+                                    blockSecondaryButton = {}
+                                ).show(supportFragmentManager, "MarkCompleteFragment")
+                            }
+                        } else if (
+                            ((suratJalan!!.tipe == SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK.name || suratJalan!!.tipe == SuratJalanTipe.PENGEMBALIAN.name)
+                                    && (user!!.role == UserRole.SUPERVISOR.name || user!!.role == UserRole.SITE_MANAGER.name)
+                                    && suratJalan!!.ttdPenanggungJawab == null)
+                        ) {
+                            btnBeriTtd.setVisible()
+                            btnBeriTtd.setOnClickListener {
+                                CustomDialog(
+                                    mainButtonText = "Berikan TTD",
+                                    secondaryButtonText = "Batal",
+                                    title = "Berikan Tanda Tangan Surat Jalan",
+                                    subtitle = "Apakah anda yakin ingin memberi tanda tangan untuk surat jalan ${suratJalan!!.kodeSurat} ?",
+                                    image = null,
+                                    blockMainButton = {
+                                        suratJalanDetailViewModel.giveTtdSuratJalan(
+                                            suratJalan!!.id
+                                        ) {
+                                            binding.btnBeriTtd.setGone()
+                                            refreshData()
+                                        }
+                                    },
+                                    blockSecondaryButton = {}
+                                ).show(supportFragmentManager, "MarkCompleteFragment")
                             }
                         }
                     }

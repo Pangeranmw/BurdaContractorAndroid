@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,8 @@ import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.FragmentSuratJalanBinding
 import com.android.burdacontractor.feature.suratjalan.presentation.detail.SuratJalanDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SuratJalanFragment : Fragment() {
@@ -54,6 +57,17 @@ class SuratJalanFragment : Fragment() {
                 putString(INTENT_ID, suratJalan.id)
             }
         }
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest {
+                if ((it.refresh is LoadState.Loading) || (it.append is LoadState.Loading)) {
+                    suratJalanViewModel.setState(StateResponse.LOADING)
+                } else if ((it.refresh is LoadState.NotLoading) || (it.append is LoadState.NotLoading)) {
+                    suratJalanViewModel.setState(StateResponse.SUCCESS)
+                } else if ((it.refresh is LoadState.Error) || (it.append is LoadState.Error)) {
+                    suratJalanViewModel.setState(StateResponse.ERROR)
+                }
+            }
+        }
         adapter.addLoadStateListener { loadState ->
             when (loadState.source.refresh) {
                 is LoadState.NotLoading -> {
@@ -71,7 +85,6 @@ class SuratJalanFragment : Fragment() {
                         suratJalanViewModel.setState(StateResponse.SUCCESS)
                     }
                 }
-
                 is LoadState.Loading -> {
                     if (adapter.itemCount == 0) {
                         suratJalanViewModel.setState(StateResponse.LOADING)

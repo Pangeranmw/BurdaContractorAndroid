@@ -1,7 +1,4 @@
 package com.android.burdacontractor.feature.suratjalan.presentation.detail
-
-//import com.android.burdacontractor.feature.suratjalan.domain.usecase.MarkCompleteSuratJalanUseCase
-//import com.android.burdacontractor.feature.suratjalan.domain.usecase.SendSuratJalanUseCase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,8 +11,12 @@ import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetailItem
+import com.android.burdacontractor.feature.suratjalan.domain.usecase.DeleteSuratJalanChildUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.DeleteSuratJalanUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetSuratJalanByIdUseCase
+import com.android.burdacontractor.feature.suratjalan.domain.usecase.GiveTtdSuratJalanUseCase
+import com.android.burdacontractor.feature.suratjalan.domain.usecase.MarkCompleteSuratJalanUseCase
+import com.android.burdacontractor.feature.suratjalan.domain.usecase.SendSuratJalanUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,8 +27,10 @@ class SuratJalanDetailViewModel @Inject constructor(
     private val getSuratJalanByIdUseCase: GetSuratJalanByIdUseCase,
     private val getUserByTokenUseCase: GetUserByTokenUseCase,
     private val deleteSuratJalanUseCase: DeleteSuratJalanUseCase,
-//    private val sendSuratJalanUseCase: SendSuratJalanUseCase,
-//    private val markCompleteSuratJalanUseCase: MarkCompleteSuratJalanUseCase
+    private val deleteSuratJalanChildUseCase: DeleteSuratJalanChildUseCase,
+    private val markCompleteSuratJalanUseCase: MarkCompleteSuratJalanUseCase,
+    private val sendSuratJalanUseCase: SendSuratJalanUseCase,
+    private val giveTtdSuratJalanUseCase: GiveTtdSuratJalanUseCase,
 ) : ViewModel() {
 
     private val _state = MutableLiveData<StateResponse?>()
@@ -66,7 +69,6 @@ class SuratJalanDetailViewModel @Inject constructor(
                 when (it) {
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {
-                        _state.value = StateResponse.SUCCESS
                         _user.value = it.data!!
                     }
 
@@ -79,48 +81,88 @@ class SuratJalanDetailViewModel @Inject constructor(
     }
 
     fun sendSuratJalan(id: String, listener: () -> Unit) {
-//        viewModelScope.launch {
-//            sendSuratJalanUseCase.execute(id).collect {
-//                when (it) {
-//                    is Resource.Loading -> _state.value = StateResponse.LOADING
-//                    is Resource.Success -> {
-//                        _state.value = StateResponse.SUCCESS
-//                        _messageResponse.value = Event(it.message)
-//                        listener()
-//                    }
-//                    is Resource.Error -> {
-//                        _state.value = StateResponse.ERROR
-//                        _messageResponse.value = Event(it.message)
-//                    }
-//                }
-//            }
-//        }
+        viewModelScope.launch {
+            sendSuratJalanUseCase.execute(id).collect {
+                when (it) {
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _state.value = StateResponse.SUCCESS
+                        _messageResponse.value = Event(it.message)
+                        listener()
+                    }
+
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
+                    }
+                }
+            }
+        }
     }
 
-    //
+    fun giveTtdSuratJalan(id: String, listener: () -> Unit) {
+        viewModelScope.launch {
+            giveTtdSuratJalanUseCase.execute(id).collect {
+                when (it) {
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _state.value = StateResponse.SUCCESS
+                        _messageResponse.value = Event(it.message)
+                        listener()
+                    }
+
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
+                    }
+                }
+            }
+        }
+    }
+
     fun markCompleteSuratJalan(id: String, listener: () -> Unit) {
-//        viewModelScope.launch {
-//            markCompleteSuratJalanUseCase.execute(id).collect {
-//                when (it) {
-//                    is Resource.Loading -> _state.value = StateResponse.LOADING
-//                    is Resource.Success -> {
-//                        _state.value = StateResponse.SUCCESS
-//                        _messageResponse.value = Event(it.message)
-//                        listener()
-//                    }
-//
-//                    is Resource.Error -> {
-//                        _state.value = StateResponse.ERROR
-//                        _messageResponse.value = Event(it.message)
-//                    }
-//                }
-//            }
-//        }
+        viewModelScope.launch {
+            markCompleteSuratJalanUseCase.execute(id).collect {
+                when (it) {
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _state.value = StateResponse.SUCCESS
+                        _messageResponse.value = Event(it.message)
+                        listener()
+                    }
+
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
+                    }
+                }
+            }
+        }
     }
 
     fun deleteSuratJalan(id: String, listener: () -> Unit) {
         viewModelScope.launch {
             deleteSuratJalanUseCase.execute(id).collect {
+                when (it) {
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _state.value = StateResponse.SUCCESS
+                        _messageResponse.value = Event(it.message)
+                        listener()
+                    }
+
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
+                    }
+                }
+            }
+        }
+    }
+
+    fun deleteSuratJalanChild(id: String, tipe: String, listener: () -> Unit) {
+        viewModelScope.launch {
+            deleteSuratJalanChildUseCase.execute(id, tipe).collect {
                 when (it) {
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {

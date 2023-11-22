@@ -9,9 +9,11 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
+import com.android.burdacontractor.feature.suratjalan.domain.model.AddUpdatePeminjamanPenggunaanSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetailItem
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 interface ISuratJalanRepository {
 
@@ -77,6 +79,37 @@ interface ISuratJalanRepository {
     ): Flow<Resource<ErrorMessageResponse>>
 
     suspend fun deleteSuratJalan(
-        suratJalanId: String,
+        id: String,
     ): Flow<Resource<ErrorMessageResponse>>
+
+    suspend fun sendSuratJalan(
+        id: String,
+    ): Flow<Resource<ErrorMessageResponse>>
+
+    suspend fun markCompleteSuratJalan(
+        id: String,
+    ): Flow<Resource<ErrorMessageResponse>>
+
+    suspend fun giveTtdSuratJalan(
+        id: String,
+    ): Flow<Resource<ErrorMessageResponse>>
+
+    suspend fun uploadFotoBuktiSuratJalan(
+        id: String,
+        fotoBukti: File
+    ): Flow<Resource<ErrorMessageResponse>>
+
+    suspend fun deleteSuratJalanChild(
+        sjChildId: String,
+        tipe: String,
+    ): Flow<Resource<ErrorMessageResponse>>
+
+    suspend fun addSuratJalan(
+        logisticId: String,
+        kendaraanId: String,
+        proyekId: String,
+        peminjaman: List<AddUpdatePeminjamanPenggunaanSuratJalan>,
+        penggunaan: List<AddUpdatePeminjamanPenggunaanSuratJalan>,
+        tipe: SuratJalanTipe,
+    )
 }

@@ -63,10 +63,8 @@ class GudangViewModel @Inject constructor(
                 when (it) {
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {
-                        _state.value = StateResponse.SUCCESS
                         _listProvinsi.value = it.data!!
                     }
-
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)

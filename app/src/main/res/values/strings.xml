@@ -300,4 +300,9 @@
     <string name="nama_dan_role">%1$s (%2$s)</string>
     <string name="cetak_surat_jalan">Cetak Surat Jalan</string>
     <string name="pengembalian">Pengembalian</string>
+    <string name="pilih_gudang">Pilih Gudang</string>
+    <string name="pilih_perusahaan">Pilih Perusahaan</string>
+    <string name="pilih_driver">Pilih Driver</string>
+    <string name="pilih_kendaraan">Pilih Kendaraan</string>
+    <string name="penanggung_jawab">Penanggung Jawab</string>
 </resources>

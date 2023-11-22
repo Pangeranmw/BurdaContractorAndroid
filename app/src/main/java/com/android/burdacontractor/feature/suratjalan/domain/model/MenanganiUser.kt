@@ -16,9 +16,12 @@ data class MenanganiUser(
     @field:SerializedName("no_hp")
     val noHp: String,
 
+    @field:SerializedName("menangani_id")
+    val menanganiId: String,
+
     @field:SerializedName("foto")
     val foto: String? = null,
 
     @field:SerializedName("id")
-    val id: String
+    val userId: String
 ) : Parcelable

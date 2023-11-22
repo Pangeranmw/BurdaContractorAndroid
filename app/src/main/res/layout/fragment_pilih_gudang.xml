@@ -6,17 +6,6 @@
     android:layout_height="wrap_content"
     style="@style/RoundedBackgroundBottomSheetDialog">
 
-    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-        android:id="@+id/drag_handle"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="50dp"
-        android:layout_height="5dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/semi_rounded_gray_light"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,11 +22,41 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
+                android:id="@+id/layout_close"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <ImageButton
+                    android:id="@+id/btn_close"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/baseline_close_24"
+                    android:background="@color/white"
+                    app:tint="@color/black"
+                    android:contentDescription="@string/cd_button" />
+
+                <TextView
+                    android:id="@+id/tv_pilih"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pilih_gudang"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:layout_marginVertical="10dp"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/layout_app_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginHorizontal="16dp"
+                android:layout_below="@+id/layout_close"
                 android:gravity="center_vertical">
 
                 <androidx.appcompat.widget.AppCompatImageButton

@@ -436,10 +436,9 @@ class PantauLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiver
             }
         }
         if (mTrackingMode) {
-            map.zoomToBoundingBox(getBoundingBox(newLocation,destinationPoint),false,100)
+            map.controller.animateTo(newLocation)
             map.mapOrientation = -mAzimuthAngleSpeed
         } else {
-            //just redraw the location overlay:
             map.invalidate()
         }
     }
