@@ -18,12 +18,12 @@ import com.android.burdacontractor.feature.gudang.data.source.GudangRepository
 import com.android.burdacontractor.feature.gudang.domain.repository.IGudangRepository
 import com.android.burdacontractor.feature.kendaraan.data.source.KendaraanRepository
 import com.android.burdacontractor.feature.kendaraan.domain.repository.IKendaraanRepository
-import com.android.burdacontractor.feature.logistic.data.LogisticRepository
-import com.android.burdacontractor.feature.logistic.domain.repository.ILogisticRepository
 import com.android.burdacontractor.feature.perusahaan.data.source.PerusahaanRepository
 import com.android.burdacontractor.feature.perusahaan.domain.repository.IPerusahaanRepository
 import com.android.burdacontractor.feature.profile.data.UserRepository
 import com.android.burdacontractor.feature.profile.domain.repository.IUserRepository
+import com.android.burdacontractor.feature.proyek.data.LogisticRepository
+import com.android.burdacontractor.feature.proyek.domain.repository.ILogisticRepository
 import com.android.burdacontractor.feature.suratjalan.data.SuratJalanRepository
 import com.android.burdacontractor.feature.suratjalan.domain.repository.ISuratJalanRepository
 import dagger.Binds

@@ -2,8 +2,8 @@ package com.android.burdacontractor.feature.logistic.data.source.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.android.burdacontractor.feature.logistic.data.source.remote.network.LogisticService
-import com.android.burdacontractor.feature.logistic.domain.model.AllLogistic
+import com.android.burdacontractor.feature.proyek.data.source.remote.network.LogisticService
+import com.android.burdacontractor.feature.proyek.domain.model.AllLogistic
 
 class LogisticPagingSource(
     private val logisticService: LogisticService,

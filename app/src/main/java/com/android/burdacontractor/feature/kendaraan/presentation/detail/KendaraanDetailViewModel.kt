@@ -21,10 +21,10 @@ import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetActiveDel
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetActiveSuratJalanByKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.GetKendaraanByIdUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.ReturnKendaraanUseCase
-import com.android.burdacontractor.feature.logistic.domain.model.LogisticById
-import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticByIdUseCase
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
+import com.android.burdacontractor.feature.proyek.domain.model.LogisticById
+import com.android.burdacontractor.feature.proyek.domain.usecase.GetLogisticByIdUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

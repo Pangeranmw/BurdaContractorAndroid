@@ -1,7 +1,6 @@
 package com.android.burdacontractor.feature.deliveryorder.presentation.update
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
@@ -16,14 +15,16 @@ import com.android.burdacontractor.core.utils.DataMapper.combineLogisticWithKend
 import com.android.burdacontractor.core.utils.DataMapper.tempatSimpleToAllGudang
 import com.android.burdacontractor.core.utils.DataMapper.tempatSimpleToAllPerusahaan
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.customBackPressed
+import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.core.utils.getDateFromMillis
 import com.android.burdacontractor.core.utils.parcelable
 import com.android.burdacontractor.databinding.ActivityAddDeliveryOrderBinding
 import com.android.burdacontractor.feature.deliveryorder.domain.model.DeliveryOrderDetailItem
 import com.android.burdacontractor.feature.gudang.presentation.PilihGudangViewModel
 import com.android.burdacontractor.feature.kendaraan.presentation.PilihKendaraanViewModel
-import com.android.burdacontractor.feature.logistic.presentation.PilihLogisticViewModel
 import com.android.burdacontractor.feature.perusahaan.presentation.PilihPerusahaanViewModel
+import com.android.burdacontractor.feature.proyek.presentation.PilihLogisticViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -147,31 +148,17 @@ class UpdateDeliveryOrderActivity : AppCompatActivity() {
 
     fun onBackPressedCallback() {
         if (binding.viewPager.currentItem == 0) {
-            val finishAction = {
-                finish()
-                overridePendingTransition(0, 0)
-            }
-            binding.btnBack.setOnClickListener {
-                finishAction()
-            }
-            onBackPressedDispatcher { finishAction() }
-            Log.d("currentItem == 0", binding.viewPager.currentItem.toString())
-
+            binding.btnBack.setOnClickListener { finishAction() }
+            customBackPressed()
         } else if (binding.viewPager.currentItem == 1) {
-            Log.d("currentItem == 1 ", binding.viewPager.currentItem.toString())
             binding.btnBack.setOnClickListener { binding.viewPager.currentItem = 0 }
-            onBackPressedDispatcher { binding.viewPager.currentItem = 0 }
+            onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    binding.viewPager.currentItem = 0
+                }
+            })
         }
     }
-
-    private fun onBackPressedDispatcher(listener: () -> Unit) {
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                listener()
-            }
-        })
-    }
-
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(

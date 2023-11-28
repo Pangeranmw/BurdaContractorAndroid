@@ -1,7 +1,6 @@
 package com.android.burdacontractor.feature.kendaraan.presentation.detail
 
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +16,9 @@ import com.android.burdacontractor.core.presentation.adapter.ListDeliveryOrderAd
 import com.android.burdacontractor.core.presentation.adapter.ListSuratJalanAdapter
 import com.android.burdacontractor.core.presentation.customview.CustomDialog
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.customBackPressed
 import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setImageFromUrl
@@ -29,8 +30,8 @@ import com.android.burdacontractor.feature.gudang.domain.model.GudangById
 import com.android.burdacontractor.feature.kendaraan.domain.model.Kendaraan
 import com.android.burdacontractor.feature.kendaraan.presentation.pantau.PantauLokasiPengendaraActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.update.UpdateKendaraanActivity
-import com.android.burdacontractor.feature.logistic.domain.model.LogisticById
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
+import com.android.burdacontractor.feature.proyek.domain.model.LogisticById
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.presentation.detail.SuratJalanDetailActivity
 import com.google.android.material.snackbar.Snackbar
@@ -365,18 +366,8 @@ class KendaraanDetailActivity : AppCompatActivity() {
     }
 
     fun onBackPressedCallback() {
-        val finishAction = {
-            finish()
-            overridePendingTransition(0, 0)
-        }
-        binding.btnBack.setOnClickListener {
-            finishAction()
-        }
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finishAction()
-            }
-        })
+        binding.btnBack.setOnClickListener { finishAction() }
+        customBackPressed()
     }
 
     override fun onRestart() {

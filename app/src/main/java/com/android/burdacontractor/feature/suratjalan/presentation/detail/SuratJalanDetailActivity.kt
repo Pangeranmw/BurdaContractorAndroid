@@ -1,7 +1,6 @@
 package com.android.burdacontractor.feature.suratjalan.presentation.detail
 
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -18,8 +17,10 @@ import com.android.burdacontractor.core.presentation.adapter.ListPeminjamanSurat
 import com.android.burdacontractor.core.presentation.adapter.ListPenggunaanSuratJalanAdapter
 import com.android.burdacontractor.core.presentation.customview.CustomDialog
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.customBackPressed
 import com.android.burdacontractor.core.utils.dialIntent
 import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.core.utils.getDateFromMillis
 import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.core.utils.openWhatsAppChat
@@ -29,6 +30,8 @@ import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivitySuratJalanDetailBinding
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetailItem
+import com.android.burdacontractor.feature.suratjalan.presentation.BarangPeminjamanSuratJalanFragment
+import com.android.burdacontractor.feature.suratjalan.presentation.BarangPenggunaanSuratJalanFragment
 import com.android.burdacontractor.feature.suratjalan.presentation.location.PantauLokasiSuratJalanActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.location.TelusuriLokasiSuratJalanActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.print.SuratJalanCetakActivity
@@ -115,7 +118,6 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                     && suratJalan!!.status == SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER.name
 
             val peminjamanAdapter = ListPeminjamanSuratJalanAdapter(
-                checkedVisible = false,
                 deleteVisible = deleteVisible,
                 checkedListData = listOf(),
                 listener = {},
@@ -133,7 +135,6 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                         mainButtonBackgroundDrawable = R.drawable.semi_rounded_red,
                         title = "Hapus $type",
                         subtitle = "Apakah anda yakin ingin menghapus $type ${it.kode} dari surat jalan ${suratJalan!!.kodeSurat} ?",
-                        image = null,
                         blockMainButton = {
                             suratJalanDetailViewModel.deleteSuratJalanChild(
                                 it.sjChildId.toString(),
@@ -147,8 +148,10 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                         "DeleteSjChild"
                     )
                 },
-                checkedDataListener = { _, _ -> },
-                barangListener = {},
+                barangListener = { barang ->
+                    val fragment = BarangPeminjamanSuratJalanFragment.newInstance(barang)
+                    fragment.show(supportFragmentManager, "BarangPeminjaman")
+                },
                 userId = user!!.id
             )
             peminjamanAdapter.submitList(suratJalan!!.peminjaman.sortedBy { it.asal.id })
@@ -160,7 +163,6 @@ class SuratJalanDetailActivity : AppCompatActivity() {
             rvPeminjaman.adapter = peminjamanAdapter
 
             val penggunaanAdapter = ListPenggunaanSuratJalanAdapter(
-                checkedVisible = false,
                 deleteVisible = deleteVisible,
                 checkedListData = listOf(),
                 listener = {},
@@ -178,7 +180,6 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                         mainButtonBackgroundDrawable = R.drawable.semi_rounded_red,
                         title = "Hapus $type",
                         subtitle = "Apakah anda yakin ingin menghapus $type ${it.kode} dari surat jalan ${suratJalan!!.kodeSurat} ?",
-                        image = null,
                         blockMainButton = {
                             suratJalanDetailViewModel.deleteSuratJalanChild(
                                 it.sjChildId.toString(),
@@ -192,8 +193,10 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                         "DeleteSjChild"
                     )
                 },
-                checkedDataListener = { _, _ -> },
-                barangListener = {},
+                barangListener = { barang ->
+                    val fragment = BarangPenggunaanSuratJalanFragment.newInstance(barang)
+                    fragment.show(supportFragmentManager, "BarangPenggunaan")
+                },
                 userId = user!!.id
             )
             penggunaanAdapter.submitList(suratJalan!!.penggunaan.sortedBy { it.asal.id })
@@ -406,16 +409,8 @@ class SuratJalanDetailActivity : AppCompatActivity() {
     }
 
     private fun onBackPressedCallback() {
-        binding.btnBack.setOnClickListener {
-            finish()
-            overridePendingTransition(0, 0)
-        }
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-                overridePendingTransition(0, 0)
-            }
-        })
+        binding.btnBack.setOnClickListener { finishAction() }
+        customBackPressed()
     }
 
     private fun initLayout() {
@@ -525,7 +520,6 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                                     secondaryButtonText = "Batal",
                                     title = "Antar Barang",
                                     subtitle = "Apakah anda yakin ingin mengantar surat jalan ${suratJalan!!.kodeSurat} ?",
-                                    image = null,
                                     blockMainButton = {
                                         suratJalanDetailViewModel.sendSuratJalan(suratJalan!!.id) {
                                             refreshData()
@@ -576,7 +570,6 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                                         mainButtonBackgroundDrawable = R.drawable.semi_rounded_red,
                                         title = "Hapus Surat Jalan",
                                         subtitle = "Apakah anda yakin ingin menghapus surat jalan ${suratJalan!!.kodeSurat} ?",
-                                        image = null,
                                         blockMainButton = {
                                             suratJalanDetailViewModel.deleteSuratJalan(
                                                 suratJalan!!.id
@@ -622,7 +615,6 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                                     secondaryButtonText = "Batal",
                                     title = "Tandai Selesai Surat Jalan",
                                     subtitle = "Apakah anda yakin ingin menandai selesai surat jalan ${suratJalan!!.kodeSurat} ?",
-                                    image = null,
                                     blockMainButton = {
                                         suratJalanDetailViewModel.markCompleteSuratJalan(
                                             suratJalan!!.id
@@ -645,7 +637,6 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                                     secondaryButtonText = "Batal",
                                     title = "Berikan Tanda Tangan Surat Jalan",
                                     subtitle = "Apakah anda yakin ingin memberi tanda tangan untuk surat jalan ${suratJalan!!.kodeSurat} ?",
-                                    image = null,
                                     blockMainButton = {
                                         suratJalanDetailViewModel.giveTtdSuratJalan(
                                             suratJalan!!.id

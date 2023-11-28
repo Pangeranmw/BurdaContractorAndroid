@@ -22,11 +22,11 @@ import com.android.burdacontractor.feature.gudang.presentation.PilihGudangViewMo
 import com.android.burdacontractor.feature.kendaraan.domain.model.AllKendaraan
 import com.android.burdacontractor.feature.kendaraan.presentation.PilihKendaraanFragment
 import com.android.burdacontractor.feature.kendaraan.presentation.PilihKendaraanViewModel
-import com.android.burdacontractor.feature.logistic.presentation.PilihLogisticFragment
-import com.android.burdacontractor.feature.logistic.presentation.PilihLogisticViewModel
 import com.android.burdacontractor.feature.perusahaan.presentation.PilihPerusahaanFragment
 import com.android.burdacontractor.feature.perusahaan.presentation.PilihPerusahaanViewModel
 import com.android.burdacontractor.feature.profile.presentation.SignatureActivity
+import com.android.burdacontractor.feature.proyek.presentation.PilihLogisticFragment
+import com.android.burdacontractor.feature.proyek.presentation.PilihLogisticViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -2,9 +2,13 @@ package com.android.burdacontractor.feature.suratjalan.data.source.remote.networ
 
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
-import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
+import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageWithIdResponse
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.request.AddUpdateSuratJalanBody
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanWithCountResponse
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.GetAvailablePeminjamanByProyekResponse
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.GetAvailablePenggunaanByProyekResponse
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.GetAvailableProyekBySuratJalanTypeResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
 import okhttp3.MultipartBody
@@ -52,80 +56,50 @@ interface SuratJalanService {
         @Header("Authorization") token: String,
     ): CountActiveResponse
 
-    @Headers("Content-Type: application/json","Accept: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @GET("surat-jalan/{id}")
     suspend fun getSuratJalanById(
         @Header("Authorization") token: String,
         @Path("id") id: String
     ): SuratJalanDetailResponse
 
-    @FormUrlEncoded
-    @POST("surat-jalan")
-    suspend fun addSuratJalanPengirimanGp(
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @GET("surat-jalan/proyek/available")
+    suspend fun getAvailableProyekBySuratJalanType(
         @Header("Authorization") token: String,
-        @Field("admin_gudang_id") adminGudangId: String,
-        @Field("logistic_id") logisticId: String,
-        @Field("kendaraan_id") kendaraanId: String,
-        @Field("peminjaman_id") peminjamanId: String,
-        @Field("tipe") tipe: String = SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK.name,
-    ): ErrorMessageResponse
+        @Query("tipe") tipe: String
+    ): GetAvailableProyekBySuratJalanTypeResponse
 
-    @FormUrlEncoded
-    @POST("surat-jalan")
-    suspend fun addSuratJalanPengirimanPp(
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @GET("surat-jalan/peminjaman/available")
+    suspend fun getAvailablePeminjamanByProyek(
         @Header("Authorization") token: String,
-        @Field("admin_gudang_id") adminGudangId: String,
-        @Field("logistic_id") logisticId: String,
-        @Field("kendaraan_id") kendaraanId: String,
-        @Field("peminjaman_asal_id") peminjamanAsalId: String,
-        @Field("peminjaman_tujuan_id") peminjamanTujuanId: String,
-        @Field("tipe") tipe: String = SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK.name,
-    ): ErrorMessageResponse
+        @Query("tipe") tipe: String,
+        @Query("proyek_id") proyekId: String,
+    ): GetAvailablePeminjamanByProyekResponse
 
-    @FormUrlEncoded
-    @POST("surat-jalan")
-    suspend fun addSuratJalanPengembalian(
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @GET("surat-jalan/penggunaan/available")
+    suspend fun getAvailablePenggunaanByProyek(
         @Header("Authorization") token: String,
-        @Field("admin_gudang_id") adminGudangId: String,
-        @Field("logistic_id") logisticId: String,
-        @Field("kendaraan_id") kendaraanId: String,
-        @Field("pengembalian_id") pengembalianId: String,
-        @Field("tipe") tipe: String = SuratJalanTipe.PENGEMBALIAN.name,
-    ): ErrorMessageResponse
+        @Query("tipe") tipe: String,
+        @Query("proyek_id") proyekId: String,
+    ): GetAvailablePenggunaanByProyekResponse
 
-    @FormUrlEncoded
-    @POST("surat-jalan")
-    suspend fun updateSuratJalanPengirimanGp(
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @PUT("surat-jalan/{id}")
+    suspend fun updateSuratJalan(
         @Header("Authorization") token: String,
-        @Field("admin_gudang_id") adminGudangId: String,
-        @Field("logistic_id") logisticId: String,
-        @Field("kendaraan_id") kendaraanId: String,
-        @Field("peminjaman_id") peminjamanId: String,
-        @Field("tipe") tipe: String = SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK.name,
-    ): ErrorMessageResponse
+        @Path("id") id: String,
+        @Body addUpdateSuratJalan: AddUpdateSuratJalanBody
+    ): ErrorMessageWithIdResponse
 
-    @FormUrlEncoded
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("surat-jalan")
-    suspend fun updateSuratJalanPengirimanPp(
+    suspend fun addSuratJalan(
         @Header("Authorization") token: String,
-        @Field("admin_gudang_id") adminGudangId: String,
-        @Field("logistic_id") logisticId: String,
-        @Field("kendaraan_id") kendaraanId: String,
-        @Field("peminjaman_asal_id") peminjamanAsalId: String,
-        @Field("peminjaman_tujuan_id") peminjamanTujuanId: String,
-        @Field("tipe") tipe: String = SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK.name,
-    ): ErrorMessageResponse
-
-    @FormUrlEncoded
-    @POST("surat-jalan")
-    suspend fun updateSuratJalanPengembalian(
-        @Header("Authorization") token: String,
-        @Field("admin_gudang_id") adminGudangId: String,
-        @Field("logistic_id") logisticId: String,
-        @Field("kendaraan_id") kendaraanId: String,
-        @Field("pengembalian_id") pengembalianId: String,
-        @Field("tipe") tipe: String = SuratJalanTipe.PENGEMBALIAN.name,
-    ): ErrorMessageResponse
+        @Body addUpdateSuratJalan: AddUpdateSuratJalanBody
+    ): ErrorMessageWithIdResponse
 
     @Headers("Content-Type: application/json", "Accept: application/json")
     @DELETE("surat-jalan/{id}")

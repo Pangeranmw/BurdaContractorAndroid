@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -16,6 +15,8 @@ import androidx.core.view.isVisible
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.customBackPressed
+import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.core.utils.getImageUri
 import com.android.burdacontractor.core.utils.parcelable
 import com.android.burdacontractor.core.utils.reduceFileImage
@@ -144,17 +145,9 @@ class UploadFotoBuktiDeliveryOrderActivity : AppCompatActivity() {
         } ?: setToastLong(getString(R.string.empty_image_warning))
     }
 
-    private fun onBackPressedCallback(){
-        binding.btnBack.setOnClickListener {
-            finish()
-            overridePendingTransition(0,0)
-        }
-        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-                overridePendingTransition(0,0)
-            }
-        })
+    private fun onBackPressedCallback() {
+        binding.btnBack.setOnClickListener { finishAction() }
+        customBackPressed()
     }
     companion object {
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA

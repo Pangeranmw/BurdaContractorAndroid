@@ -11,7 +11,7 @@ import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setImageFromUrl
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ItemLogisticBinding
-import com.android.burdacontractor.feature.logistic.domain.model.AllLogistic
+import com.android.burdacontractor.feature.proyek.domain.model.AllLogistic
 
 class PagingListLogisticAdapter(val listener: (AllLogistic) -> Unit) :
     PagingDataAdapter<AllLogistic, PagingListLogisticAdapter.ListViewHolder>(

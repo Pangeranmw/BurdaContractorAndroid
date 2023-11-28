@@ -67,12 +67,6 @@ import com.android.burdacontractor.feature.kendaraan.domain.usecase.ReturnKendar
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.ReturnKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.UpdateKendaraanInteractor
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.UpdateKendaraanUseCase
-import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisticInteractor
-import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisticUseCase
-import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticActiveSjDoLocationInteractor
-import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticActiveSjDoLocationUseCase
-import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticByIdInteractor
-import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticByIdUseCase
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.AddPerusahaanInteractor
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.AddPerusahaanUseCase
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.DeletePerusahaanInteractor
@@ -93,6 +87,12 @@ import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByToken
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.UploadTtdInteractor
 import com.android.burdacontractor.feature.profile.domain.usecase.UploadTtdUseCase
+import com.android.burdacontractor.feature.proyek.domain.usecase.GetAllLogisticInteractor
+import com.android.burdacontractor.feature.proyek.domain.usecase.GetAllLogisticUseCase
+import com.android.burdacontractor.feature.proyek.domain.usecase.GetLogisticActiveSjDoLocationInteractor
+import com.android.burdacontractor.feature.proyek.domain.usecase.GetLogisticActiveSjDoLocationUseCase
+import com.android.burdacontractor.feature.proyek.domain.usecase.GetLogisticByIdInteractor
+import com.android.burdacontractor.feature.proyek.domain.usecase.GetLogisticByIdUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.*
 import dagger.Binds
 import dagger.Module
@@ -140,11 +140,37 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
+    abstract fun provideAddSuratJalanUseCase(addSuratJalanInteractor: AddSuratJalanInteractor): AddSuratJalanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideUpdateSuratJalanUseCase(updateSuratJalanInteractor: UpdateSuratJalanInteractor): UpdateSuratJalanUseCase
+
+    @Binds
+    @ViewModelScoped
     abstract fun provideDeleteSuratJalanChildUseCase(deleteSuratJalanChildInteractor: DeleteSuratJalanChildInteractor): DeleteSuratJalanChildUseCase
 
     @Binds
     @ViewModelScoped
     abstract fun provideGetAllSuratJalanUseCase(getAllSuratJalanInteractor: GetAllSuratJalanInteractor): GetAllSuratJalanUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetAvailableProyekBySuratJalanTypeUseCase(
+        getAvailableProyekBySuratJalanTypeInteractor: GetAvailableProyekBySuratJalanTypeInteractor
+    ): GetAvailableProyekBySuratJalanTypeUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetAvailablePeminjamanByProyekUseCase(
+        getAvailablePeminjamanByProyekInteractor: GetAvailablePeminjamanByProyekInteractor
+    ): GetAvailablePeminjamanByProyekUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetAvailablePenggunaanByProyekUseCase(
+        getAvailablePenggunaanByProyekInteractor: GetAvailablePenggunaanByProyekInteractor
+    ): GetAvailablePenggunaanByProyekUseCase
 
     @Binds
     @ViewModelScoped

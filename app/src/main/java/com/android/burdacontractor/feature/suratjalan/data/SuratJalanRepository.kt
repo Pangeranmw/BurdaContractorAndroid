@@ -6,14 +6,17 @@ import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
+import com.android.burdacontractor.core.domain.model.Proyek
 import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.SuratJalanRemoteDataSource
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.request.AddUpdateSuratJalanBody
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.DataAllSuratJalanWithCountItem
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleItem
-import com.android.burdacontractor.feature.suratjalan.domain.model.AddUpdatePeminjamanPenggunaanSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
+import com.android.burdacontractor.feature.suratjalan.domain.model.PeminjamanSuratJalan
+import com.android.burdacontractor.feature.suratjalan.domain.model.PenggunaanSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.SuratJalanDetailItem
 import com.android.burdacontractor.feature.suratjalan.domain.repository.ISuratJalanRepository
 import kotlinx.coroutines.Dispatchers
@@ -61,6 +64,77 @@ class SuratJalanRepository @Inject constructor(
                 is ApiResponse.Empty -> {}
                 is ApiResponse.Success -> {
                     val result = response.data.suratJalan
+                    emit(Resource.Success(result, response.data.message))
+                }
+
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun getAvailableProyekBySuratJalanType(tipe: String): Flow<Resource<List<Proyek>>> =
+        flow {
+            emit(Resource.Loading())
+            when (val response =
+                suratJalanRemoteDataSource.getAvailableProyekBySuratJalanType(
+                    storageDataSource.getToken(),
+                    tipe
+                )
+                    .first()) {
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = response.data.proyek
+                    emit(Resource.Success(result, response.data.message))
+                }
+
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun getAvailablePeminjamanByProyek(
+        tipe: String,
+        proyekId: String
+    ): Flow<Resource<List<PeminjamanSuratJalan>>> =
+        flow {
+            emit(Resource.Loading())
+            when (val response =
+                suratJalanRemoteDataSource.getAvailablePeminjamanByProyek(
+                    storageDataSource.getToken(),
+                    tipe,
+                    proyekId
+                )
+                    .first()) {
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = response.data.peminjaman
+                    emit(Resource.Success(result, response.data.message))
+                }
+
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun getAvailablePenggunaanByProyek(
+        tipe: String,
+        proyekId: String
+    ): Flow<Resource<List<PenggunaanSuratJalan>>> =
+        flow {
+            emit(Resource.Loading())
+            when (val response =
+                suratJalanRemoteDataSource.getAvailablePenggunaanByProyek(
+                    storageDataSource.getToken(),
+                    tipe,
+                    proyekId
+                )
+                    .first()) {
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = response.data.penggunaan
                     emit(Resource.Success(result, response.data.message))
                 }
 
@@ -146,62 +220,6 @@ class SuratJalanRepository @Inject constructor(
             emit(Resource.Error(it.message.toString()))
         }.flowOn(Dispatchers.IO)
 
-    override suspend fun addSuratJalanPengirimanGp(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        peminjamanId: String
-    ): Flow<Resource<ErrorMessageResponse>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun addSuratJalanPengirimanPp(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        peminjamanAsalId: String,
-        peminjamanTujuanId: String
-    ): Flow<Resource<ErrorMessageResponse>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun addSuratJalanPengembalian(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        pengembalianId: String
-    ): Flow<Resource<ErrorMessageResponse>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateSuratJalanPengirimanGp(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        peminjamanId: String
-    ): Flow<Resource<ErrorMessageResponse>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateSuratJalanPengirimanPp(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        peminjamanAsalId: String,
-        peminjamanTujuanId: String
-    ): Flow<Resource<ErrorMessageResponse>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateSuratJalanPengembalian(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        pengembalianId: String
-    ): Flow<Resource<ErrorMessageResponse>> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun deleteSuratJalan(id: String): Flow<Resource<ErrorMessageResponse>> =
         flow {
             emit(Resource.Loading())
@@ -264,15 +282,52 @@ class SuratJalanRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
 
     override suspend fun addSuratJalan(
-        logisticId: String,
-        kendaraanId: String,
-        proyekId: String,
-        peminjaman: List<AddUpdatePeminjamanPenggunaanSuratJalan>,
-        penggunaan: List<AddUpdatePeminjamanPenggunaanSuratJalan>,
-        tipe: SuratJalanTipe
-    ) {
-        TODO("Not yet implemented")
-    }
+        addUpdateSuratJalanBody: AddUpdateSuratJalanBody
+    ): Flow<Resource<String>> =
+        flow {
+            emit(Resource.Loading())
+            when (val response =
+                suratJalanRemoteDataSource.addSuratJalan(
+                    storageDataSource.getToken(),
+                    addUpdateSuratJalanBody
+                )
+                    .first()) {
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = response.data.id
+                    emit(Resource.Success(result, response.data.message))
+                }
+
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+
+    override suspend fun updateSuratJalan(
+        id: String,
+        addUpdateSuratJalanBody: AddUpdateSuratJalanBody
+    ): Flow<Resource<String>> =
+        flow {
+            emit(Resource.Loading())
+            when (val response =
+                suratJalanRemoteDataSource.updateSuratJalan(
+                    storageDataSource.getToken(),
+                    id,
+                    addUpdateSuratJalanBody
+                )
+                    .first()) {
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = response.data.id
+                    emit(Resource.Success(result, response.data.message))
+                }
+
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
 
     override suspend fun giveTtdSuratJalan(id: String): Flow<Resource<ErrorMessageResponse>> =
         flow {

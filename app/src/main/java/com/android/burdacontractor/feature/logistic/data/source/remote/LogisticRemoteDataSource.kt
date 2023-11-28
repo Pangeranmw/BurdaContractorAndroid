@@ -4,10 +4,11 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
-import com.android.burdacontractor.feature.logistic.data.source.remote.network.LogisticService
-import com.android.burdacontractor.feature.logistic.data.source.remote.response.GetActiveSjDoLocationByLogisticResponse
-import com.android.burdacontractor.feature.logistic.data.source.remote.response.GetLogisticByIdResponse
-import com.android.burdacontractor.feature.logistic.domain.model.AllLogistic
+import com.android.burdacontractor.feature.proyek.data.source.remote.LogisticPagingSource
+import com.android.burdacontractor.feature.proyek.data.source.remote.network.LogisticService
+import com.android.burdacontractor.feature.proyek.data.source.remote.response.GetActiveSjDoLocationByLogisticResponse
+import com.android.burdacontractor.feature.proyek.data.source.remote.response.GetLogisticByIdResponse
+import com.android.burdacontractor.feature.proyek.domain.model.AllLogistic
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

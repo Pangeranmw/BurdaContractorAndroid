@@ -1,7 +1,6 @@
 package com.android.burdacontractor.feature.deliveryorder.presentation.detail
 
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -17,8 +16,10 @@ import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.adapter.ListPreOrderAdapter
 import com.android.burdacontractor.core.presentation.customview.CustomDialog
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.customBackPressed
 import com.android.burdacontractor.core.utils.dialIntent
 import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.core.utils.getDateFromMillis
 import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.core.utils.openWhatsAppChat
@@ -216,17 +217,9 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
             onBackPressedCallback()
         }
     }
-    private fun onBackPressedCallback(){
-        binding.btnBack.setOnClickListener {
-            finish()
-            overridePendingTransition(0,0)
-        }
-        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-                overridePendingTransition(0,0)
-            }
-        })
+    private fun onBackPressedCallback() {
+        binding.btnBack.setOnClickListener { finishAction() }
+        customBackPressed()
     }
     private fun initLayout(){
         with(binding){

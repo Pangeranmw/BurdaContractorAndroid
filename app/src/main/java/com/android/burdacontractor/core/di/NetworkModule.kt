@@ -13,9 +13,9 @@ import com.android.burdacontractor.feature.deliveryorder.data.source.remote.netw
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.PreOrderService
 import com.android.burdacontractor.feature.gudang.data.source.remote.network.GudangService
 import com.android.burdacontractor.feature.kendaraan.data.source.remote.network.KendaraanService
-import com.android.burdacontractor.feature.logistic.data.source.remote.network.LogisticService
 import com.android.burdacontractor.feature.perusahaan.data.source.remote.network.PerusahaanService
 import com.android.burdacontractor.feature.profile.data.source.remote.network.UserService
+import com.android.burdacontractor.feature.proyek.data.source.remote.network.LogisticService
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database

@@ -6,7 +6,6 @@ import android.annotation.TargetApi
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +16,8 @@ import com.android.burdacontractor.core.domain.model.PinPoint
 import com.android.burdacontractor.core.presentation.customview.MarkerInfoWindowAdapter
 import com.android.burdacontractor.core.utils.BitmapHelper
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.customBackPressed
+import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.core.utils.setToastShort
 import com.android.burdacontractor.databinding.ActivityPantauLokasiPengendaraBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -213,18 +214,8 @@ class PantauLokasiPengendaraActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     fun onBackPressedCallback() {
-        val finishAction = {
-            finish()
-            overridePendingTransition(0, 0)
-        }
-        binding.btnBack.setOnClickListener {
-            finishAction()
-        }
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finishAction()
-            }
-        })
+        binding.btnBack.setOnClickListener { finishAction() }
+        customBackPressed()
     }
 
     companion object {

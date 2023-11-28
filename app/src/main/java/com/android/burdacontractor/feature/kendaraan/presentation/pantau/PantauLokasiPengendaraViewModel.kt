@@ -10,8 +10,8 @@ import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.usecase.LogisticFirebaseUseCase
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
-import com.android.burdacontractor.feature.logistic.domain.model.ActiveSjDoLocation
-import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticActiveSjDoLocationUseCase
+import com.android.burdacontractor.feature.proyek.domain.model.ActiveSjDoLocation
+import com.android.burdacontractor.feature.proyek.domain.usecase.GetLogisticActiveSjDoLocationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

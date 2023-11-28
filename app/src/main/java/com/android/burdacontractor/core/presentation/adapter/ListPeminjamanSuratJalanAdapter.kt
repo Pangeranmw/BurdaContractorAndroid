@@ -19,12 +19,12 @@ import com.android.burdacontractor.feature.suratjalan.domain.model.PeminjamanSur
 class ListPeminjamanSuratJalanAdapter(
     private val checkedVisible: Boolean = false,
     private val deleteVisible: Boolean = false,
-    private val checkedListData: List<PeminjamanSuratJalan> = emptyList(),
-    private val listener: (PeminjamanSuratJalan) -> Unit,
-    private val deleteListener: (PeminjamanSuratJalan) -> Unit,
-    private val checkedDataListener: (PeminjamanSuratJalan, Boolean) -> Unit,
-    private val barangListener: (PeminjamanBarangTidakHabisPakaiItem) -> Unit,
     private val userId: String,
+    private val checkedListData: List<PeminjamanSuratJalan> = emptyList(),
+    private val listener: ((PeminjamanSuratJalan) -> Unit)? = null,
+    private val deleteListener: ((PeminjamanSuratJalan) -> Unit)? = null,
+    private val checkedDataListener: ((PeminjamanSuratJalan, Boolean) -> Unit)? = null,
+    private val barangListener: ((PeminjamanBarangTidakHabisPakaiItem) -> Unit)? = null,
 ) : ListAdapter<PeminjamanSuratJalan, ListPeminjamanSuratJalanAdapter.ListViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding =
@@ -64,10 +64,14 @@ class ListPeminjamanSuratJalanAdapter(
                 else cvPeminjaman.strokeColor =
                     ContextCompat.getColor(itemView.context, R.color.input)
                 cvPeminjaman.setOnClickListener {
-                    listener(peminjaman)
+                    listener?.let { it(peminjaman) }
                 }
 
-                val barangAdapter = ListBarangPinjamPreviewSuratJalanAdapter { barangListener(it) }
+                val barangAdapter = ListBarangPinjamPreviewSuratJalanAdapter { barang ->
+                    barangListener?.let {
+                        it(barang)
+                    }
+                }
                 barangAdapter.submitList(peminjaman.barang)
                 rvBarang.layoutManager =
                     LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
@@ -79,14 +83,14 @@ class ListPeminjamanSuratJalanAdapter(
                         if (checkedListData.contains(peminjaman)) appCompatCheckBox.isChecked = true
                     }
                     appCompatCheckBox.setOnCheckedChangeListener { _, b ->
-                        checkedDataListener(peminjaman, b)
+                        checkedDataListener?.let { it(peminjaman, b) }
                     }
                 }
                 tvTanggal.text = getDateFromMillis(peminjaman.createdAt)
                 if (deleteVisible) {
                     btnDelete.setVisible()
                     btnDelete.setOnClickListener {
-                        deleteListener(peminjaman)
+                        deleteListener?.let { it(peminjaman) }
                     }
                 }
             }

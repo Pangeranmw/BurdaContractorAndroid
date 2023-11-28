@@ -3,16 +3,20 @@ package com.android.burdacontractor.feature.suratjalan.data.source.remote
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
 import com.android.burdacontractor.core.data.source.remote.response.CountActiveResponse
 import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageResponse
+import com.android.burdacontractor.core.data.source.remote.response.ErrorMessageWithIdResponse
 import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.network.SuratJalanService
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.request.AddUpdateSuratJalanBody
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.AllSuratJalanWithCountResponse
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.GetAvailablePeminjamanByProyekResponse
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.GetAvailablePenggunaanByProyekResponse
+import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.GetAvailableProyekBySuratJalanTypeResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.StatisticCountTitleResponse
 import com.android.burdacontractor.feature.suratjalan.data.source.remote.response.SuratJalanDetailResponse
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
@@ -105,69 +109,79 @@ class SuratJalanRemoteDataSource @Inject constructor(
         }
     }
 
-    suspend fun getSuratJalanById(token:String, id: String): Flow<ApiResponse<SuratJalanDetailResponse>> = flow{
+    suspend fun getSuratJalanById(
+        token: String,
+        id: String
+    ): Flow<ApiResponse<SuratJalanDetailResponse>> = flow {
         val response = suratJalanService.getSuratJalanById(token, id)
-        if(!response.error){
+        if (!response.error) {
             emit(ApiResponse.Success(response))
-        }else{
+        } else {
             emit(ApiResponse.Error(response.message))
         }
     }
 
-    suspend fun addSuratJalanPengirimanGp(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        peminjamanId: String
-    ): Flow<Resource<ErrorMessageResponse>> = flow{
-
+    suspend fun getAvailableProyekBySuratJalanType(
+        token: String,
+        tipe: String
+    ): Flow<ApiResponse<GetAvailableProyekBySuratJalanTypeResponse>> = flow {
+        val response = suratJalanService.getAvailableProyekBySuratJalanType(token, tipe)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
     }
 
-    suspend fun addSuratJalanPengirimanPp(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        peminjamanAsalId: String,
-        peminjamanTujuanId: String,
-    ): Flow<Resource<ErrorMessageResponse>> = flow{
-
+    suspend fun getAvailablePeminjamanByProyek(
+        token: String,
+        tipe: String,
+        proyekId: String
+    ): Flow<ApiResponse<GetAvailablePeminjamanByProyekResponse>> = flow {
+        val response = suratJalanService.getAvailablePeminjamanByProyek(token, tipe, proyekId)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
     }
 
-    suspend fun addSuratJalanPengembalian(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        pengembalianId: String,
-    ): Flow<Resource<ErrorMessageResponse>> = flow {
-
+    suspend fun getAvailablePenggunaanByProyek(
+        token: String,
+        tipe: String,
+        proyekId: String
+    ): Flow<ApiResponse<GetAvailablePenggunaanByProyekResponse>> = flow {
+        val response = suratJalanService.getAvailablePenggunaanByProyek(token, tipe, proyekId)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
     }
 
-    suspend fun updateSuratJalanPengirimanGp(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        peminjamanId: String
-    ): Flow<Resource<ErrorMessageResponse>> = flow{
-
+    suspend fun addSuratJalan(
+        token: String,
+        addUpdateSuratJalanBody: AddUpdateSuratJalanBody
+    ): Flow<ApiResponse<ErrorMessageWithIdResponse>> = flow {
+        val response = suratJalanService.addSuratJalan(token, addUpdateSuratJalanBody)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
     }
 
-    suspend fun updateSuratJalanPengirimanGp(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        peminjamanAsalId: String,
-        peminjamanTujuanId: String,
-    ): Flow<Resource<ErrorMessageResponse>> = flow{
-
-    }
-
-    suspend fun updateSuratJalanPengembalian(
-        adminGudangId: String,
-        logisticId: String,
-        kendaraanId: String,
-        pengembalianId: String,
-    ): Flow<Resource<ErrorMessageResponse>> = flow {
-
+    suspend fun updateSuratJalan(
+        token: String,
+        id: String,
+        addUpdateSuratJalanBody: AddUpdateSuratJalanBody
+    ): Flow<ApiResponse<ErrorMessageWithIdResponse>> = flow {
+        val response = suratJalanService.updateSuratJalan(token, id, addUpdateSuratJalanBody)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
     }
 
     suspend fun deleteSuratJalan(

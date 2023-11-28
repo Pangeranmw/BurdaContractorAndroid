@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.fragment.app.DialogFragment
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.utils.setImageFromUrl
 
 class CustomDialog(
     private val mainButtonText: String? = null,
@@ -22,9 +23,10 @@ class CustomDialog(
     private val title: String? = null,
     private val subtitle: String? = null,
     private val image: Drawable? = null,
+    private val imageUrl: String? = null,
     private val canTouchOutside: Boolean = true,
-    private val blockMainButton: () -> Unit,
-    private val blockSecondaryButton: () -> Unit,
+    private val blockMainButton: (() -> Unit)? = null,
+    private val blockSecondaryButton: (() -> Unit)? = null,
 ): DialogFragment() {
     private lateinit var mainButton: Button
     private lateinit var secondaryButton: Button
@@ -62,14 +64,20 @@ class CustomDialog(
         if (subtitle == null) tvSubtitle.isGone = true
         else tvSubtitle.text = subtitle
 
-        if(image==null) ivDialog.isGone = true
-        else ivDialog.setImageDrawable(image)
+        if (image == null && imageUrl == null) ivDialog.isGone = true
+        else {
+            if (image != null) {
+                ivDialog.setImageDrawable(image)
+            } else {
+                ivDialog.setImageFromUrl(imageUrl, requireContext())
+            }
+        }
 
-        if(secondaryButtonText==null) secondaryButton.isGone = true
+        if (secondaryButtonText == null) secondaryButton.isGone = true
         else {
             secondaryButton.text = secondaryButtonText
             secondaryButton.setOnClickListener {
-                blockSecondaryButton()
+                blockSecondaryButton?.let { it() }
                 dismiss()
             }
         }
@@ -78,7 +86,7 @@ class CustomDialog(
         else {
             mainButton.text = mainButtonText
             mainButton.setOnClickListener {
-                blockMainButton()
+                blockMainButton?.let { it() }
                 dismiss()
             }
         }

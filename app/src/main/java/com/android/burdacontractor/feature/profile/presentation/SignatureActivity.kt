@@ -2,7 +2,6 @@ package com.android.burdacontractor.feature.profile.presentation
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -11,6 +10,8 @@ import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.utils.bitmapToFile
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.customBackPressed
+import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setImageFromUrl
 import com.android.burdacontractor.core.utils.setVisible
@@ -108,17 +109,7 @@ class SignatureActivity : AppCompatActivity() {
     }
 
     fun onBackPressedCallback() {
-        val finishAction = {
-            finish()
-            overridePendingTransition(0, 0)
-        }
-        binding.btnBack.setOnClickListener {
-            finishAction()
-        }
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finishAction()
-            }
-        })
+        binding.btnBack.setOnClickListener { finishAction() }
+        customBackPressed()
     }
 }

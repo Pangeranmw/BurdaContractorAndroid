@@ -28,6 +28,19 @@
         android:theme="@style/Theme.BurdaContractor"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo_burda" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/primary_main" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${GOOGLE_MAPS_API_KEY}" />
+
         <activity
             android:name=".feature.perusahaan.presentation.create.AddPerusahaanActivity"
             android:exported="false" />
@@ -61,19 +74,6 @@
         <activity
             android:name=".feature.profile.presentation.SignatureActivity"
             android:exported="true" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/logo_burda" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/primary_main" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_notification_channel_id" />
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${GOOGLE_MAPS_API_KEY}" />
-
         <activity
             android:name=".feature.deliveryorder.presentation.main.DeliveryOrderActivity"
             android:exported="true" />
@@ -104,7 +104,6 @@
         <activity
             android:name=".feature.deliveryorder.presentation.location.TelusuriLokasiDeliveryOrderActivity"
             android:exported="true" />
-
         <activity
             android:name=".feature.beranda.presentation.BerandaActivity"
             android:exported="true" />
@@ -141,6 +140,9 @@
             android:exported="true" />
         <activity
             android:name=".feature.suratjalan.presentation.print.SuratJalanCetakActivity"
+            android:exported="true" />
+        <activity
+            android:name=".feature.suratjalan.presentation.create.AddSuratJalanActivity"
             android:exported="true" />
 
         <activity

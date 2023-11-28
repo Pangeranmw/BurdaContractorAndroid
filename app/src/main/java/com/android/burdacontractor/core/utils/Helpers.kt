@@ -23,6 +23,8 @@ import android.text.Editable
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -147,22 +149,41 @@ fun View.openWhatsAppChat(toNumber: String) {
         context.packageManager.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
         context.startActivity(Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url) })
     } catch (e: PackageManager.NameNotFoundException) {
-        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))}}
+        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+    }
+}
 
-fun convertNumberToIndonesia(toNumber: String): String{
-    var newNumber = toNumber.replace(" ", "").replace("(","").replace(")","").replace("+","")
-    if(newNumber.first() == '0') newNumber = newNumber.replaceFirst("0","+62")
-    else if(newNumber[0] == '6' && newNumber[1] == '2') newNumber = newNumber.replaceFirst("6","+6") //
-    else if(newNumber[0] != '6' && newNumber[1] != '2') newNumber = "+62${newNumber}" //81283749378 -> +6281283749378
+fun convertNumberToIndonesia(toNumber: String): String {
+    var newNumber = toNumber.replace(" ", "").replace("(", "").replace(")", "").replace("+", "")
+    if (newNumber.first() == '0') newNumber = newNumber.replaceFirst("0", "+62")
+    else if (newNumber[0] == '6' && newNumber[1] == '2') newNumber =
+        newNumber.replaceFirst("6", "+6") //
+    else if (newNumber[0] != '6' && newNumber[1] != '2') newNumber =
+        "+62${newNumber}" //81283749378 -> +6281283749378
     return newNumber
 }
-fun Activity.dialIntent(number: String){
+
+fun Activity.finishAction() {
+    finish()
+    overridePendingTransition(0, 0)
+}
+
+fun ComponentActivity.customBackPressed() {
+    onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            finishAction()
+        }
+    })
+}
+
+fun Activity.dialIntent(number: String) {
     val newNumber = convertNumberToIndonesia(number)
     val intent = Intent(Intent.ACTION_DIAL).apply {
         data = Uri.parse("tel:$newNumber")
     }
     this.startActivity(intent)
 }
+
 inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
     SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
     else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T

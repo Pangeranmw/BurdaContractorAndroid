@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -21,7 +20,9 @@ import com.android.burdacontractor.core.domain.model.enums.JenisKendaraan
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.presentation.customview.CustomDialog
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.customBackPressed
 import com.android.burdacontractor.core.utils.emptyData
+import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.core.utils.getImageUri
 import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.core.utils.reduceFileImage
@@ -212,18 +213,8 @@ class AddKendaraanActivity : AppCompatActivity() {
     }
 
     fun onBackPressedCallback() {
-        val finishAction = {
-            finish()
-            overridePendingTransition(0, 0)
-        }
-        binding.btnBack.setOnClickListener {
-            finishAction()
-        }
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finishAction()
-            }
-        })
+        binding.btnBack.setOnClickListener { finishAction() }
+        customBackPressed()
     }
 
     companion object {

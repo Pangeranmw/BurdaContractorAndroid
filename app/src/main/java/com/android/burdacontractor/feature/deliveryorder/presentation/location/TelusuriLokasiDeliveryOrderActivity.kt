@@ -14,7 +14,6 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -27,7 +26,9 @@ import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.Constant
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.customBackPressed
 import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.core.utils.getCoordinate
 import com.android.burdacontractor.core.utils.getLatitude
 import com.android.burdacontractor.core.utils.getLongitude
@@ -233,17 +234,9 @@ class TelusuriLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiv
         }
     }
 
-    private fun onBackPressedCallback(){
-        binding.btnBack.setOnClickListener {
-            finish()
-            overridePendingTransition(0,0)
-        }
-        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-                overridePendingTransition(0,0)
-            }
-        })
+    private fun onBackPressedCallback() {
+        binding.btnBack.setOnClickListener { finishAction() }
+        customBackPressed()
     }
     private fun changeTrackingTo(menuju: String, btnListener: ImageButton, btnActive: ImageButton){
         with(binding){

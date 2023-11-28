@@ -6,11 +6,11 @@ import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
-import com.android.burdacontractor.feature.logistic.data.source.remote.LogisticRemoteDataSource
-import com.android.burdacontractor.feature.logistic.domain.model.ActiveSjDoLocation
-import com.android.burdacontractor.feature.logistic.domain.model.AllLogistic
-import com.android.burdacontractor.feature.logistic.domain.model.LogisticById
-import com.android.burdacontractor.feature.logistic.domain.repository.ILogisticRepository
+import com.android.burdacontractor.feature.proyek.data.source.remote.LogisticRemoteDataSource
+import com.android.burdacontractor.feature.proyek.domain.model.ActiveSjDoLocation
+import com.android.burdacontractor.feature.proyek.domain.model.AllLogistic
+import com.android.burdacontractor.feature.proyek.domain.model.LogisticById
+import com.android.burdacontractor.feature.proyek.domain.repository.ILogisticRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

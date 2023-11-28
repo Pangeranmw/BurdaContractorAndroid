@@ -19,12 +19,12 @@ import com.android.burdacontractor.feature.suratjalan.domain.model.PenggunaanSur
 class ListPenggunaanSuratJalanAdapter(
     private val checkedVisible: Boolean = false,
     private val deleteVisible: Boolean = false,
-    private val checkedListData: List<PenggunaanSuratJalan> = emptyList(),
-    private val listener: (PenggunaanSuratJalan) -> Unit,
-    private val deleteListener: (PenggunaanSuratJalan) -> Unit,
-    private val checkedDataListener: (PenggunaanSuratJalan, Boolean) -> Unit,
-    private val barangListener: (PenggunaanBarangHabisPakaiItem) -> Unit,
     private val userId: String,
+    private val checkedListData: List<PenggunaanSuratJalan> = emptyList(),
+    private val listener: ((PenggunaanSuratJalan) -> Unit)? = null,
+    private val deleteListener: ((PenggunaanSuratJalan) -> Unit)? = null,
+    private val checkedDataListener: ((PenggunaanSuratJalan, Boolean) -> Unit)? = null,
+    private val barangListener: ((PenggunaanBarangHabisPakaiItem) -> Unit)? = null,
 ) : ListAdapter<PenggunaanSuratJalan, ListPenggunaanSuratJalanAdapter.ListViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding =
@@ -59,7 +59,9 @@ class ListPenggunaanSuratJalanAdapter(
                     ivPengaju.setImageFromUrl(it, itemView.context)
                 }
 
-                val barangAdapter = ListBarangGunaPreviewSuratJalanAdapter { barangListener(it) }
+                val barangAdapter = ListBarangGunaPreviewSuratJalanAdapter { barang ->
+                    barangListener?.let { it(barang) }
+                }
                 barangAdapter.submitList(penggunaan.barang)
                 rvBarang.layoutManager =
                     LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
@@ -72,14 +74,16 @@ class ListPenggunaanSuratJalanAdapter(
                     if (checkedListData.isNotEmpty()) {
                         if (checkedListData.contains(penggunaan)) appCompatCheckBox.isChecked = true
                     }
-                    appCompatCheckBox.setOnCheckedChangeListener { _, b ->
-                        checkedDataListener(penggunaan, b)
+                    checkedDataListener?.let { checkedDataListener ->
+                        appCompatCheckBox.setOnCheckedChangeListener { _, b ->
+                            checkedDataListener(penggunaan, b)
+                        }
                     }
                 }
                 if (deleteVisible) {
                     btnDelete.setVisible()
                     btnDelete.setOnClickListener {
-                        deleteListener(penggunaan)
+                        deleteListener?.let { it(penggunaan) }
                     }
                 }
 
@@ -88,7 +92,7 @@ class ListPenggunaanSuratJalanAdapter(
                 else cvPenggunaan.strokeColor =
                     ContextCompat.getColor(itemView.context, R.color.input)
                 cvPenggunaan.setOnClickListener {
-                    listener(penggunaan)
+                    listener?.let { it(penggunaan) }
                 }
             }
         }

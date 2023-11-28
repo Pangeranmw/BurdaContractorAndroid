@@ -11,7 +11,6 @@ import android.print.PrintManager
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -162,15 +161,7 @@ class DeliveryOrderCetakActivity : AppCompatActivity() {
         }
     }
     private fun onBackPressedCallback(){
-        binding.btnBack.setOnClickListener {
-            finish()
-            overridePendingTransition(0,0)
-        }
-        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-                overridePendingTransition(0,0)
-            }
-        })
+        binding.btnBack.setOnClickListener { finishAction() }
+        customBackPressed()
     }
 }

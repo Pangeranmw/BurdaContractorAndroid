@@ -9,8 +9,8 @@ import androidx.paging.cachedIn
 import com.android.burdacontractor.core.domain.model.Event
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
-import com.android.burdacontractor.feature.logistic.domain.model.AllLogistic
-import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisticUseCase
+import com.android.burdacontractor.feature.proyek.domain.model.AllLogistic
+import com.android.burdacontractor.feature.proyek.domain.usecase.GetAllLogisticUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

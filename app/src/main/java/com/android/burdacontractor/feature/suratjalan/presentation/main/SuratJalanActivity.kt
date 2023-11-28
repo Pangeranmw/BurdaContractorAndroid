@@ -22,6 +22,7 @@ import com.android.burdacontractor.feature.deliveryorder.presentation.main.Deliv
 import com.android.burdacontractor.feature.gudang.presentation.main.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
 import com.android.burdacontractor.feature.profile.presentation.SignatureActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.create.AddSuratJalanActivity
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
@@ -163,7 +164,7 @@ class SuratJalanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                             blockSecondaryButton = {}
                         ).show(supportFragmentManager, "MyCustomFragment")
                     } else {
-//                        openActivity(AddSuratJalanActivity::class.java, false)
+                        openActivity(AddSuratJalanActivity::class.java, false)
                     }
                 }
             }

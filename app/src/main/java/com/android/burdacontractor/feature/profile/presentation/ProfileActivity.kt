@@ -15,7 +15,9 @@ import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.service.location.LocationService
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.customBackPressed
 import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.core.utils.getPhotoUrl
 import com.android.burdacontractor.core.utils.openActivity
 import com.android.burdacontractor.databinding.ActivityProfileBinding
@@ -65,7 +67,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.tvNamaUser.text = user.nama
         binding.tvRolUser.text = enumValueToNormal(user.role)
         binding.tvNoHpUser.text = user.noHp
-        if(user.foto != null){
+        if (user.foto != null) {
             Glide.with(this)
                 .load(getPhotoUrl(user.foto!!))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -73,14 +75,19 @@ class ProfileActivity : AppCompatActivity() {
                 .into(binding.ivUser)
         }
     }
-    private fun initUi(){
-        binding.btnBack.setOnClickListener {
-            finish()
-        }
+
+    private fun onBackPressedCallback() {
+        binding.btnBack.setOnClickListener { finishAction() }
+        customBackPressed()
+    }
+
+    private fun initUi() {
+        onBackPressedCallback()
         binding.btnLogout.setOnClickListener {
             stopService()
-            profileViewModel.logout{
-                openActivity(LoginActivity::class.java,
+            profileViewModel.logout {
+                openActivity(
+                    LoginActivity::class.java,
                     isFinished = true,
                     clearAllTask = true
                 )

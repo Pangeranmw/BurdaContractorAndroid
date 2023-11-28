@@ -305,4 +305,14 @@
     <string name="pilih_driver">Pilih Driver</string>
     <string name="pilih_kendaraan">Pilih Kendaraan</string>
     <string name="penanggung_jawab">Penanggung Jawab</string>
+    <string name="tidak_ada_peminjaman">Tidak Ada Peminjaman</string>
+    <string name="pilih_peminjaman">Pilih Peminjaman</string>
+    <string name="tidak_ada_penggunaan">Tidak Ada Penggunaan</string>
+    <string name="pilih_penggunaan">Pilih Penggunaan</string>
+    <string name="tipe">Tipe</string>
+    <string name="tipe_belum_diatur">Tipe Belum Diatur</string>
+    <string name="proyek_belum_diatur">Proyek Belum Diatur</string>
+    <string name="tambah_surat_jalan">Tambah Surat Jalan</string>
+    <string name="nomor_seri_format">#%1$s</string>
+    <string name="jumlah_dipilih">%1$s Dipilih</string>
 </resources>

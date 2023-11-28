@@ -1,7 +1,6 @@
 package com.android.burdacontractor.feature.perusahaan.presentation.detail
 
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,6 +14,8 @@ import com.android.burdacontractor.core.presentation.adapter.ListDeliveryOrderAd
 import com.android.burdacontractor.core.presentation.adapter.ListStatistikDoSjAdapter
 import com.android.burdacontractor.core.presentation.customview.CustomDialog
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.customBackPressed
+import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.core.utils.getDateFromMillis
 import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.core.utils.setGone
@@ -149,18 +150,8 @@ class PerusahaanDetailActivity : AppCompatActivity() {
     }
 
     fun onBackPressedCallback() {
-        val finishAction = {
-            finish()
-            overridePendingTransition(0, 0)
-        }
-        binding.btnBack.setOnClickListener {
-            finishAction()
-        }
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finishAction()
-            }
-        })
+        binding.btnBack.setOnClickListener { finishAction() }
+        customBackPressed()
     }
 
     private fun refreshData() {

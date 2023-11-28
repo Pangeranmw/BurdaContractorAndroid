@@ -1,6 +1,6 @@
 package com.android.burdacontractor.feature.logistic.data.source.remote.response
 
-import com.android.burdacontractor.feature.logistic.domain.model.LogisticById
+import com.android.burdacontractor.feature.proyek.domain.model.LogisticById
 import com.google.gson.annotations.SerializedName
 
 data class GetLogisticByIdResponse(

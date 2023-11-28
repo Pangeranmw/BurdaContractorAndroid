@@ -19,8 +19,8 @@ import com.android.burdacontractor.databinding.FragmentAddDataPreOrderBinding
 import com.android.burdacontractor.feature.deliveryorder.presentation.detail.DeliveryOrderDetailActivity
 import com.android.burdacontractor.feature.gudang.presentation.PilihGudangViewModel
 import com.android.burdacontractor.feature.kendaraan.presentation.PilihKendaraanViewModel
-import com.android.burdacontractor.feature.logistic.presentation.PilihLogisticViewModel
 import com.android.burdacontractor.feature.perusahaan.presentation.PilihPerusahaanViewModel
+import com.android.burdacontractor.feature.proyek.presentation.PilihLogisticViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

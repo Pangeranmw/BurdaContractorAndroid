@@ -1,8 +1,8 @@
 package com.android.burdacontractor.feature.logistic.data.source.remote.network
 
-import com.android.burdacontractor.feature.logistic.data.source.remote.response.GetActiveSjDoLocationByLogisticResponse
-import com.android.burdacontractor.feature.logistic.data.source.remote.response.GetAllLogisticResponse
-import com.android.burdacontractor.feature.logistic.data.source.remote.response.GetLogisticByIdResponse
+import com.android.burdacontractor.feature.proyek.data.source.remote.response.GetActiveSjDoLocationByLogisticResponse
+import com.android.burdacontractor.feature.proyek.data.source.remote.response.GetAllLogisticResponse
+import com.android.burdacontractor.feature.proyek.data.source.remote.response.GetLogisticByIdResponse
 import retrofit2.http.*
 
 interface LogisticService {

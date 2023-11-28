@@ -13,7 +13,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.StrictMode
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -27,7 +26,9 @@ import com.android.burdacontractor.core.domain.model.Constant
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.customBackPressed
 import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.core.utils.getCoordinate
 import com.android.burdacontractor.core.utils.getLatitude
 import com.android.burdacontractor.core.utils.getLongitude
@@ -203,17 +204,9 @@ class PantauLokasiDeliveryOrderActivity : AppCompatActivity(), MapEventsReceiver
             onBackPressedCallback()
         }
     }
-    private fun onBackPressedCallback(){
-        binding.btnBack.setOnClickListener {
-            finish()
-            overridePendingTransition(0,0)
-        }
-        onBackPressedDispatcher.addCallback(this@PantauLokasiDeliveryOrderActivity, object: OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finish()
-                overridePendingTransition(0,0)
-            }
-        })
+    private fun onBackPressedCallback() {
+        binding.btnBack.setOnClickListener { finishAction() }
+        customBackPressed()
     }
     private fun goNavigate(lat: Double, lon: Double) {
         val gmmIntentUri = Uri.parse("google.navigation:q=$lat,$lon&mode=l")
