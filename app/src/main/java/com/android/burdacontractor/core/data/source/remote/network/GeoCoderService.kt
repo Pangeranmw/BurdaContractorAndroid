@@ -10,6 +10,7 @@ interface GeoCoderService {
     suspend fun getLocationFromCoordinate(
         @Query("lat") latitude: String,
         @Query("lon") longitude: String,
+        @Query("format") format: String = "json",
     ): GetLocationFromCoordinateResponse
 
     @GET("search")

@@ -35,6 +35,7 @@ import com.android.burdacontractor.feature.suratjalan.presentation.BarangPenggun
 import com.android.burdacontractor.feature.suratjalan.presentation.location.PantauLokasiSuratJalanActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.location.TelusuriLokasiSuratJalanActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.print.SuratJalanCetakActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.update.UpdateSuratJalanActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.uploadphoto.UploadFotoBuktiSuratJalanActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -452,6 +453,7 @@ class SuratJalanDetailActivity : AppCompatActivity() {
 
             when (user!!.role) {
                 UserRole.ADMIN_GUDANG.name,
+                UserRole.PURCHASING.name,
                 UserRole.SUPERVISOR.name,
                 UserRole.PROJECT_MANAGER.name,
                 UserRole.SITE_MANAGER.name,
@@ -471,20 +473,6 @@ class SuratJalanDetailActivity : AppCompatActivity() {
             }
             initButtonGiveTtdAndMarkComplete()
             when (user!!.role) {
-                UserRole.ADMIN_GUDANG.name -> {
-                    when (suratJalan!!.status) {
-                        SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
-                            btnPantauLokasi.setVisible()
-                            setButtonStyle(btnPantauLokasi, true)
-                        }
-
-                        SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name -> {
-                            btnPantauLokasi.setVisible()
-                            setButtonStyle(btnPantauLokasi, true)
-                        }
-                    }
-                }
-
                 UserRole.SUPERVISOR.name, UserRole.PROJECT_MANAGER.name, UserRole.SITE_MANAGER.name -> {
                     when (suratJalan!!.status) {
                         SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
@@ -498,7 +486,6 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                         }
                     }
                 }
-
                 UserRole.LOGISTIC.name -> {
                     btnPantauLokasi.setGone()
                     btnTelusuriLokasi.setVisible()
@@ -547,19 +534,27 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                     }
                 }
 
-                UserRole.ADMIN_GUDANG.name -> {
+                UserRole.ADMIN_GUDANG.name, UserRole.PURCHASING.name, UserRole.ADMIN.name -> {
                     when (suratJalan!!.status) {
+                        SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name -> {
+                            btnPantauLokasi.setVisible()
+                            setButtonStyle(btnPantauLokasi, true)
+                        }
+
                         SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
+                            btnPantauLokasi.setVisible()
+                            setButtonStyle(btnPantauLokasi, true)
                             if (suratJalan!!.adminGudang.id == user!!.id) {
                                 btnUbahSj.setVisible()
+                                setButtonStyle(btnUbahSj, false)
                                 btnDelete.setVisible()
                                 btnUbahSj.setOnClickListener {
-//                                    openActivityWithExtras(
-//                                        UpdateSuratJalanActivity::class.java,
-//                                        false
-//                                    ) {
-//                                        putParcelable(Constant.INTENT_PARCEL, suratJalan!!)
-//                                    }
+                                    openActivityWithExtras(
+                                        UpdateSuratJalanActivity::class.java,
+                                        false
+                                    ) {
+                                        putParcelable(Constant.INTENT_PARCEL, suratJalan!!)
+                                    }
                                 }
                                 btnDelete.setOnClickListener {
                                     CustomDialog(
@@ -594,13 +589,14 @@ class SuratJalanDetailActivity : AppCompatActivity() {
         binding.apply {
             when (user!!.role) {
                 UserRole.ADMIN_GUDANG.name,
+                UserRole.PURCHASING.name,
                 UserRole.SUPERVISOR.name,
                 UserRole.SITE_MANAGER.name,
                 UserRole.ADMIN.name -> {
                     if (suratJalan!!.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name) {
                         if (
                             (suratJalan!!.tipe == SuratJalanTipe.PENGEMBALIAN.name
-                                    && (user!!.role == UserRole.ADMIN_GUDANG.name || user!!.role == UserRole.ADMIN.name)
+                                    && (user!!.role == UserRole.ADMIN_GUDANG.name || user!!.role == UserRole.PURCHASING.name || user!!.role == UserRole.ADMIN.name)
                                     && suratJalan!!.ttdPenanggungJawab != null)
                             || (suratJalan!!.tipe == SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK.name
                                     && (user!!.role == UserRole.SUPERVISOR.name || user!!.role == UserRole.SITE_MANAGER.name))

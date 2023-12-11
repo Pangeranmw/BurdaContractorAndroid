@@ -3,6 +3,7 @@ package com.android.burdacontractor.feature.gudang.presentation.detail
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,8 @@ import com.android.burdacontractor.core.domain.model.Constant.INTENT_ID
 import com.android.burdacontractor.core.domain.model.Constant.INTENT_PARCEL
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
+import com.android.burdacontractor.core.domain.model.enums.UserRole
+import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListDeliveryOrderAdapter
 import com.android.burdacontractor.core.presentation.adapter.ListStatistikDoSjAdapter
 import com.android.burdacontractor.core.presentation.adapter.ListSuratJalanAdapter
@@ -40,6 +43,7 @@ class GudangDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGudangDetailBinding
     private lateinit var id: String
     private val gudangDetailViewModel: GudangDetailViewModel by viewModels()
+    private val storageViewModel: StorageViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGudangDetailBinding.inflate(layoutInflater)
@@ -197,7 +201,7 @@ class GudangDetailActivity : AppCompatActivity() {
             tvTanggalDibuat.text = getDateFromMillis(gudang.createdAt)
             tvTerakhirDiperbarui.text = getDateFromMillis(gudang.updatedAt)
             tvAlamat.text = gudang.alamat
-
+            layoutButton.isVisible = storageViewModel.role == UserRole.ADMIN.name
             btnDelete.setOnClickListener {
                 CustomDialog(
                     mainButtonText = "Hapus",

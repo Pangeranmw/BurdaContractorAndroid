@@ -332,8 +332,10 @@ fun getCity(latitude: Double, longitude: Double, context: Context): String {
 }
 fun Context.checkPassword(text: String, customTextInputLayout: CustomTextInputLayout){
     when{
-        text.isEmpty() -> this.emptyData(text,customTextInputLayout)
-        text.length in 1..5 -> customTextInputLayout.error = this.getString(R.string.password_less_6)
+        text.isEmpty() -> this.emptyData(text, customTextInputLayout)
+        text.length in 1..7 -> customTextInputLayout.error =
+            this.getString(R.string.password_less_6)
+
         else -> hideTextInputError(customTextInputLayout)
     }
 }
@@ -345,9 +347,14 @@ fun Context.checkEmail(text: String, customTextInputLayout: CustomTextInputLayou
     }
 }
 fun Context.checkNumber(text: String, customTextInputLayout: CustomTextInputLayout){
-    when{
-        text.isEmpty() -> this.emptyData(text,customTextInputLayout)
-        text.length in 1..9 -> customTextInputLayout.error = this.getString(R.string.number_less_10)
+    when {
+        text.isEmpty() -> this.emptyData(text, customTextInputLayout)
+        text.first() != '0' -> customTextInputLayout.error =
+            this.getString(R.string.number_first_digit)
+
+        text.length in 1..10 -> customTextInputLayout.error =
+            this.getString(R.string.number_less_10)
+
         else -> hideTextInputError(customTextInputLayout)
     }
 }

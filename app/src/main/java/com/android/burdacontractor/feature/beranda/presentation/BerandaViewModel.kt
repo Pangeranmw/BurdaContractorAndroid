@@ -1,10 +1,8 @@
 package com.android.burdacontractor.feature.beranda.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.Event
@@ -80,59 +78,67 @@ class BerandaViewModel @Inject constructor(
     val messageResponse: LiveData<Event<String?>> = _messageResponse
 
     init {
-        getUserByToken()
         getAllData()
     }
 
     fun getAllData() {
         viewModelScope.launch {
-            role.asFlow().collect {
-                it?.let { role ->
-                    if (role == UserRole.ADMIN_GUDANG.name || role == UserRole.ADMIN.name) {
-                        getStatistikMenungguSuratJalan()
-                    }
-                    if (role == UserRole.LOGISTIC.name) {
-                        getKendaraanByLogistic()
-                    }
-                    if (role == UserRole.LOGISTIC.name ||
-                        role == UserRole.ADMIN_GUDANG.name ||
-                        role == UserRole.ADMIN.name ||
-                        role == UserRole.SUPERVISOR.name ||
-                        role == UserRole.PROJECT_MANAGER.name ||
-                        role == UserRole.SITE_MANAGER.name
-                    ) {
-                        getSomeActiveSuratJalan(SuratJalanTipe.PENGEMBALIAN)
-                        getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
-                        getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
-                        getAllSuratJalanDalamPerjalananByUser()
-                    }
-                    if(role == UserRole.LOGISTIC.name ||
-                        role == UserRole.ADMIN_GUDANG.name ||
-                        role == UserRole.ADMIN.name ||
-                        role == UserRole.PURCHASING.name
-                    ) {
-                        getSomeActiveDeliveryOrder()
-                        getAllDeliveryOrderDalamPerjalananByUser()
-                    }
+            getUserByToken { role ->
+                if (role == UserRole.ADMIN_GUDANG.name || role == UserRole.ADMIN.name || role == UserRole.PURCHASING.name) {
+                    getStatistikMenungguSuratJalan()
+                }
+                if (role == UserRole.LOGISTIC.name) {
+                    getKendaraanByLogistic()
+                }
+                if (role == UserRole.LOGISTIC.name ||
+                    role == UserRole.ADMIN_GUDANG.name ||
+                    role == UserRole.ADMIN.name ||
+                    role == UserRole.SUPERVISOR.name ||
+                    role == UserRole.PROJECT_MANAGER.name ||
+                    role == UserRole.SITE_MANAGER.name ||
+                    role == UserRole.PURCHASING.name
+                ) {
+                    getSomeActiveSuratJalan(SuratJalanTipe.PENGEMBALIAN)
+                    getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK)
+                    getSomeActiveSuratJalan(SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK)
+                    getAllSuratJalanDalamPerjalananByUser()
+                }
+                if (role == UserRole.LOGISTIC.name ||
+                    role == UserRole.ADMIN_GUDANG.name ||
+                    role == UserRole.ADMIN.name ||
+                    role == UserRole.PURCHASING.name
+                ) {
+                    getSomeActiveDeliveryOrder()
+                    getAllDeliveryOrderDalamPerjalananByUser()
                 }
             }
         }
     }
-    fun setRole(role: String){
+
+    private fun setRole(role: String) {
         _role.value = role
     }
-    fun getUserByToken(){
+
+    fun getUserByToken(successListenerWithRole: ((String) -> Unit)? = null) {
         viewModelScope.launch {
-            getUserByTokenUseCase.execute().collect{
-                when(it){
+            getUserByTokenUseCase.execute().collect {
+                when (it) {
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _user.value = it.data!!
+                        if (_role.value == null) {
+                            setRole(it.data.role)
+                        }
+                        if ((it.data.role != _role.value) && _role.value != null) {
+                            setRole(it.data.role)
+                        }
+                        successListenerWithRole?.let { listener ->
+                            listener(it.data.role)
+                        }
                     }
                     is Resource.Error -> {
                         _messageResponse.value = Event(it.message)
-                        Log.d("error", it.message.toString())
                         _state.value = StateResponse.ERROR
                     }
                 }
@@ -151,7 +157,6 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)
-                        Log.d("error", it.message.toString())
                     }
                 }
             }
@@ -169,7 +174,6 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)
-                        Log.d("error", it.message.toString())
                     }
                 }
             }
@@ -188,7 +192,6 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)
-                        Log.d("error", it.message.toString())
                     }
                 }
             }
@@ -217,7 +220,6 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)
-                        Log.d("error", it.message.toString())
                     }
                 }
             }
@@ -236,7 +238,6 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)
-                        Log.d("error", it.message.toString())
                     }
                 }
             }
@@ -255,7 +256,6 @@ class BerandaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)
-                        Log.d("error", it.message.toString())
                     }
                 }
             }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.checkConnection
@@ -44,15 +45,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun initObserver(){
-        authViewModel.messageResponse.observe(viewLifecycleOwner){
-            it.getContentIfNotHandled()?.let { messageResponse ->
-                Snackbar.make(
-                    binding.root,
-                    messageResponse,
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        }
         authViewModel.state.observe(viewLifecycleOwner){
             when (it) {
                 StateResponse.LOADING -> binding.progressBar.setVisible()
@@ -61,8 +53,6 @@ class LoginFragment : Fragment() {
                     binding.progressBar.setGone()
                     requireActivity().openActivity(BerandaActivity::class.java)
                 }
-
-                else -> {}
             }
         }
     }
@@ -77,6 +67,9 @@ class LoginFragment : Fragment() {
         }
         binding.btnLogin.setOnClickListener {
             validateLogin()
+        }
+        binding.tvRegister.setOnClickListener {
+            it.findNavController().navigate(R.id.action_loginFragment_to_createAccountFragment)
         }
     }
     private fun validateLogin(){

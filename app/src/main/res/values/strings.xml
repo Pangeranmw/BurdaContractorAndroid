@@ -56,8 +56,9 @@
     <string name="ok">OK</string>
     <string name="permission_location_granted">Akses lokasi diberikan. Anda dapat menggunakan aplikasi.</string>
     <string name="unknown_address">Alamat Tidak Diketahui</string>
-    <string name="password_less_6">Password Kurang Dari 6 Karakter</string>
-    <string name="number_less_10">Nomor Hape Kurang dari 10 Digit</string>
+    <string name="password_less_6">Password Kurang Dari 8 Karakter</string>
+    <string name="number_less_10">Nomor Hp Kurang dari 11 Digit</string>
+    <string name="number_first_digit">Nomor Hp Harus diawali 0</string>
     <string name="empty_form">Input Tidak Boleh Kosong</string>
     <string name="email_incorrect">Email Tidak Valid</string>
     <string name="have_account">Sudah Punya Akun?</string>
@@ -101,6 +102,7 @@
     <string name="supervisor">Supervisor</string>
     <string name="empty_active_delivery_order">Tidak Ada Delivery Order Aktif</string>
     <string name="empty_active_kendaraan">Belum Ada Kendaraan yang Digunakan</string>
+    <string name="user_cant_use_app">Anda Belum Bisa Menggunakan Aplikasi, Silahkan Hubungi Admin untuk Mengubah Role Anda</string>
     <string name="kode_do">Kode Delivery Order</string>
     <string name="profile">Profile</string>
     <string name="keluar">Keluar</string>
@@ -315,4 +317,11 @@
     <string name="tambah_surat_jalan">Tambah Surat Jalan</string>
     <string name="nomor_seri_format">#%1$s</string>
     <string name="jumlah_dipilih">%1$s Dipilih</string>
+    <string name="placeholder_nama">Masukan Nama</string>
+    <string name="placeholder_no_hp">Cth: 08123234111</string>
+    <string name="no_hp">Nomor Hp</string>
+    <string name="ubah_profil">Ubah Profil</string>
+    <string name="ubah_foto">Ubah Foto</string>
+    <string name="atur_tanda_tangan">Atur Tanda Tangan</string>
+    <string name="ubah_password">Ubah Password</string>
 </resources>

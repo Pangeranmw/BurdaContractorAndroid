@@ -23,11 +23,11 @@ class AuthViewModel @Inject constructor(
     private val loginWithPinUseCase: LoginWithPinUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableLiveData<StateResponse?>()
-    val state: LiveData<StateResponse?> = _state
+    private val _state = MutableLiveData<StateResponse>()
+    val state: LiveData<StateResponse> = _state
 
     private val _messageResponse = MutableLiveData<Event<String?>>()
-    val messageResponse : LiveData<Event<String?>> = _messageResponse
+    val messageResponse: LiveData<Event<String?>> = _messageResponse
 
     fun register(
         nama: String,
@@ -41,9 +41,12 @@ class AuthViewModel @Inject constructor(
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
+                        val data = it.data!!
+                        _messageResponse.value = Event(data.message)
                     }
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
                     }
                 }
             }
@@ -59,7 +62,7 @@ class AuthViewModel @Inject constructor(
                         _state.value = StateResponse.SUCCESS
                         val data = it.data
                         if(data != null){
-                            _messageResponse.value = Event("Login Berhasil")
+                            _messageResponse.value = Event(it.message)
                         }
                     }
                     is Resource.Error -> {

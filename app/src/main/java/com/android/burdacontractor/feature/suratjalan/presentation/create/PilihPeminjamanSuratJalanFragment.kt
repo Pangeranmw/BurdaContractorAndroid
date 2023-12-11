@@ -21,9 +21,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PilihPeminjamanSuratJalanFragment : DialogFragment() {
     private var _binding: FragmentPilihPeminjamanBinding? = null
-    private val addSuratJalanViewModel: AddSuratJalanViewModel by activityViewModels()
+    private val pilihPeminjamanSuratJalanViewModel: PilihPeminjamanSuratJalanViewModel by activityViewModels()
     private val storageViewModel: StorageViewModel by activityViewModels()
     private lateinit var adapter: ListPeminjamanSuratJalanAdapter
+    private var tipe: String? = null
+    private var proyekId: String? = null
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +37,12 @@ class PilihPeminjamanSuratJalanFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        tipe?.let {
+            pilihPeminjamanSuratJalanViewModel.setTipe(it)
+        }
+        proyekId?.let {
+            pilihPeminjamanSuratJalanViewModel.setProyekId(it)
+        }
         initObserver()
     }
 
@@ -49,7 +57,7 @@ class PilihPeminjamanSuratJalanFragment : DialogFragment() {
     }
 
     private fun initObserver() {
-        with(addSuratJalanViewModel) {
+        with(pilihPeminjamanSuratJalanViewModel) {
             state.observe(viewLifecycleOwner) {
                 binding.srLayout.isRefreshing = it == StateResponse.LOADING
             }
@@ -88,12 +96,12 @@ class PilihPeminjamanSuratJalanFragment : DialogFragment() {
             }
             adapter = ListPeminjamanSuratJalanAdapter(
                 checkedVisible = true,
-                checkedListData = addSuratJalanViewModel.selectedListPeminjaman.value!!,
+                checkedListData = pilihPeminjamanSuratJalanViewModel.selectedListPeminjaman.value!!,
                 checkedDataListener = { peminjaman, b ->
                     if (b) {
-                        addSuratJalanViewModel.addPeminjaman(peminjaman)
+                        pilihPeminjamanSuratJalanViewModel.addPeminjaman(peminjaman)
                     } else {
-                        addSuratJalanViewModel.removePeminjaman(peminjaman)
+                        pilihPeminjamanSuratJalanViewModel.removePeminjaman(peminjaman)
                     }
                 },
                 userId = storageViewModel.userId
@@ -104,8 +112,8 @@ class PilihPeminjamanSuratJalanFragment : DialogFragment() {
     }
 
     private fun setAdapter() {
-        addSuratJalanViewModel.getAvailablePeminjamanByProyek()
-        addSuratJalanViewModel.listPeminjaman.observe(this) {
+        pilihPeminjamanSuratJalanViewModel.getAvailablePeminjamanByProyek()
+        pilihPeminjamanSuratJalanViewModel.listPeminjaman.observe(this) {
             if (it.isEmpty()) binding.tvEmptyPeminjaman.setVisible()
             else binding.tvEmptyPeminjaman.setGone()
             adapter.submitList(it)
@@ -123,10 +131,12 @@ class PilihPeminjamanSuratJalanFragment : DialogFragment() {
 
     companion object {
         val TAG = PilihPeminjamanSuratJalanFragment::class.java.simpleName
-        fun newInstance(): PilihPeminjamanSuratJalanFragment {
+        fun newInstance(tipe: String, proyekId: String): PilihPeminjamanSuratJalanFragment {
             val fragment = PilihPeminjamanSuratJalanFragment()
             val bundle = Bundle()
             fragment.arguments = bundle
+            fragment.tipe = tipe
+            fragment.proyekId = proyekId
             return fragment
         }
     }

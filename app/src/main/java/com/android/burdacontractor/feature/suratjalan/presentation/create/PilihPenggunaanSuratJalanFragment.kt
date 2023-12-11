@@ -21,9 +21,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PilihPenggunaanSuratJalanFragment : DialogFragment() {
     private var _binding: FragmentPilihPenggunaanBinding? = null
-    private val addSuratJalanViewModel: AddSuratJalanViewModel by activityViewModels()
+    private val pilihPenggunaanSuratJalanViewModel: PilihPenggunaanSuratJalanViewModel by activityViewModels()
     private val storageViewModel: StorageViewModel by activityViewModels()
     private lateinit var adapter: ListPenggunaanSuratJalanAdapter
+    private var tipe: String? = null
+    private var proyekId: String? = null
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +37,12 @@ class PilihPenggunaanSuratJalanFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        tipe?.let {
+            pilihPenggunaanSuratJalanViewModel.setTipe(it)
+        }
+        proyekId?.let {
+            pilihPenggunaanSuratJalanViewModel.setProyekId(it)
+        }
         initObserver()
     }
 
@@ -49,7 +57,7 @@ class PilihPenggunaanSuratJalanFragment : DialogFragment() {
     }
 
     private fun initObserver() {
-        with(addSuratJalanViewModel) {
+        with(pilihPenggunaanSuratJalanViewModel) {
             state.observe(viewLifecycleOwner) {
                 binding.srLayout.isRefreshing = it == StateResponse.LOADING
             }
@@ -88,12 +96,12 @@ class PilihPenggunaanSuratJalanFragment : DialogFragment() {
             }
             adapter = ListPenggunaanSuratJalanAdapter(
                 checkedVisible = true,
-                checkedListData = addSuratJalanViewModel.selectedListPenggunaan.value!!,
+                checkedListData = pilihPenggunaanSuratJalanViewModel.selectedListPenggunaan.value!!,
                 checkedDataListener = { penggunaan, b ->
                     if (b) {
-                        addSuratJalanViewModel.addPenggunaan(penggunaan)
+                        pilihPenggunaanSuratJalanViewModel.addPenggunaan(penggunaan)
                     } else {
-                        addSuratJalanViewModel.removePenggunaan(penggunaan)
+                        pilihPenggunaanSuratJalanViewModel.removePenggunaan(penggunaan)
                     }
                 },
                 userId = storageViewModel.userId
@@ -104,8 +112,8 @@ class PilihPenggunaanSuratJalanFragment : DialogFragment() {
     }
 
     private fun setAdapter() {
-        addSuratJalanViewModel.getAvailablePenggunaanByProyek()
-        addSuratJalanViewModel.listPenggunaan.observe(this) {
+        pilihPenggunaanSuratJalanViewModel.getAvailablePenggunaanByProyek()
+        pilihPenggunaanSuratJalanViewModel.listPenggunaan.observe(this) {
             if (it.isEmpty()) binding.tvEmptyPenggunaan.setVisible()
             else binding.tvEmptyPenggunaan.setGone()
             adapter.submitList(it)
@@ -123,10 +131,12 @@ class PilihPenggunaanSuratJalanFragment : DialogFragment() {
 
     companion object {
         val TAG = PilihPenggunaanSuratJalanFragment::class.java.simpleName
-        fun newInstance(): PilihPenggunaanSuratJalanFragment {
+        fun newInstance(tipe: String, proyekId: String): PilihPenggunaanSuratJalanFragment {
             val fragment = PilihPenggunaanSuratJalanFragment()
             val bundle = Bundle()
             fragment.arguments = bundle
+            fragment.tipe = tipe
+            fragment.proyekId = proyekId
             return fragment
         }
     }

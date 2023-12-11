@@ -91,8 +91,10 @@ class ListDeliveryOrderAdapter(
                 tvAlamatAsal.text = deliveryOrder.alamatTempatAsal
                 tvAlamatTujuan.text = deliveryOrder.alamatTempatTujuan
                 tvNamaPurchasing.text = deliveryOrder.namaPurchasing?.getFirstName()
+                tvRolePurchasing.text = enumValueToNormal(deliveryOrder.rolePurchasing.toString())
                 tvNamaDriver.text = deliveryOrder.namaDriver?.getFirstName()
                 tvNamaAdminGudang.text = deliveryOrder.namaAdminGudang?.getFirstName()
+                tvRoleAdminGudang.text = enumValueToNormal(deliveryOrder.roleAdminGudang.toString())
                 tvNamaAsal.text = deliveryOrder.namaTempatAsal
                 tvNamaTujuan.text = deliveryOrder.namaTempatTujuan
                 tvStatus.text = enumValueToNormal(deliveryOrder.status!!)

@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.android.burdacontractor.databinding.ActivityLoginBinding
@@ -17,12 +18,22 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private val authViewModel: AuthViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        authViewModel.messageResponse.observe(this) {
+            it.getContentIfNotHandled()?.let { messageResponse ->
+                Snackbar.make(
+                    binding.root,
+                    messageResponse,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
         when {
             shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
                 Snackbar.make(

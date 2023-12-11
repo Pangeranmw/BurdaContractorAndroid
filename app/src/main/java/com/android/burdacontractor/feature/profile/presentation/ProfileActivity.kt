@@ -67,6 +67,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.tvNamaUser.text = user.nama
         binding.tvRolUser.text = enumValueToNormal(user.role)
         binding.tvNoHpUser.text = user.noHp
+        binding.tvEmailUser.text = user.email
         if (user.foto != null) {
             Glide.with(this)
                 .load(getPhotoUrl(user.foto!!))

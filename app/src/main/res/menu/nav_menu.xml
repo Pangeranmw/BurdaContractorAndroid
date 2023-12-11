@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+    <group
+        android:id="@+id/nav_group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_beranda"
+            android:visible="false"
+            android:icon="@drawable/ic_beranda"
+            android:title="@string/beranda" />
+        <item
+            android:id="@+id/nav_surat_jalan"
+            android:visible="false"
+            app:actionViewClass="android.widget.TextView"
+            android:icon="@drawable/ic_send_req"
+            android:title="@string/surat_jalan" />
+        <item
+            android:id="@+id/nav_delivery_order"
+            android:visible="false"
+            app:actionViewClass="android.widget.TextView"
+            android:icon="@drawable/ic_delivery_order"
+            android:title="@string/delivery_order" />
+        <item
+            android:id="@+id/nav_kendaraan"
+            android:visible="false"
+            android:icon="@drawable/ic_kendaraan"
+            android:title="@string/kendaraan" />
+        <item
+            android:id="@+id/nav_gudang"
+            android:visible="false"
+            android:icon="@drawable/ic_gudang"
+            android:title="@string/gudang" />
+        <item
+            android:id="@+id/nav_perusahaan"
+            android:visible="false"
+            android:icon="@drawable/ic_perusahaan"
+            android:title="@string/perusahaan" />
+    </group>
+    <item android:title="Pengaturan">
+        <menu>
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/ic_profile"
+                android:title="@string/profile" />
+        </menu>
+    </item>
+</menu>

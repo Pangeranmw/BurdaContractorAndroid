@@ -144,6 +144,9 @@
         <activity
             android:name=".feature.suratjalan.presentation.create.AddSuratJalanActivity"
             android:exported="true" />
+        <activity
+            android:name=".feature.suratjalan.presentation.update.UpdateSuratJalanActivity"
+            android:exported="true" />
 
         <activity
             android:name=".feature.profile.presentation.ProfileActivity"

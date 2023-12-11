@@ -76,7 +76,7 @@ class NetworkModule {
     @Provides
     fun provideGeoCoderService(client: OkHttpClient): GeoCoderService {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://geocode.maps.co/")
+            .baseUrl("https://nominatim.openstreetmap.org/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

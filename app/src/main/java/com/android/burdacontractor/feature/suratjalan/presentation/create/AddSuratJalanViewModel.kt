@@ -16,8 +16,6 @@ import com.android.burdacontractor.feature.suratjalan.data.source.remote.request
 import com.android.burdacontractor.feature.suratjalan.domain.model.PeminjamanSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.PenggunaanSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.AddSuratJalanUseCase
-import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAvailablePeminjamanByProyekUseCase
-import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAvailablePenggunaanByProyekUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAvailableProyekBySuratJalanTypeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,19 +26,9 @@ class AddSuratJalanViewModel @Inject constructor(
     val liveNetworkChecker: LiveNetworkChecker,
     private val addSuratJalanUseCase: AddSuratJalanUseCase,
     private val getAvailableProyekBySuratJalanType: GetAvailableProyekBySuratJalanTypeUseCase,
-    private val getAvailablePenggunaanByProyekUseCase: GetAvailablePenggunaanByProyekUseCase,
-    private val getAvailablePeminjamanByProyekUseCase: GetAvailablePeminjamanByProyekUseCase,
 ) : ViewModel() {
     private val _state = MutableLiveData<StateResponse?>()
     val state: LiveData<StateResponse?> = _state
-
-    private val _selectedListPenggunaan =
-        MutableLiveData<MutableList<PenggunaanSuratJalan>>(mutableListOf())
-    val selectedListPenggunaan: LiveData<MutableList<PenggunaanSuratJalan>> =
-        _selectedListPenggunaan
-
-    private val _listPenggunaan = MutableLiveData<List<PenggunaanSuratJalan>>(emptyList())
-    val listPenggunaan: LiveData<List<PenggunaanSuratJalan>> = _listPenggunaan
 
     private val _listTipe = MutableLiveData(
         listOf(
@@ -59,14 +47,6 @@ class AddSuratJalanViewModel @Inject constructor(
 
     private val _proyekIndex = MutableLiveData<Int?>(null)
     val proyekIndex: LiveData<Int?> = _proyekIndex
-
-    private val _selectedListPeminjaman =
-        MutableLiveData<MutableList<PeminjamanSuratJalan>>(mutableListOf())
-    val selectedListPeminjaman: LiveData<MutableList<PeminjamanSuratJalan>> =
-        _selectedListPeminjaman
-
-    private val _listPeminjaman = MutableLiveData<List<PeminjamanSuratJalan>>(emptyList())
-    val listPeminjaman: LiveData<List<PeminjamanSuratJalan>> = _listPeminjaman
 
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse: LiveData<Event<String?>> = _messageResponse
@@ -90,60 +70,6 @@ class AddSuratJalanViewModel @Inject constructor(
         }
     }
 
-    fun getAvailablePeminjamanByProyek() {
-        _tipe.value?.let { tipe ->
-            _proyekIndex.value?.let { proyekIndex ->
-                _listProyek.value?.let { listProyek ->
-                    viewModelScope.launch {
-                        getAvailablePeminjamanByProyekUseCase.execute(
-                            tipe,
-                            listProyek[proyekIndex].id
-                        ).collect {
-                            when (it) {
-                                is Resource.Loading -> _state.value = StateResponse.LOADING
-                                is Resource.Success -> {
-                                    _state.value = StateResponse.SUCCESS
-                                    _listPeminjaman.value = it.data!!.toMutableList()
-                                }
-
-                                is Resource.Error -> {
-                                    _state.value = StateResponse.ERROR
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fun getAvailablePenggunaanByProyek() {
-        _tipe.value?.let { tipe ->
-            _proyekIndex.value?.let { proyekIndex ->
-                _listProyek.value?.let { listProyek ->
-                    viewModelScope.launch {
-                        getAvailablePenggunaanByProyekUseCase.execute(
-                            tipe,
-                            listProyek[proyekIndex].id
-                        ).collect {
-                            when (it) {
-                                is Resource.Loading -> _state.value = StateResponse.LOADING
-                                is Resource.Success -> {
-                                    _state.value = StateResponse.SUCCESS
-                                    _listPenggunaan.value = it.data!!.toMutableList()
-                                }
-
-                                is Resource.Error -> {
-                                    _state.value = StateResponse.ERROR
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private fun convertToEnumType(tipe: String): String? {
         return when (tipe) {
             "Pengiriman Gudang Proyek" -> SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK.name
@@ -156,10 +82,12 @@ class AddSuratJalanViewModel @Inject constructor(
     fun addSuratJalan(
         logisticId: String,
         kendaraanId: String,
+        selectedListPeminjaman: MutableList<PeminjamanSuratJalan>,
+        selectedListPenggunaan: MutableList<PenggunaanSuratJalan>,
         successListener: (String) -> Unit
     ) {
-        val peminjaman = _selectedListPeminjaman.value!!.toList()
-        val penggunaan = _selectedListPenggunaan.value!!.toList()
+        val peminjaman = selectedListPeminjaman.toList()
+        val penggunaan = selectedListPenggunaan.toList()
         if (peminjaman.isNotEmpty() || penggunaan.isNotEmpty()) {
             _tipe.value?.let { tipe ->
                 _proyekIndex.value?.let { proyekIndex ->
@@ -207,38 +135,6 @@ class AddSuratJalanViewModel @Inject constructor(
 
     fun setProyekIndex(proyekIndex: Int?) {
         _proyekIndex.value = proyekIndex
-    }
-
-    fun resetPeminjaman() {
-        _selectedListPeminjaman.value = mutableListOf()
-    }
-
-    fun resetPenggunaan() {
-        _selectedListPenggunaan.value = mutableListOf()
-    }
-
-    fun addPeminjaman(peminjaman: PeminjamanSuratJalan) {
-        val newValue = _selectedListPeminjaman.value ?: mutableListOf()
-        newValue.add(peminjaman)
-        _selectedListPeminjaman.value = newValue
-    }
-
-    fun removePeminjaman(peminjaman: PeminjamanSuratJalan) {
-        val newValue = _selectedListPeminjaman.value ?: mutableListOf()
-        newValue.remove(peminjaman)
-        _selectedListPeminjaman.value = newValue
-    }
-
-    fun addPenggunaan(penggunaan: PenggunaanSuratJalan) {
-        val newValue = _selectedListPenggunaan.value ?: mutableListOf()
-        newValue.add(penggunaan)
-        _selectedListPenggunaan.value = newValue
-    }
-
-    fun removePenggunaan(penggunaan: PenggunaanSuratJalan) {
-        val newValue = _selectedListPenggunaan.value ?: mutableListOf()
-        newValue.remove(penggunaan)
-        _selectedListPenggunaan.value = newValue
     }
 }
 

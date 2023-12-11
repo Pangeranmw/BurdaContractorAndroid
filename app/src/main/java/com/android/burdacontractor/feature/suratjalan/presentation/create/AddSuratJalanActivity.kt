@@ -41,6 +41,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddSuratJalanActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddSuratJalanBinding
     private val addSuratJalanViewModel: AddSuratJalanViewModel by viewModels()
+    private val pilihPenggunaanSuratJalanViewModel: PilihPenggunaanSuratJalanViewModel by viewModels()
+    private val pilihPeminjamanSuratJalanViewModel: PilihPeminjamanSuratJalanViewModel by viewModels()
     private val storageViewModel: StorageViewModel by viewModels()
     private val pilihKendaraanViewModel: PilihKendaraanViewModel by viewModels()
     private val pilihLogisticViewModel: PilihLogisticViewModel by viewModels()
@@ -74,7 +76,9 @@ class AddSuratJalanActivity : AppCompatActivity() {
         binding.btnSubmit.setOnClickListener {
             addSuratJalanViewModel.addSuratJalan(
                 pilihLogisticViewModel.logistic.value!!.id,
-                pilihKendaraanViewModel.kendaraan.value!!.id
+                pilihKendaraanViewModel.kendaraan.value!!.id,
+                pilihPeminjamanSuratJalanViewModel.selectedListPeminjaman.value!!,
+                pilihPenggunaanSuratJalanViewModel.selectedListPenggunaan.value!!,
             ) {
                 openActivityWithExtras(SuratJalanDetailActivity::class.java) {
                     putString(INTENT_ID, it)
@@ -98,8 +102,8 @@ class AddSuratJalanActivity : AppCompatActivity() {
         }
         binding.spinnerProyek.setOnSpinnerItemSelectedListener(OnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
             addSuratJalanViewModel.setProyekIndex(newIndex)
-            addSuratJalanViewModel.resetPenggunaan()
-            addSuratJalanViewModel.resetPeminjaman()
+            pilihPenggunaanSuratJalanViewModel.resetPenggunaan()
+            pilihPeminjamanSuratJalanViewModel.resetPeminjaman()
             isInputCorrect()
         })
 
@@ -117,12 +121,12 @@ class AddSuratJalanActivity : AppCompatActivity() {
             addSuratJalanViewModel.setTipe(newItem)
             binding.spinnerProyek.setItems(emptyList<String>())
             addSuratJalanViewModel.getAvailableProyekBySuratJalanType()
-            addSuratJalanViewModel.resetPenggunaan()
-            addSuratJalanViewModel.resetPeminjaman()
+            pilihPenggunaanSuratJalanViewModel.resetPenggunaan()
+            pilihPeminjamanSuratJalanViewModel.resetPeminjaman()
             isInputCorrect()
         })
 
-        addSuratJalanViewModel.selectedListPeminjaman.observe(this) {
+        pilihPeminjamanSuratJalanViewModel.selectedListPeminjaman.observe(this) {
             isInputCorrect()
             binding.tvPeminjamanBelumDipilih.setTextBelumDipilih(it.size)
             binding.rvPeminjaman.layoutManager =
@@ -139,7 +143,7 @@ class AddSuratJalanActivity : AppCompatActivity() {
         }
 
 
-        addSuratJalanViewModel.selectedListPenggunaan.observe(this) {
+        pilihPenggunaanSuratJalanViewModel.selectedListPenggunaan.observe(this) {
             isInputCorrect()
             binding.tvPenggunaanBelumDipilih.setTextBelumDipilih(it.size)
             binding.rvPenggunaan.layoutManager =
@@ -156,6 +160,7 @@ class AddSuratJalanActivity : AppCompatActivity() {
         }
         addSuratJalanViewModel.tipe.observe(this) { tipe ->
             addSuratJalanViewModel.proyekIndex.observe(this) { proyekIndex ->
+                val listProyek = addSuratJalanViewModel.listProyek.value!!
                 binding.cvLogistic.setOnClickListener {
                     if (tipe == null || proyekIndex == null) {
                         setToastShort("Harap Isi Data Secara Berurutan")
@@ -169,7 +174,10 @@ class AddSuratJalanActivity : AppCompatActivity() {
                         setToastShort("Harap Isi Data Secara Berurutan")
                     } else {
                         val pilihPeminjamanSuratJalanFragment =
-                            PilihPeminjamanSuratJalanFragment.newInstance()
+                            PilihPeminjamanSuratJalanFragment.newInstance(
+                                tipe,
+                                listProyek[proyekIndex].id
+                            )
                         pilihPeminjamanSuratJalanFragment.show(supportFragmentManager)
                     }
                 }
@@ -178,7 +186,10 @@ class AddSuratJalanActivity : AppCompatActivity() {
                         setToastShort("Harap Isi Data Secara Berurutan")
                     } else {
                         val pilihPenggunaanSuratJalanFragment =
-                            PilihPenggunaanSuratJalanFragment.newInstance()
+                            PilihPenggunaanSuratJalanFragment.newInstance(
+                                tipe,
+                                listProyek[proyekIndex].id
+                            )
                         pilihPenggunaanSuratJalanFragment.show(supportFragmentManager)
                     }
                 }
@@ -232,12 +243,12 @@ class AddSuratJalanActivity : AppCompatActivity() {
     }
 
     private fun isInputCorrect() {
-        val peminjaman = addSuratJalanViewModel.selectedListPeminjaman.value!!
-        val penggunaan = addSuratJalanViewModel.selectedListPenggunaan.value!!
+        val peminjaman = pilihPeminjamanSuratJalanViewModel.selectedListPeminjaman.value!!
+        val penggunaan = pilihPenggunaanSuratJalanViewModel.selectedListPenggunaan.value!!
         val tipe = addSuratJalanViewModel.tipe.value
         val proyek = addSuratJalanViewModel.proyekIndex.value
         val logistic = pilihLogisticViewModel.logistic.value
-        val kendaraan = pilihLogisticViewModel.logistic.value
+        val kendaraan = pilihKendaraanViewModel.kendaraan.value
         binding.btnSubmit.isEnabled =
             (peminjaman.isNotEmpty() || penggunaan.isNotEmpty())
                     && logistic != null && kendaraan != null && proyek != null && tipe != null

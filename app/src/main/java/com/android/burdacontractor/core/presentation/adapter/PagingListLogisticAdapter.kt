@@ -66,7 +66,6 @@ class PagingListLogisticAdapter(val listener: (AllLogistic) -> Unit) :
                 cvLogistic.setOnClickListener {
                     listener(logistic)
                 }
-
                 logistic.jarak?.let {
                     tvJarak.setVisible()
                     tvJarak.text = itemView.context.getString(

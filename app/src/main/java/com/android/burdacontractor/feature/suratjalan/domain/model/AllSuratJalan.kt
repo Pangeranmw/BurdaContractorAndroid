@@ -18,6 +18,9 @@ data class AllSuratJalan(
     @field:SerializedName("nama_admin_gudang")
     val namaAdminGudang: String? = null,
 
+    @field:SerializedName("role_admin_gudang")
+    val roleAdminGudang: String? = null,
+
     @field:SerializedName("id_admin_gudang")
     val idAdminGudang: String? = null,
 

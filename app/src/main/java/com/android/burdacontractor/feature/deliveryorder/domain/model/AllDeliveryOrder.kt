@@ -60,6 +60,12 @@ data class AllDeliveryOrder(
     @field:SerializedName("nama_purchasing")
     val namaPurchasing: String? = null,
 
+    @field:SerializedName("role_purchasing")
+    val rolePurchasing: String? = null,
+
+    @field:SerializedName("role_admin_gudang")
+    val roleAdminGudang: String? = null,
+
     @field:SerializedName("status")
     val status: String? = null,
 

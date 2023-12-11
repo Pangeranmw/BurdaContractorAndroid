@@ -8,5 +8,5 @@ enum class UserRole {
     PURCHASING,
     SITE_MANAGER,
     PROJECT_MANAGER,
-    UMUM
+    USER
 }

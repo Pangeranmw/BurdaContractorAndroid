@@ -1,10 +1,15 @@
 package com.android.burdacontractor.feature.perusahaan.presentation.main
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,16 +32,19 @@ import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityPerusahaanBinding
 import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.main.DeliveryOrderActivity
+import com.android.burdacontractor.feature.gudang.presentation.main.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.FilterPerusahaanFragment
 import com.android.burdacontractor.feature.perusahaan.presentation.create.AddPerusahaanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.detail.PerusahaanDetailActivity
-import com.google.android.material.navigation.NavigationBarView
+import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
+import com.android.burdacontractor.feature.suratjalan.presentation.main.SuratJalanActivity
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
+class PerusahaanActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private val storageViewModel: StorageViewModel by viewModels()
     private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
     private val perusahaanViewModel: PerusahaanViewModel by viewModels()
@@ -47,11 +55,6 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
         super.onCreate(savedInstanceState)
         binding = ActivityPerusahaanBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.perusahaanBottomNavigation.menu.clear()
-        when (storageViewModel.role) {
-            UserRole.PURCHASING.name ->
-                setBottomNavigationMenu(R.menu.bottom_menu_purchasing, R.id.perusahaan_purchasing)
-        }
         val snackbar = Snackbar.make(
             binding.mainLayout,
             getString(R.string.no_internet),
@@ -109,7 +112,12 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
     }
 
     private fun initUi() {
+        initNavigation()
+        initBadge()
         with(binding) {
+            btnDrawer.setOnClickListener {
+                mainLayout.openDrawer(GravityCompat.START)
+            }
             filterDialog = FilterPerusahaanFragment.newInstance()
             searchView.setupWithSearchBar(searchBar)
             searchView
@@ -124,7 +132,7 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
             srLayout.setOnRefreshListener {
                 refreshData()
             }
-            if (storageViewModel.role == UserRole.PURCHASING.name) {
+            if (storageViewModel.role == UserRole.PURCHASING.name || storageViewModel.role == UserRole.ADMIN.name || storageViewModel.role == UserRole.ADMIN_GUDANG.name) {
                 btnAdd.setVisible()
                 btnAdd.setOnClickListener {
                     openActivity(AddPerusahaanActivity::class.java, false)
@@ -157,7 +165,6 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                 footer = LoadingStateAdapter { adapter.retry() }
             )
             refreshData()
-            initBadge()
             btnFilter.setOnClickListener {
                 filterDialog.setOnClickListener(object :
                     FilterPerusahaanFragment.OnClickListener {
@@ -178,47 +185,116 @@ class PerusahaanActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
         perusahaanViewModel.getPerusahaanProvinsi()
     }
 
-    private fun setBottomNavigationMenu(menu: Int, item: Int) {
-        binding.perusahaanBottomNavigation.inflateMenu(menu)
-        binding.perusahaanBottomNavigation.menu.findItem(item).isChecked = true
-        binding.perusahaanBottomNavigation.setOnItemSelectedListener(this)
-    }
-
     override fun onRestart() {
         super.onRestart()
         refreshData()
     }
 
+    private fun initNavigation() {
+        binding.navView.setNavigationItemSelectedListener(this)
+        binding.apply {
+            val role = storageViewModel.role
+            val navBeranda = navView.menu.findItem(R.id.nav_beranda)
+            val navSJ = navView.menu.findItem(R.id.nav_surat_jalan)
+            val navDO = navView.menu.findItem(R.id.nav_delivery_order)
+            val navKendaraan = navView.menu.findItem(R.id.nav_kendaraan)
+            val navGudang = navView.menu.findItem(R.id.nav_gudang)
+            val navPerusahaan = navView.menu.findItem(R.id.nav_perusahaan)
+            navPerusahaan.isChecked = true
+
+            navBeranda.isVisible = role != UserRole.USER.name
+
+            val isVisibleDo = role == UserRole.LOGISTIC.name ||
+                    role == UserRole.ADMIN_GUDANG.name ||
+                    role == UserRole.ADMIN.name ||
+                    role == UserRole.PURCHASING.name
+            navDO.isVisible = isVisibleDo
+
+            val isVisibleSj = role == UserRole.LOGISTIC.name ||
+                    role == UserRole.ADMIN_GUDANG.name ||
+                    role == UserRole.ADMIN.name ||
+                    role == UserRole.SUPERVISOR.name ||
+                    role == UserRole.PROJECT_MANAGER.name ||
+                    role == UserRole.SITE_MANAGER.name ||
+                    role == UserRole.PURCHASING.name
+            navSJ.isVisible = isVisibleSj
+
+            val isVisibleAAP = role == UserRole.ADMIN_GUDANG.name ||
+                    role == UserRole.ADMIN.name ||
+                    role == UserRole.PURCHASING.name
+            navKendaraan.isVisible = isVisibleAAP
+            navGudang.isVisible = isVisibleAAP
+            navPerusahaan.isVisible = isVisibleAAP
+        }
+    }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.beranda_sv_pm, R.id.beranda_logistic, R.id.beranda_purchasing, R.id.beranda_admin_gudang -> {
+            R.id.nav_beranda -> {
                 openActivity(BerandaActivity::class.java)
             }
 
-            R.id.kendaraan_admin_gudang -> {
+            R.id.nav_surat_jalan -> {
+                openActivity(SuratJalanActivity::class.java)
+            }
+
+            R.id.nav_kendaraan -> {
                 openActivity(KendaraanActivity::class.java)
             }
 
-            R.id.perusahaan_purchasing -> {
+            R.id.nav_gudang -> {
+                openActivity(GudangActivity::class.java)
             }
 
-            R.id.delivery_order_admin_gudang, R.id.delivery_order_logistic, R.id.delivery_order_purchasing -> {
+            R.id.nav_perusahaan -> {
+            }
+
+            R.id.nav_delivery_order -> {
                 openActivity(DeliveryOrderActivity::class.java)
+            }
+
+            R.id.nav_profile -> {
+                openActivity(ProfileActivity::class.java, false)
             }
         }
         return true
     }
-
     private fun refreshBadgeValue() {
-        bottomNavigationViewModel.getCountActiveDeliveryOrder()
+        val role = storageViewModel.role
+        if (role == UserRole.LOGISTIC.name ||
+            role == UserRole.ADMIN_GUDANG.name ||
+            role == UserRole.ADMIN.name ||
+            role == UserRole.PURCHASING.name
+        ) {
+            bottomNavigationViewModel.getCountActiveDeliveryOrder()
+        }
+        if (role == UserRole.LOGISTIC.name ||
+            role == UserRole.ADMIN_GUDANG.name ||
+            role == UserRole.ADMIN.name ||
+            role == UserRole.SUPERVISOR.name ||
+            role == UserRole.PROJECT_MANAGER.name ||
+            role == UserRole.SITE_MANAGER.name
+        ) {
+            bottomNavigationViewModel.getCountActiveSuratJalan()
+        }
     }
 
     private fun initBadge() {
+        bottomNavigationViewModel.totalActiveSuratJalan.observe(this) {
+            val badgeSj = binding.navView.menu.findItem(R.id.nav_surat_jalan).actionView as TextView
+            badgeSj.text = it.toString()
+            badgeSj.gravity = Gravity.CENTER_VERTICAL
+            badgeSj.setTypeface(null, Typeface.BOLD)
+            if (it > 0) badgeSj.setTextColor(ContextCompat.getColor(this, R.color.secondary_main))
+            else badgeSj.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
         bottomNavigationViewModel.totalActiveDeliveryOrder.observe(this) {
-            val badgeDoPurc =
-                binding.perusahaanBottomNavigation.getOrCreateBadge(R.id.delivery_order_purchasing)
-            badgeDoPurc.isVisible = true
-            badgeDoPurc.number = it
+            val badgeSj =
+                binding.navView.menu.findItem(R.id.nav_delivery_order).actionView as TextView
+            badgeSj.text = it.toString()
+            badgeSj.gravity = Gravity.CENTER_VERTICAL
+            badgeSj.setTypeface(null, Typeface.BOLD)
+            if (it > 0) badgeSj.setTextColor(ContextCompat.getColor(this, R.color.secondary_main))
+            else badgeSj.setTextColor(ContextCompat.getColor(this, R.color.red))
         }
     }
 }

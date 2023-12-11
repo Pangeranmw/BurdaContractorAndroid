@@ -127,6 +127,7 @@ class PagingListSuratJalanAdapter(
                 tvNamaSiteManager.text = suratJalan.namaSiteManager?.getFirstName()
                 tvNamaDriver.text = suratJalan.namaDriver?.getFirstName()
                 tvNamaAdminGudang.text = suratJalan.namaAdminGudang?.getFirstName()
+                tvRoleAdminGudang.text = enumValueToNormal(suratJalan.roleAdminGudang.toString())
                 tvNamaAsal.text = suratJalan.namaTempatAsal
                 tvNamaTujuan.text = suratJalan.namaTempatTujuan
                 tvStatus.text = enumValueToNormal(suratJalan.status!!)

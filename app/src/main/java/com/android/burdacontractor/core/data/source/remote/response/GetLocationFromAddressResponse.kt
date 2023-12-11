@@ -6,7 +6,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class GetLocationFromAddressResponse(
-
 	@field:SerializedName("GetLocationFromAddressResponse")
 	val getLocationFromAddressResponse: List<GetLocationFromAddressResponseItem>
 ) : Parcelable
