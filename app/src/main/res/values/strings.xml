@@ -57,6 +57,7 @@
     <string name="permission_location_granted">Akses lokasi diberikan. Anda dapat menggunakan aplikasi.</string>
     <string name="unknown_address">Alamat Tidak Diketahui</string>
     <string name="password_less_6">Password Kurang Dari 8 Karakter</string>
+    <string name="confirm_pass_wrong">Konfirmasi Password Tidak Sesuai</string>
     <string name="number_less_10">Nomor Hp Kurang dari 11 Digit</string>
     <string name="number_first_digit">Nomor Hp Harus diawali 0</string>
     <string name="empty_form">Input Tidak Boleh Kosong</string>
@@ -194,6 +195,7 @@
     <string name="cari_kode_do">Cari Kode DO</string>
     <string name="ulangi">Ulangi</string>
     <string name="tidak_ada_delivery_order">Tidak Ada Delivery Order</string>
+    <string name="tidak_ada_users">Tidak Ada Pengguna</string>
     <string name="do_menunggu_konfirmasi_driver">DO Menunggu Konfirmasi Driver</string>
     <string name="do_driver_dalam_perjalanan">DO Driver Dalam Perjalanan</string>
     <string name="do_selesai">DO Selesai</string>
@@ -215,10 +217,13 @@
     <string name="kota_dan_provinsi">%1$s, %2$s</string>
     <string name="dari_lokasimu">%1$s dari lokasimu</string>
     <string name="cari_perusahaan">Cari Nama Perusahaan</string>
+    <string name="cari_users">Cari Pengguna</string>
     <string name="tidak_ada_perusahaan">Tidak ada perusahaan</string>
     <string name="filter_provinsi">Filter Provinsi</string>
     <string name="provinsi_belum_diatur">Provinsi Belum Diatur</string>
+    <string name="role_belum_diatur">Role Belum Diatur</string>
     <string name="reset_provinsi">Reset Provinsi</string>
+    <string name="reset_role">Reset Role</string>
     <string name="tambah_delivery_order">Tambah Delivery Order</string>
     <string name="data_delivery_order">Data Delivery Order</string>
     <string name="data_pre_order">Data Pre Order</string>
@@ -324,4 +329,12 @@
     <string name="ubah_foto">Ubah Foto</string>
     <string name="atur_tanda_tangan">Atur Tanda Tangan</string>
     <string name="ubah_password">Ubah Password</string>
+    <string name="pengguna">Pengguna</string>
+    <string name="filter_role">Filter Role</string>
+    <string name="placeholder_password_lama">Masukan Password Lama</string>
+    <string name="password_lama">Password Lama</string>
+    <string name="placeholder_password_baru">Masukan Password Baru</string>
+    <string name="password_baru">Password Baru</string>
+    <string name="placeholder_konfirmasi_password_baru">Masukan Konfirmasi Password Baru</string>
+    <string name="konfirmasi_password_baru">Konfirmasi Password Baru</string>
 </resources>

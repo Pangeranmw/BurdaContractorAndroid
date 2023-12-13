@@ -3,10 +3,11 @@ package com.android.burdacontractor.feature.profile.domain.usecase
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.feature.profile.domain.model.User
 import kotlinx.coroutines.flow.Flow
-import java.io.File
 
-interface UploadTtdUseCase {
+interface UpdateProfileUseCase {
     suspend fun execute(
-        ttd: File
+        nama: String,
+        email: String,
+        noHp: String,
     ): Flow<Resource<User>>
 }

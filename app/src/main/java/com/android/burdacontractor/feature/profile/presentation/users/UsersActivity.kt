@@ -1,7 +1,8 @@
-package com.android.burdacontractor.feature.gudang.presentation.main
+package com.android.burdacontractor.feature.profile.presentation.users
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import android.widget.TextView
@@ -21,62 +22,54 @@ import com.android.burdacontractor.core.presentation.BottomNavigationViewModel
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListFilterSelectedAdapter
 import com.android.burdacontractor.core.presentation.adapter.LoadingStateAdapter
-import com.android.burdacontractor.core.presentation.adapter.PagingListGudangAdapter
+import com.android.burdacontractor.core.presentation.adapter.PagingListUsersAdapter
 import com.android.burdacontractor.core.utils.checkConnection
-import com.android.burdacontractor.core.utils.getDistanceMatrixCoordinate
 import com.android.burdacontractor.core.utils.openActivity
 import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
-import com.android.burdacontractor.databinding.ActivityGudangBinding
+import com.android.burdacontractor.databinding.ActivityUsersBinding
 import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
 import com.android.burdacontractor.feature.deliveryorder.presentation.main.DeliveryOrderActivity
-import com.android.burdacontractor.feature.gudang.presentation.FilterGudangFragment
-import com.android.burdacontractor.feature.gudang.presentation.create.AddGudangActivity
-import com.android.burdacontractor.feature.gudang.presentation.detail.GudangDetailActivity
+import com.android.burdacontractor.feature.gudang.presentation.main.GudangActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.main.PerusahaanActivity
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
-import com.android.burdacontractor.feature.profile.presentation.users.UsersActivity
+import com.android.burdacontractor.feature.profile.presentation.users.detail.UsersDetailActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.main.SuratJalanActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GudangActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class UsersActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private val storageViewModel: StorageViewModel by viewModels()
-    private val gudangViewModel: GudangViewModel by viewModels()
     private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
-    private lateinit var filterDialog: FilterGudangFragment
-    private lateinit var adapter: PagingListGudangAdapter
-    private lateinit var binding: ActivityGudangBinding
+    private val usersViewModel: UsersViewModel by viewModels()
+    private lateinit var filterDialog: FilterUsersFragment
+    private lateinit var adapter: PagingListUsersAdapter
+    private lateinit var binding: ActivityUsersBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityGudangBinding.inflate(layoutInflater)
+        binding = ActivityUsersBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val snackbar = Snackbar.make(
             binding.mainLayout,
             getString(R.string.no_internet),
             Snackbar.LENGTH_INDEFINITE
         )
-        gudangViewModel.liveNetworkChecker.observe(this) {
+        usersViewModel.liveNetworkChecker.observe(this) {
             checkConnection(snackbar, it) { initObserver() }
         }
     }
 
     private fun initObserver() {
-        with(gudangViewModel) {
-            state.observe(this@GudangActivity) {
+        with(usersViewModel) {
+            state.observe(this@UsersActivity) {
+                Log.d("addLoadStateListener", it.toString())
                 binding.srLayout.isRefreshing = it == StateResponse.LOADING
             }
-            setCoordinate(
-                getDistanceMatrixCoordinate(
-                    storageViewModel.latitude,
-                    storageViewModel.longitude
-                )
-            )
-            messageResponse.observe(this@GudangActivity) {
+            messageResponse.observe(this@UsersActivity) {
                 it.getContentIfNotHandled()?.let { messageResponse ->
                     Snackbar.make(
                         binding.root,
@@ -85,19 +78,19 @@ class GudangActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                     ).show()
                 }
             }
-            provinsiIndex.observe(this@GudangActivity) { provinsiIndex ->
-                if (provinsiIndex != null) {
+            roleIndex.observe(this@UsersActivity) { roleIndex ->
+                if (roleIndex != null) {
                     val listFilter = mutableListOf<FilterSelected>()
                     val filterAdapter = ListFilterSelectedAdapter {
-                        if (it.index == 0) setProvinsiIndex(null)
+                        if (it.index == 0) setRoleIndex(null)
                         listFilter.remove(it)
                         refreshData()
                     }
-                    listFilter.add(FilterSelected(0, listProvinsi.value!![provinsiIndex]))
+                    listFilter.add(FilterSelected(0, listRole.value!![roleIndex]))
                     binding.rvFilter.setVisible()
                     filterAdapter.submitList(listFilter)
                     binding.rvFilter.layoutManager = LinearLayoutManager(
-                        this@GudangActivity,
+                        this@UsersActivity,
                         LinearLayoutManager.HORIZONTAL,
                         false
                     )
@@ -117,13 +110,13 @@ class GudangActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             btnDrawer.setOnClickListener {
                 mainLayout.openDrawer(GravityCompat.START)
             }
-            filterDialog = FilterGudangFragment.newInstance()
+            filterDialog = FilterUsersFragment.newInstance()
             searchView.setupWithSearchBar(searchBar)
             searchView
                 .editText
                 .setOnEditorActionListener { textView, actionId, event ->
                     searchBar.setText(searchView.text)
-                    gudangViewModel.setSearch(searchView.text.toString())
+                    usersViewModel.setSearch(searchView.text.toString())
                     refreshData()
                     searchView.hide()
                     false
@@ -131,45 +124,42 @@ class GudangActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             srLayout.setOnRefreshListener {
                 refreshData()
             }
-            if (storageViewModel.role == UserRole.ADMIN.name) {
+            if (storageViewModel.role == UserRole.PURCHASING.name || storageViewModel.role == UserRole.ADMIN.name || storageViewModel.role == UserRole.ADMIN_GUDANG.name) {
                 btnAdd.setVisible()
                 btnAdd.setOnClickListener {
-                    openActivity(AddGudangActivity::class.java, false)
+//                    openActivity(AddUsersActivity::class.java, false)
                 }
             }
-            binding.rvGudang.layoutManager = GridLayoutManager(
-                this@GudangActivity, 1,
+            binding.rvUsers.layoutManager = GridLayoutManager(
+                this@UsersActivity, 1,
                 GridLayoutManager.VERTICAL, false
             )
-            adapter = PagingListGudangAdapter { gudang ->
-                openActivityWithExtras(GudangDetailActivity::class.java, false) {
-                    putString(INTENT_ID, gudang.id)
+            adapter = PagingListUsersAdapter { users ->
+                openActivityWithExtras(UsersDetailActivity::class.java, false) {
+                    putString(INTENT_ID, users.id)
                 }
             }
             adapter.addLoadStateListener { loadState ->
                 if ((loadState.refresh is LoadState.Loading) || (loadState.append is LoadState.Loading)) {
-                    gudangViewModel.setState(StateResponse.LOADING)
+                    usersViewModel.setState(StateResponse.LOADING)
                 } else if ((loadState.append is LoadState.NotLoading) && (loadState.refresh is LoadState.NotLoading)) {
                     if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
-                        binding.tvEmptyGudang.setVisible()
+                        binding.tvEmptyUsers.setVisible()
                     } else {
-                        binding.tvEmptyGudang.setGone()
+                        binding.tvEmptyUsers.setGone()
                     }
-                    gudangViewModel.setState(StateResponse.SUCCESS)
+                    usersViewModel.setState(StateResponse.SUCCESS)
                 } else if ((loadState.refresh is LoadState.Error) || (loadState.append is LoadState.Error)) {
-                    gudangViewModel.setState(StateResponse.ERROR)
+                    usersViewModel.setState(StateResponse.ERROR)
                 }
             }
-            rvGudang.adapter = adapter.withLoadStateFooter(
-                footer = LoadingStateAdapter {
-                    adapter.retry()
-                }
+            rvUsers.adapter = adapter.withLoadStateFooter(
+                footer = LoadingStateAdapter { adapter.retry() }
             )
             refreshData()
             btnFilter.setOnClickListener {
-
                 filterDialog.setOnClickListener(object :
-                    FilterGudangFragment.OnClickListener {
+                    FilterUsersFragment.OnClickListener {
                     override fun onClickListener() {
                         refreshData()
                     }
@@ -180,11 +170,15 @@ class GudangActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
     private fun refreshData() {
-        gudangViewModel.getAllGudang().observe(this) {
+        usersViewModel.getAllUsers().observe(this) {
             adapter.submitData(lifecycle, it)
         }
-        gudangViewModel.getGudangProvinsi()
         refreshBadgeValue()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        refreshData()
     }
 
     private fun initNavigation() {
@@ -197,9 +191,10 @@ class GudangActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             val navKendaraan = navView.menu.findItem(R.id.nav_kendaraan)
             val navGudang = navView.menu.findItem(R.id.nav_gudang)
             val navPerusahaan = navView.menu.findItem(R.id.nav_perusahaan)
-            navGudang.isChecked = true
 
             val navUser = navView.menu.findItem(R.id.nav_user)
+            navUser.isChecked = true
+
             navUser.isVisible = role == UserRole.ADMIN.name
 
             navBeranda.isVisible = role != UserRole.USER.name
@@ -227,6 +222,7 @@ class GudangActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             navPerusahaan.isVisible = isVisibleAAP
         }
     }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_beranda -> {
@@ -242,6 +238,7 @@ class GudangActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             }
 
             R.id.nav_gudang -> {
+                openActivity(GudangActivity::class.java)
             }
 
             R.id.nav_perusahaan -> {
@@ -257,11 +254,11 @@ class GudangActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             }
 
             R.id.nav_user -> {
-                openActivity(UsersActivity::class.java)
             }
         }
         return true
     }
+
     private fun refreshBadgeValue() {
         val role = storageViewModel.role
         if (role == UserRole.LOGISTIC.name ||
@@ -300,10 +297,5 @@ class GudangActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             if (it > 0) badgeSj.setTextColor(ContextCompat.getColor(this, R.color.secondary_main))
             else badgeSj.setTextColor(ContextCompat.getColor(this, R.color.red))
         }
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        refreshData()
     }
 }

@@ -57,13 +57,19 @@ class ProfileActivity : AppCompatActivity() {
                 ).show()
             }
         }
-        profileViewModel.user.observe(this){user->
+        profileViewModel.user.observe(this) { user ->
             this.user = user
             initProfile()
             initUi()
         }
     }
-    private fun initProfile(){
+
+    override fun onRestart() {
+        super.onRestart()
+        profileViewModel.getUserByToken()
+    }
+
+    private fun initProfile() {
         binding.tvNamaUser.text = user.nama
         binding.tvRolUser.text = enumValueToNormal(user.role)
         binding.tvNoHpUser.text = user.noHp
@@ -113,14 +119,22 @@ class ProfileActivity : AppCompatActivity() {
             if(!b) {
                 stopService()
                 binding.tvSwitchTracking.text = getString(R.string.tracking_lokasi_tidak_aktif)
-            }
-            else {
+            } else {
                 startService()
                 binding.tvSwitchTracking.text = getString(R.string.tracking_lokasi_aktif)
             }
         }
-        binding.rlUbahTtd.setOnClickListener{
+        binding.rlUbahTtd.setOnClickListener {
             openActivity(SignatureActivity::class.java, false)
+        }
+        binding.rlUbahProfil.setOnClickListener {
+            openActivity(UpdateProfileActivity::class.java, false)
+        }
+        binding.rlUbahPassword.setOnClickListener {
+            openActivity(UpdatePasswordActivity::class.java, false)
+        }
+        binding.rlUbahFoto.setOnClickListener {
+            openActivity(UploadPhotoActivity::class.java, false)
         }
     }
     private fun stopService(){

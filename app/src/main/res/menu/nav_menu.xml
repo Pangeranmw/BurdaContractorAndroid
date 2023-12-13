@@ -38,6 +38,11 @@
             android:visible="false"
             android:icon="@drawable/ic_perusahaan"
             android:title="@string/perusahaan" />
+        <item
+            android:id="@+id/nav_user"
+            android:visible="false"
+            android:icon="@drawable/baseline_people_24"
+            android:title="@string/pengguna" />
     </group>
     <item android:title="Pengaturan">
         <menu>

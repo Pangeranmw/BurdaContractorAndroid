@@ -5,8 +5,8 @@ import com.android.burdacontractor.feature.profile.domain.model.User
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
-interface UploadTtdUseCase {
+interface UploadPhotoUseCase {
     suspend fun execute(
-        ttd: File
+        photo: File
     ): Flow<Resource<User>>
 }

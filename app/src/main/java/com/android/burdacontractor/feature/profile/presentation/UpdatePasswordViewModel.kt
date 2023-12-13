@@ -1,4 +1,4 @@
-package com.android.burdacontractor.feature.deliveryorder.presentation.uploadphoto
+package com.android.burdacontractor.feature.profile.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,43 +8,40 @@ import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.Event
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
-import com.android.burdacontractor.feature.deliveryorder.domain.usecase.UploadFotoBuktiDeliveryOrderUseCase
+import com.android.burdacontractor.feature.profile.domain.usecase.ChangePasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
-class UploadFotoBuktiDeliveryOrderViewModel @Inject constructor(
+class UpdatePasswordViewModel @Inject constructor(
     val liveNetworkChecker: LiveNetworkChecker,
-    private val uploadFotoBuktiDeliveryOrderUseCase: UploadFotoBuktiDeliveryOrderUseCase,
+    private val changePasswordUseCase: ChangePasswordUseCase
 ) : ViewModel() {
 
     private val _state = MutableLiveData<StateResponse?>()
     val state: LiveData<StateResponse?> = _state
 
-    private val _messageResponse = MutableLiveData<Event<String>>()
-    val messageResponse: LiveData<Event<String>> = _messageResponse
+    private val _messageResponse = MutableLiveData<Event<String?>>()
+    val messageResponse: LiveData<Event<String?>> = _messageResponse
 
-    fun uploadFotoBukti(id: String, fotoBukti:File){
+    fun changePassword(oldPassword: String, newPassword: String, listener: (() -> Unit)? = null) {
         viewModelScope.launch {
-            uploadFotoBuktiDeliveryOrderUseCase.execute(id, fotoBukti).collect{
-                when(it){
+            changePasswordUseCase.execute(oldPassword, newPassword).collect {
+                when (it) {
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
-                        if(it.data!=null)
-                            _messageResponse.value = Event(it.data.message)
+                        _messageResponse.value = Event(it.message.toString())
+                        listener?.let { it() }
                     }
+
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
-                        _messageResponse.value = Event(it.message.toString())
+                        _messageResponse.value = Event(it.message)
                     }
                 }
             }
         }
     }
 }
-
-
-

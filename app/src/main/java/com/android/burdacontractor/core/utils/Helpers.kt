@@ -330,8 +330,9 @@ fun getCity(latitude: Double, longitude: Double, context: Context): String {
     }
     return result
 }
-fun Context.checkPassword(text: String, customTextInputLayout: CustomTextInputLayout){
-    when{
+
+fun Context.checkPassword(text: String, customTextInputLayout: CustomTextInputLayout) {
+    when {
         text.isEmpty() -> this.emptyData(text, customTextInputLayout)
         text.length in 1..7 -> customTextInputLayout.error =
             this.getString(R.string.password_less_6)
@@ -339,10 +340,30 @@ fun Context.checkPassword(text: String, customTextInputLayout: CustomTextInputLa
         else -> hideTextInputError(customTextInputLayout)
     }
 }
-fun Context.checkEmail(text: String, customTextInputLayout: CustomTextInputLayout){
-    when{
-        text.isEmpty() -> this.emptyData(text,customTextInputLayout)
-        !android.util.Patterns.EMAIL_ADDRESS.matcher(text).matches() -> customTextInputLayout.error = this.getString(R.string.email_incorrect)
+
+fun Context.confirmPassword(
+    text: String,
+    text2: String,
+    customTextInputLayout: CustomTextInputLayout
+) {
+    when {
+        text.isEmpty() -> this.emptyData(text, customTextInputLayout)
+        !text.equals(text2, false) -> customTextInputLayout.error =
+            this.getString(R.string.confirm_pass_wrong)
+
+        text.length in 1..7 -> customTextInputLayout.error =
+            this.getString(R.string.password_less_6)
+
+        else -> hideTextInputError(customTextInputLayout)
+    }
+}
+
+fun Context.checkEmail(text: String, customTextInputLayout: CustomTextInputLayout) {
+    when {
+        text.isEmpty() -> this.emptyData(text, customTextInputLayout)
+        !android.util.Patterns.EMAIL_ADDRESS.matcher(text)
+            .matches() -> customTextInputLayout.error = this.getString(R.string.email_incorrect)
+
         else -> hideTextInputError(customTextInputLayout)
     }
 }

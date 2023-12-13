@@ -15,7 +15,7 @@ import com.android.burdacontractor.core.data.StorageRepository
 import com.android.burdacontractor.core.data.source.local.storage.SessionManager
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.android.burdacontractor.core.domain.model.enums.UserRole
-import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
+import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,18 +42,9 @@ class LocationService: Service() {
     private lateinit var userId: String
     private lateinit var userRole: String
 
-//    private val binder = LocalBinder()
-//
-//    var currentLocation: MutableSharedFlow<Location> = MutableSharedFlow()
-//
     override fun onBind(intent: Intent): IBinder? {
         return null
-//        return binder
     }
-//
-//    inner class LocalBinder : Binder() {
-//        fun getService(): LocationService = this@LocationService
-//    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when(intent?.action) {
@@ -68,15 +59,17 @@ class LocationService: Service() {
         userRole = storageRepository.getPreferences(SessionManager.KEY_ROLE)
         userId = storageRepository.getPreferences(SessionManager.KEY_USER_ID)
         val notification = NotificationCompat.Builder(this, "location")
-            .setContentTitle("Tracking Your location")
+            .setContentTitle("Logistic App")
             .setSmallIcon(R.drawable.logo_burda)
             .setOngoing(true)
 
-        val resultIntent = Intent(this, ProfileActivity::class.java)
+        val resultIntent = Intent(this, BerandaActivity::class.java)
         val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
             addNextIntentWithParentStack(resultIntent)
-            getPendingIntent(0,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            getPendingIntent(
+                0,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
         }
         notification.setContentIntent(resultPendingIntent)
 
@@ -86,18 +79,27 @@ class LocationService: Service() {
             .getLocationUpdates(UPDATE_INTERVAL)
             .catch { e -> e.printStackTrace() }
             .onEach { location ->
-//                currentLocation.emit(location)
                 val lat = location.latitude.toString()
                 val long = location.longitude.toString()
                 val bearing = location.bearing.toDouble()
                 val accuracy = location.accuracy.toDouble()
                 val speed = location.speed.toDouble()
                 val provider = location.provider
+//                val updatedNotification = notification.setContentText(
+//                    "Location: ($lat, $long)"
+//                )
                 val updatedNotification = notification.setContentText(
-                    "Location: ($lat, $long)"
+                    "Currently Running"
                 )
-                if(userRole==UserRole.LOGISTIC.name){
-                    val logisticCoordinate = LogisticCoordinate(lat.toDouble(),long.toDouble(),bearing,speed,accuracy,provider.toString())
+                if (userRole == UserRole.LOGISTIC.name) {
+                    val logisticCoordinate = LogisticCoordinate(
+                        lat.toDouble(),
+                        long.toDouble(),
+                        bearing,
+                        speed,
+                        accuracy,
+                        provider.toString()
+                    )
                     logisticRepository.setCoordinate(userId, logisticCoordinate)
                     logisticRepository.setIsTracking(userId, true)
                 }

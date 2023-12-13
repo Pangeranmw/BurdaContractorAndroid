@@ -38,6 +38,7 @@ import com.android.burdacontractor.feature.perusahaan.presentation.FilterPerusah
 import com.android.burdacontractor.feature.perusahaan.presentation.create.AddPerusahaanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.detail.PerusahaanDetailActivity
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
+import com.android.burdacontractor.feature.profile.presentation.users.UsersActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.main.SuratJalanActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -202,6 +203,9 @@ class PerusahaanActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             val navPerusahaan = navView.menu.findItem(R.id.nav_perusahaan)
             navPerusahaan.isChecked = true
 
+            val navUser = navView.menu.findItem(R.id.nav_user)
+            navUser.isVisible = role == UserRole.ADMIN.name
+
             navBeranda.isVisible = role != UserRole.USER.name
 
             val isVisibleDo = role == UserRole.LOGISTIC.name ||
@@ -254,6 +258,10 @@ class PerusahaanActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
             R.id.nav_profile -> {
                 openActivity(ProfileActivity::class.java, false)
+            }
+
+            R.id.nav_user -> {
+                openActivity(UsersActivity::class.java)
             }
         }
         return true

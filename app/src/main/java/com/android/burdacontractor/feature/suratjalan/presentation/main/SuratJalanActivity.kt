@@ -16,7 +16,6 @@ import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.BottomNavigationViewModel
-import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.customview.CustomDialog
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.openActivity
@@ -29,6 +28,7 @@ import com.android.burdacontractor.feature.kendaraan.presentation.main.Kendaraan
 import com.android.burdacontractor.feature.perusahaan.presentation.main.PerusahaanActivity
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
 import com.android.burdacontractor.feature.profile.presentation.SignatureActivity
+import com.android.burdacontractor.feature.profile.presentation.users.UsersActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.create.AddSuratJalanActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -40,7 +40,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class SuratJalanActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivitySuratJalanBinding
     private lateinit var layout: View
-    private val storageViewModel: StorageViewModel by viewModels()
     private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
     private val suratJalanViewModel: SuratJalanViewModel by viewModels()
     private lateinit var filterDialog: FilterSuratJalanFragment
@@ -58,7 +57,6 @@ class SuratJalanActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             checkConnection(snackbar, it) { initObserver() }
         }
     }
-
     private fun refreshViewPager(viewPager: ViewPager2, position: Int) {
         val fragment =
             supportFragmentManager.findFragmentByTag("f${viewPager.currentItem}") as SuratJalanFragment
@@ -80,14 +78,16 @@ class SuratJalanActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                     ).show()
                 }
             }
+            user.observe(this@SuratJalanActivity) {
+                initUi()
+            }
         }
-        initUi()
     }
 
     private fun initNavigation() {
         binding.navView.setNavigationItemSelectedListener(this)
         binding.apply {
-            val role = storageViewModel.role
+            val role = suratJalanViewModel.user.value!!.role
             val navBeranda = navView.menu.findItem(R.id.nav_beranda)
             val navSJ = navView.menu.findItem(R.id.nav_surat_jalan)
             val navDO = navView.menu.findItem(R.id.nav_delivery_order)
@@ -95,6 +95,9 @@ class SuratJalanActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             val navGudang = navView.menu.findItem(R.id.nav_gudang)
             val navPerusahaan = navView.menu.findItem(R.id.nav_perusahaan)
             navSJ.isChecked = true
+
+            val navUser = navView.menu.findItem(R.id.nav_user)
+            navUser.isVisible = role == UserRole.ADMIN.name
 
             navBeranda.isVisible = role != UserRole.USER.name
 
@@ -150,12 +153,16 @@ class SuratJalanActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             R.id.nav_profile -> {
                 openActivity(ProfileActivity::class.java, false)
             }
+
+            R.id.nav_user -> {
+                openActivity(UsersActivity::class.java)
+            }
         }
         return true
     }
 
     private fun refreshBadgeValue() {
-        val role = storageViewModel.role
+        val role = suratJalanViewModel.user.value!!.role
         if (role == UserRole.LOGISTIC.name ||
             role == UserRole.ADMIN_GUDANG.name ||
             role == UserRole.ADMIN.name ||
@@ -257,10 +264,10 @@ class SuratJalanActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                 override fun onTabUnselected(tab: TabLayout.Tab?) {}
                 override fun onTabReselected(tab: TabLayout.Tab?) {}
             })
-            if (storageViewModel.role == UserRole.ADMIN_GUDANG.name || storageViewModel.role == UserRole.PURCHASING.name || storageViewModel.role == UserRole.ADMIN.name) {
+            if (suratJalanViewModel.user.value!!.role == UserRole.ADMIN_GUDANG.name || suratJalanViewModel.user.value!!.role == UserRole.PURCHASING.name || suratJalanViewModel.user.value!!.role == UserRole.ADMIN.name) {
                 btnAdd.setVisible()
                 btnAdd.setOnClickListener {
-                    if (storageViewModel.ttd.isBlank()) {
+                    if (suratJalanViewModel.user.value!!.ttd == null) {
                         CustomDialog(
                             mainButtonText = "Tambah Tanda Tangan",
                             title = "Buat Tanda Tangan",
@@ -290,6 +297,7 @@ class SuratJalanActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     override fun onRestart() {
         super.onRestart()
         refreshBadgeValue()
+        suratJalanViewModel.getUserByToken()
     }
 
     companion object {

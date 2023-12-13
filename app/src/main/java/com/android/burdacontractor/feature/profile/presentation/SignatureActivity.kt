@@ -20,9 +20,6 @@ import com.android.burdacontractor.feature.profile.data.source.remote.response.U
 import com.github.gcacace.signaturepad.views.SignaturePad
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 
 @AndroidEntryPoint
 class SignatureActivity : AppCompatActivity() {
@@ -92,14 +89,7 @@ class SignatureActivity : AppCompatActivity() {
     private fun setClickListener() {
         binding.btnComplete.setOnClickListener {
             val file = bitmapToFile(binding.signaturePad.transparentSignatureBitmap,Bitmap.CompressFormat.PNG, 100,this)
-            //Set the captured signature in Imageview
-            val requestImageFile = file.asRequestBody("image/png".toMediaType())
-            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-                "ttd",
-                file.name,
-                requestImageFile
-            )
-            signatureViewModel.uploadTtd(imageMultipart)
+            signatureViewModel.uploadTtd(file)
             isTtdSubmit = true
         }
         binding.btnClear.setOnClickListener {

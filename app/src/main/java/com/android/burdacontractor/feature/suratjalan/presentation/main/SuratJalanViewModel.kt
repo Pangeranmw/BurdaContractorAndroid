@@ -7,23 +7,26 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.Event
 import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
-import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetAllDeliveryOrderUseCase
+import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
+import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.GetAllSuratJalanUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SuratJalanViewModel @Inject constructor(
     val liveNetworkChecker: LiveNetworkChecker,
     private val getAllSuratJalanUseCase: GetAllSuratJalanUseCase,
-    private val getAllDeliveryOrderUseCase: GetAllDeliveryOrderUseCase,
+    private val getUserByTokenUseCase: GetUserByTokenUseCase,
 ) : ViewModel() {
     private val _state = MutableLiveData<StateResponse?>()
     val state: LiveData<StateResponse?> = _state
@@ -48,6 +51,30 @@ class SuratJalanViewModel @Inject constructor(
 
     private val _messageResponse = MutableLiveData<Event<String?>>()
     val messageResponse: LiveData<Event<String?>> = _messageResponse
+
+    private val _user = MutableLiveData<UserByTokenItem>()
+    val user: LiveData<UserByTokenItem> = _user
+
+    init {
+        getUserByToken()
+    }
+
+    fun getUserByToken() {
+        viewModelScope.launch {
+            getUserByTokenUseCase.execute().collect {
+                when (it) {
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _user.value = it.data!!
+                    }
+
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                    }
+                }
+            }
+        }
+    }
 
     fun setStatus(status: SuratJalanStatus) {
         _status.value = status
@@ -83,24 +110,6 @@ class SuratJalanViewModel @Inject constructor(
             search = _search.value,
             createdByOrFor = _createdByOrFor.value!!
         ).cachedIn(viewModelScope).asLiveData()
-
-//    fun getCountActiveSuratJalan() {
-//        viewModelScope.launch {
-//            getCountActiveSuratJalanUseCase.execute().collect{
-//                when(it){
-//                    is Resource.Loading -> _state.value = StateResponse.LOADING
-//                    is Resource.Success -> {
-//                        _state.value = StateResponse.SUCCESS
-//                        _totalActiveSuratJalan.value = it.data!!.totalActive
-//                    }
-//                    is Resource.Error -> {
-//                        _state.value = StateResponse.ERROR
-//                    }
-//                }
-//            }
-//        }
-//    }
-
 }
 
 

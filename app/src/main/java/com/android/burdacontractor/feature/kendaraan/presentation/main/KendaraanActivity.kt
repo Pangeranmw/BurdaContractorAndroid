@@ -37,6 +37,7 @@ import com.android.burdacontractor.feature.kendaraan.presentation.create.AddKend
 import com.android.burdacontractor.feature.kendaraan.presentation.detail.KendaraanDetailActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.main.PerusahaanActivity
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
+import com.android.burdacontractor.feature.profile.presentation.users.UsersActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.main.SuratJalanActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -136,6 +137,9 @@ class KendaraanActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             val navPerusahaan = navView.menu.findItem(R.id.nav_perusahaan)
             navKendaraan.isChecked = true
 
+            val navUser = navView.menu.findItem(R.id.nav_user)
+            navUser.isVisible = role == UserRole.ADMIN.name
+
             navBeranda.isVisible = role != UserRole.USER.name
 
             val isVisibleDo = role == UserRole.LOGISTIC.name ||
@@ -175,7 +179,6 @@ class KendaraanActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             R.id.nav_kendaraan -> {
 
             }
-
             R.id.nav_gudang -> {
                 openActivity(GudangActivity::class.java)
             }
@@ -190,6 +193,10 @@ class KendaraanActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
             R.id.nav_profile -> {
                 openActivity(ProfileActivity::class.java, false)
+            }
+
+            R.id.nav_user -> {
+                openActivity(UsersActivity::class.java)
             }
         }
         return true

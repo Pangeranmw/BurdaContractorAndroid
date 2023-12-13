@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.Event
 import com.android.burdacontractor.core.domain.model.enums.CreatedByOrFor
 import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
@@ -13,13 +14,17 @@ import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import com.android.burdacontractor.feature.deliveryorder.domain.model.AllDeliveryOrder
 import com.android.burdacontractor.feature.deliveryorder.domain.usecase.GetAllDeliveryOrderUseCase
+import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
+import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DeliveryOrderViewModel @Inject constructor(
     val liveNetworkChecker: LiveNetworkChecker,
     private val getAllDeliveryOrderUseCase: GetAllDeliveryOrderUseCase,
+    private val getUserByTokenUseCase: GetUserByTokenUseCase,
 ) : ViewModel() {
     private val _state = MutableLiveData<StateResponse?>()
     val state: LiveData<StateResponse?> = _state
@@ -40,9 +45,33 @@ class DeliveryOrderViewModel @Inject constructor(
     val search: LiveData<String?> = _search
 
     private val _messageResponse = MutableLiveData<Event<String?>>()
-    val messageResponse : LiveData<Event<String?>> = _messageResponse
+    val messageResponse: LiveData<Event<String?>> = _messageResponse
 
-    fun setStatus(status: DeliveryOrderStatus){
+    private val _user = MutableLiveData<UserByTokenItem>()
+    val user: LiveData<UserByTokenItem> = _user
+
+    init {
+        getUserByToken()
+    }
+
+    fun getUserByToken() {
+        viewModelScope.launch {
+            getUserByTokenUseCase.execute().collect {
+                when (it) {
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _user.value = it.data!!
+                    }
+
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                    }
+                }
+            }
+        }
+    }
+
+    fun setStatus(status: DeliveryOrderStatus) {
         _status.value = status
     }
 

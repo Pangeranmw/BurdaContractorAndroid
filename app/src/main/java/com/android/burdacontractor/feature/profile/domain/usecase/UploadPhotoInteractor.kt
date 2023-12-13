@@ -4,10 +4,9 @@ import com.android.burdacontractor.feature.profile.domain.repository.IUserReposi
 import java.io.File
 import javax.inject.Inject
 
-class UploadTtdInteractor @Inject constructor(private val userRepository: IUserRepository):
-    UploadTtdUseCase
-{
+class UploadPhotoInteractor @Inject constructor(private val userRepository: IUserRepository) :
+    UploadPhotoUseCase {
     override suspend fun execute(
-        ttd: File
-    )=userRepository.uploadTtd(ttd)
+        photo: File
+    ) = userRepository.uploadPhoto(photo)
 }

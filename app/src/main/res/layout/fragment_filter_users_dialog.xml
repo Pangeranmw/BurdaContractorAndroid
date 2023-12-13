@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="15dp"
+    style="@style/RoundedBackgroundBottomSheetDialog">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:id="@+id/drag_handle"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="50dp"
+        android:layout_height="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/semi_rounded_gray_light"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:id="@+id/layout_filter_provinsi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <ImageButton
+                    android:id="@+id/btn_close"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/baseline_close_24"
+                    android:background="@color/white"
+                    app:tint="@color/black"
+                    android:contentDescription="@string/cd_button" />
+
+                <TextView
+                    android:id="@+id/tv_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:layout_marginVertical="10dp"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_date_range_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filter_role"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:alignItems="center"
+                app:flexWrap="wrap">
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_flexGrow="1"
+                    app:flexDirection="column"
+                    android:layout_marginBottom="190dp">
+
+                    <com.skydoves.powerspinner.PowerSpinnerView
+                        android:id="@+id/spinner_role"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:hint="@string/role_belum_diatur"
+                        android:textColorHint="@color/gray"
+                        app:spinner_arrow_tint="@color/black"
+                        app:fontFamily="@font/inter_medium"
+                        android:drawableTint="@color/black"
+                        app:spinner_selected_item_background="@drawable/bg_selected_spinner_with_shadow"
+                        app:spinner_popup_background="@drawable/smooth_gray_shadow"
+                        android:background="@drawable/semi_rounded_outline_gray_light" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_reset_role"
+                        android:layout_width="match_parent"
+                        android:paddingHorizontal="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_trash"
+                        android:drawableTint="@color/red"
+                        android:text="@string/reset_role"
+                        android:background="@drawable/semi_rounded_outline_red"
+                        android:textColor="@color/red"
+                        android:textAllCaps="false"
+                        android:fontFamily="@font/inter_bold"
+                        app:layout_flexGrow="1"
+                        android:visibility="gone" />
+                </com.google.android.flexbox.FlexboxLayout>
+            </com.google.android.flexbox.FlexboxLayout>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_atur"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:drawableTint="@color/secondary_main"
+            android:text="@string/terapkan_filter"
+            android:background="@drawable/semi_rounded_primary"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:fontFamily="@font/inter_bold"
+            android:layout_below="@id/layout_filter_provinsi"
+            app:layout_flexGrow="1" />
+    </RelativeLayout>
+</FrameLayout>

@@ -7,6 +7,8 @@ import com.android.burdacontractor.feature.kendaraan.domain.model.AllKendaraan
 import com.android.burdacontractor.feature.kendaraan.domain.model.Kendaraan
 import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanSimple
 import com.android.burdacontractor.feature.perusahaan.domain.model.AllPerusahaan
+import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
+import com.android.burdacontractor.feature.profile.domain.model.User
 import com.android.burdacontractor.feature.profile.domain.model.UserSimple
 import com.android.burdacontractor.feature.proyek.domain.model.AllLogistic
 import com.android.burdacontractor.feature.suratjalan.domain.model.AddUpdatePeminjamanPenggunaanSuratJalan
@@ -55,6 +57,19 @@ object DataMapper {
             )
         }
     }
+
+    fun userToUserByToken(user: User): UserByTokenItem = UserByTokenItem(
+        role = user.role,
+        nama = user.nama,
+        foto = user.foto,
+        noHp = user.noHp,
+        updatedAt = user.updatedAt,
+        ttd = user.ttd,
+        deviceToken = null,
+        createdAt = user.createdAt,
+        id = user.id,
+        email = user.email
+    )
 
     fun gudangByIdToAllGudang(gudangById: GudangById): AllGudang = AllGudang(
         provinsi = gudangById.provinsi,

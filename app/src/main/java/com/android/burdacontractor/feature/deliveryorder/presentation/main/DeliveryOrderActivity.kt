@@ -15,7 +15,6 @@ import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.BottomNavigationViewModel
-import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.customview.CustomDialog
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.openActivity
@@ -28,6 +27,7 @@ import com.android.burdacontractor.feature.kendaraan.presentation.main.Kendaraan
 import com.android.burdacontractor.feature.perusahaan.presentation.main.PerusahaanActivity
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
 import com.android.burdacontractor.feature.profile.presentation.SignatureActivity
+import com.android.burdacontractor.feature.profile.presentation.users.UsersActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.main.SuratJalanActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -37,7 +37,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DeliveryOrderActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityDeliveryOrderBinding
-    private val storageViewModel: StorageViewModel by viewModels()
     private val deliveryOrderViewModel: DeliveryOrderViewModel by viewModels()
     private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
     private lateinit var filterDialog: FilterDeliveryOrderFragment
@@ -72,8 +71,10 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationView.OnNavigationIt
                     ).show()
                 }
             }
+            user.observe(this@DeliveryOrderActivity) {
+                initUi()
+            }
         }
-        initUi()
     }
     private fun initUi(){
         with(binding){
@@ -102,10 +103,10 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationView.OnNavigationIt
                 refreshViewPager(viewPager, viewPager.currentItem)
                 refreshBadgeValue()
             }
-            if (storageViewModel.role == UserRole.ADMIN_GUDANG.name || storageViewModel.role == UserRole.PURCHASING.name || storageViewModel.role == UserRole.ADMIN.name) {
+            if (deliveryOrderViewModel.user.value!!.role == UserRole.ADMIN_GUDANG.name || deliveryOrderViewModel.user.value!!.role == UserRole.PURCHASING.name || deliveryOrderViewModel.user.value!!.role == UserRole.ADMIN.name) {
                 btnAdd.setVisible()
                 btnAdd.setOnClickListener {
-                    if (storageViewModel.ttd.isBlank()) {
+                    if (deliveryOrderViewModel.user.value!!.ttd == null) {
                         CustomDialog(
                             mainButtonText = "Tambah Tanda Tangan",
                             title = "Buat Tanda Tangan",
@@ -135,12 +136,13 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     override fun onRestart() {
         super.onRestart()
         refreshBadgeValue()
+        deliveryOrderViewModel.getUserByToken()
     }
 
     private fun initNavigation() {
         binding.navView.setNavigationItemSelectedListener(this)
         binding.apply {
-            val role = storageViewModel.role
+            val role = deliveryOrderViewModel.user.value!!.role
             val navBeranda = navView.menu.findItem(R.id.nav_beranda)
             val navSJ = navView.menu.findItem(R.id.nav_surat_jalan)
             val navDO = navView.menu.findItem(R.id.nav_delivery_order)
@@ -150,6 +152,8 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationView.OnNavigationIt
 
             navDO.isChecked = true
 
+            val navUser = navView.menu.findItem(R.id.nav_user)
+            navUser.isVisible = role == UserRole.ADMIN.name
 
             navBeranda.isVisible = role != UserRole.USER.name
 
@@ -204,11 +208,15 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationView.OnNavigationIt
             R.id.nav_profile -> {
                 openActivity(ProfileActivity::class.java, false)
             }
+
+            R.id.nav_user -> {
+                openActivity(UsersActivity::class.java)
+            }
         }
         return true
     }
     private fun refreshBadgeValue() {
-        val role = storageViewModel.role
+        val role = deliveryOrderViewModel.user.value!!.role
         if (role == UserRole.LOGISTIC.name ||
             role == UserRole.ADMIN_GUDANG.name ||
             role == UserRole.ADMIN.name ||

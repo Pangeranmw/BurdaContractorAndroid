@@ -152,6 +152,21 @@
             android:name=".feature.profile.presentation.ProfileActivity"
             android:exported="true" />
         <activity
+            android:name=".feature.profile.presentation.UpdatePasswordActivity"
+            android:exported="true" />
+        <activity
+            android:name=".feature.profile.presentation.UpdateProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".feature.profile.presentation.UploadPhotoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".feature.profile.presentation.users.UsersActivity"
+            android:exported="true" />
+        <activity
+            android:name=".feature.profile.presentation.users.detail.UsersDetailActivity"
+            android:exported="true" />
+        <activity
             android:name=".feature.auth.presentation.LoginActivity"
             android:exported="true" />
         <activity

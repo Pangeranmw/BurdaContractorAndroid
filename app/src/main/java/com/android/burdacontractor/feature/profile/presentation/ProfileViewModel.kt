@@ -45,20 +45,22 @@ class ProfileViewModel @Inject constructor(
     fun setIsTrackingStorage(isTracking: Boolean){
         storageUseCase.setTracking(isTracking)
     }
-    fun setIsTrackingRealtime(logisticId: String, logisticIsTracking: Boolean){
+    fun setIsTrackingRealtime(logisticId: String, logisticIsTracking: Boolean) {
         viewModelScope.launch {
             logisticFirebaseUseCase.setIsTracking(logisticId, logisticIsTracking)
         }
     }
-    private fun getUserByToken(){
+
+    fun getUserByToken() {
         viewModelScope.launch {
-            getUserByTokenUseCase.execute().collect{
-                when(it){
+            getUserByTokenUseCase.execute().collect {
+                when (it) {
                     is Resource.Loading -> _state.value = StateResponse.LOADING
                     is Resource.Success -> {
                         _state.value = StateResponse.SUCCESS
                         _user.value = it.data!!
                     }
+
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                     }

@@ -48,6 +48,7 @@ import com.android.burdacontractor.feature.kendaraan.presentation.main.Kendaraan
 import com.android.burdacontractor.feature.perusahaan.presentation.main.PerusahaanActivity
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
+import com.android.burdacontractor.feature.profile.presentation.users.UsersActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.detail.SuratJalanDetailActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.main.SuratJalanActivity
 import com.google.android.material.navigation.NavigationView
@@ -241,6 +242,10 @@ class BerandaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             R.id.nav_profile -> {
                 openActivity(ProfileActivity::class.java, false)
             }
+
+            R.id.nav_user -> {
+                openActivity(UsersActivity::class.java)
+            }
         }
         return true
     }
@@ -328,6 +333,9 @@ class BerandaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             navBeranda.isChecked = true
 
             navBeranda.isVisible = role != UserRole.USER.name
+
+            val navUser = navView.menu.findItem(R.id.nav_user)
+            navUser.isVisible = role == UserRole.ADMIN.name
 
             val isVisibleDo = role == UserRole.LOGISTIC.name ||
                     role == UserRole.ADMIN_GUDANG.name ||

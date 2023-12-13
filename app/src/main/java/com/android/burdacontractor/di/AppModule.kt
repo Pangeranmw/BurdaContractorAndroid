@@ -83,8 +83,18 @@ import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetStatisti
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.GetStatistikDeliveryOrderByPerusahaanUseCase
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.UpdatePerusahaanInteractor
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.UpdatePerusahaanUseCase
+import com.android.burdacontractor.feature.profile.domain.usecase.ChangePasswordInteractor
+import com.android.burdacontractor.feature.profile.domain.usecase.ChangePasswordUseCase
+import com.android.burdacontractor.feature.profile.domain.usecase.GetAllUsersInteractor
+import com.android.burdacontractor.feature.profile.domain.usecase.GetAllUsersUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenInteractor
 import com.android.burdacontractor.feature.profile.domain.usecase.GetUserByTokenUseCase
+import com.android.burdacontractor.feature.profile.domain.usecase.UpdateProfileInteractor
+import com.android.burdacontractor.feature.profile.domain.usecase.UpdateProfileUseCase
+import com.android.burdacontractor.feature.profile.domain.usecase.UpdateRoleInteractor
+import com.android.burdacontractor.feature.profile.domain.usecase.UpdateRoleUseCase
+import com.android.burdacontractor.feature.profile.domain.usecase.UploadPhotoInteractor
+import com.android.burdacontractor.feature.profile.domain.usecase.UploadPhotoUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.UploadTtdInteractor
 import com.android.burdacontractor.feature.profile.domain.usecase.UploadTtdUseCase
 import com.android.burdacontractor.feature.proyek.domain.usecase.GetAllLogisticInteractor
@@ -282,7 +292,27 @@ abstract class AppModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun provideUploadTtdUseCase(uploadTtInteractor: UploadTtdInteractor): UploadTtdUseCase
+    abstract fun provideUploadTtdUseCase(uploadTtdInteractor: UploadTtdInteractor): UploadTtdUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideUploadPhotoUseCase(uploadPhotoInteractor: UploadPhotoInteractor): UploadPhotoUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideUpdateProfileUseCase(updateProfileInteractor: UpdateProfileInteractor): UpdateProfileUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideUpdateRoleUseCase(updateRoleInteractor: UpdateRoleInteractor): UpdateRoleUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideChangePasswordUseCase(changePasswordInteractor: ChangePasswordInteractor): ChangePasswordUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetAllUsersUseCase(getAllUsersInteractor: GetAllUsersInteractor): GetAllUsersUseCase
 
     // KENDARAAN USE CASE
     @Binds
