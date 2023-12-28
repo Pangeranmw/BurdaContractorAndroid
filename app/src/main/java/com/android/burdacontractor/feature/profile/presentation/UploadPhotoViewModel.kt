@@ -20,8 +20,8 @@ class UploadPhotoViewModel @Inject constructor(
     private val uploadPhotoUseCase: UploadPhotoUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableLiveData<StateResponse?>()
-    val state: LiveData<StateResponse?> = _state
+    private val _state = MutableLiveData<StateResponse>()
+    val state: LiveData<StateResponse> = _state
 
     private val _messageResponse = MutableLiveData<Event<String>>()
     val messageResponse: LiveData<Event<String>> = _messageResponse

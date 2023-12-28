@@ -400,7 +400,7 @@ val timeStamp: String = SimpleDateFormat(
 
 fun getImageUri(context: Context): Uri {
     var uri: Uri? = null
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+    if (SDK_INT >= Build.VERSION_CODES.Q) {
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, "$timeStamp.jpg")
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")

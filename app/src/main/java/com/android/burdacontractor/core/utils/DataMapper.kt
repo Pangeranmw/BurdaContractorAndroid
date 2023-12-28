@@ -16,6 +16,7 @@ import com.android.burdacontractor.feature.suratjalan.domain.model.PeminjamanSur
 import com.android.burdacontractor.feature.suratjalan.domain.model.PenggunaanSuratJalan
 
 object DataMapper {
+
     fun kendaraanSimpleToAllKendaraan(kendaraan: KendaraanSimple): AllKendaraan {
         return AllKendaraan(
             merk = kendaraan.merk,

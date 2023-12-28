@@ -14,6 +14,8 @@ import com.android.burdacontractor.core.domain.usecase.LogisticFirebaseFirebaseI
 import com.android.burdacontractor.core.domain.usecase.LogisticFirebaseUseCase
 import com.android.burdacontractor.core.domain.usecase.StorageInteractor
 import com.android.burdacontractor.core.domain.usecase.StorageUseCase
+import com.android.burdacontractor.feature.auth.domain.usecase.ForgetPasswordInteractor
+import com.android.burdacontractor.feature.auth.domain.usecase.ForgetPasswordUseCase
 import com.android.burdacontractor.feature.auth.domain.usecase.LoginInteractor
 import com.android.burdacontractor.feature.auth.domain.usecase.LoginUseCase
 import com.android.burdacontractor.feature.auth.domain.usecase.LoginWithPinInteractor
@@ -309,6 +311,10 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideChangePasswordUseCase(changePasswordInteractor: ChangePasswordInteractor): ChangePasswordUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideForgetPasswordUseCase(forgetPasswordInteractor: ForgetPasswordInteractor): ForgetPasswordUseCase
 
     @Binds
     @ViewModelScoped

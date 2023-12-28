@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         authViewModel.messageResponse.observe(this) {
-            it.getContentIfNotHandled()?.let { messageResponse ->
+            it.peekContent()?.let { messageResponse ->
                 Snackbar.make(
                     binding.root,
                     messageResponse,

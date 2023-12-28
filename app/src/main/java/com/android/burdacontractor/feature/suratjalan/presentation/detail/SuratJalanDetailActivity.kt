@@ -525,7 +525,7 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                                     false
                                 ) {
                                     putParcelable(
-                                        UploadFotoBuktiSuratJalanActivity.DELIVERY_ORDER,
+                                        UploadFotoBuktiSuratJalanActivity.SURAT_JALAN,
                                         suratJalan
                                     )
                                 }

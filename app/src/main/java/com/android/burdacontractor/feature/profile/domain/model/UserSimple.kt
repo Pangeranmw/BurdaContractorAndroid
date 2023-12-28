@@ -14,7 +14,7 @@ data class UserSimple(
     val nama: String,
 
     @field:SerializedName("foto")
-    val foto: String,
+    val foto: String? = null,
 
     @field:SerializedName("no_hp")
     val noHp: String,

@@ -14,7 +14,6 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
-import com.android.burdacontractor.core.domain.model.Constant.INTENT_ID
 import com.android.burdacontractor.core.domain.model.FilterSelected
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
@@ -23,9 +22,11 @@ import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListFilterSelectedAdapter
 import com.android.burdacontractor.core.presentation.adapter.LoadingStateAdapter
 import com.android.burdacontractor.core.presentation.adapter.PagingListUsersAdapter
+import com.android.burdacontractor.core.presentation.customview.UpdateRoleDialog
 import com.android.burdacontractor.core.utils.checkConnection
+import com.android.burdacontractor.core.utils.enumValueToNormal
+import com.android.burdacontractor.core.utils.getFirstName
 import com.android.burdacontractor.core.utils.openActivity
-import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ActivityUsersBinding
@@ -35,7 +36,6 @@ import com.android.burdacontractor.feature.gudang.presentation.main.GudangActivi
 import com.android.burdacontractor.feature.kendaraan.presentation.main.KendaraanActivity
 import com.android.burdacontractor.feature.perusahaan.presentation.main.PerusahaanActivity
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
-import com.android.burdacontractor.feature.profile.presentation.users.detail.UsersDetailActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.main.SuratJalanActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -124,20 +124,26 @@ class UsersActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             srLayout.setOnRefreshListener {
                 refreshData()
             }
-            if (storageViewModel.role == UserRole.PURCHASING.name || storageViewModel.role == UserRole.ADMIN.name || storageViewModel.role == UserRole.ADMIN_GUDANG.name) {
-                btnAdd.setVisible()
-                btnAdd.setOnClickListener {
-//                    openActivity(AddUsersActivity::class.java, false)
-                }
-            }
             binding.rvUsers.layoutManager = GridLayoutManager(
                 this@UsersActivity, 1,
                 GridLayoutManager.VERTICAL, false
             )
             adapter = PagingListUsersAdapter { users ->
-                openActivityWithExtras(UsersDetailActivity::class.java, false) {
-                    putString(INTENT_ID, users.id)
-                }
+                UpdateRoleDialog(
+                    canTouchOutside = true,
+                    spinnerValue = users.role,
+                    title = "Ubah Role Pengguna",
+                    subtitle = "Silahkan pilih role dibawah untuk mengganti role ${users.nama.getFirstName()} (${
+                        enumValueToNormal(
+                            users.role
+                        )
+                    })",
+                    blockMainButton = {
+                        usersViewModel.updateRole(users.id, it) {
+                            refreshData()
+                        }
+                    },
+                    blockSecondaryButton = {}).show(supportFragmentManager, "UpdateRole")
             }
             adapter.addLoadStateListener { loadState ->
                 if ((loadState.refresh is LoadState.Loading) || (loadState.append is LoadState.Loading)) {

@@ -6,19 +6,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.domain.model.Event
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.utils.LiveNetworkChecker
 import com.android.burdacontractor.feature.profile.domain.model.User
 import com.android.burdacontractor.feature.profile.domain.usecase.GetAllUsersUseCase
+import com.android.burdacontractor.feature.profile.domain.usecase.UpdateRoleUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class UsersViewModel @Inject constructor(
     val liveNetworkChecker: LiveNetworkChecker,
     private val getAllUsers: GetAllUsersUseCase,
+    private val updateRoleUseCase: UpdateRoleUseCase,
 ) : ViewModel() {
     private val _state = MutableLiveData<StateResponse?>()
     val state: LiveData<StateResponse?> = _state
@@ -71,6 +75,26 @@ class UsersViewModel @Inject constructor(
             filter = filterRole,
             search = _search.value,
         ).cachedIn(viewModelScope)
+    }
+
+    fun updateRole(userId: String, role: String, listener: (() -> Unit)? = null) {
+        viewModelScope.launch {
+            updateRoleUseCase.execute(userId, role).collect {
+                when (it) {
+                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Success -> {
+                        _state.value = StateResponse.SUCCESS
+                        _messageResponse.value = Event(it.message.toString())
+                        listener?.let { it() }
+                    }
+
+                    is Resource.Error -> {
+                        _state.value = StateResponse.ERROR
+                        _messageResponse.value = Event(it.message)
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -102,6 +102,38 @@
 
                     <LinearLayout
                         android:layout_marginTop="20dp"
+                        android:id="@+id/layout_ttd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tvSignIsEmpty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:text="@string/ttd_empty"
+                            android:fontFamily="@font/inter_medium"
+                            android:textColor="@color/red"
+                            android:textSize="16sp" />
+
+                        <Button
+                            android:id="@+id/btn_ttd"
+                            android:layout_marginStart="10dp"
+                            style="@style/ButtonSeeAll"
+                            android:text="@string/atur_tanda_tangan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/semi_rounded_secondary_main"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_marginTop="20dp"
                         android:id="@+id/layout_menunggu_surat_jalan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -130,7 +162,6 @@
                             tools:listitem="@layout/item_statistik_menunggu_surat_jalan"
                             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_marginTop="20dp"
                         android:id="@+id/layout_kendaraan"

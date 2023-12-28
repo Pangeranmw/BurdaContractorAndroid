@@ -5,7 +5,6 @@ import com.android.burdacontractor.feature.auth.data.source.remote.response.Logi
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
-import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface AuthService {
@@ -26,6 +25,12 @@ interface AuthService {
         @Field("password") password: String,
         @Field("device_token") deviceToken: String,
     ): LoginResponse
+
+    @FormUrlEncoded
+    @POST("forget-password")
+    suspend fun forgetPassword(
+        @Field("email") email: String,
+    ): ErrorMessageResponse
 
     @FormUrlEncoded
     @POST("login/pin")

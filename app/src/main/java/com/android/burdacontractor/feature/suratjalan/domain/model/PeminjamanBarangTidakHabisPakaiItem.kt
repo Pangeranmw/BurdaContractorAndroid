@@ -20,5 +20,5 @@ data class PeminjamanBarangTidakHabisPakaiItem(
     val id: String,
 
     @field:SerializedName("gambar")
-    val gambar: String
+    val gambar: String? = null,
 ) : Parcelable

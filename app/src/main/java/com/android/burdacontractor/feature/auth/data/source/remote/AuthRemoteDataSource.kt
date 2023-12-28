@@ -20,25 +20,38 @@ class AuthRemoteDataSource @Inject constructor(
         password: String,
     ): Flow<ApiResponse<ErrorMessageResponse>> = flow{
         val response = authService.register(nama,noHp,email,password)
-        if(!response.error){
+        if (!response.error) {
             emit(ApiResponse.Success(response))
-        }else{
+        } else {
             emit(ApiResponse.Error(response.message))
         }
     }
 
-    suspend fun login(email: String, password: String, deviceToken: String): Flow<ApiResponse<LoginResponse>> = flow{
-        val response = authService.login(email,password, deviceToken)
-        if(!response.error){
+    suspend fun login(
+        email: String,
+        password: String,
+        deviceToken: String
+    ): Flow<ApiResponse<LoginResponse>> = flow {
+        val response = authService.login(email, password, deviceToken)
+        if (!response.error) {
             emit(ApiResponse.Success(response))
-        }else{
+        } else {
             emit(ApiResponse.Error(response.message))
         }
     }
 
-    suspend fun loginWithPin(pin: String): Flow<ApiResponse<ErrorMessageResponse>> = flow{
+    suspend fun forgetPassword(email: String): Flow<ApiResponse<ErrorMessageResponse>> = flow {
+        val response = authService.forgetPassword(email)
+        if (!response.error) {
+            emit(ApiResponse.Success(response))
+        } else {
+            emit(ApiResponse.Error(response.message))
+        }
+    }
+
+    suspend fun loginWithPin(pin: String): Flow<ApiResponse<ErrorMessageResponse>> = flow {
         val response = authService.loginWithPin(pin)
-        if(!response.error){
+        if (!response.error) {
             emit(ApiResponse.Success(response))
         }else{
             emit(ApiResponse.Error(response.message))

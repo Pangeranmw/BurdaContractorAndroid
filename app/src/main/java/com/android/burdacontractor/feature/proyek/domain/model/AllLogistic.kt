@@ -36,7 +36,7 @@ data class AllLogistic(
 	val nama: String,
 
 	@field:SerializedName("foto")
-	val foto: String,
+	val foto: String? = null,
 
 	@field:SerializedName("updated_at")
 	val updatedAt: Long,

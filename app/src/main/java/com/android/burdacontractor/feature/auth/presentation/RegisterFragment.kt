@@ -57,8 +57,6 @@ class RegisterFragment : Fragment() {
                 StateResponse.ERROR -> binding.progressBar.setGone()
                 StateResponse.SUCCESS -> {
                     binding.progressBar.setGone()
-                    requireView().findNavController()
-                        .navigate(R.id.action_registerFragment_to_loginAccountFragment)
                 }
             }
         }
@@ -96,7 +94,10 @@ class RegisterFragment : Fragment() {
             binding.etNoHp.text.toString(),
             binding.etEmail.text.toString(),
             binding.etPassword.text.toString()
-        )
+        ) {
+            requireView().findNavController()
+                .navigate(R.id.action_registerFragment_to_loginAccountFragment)
+        }
     }
 
     private fun isInputCorrect(): Boolean {

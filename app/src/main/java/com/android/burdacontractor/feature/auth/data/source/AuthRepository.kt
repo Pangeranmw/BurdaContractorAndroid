@@ -66,6 +66,24 @@ class AuthRepository @Inject constructor(
         emit(Resource.Error(it.message.toString()))
     }.flowOn(Dispatchers.IO)
 
+    override suspend fun forgetPassword(email: String): Flow<Resource<ErrorMessageResponse>> =
+        flow {
+            emit(Resource.Loading())
+            when (val response = authRemoteDataSource.forgetPassword(
+                email
+            ).first()) {
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val user = response.data
+                    emit(Resource.Success(user, response.data.message))
+                }
+
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
+
     override suspend fun loginWithPin(pin: String): Flow<Resource<ErrorMessageResponse>> = flow {
         emit(Resource.Loading())
         when (val response = authRemoteDataSource.loginWithPin(pin).first()) {

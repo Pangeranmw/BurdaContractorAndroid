@@ -59,8 +59,6 @@ class UploadPhotoActivity : AppCompatActivity() {
                 StateResponse.SUCCESS -> {
                     binding.progressBar.isVisible = false
                 }
-
-                else -> {}
             }
         }
         uploadPhotoViewModel.messageResponse.observe(this) {
@@ -80,15 +78,17 @@ class UploadPhotoActivity : AppCompatActivity() {
             galleryButton.setOnClickListener { startGallery() }
             cameraButton.setOnClickListener { startCamera() }
             uploadButton.setOnClickListener { uploadImage() }
-            if (storageViewModel.photo.isNotBlank()) {
-                previewImageView.setImageFromUrl(storageViewModel.photo, applicationContext)
+            if (storageViewModel.photo.isNotBlank() && currentImageUri == null) {
+                previewImageView.setImageFromUrl(storageViewModel.photo, this@UploadPhotoActivity)
             } else {
-                previewImageView.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        applicationContext,
-                        R.drawable.ic_image
+                if (currentImageUri == null) {
+                    previewImageView.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            applicationContext,
+                            R.drawable.ic_image
+                        )
                     )
-                )
+                }
             }
         }
         onBackPressedCallback()
@@ -161,6 +161,5 @@ class UploadPhotoActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
-        const val DELIVERY_ORDER = "deliveryOrder"
     }
 }

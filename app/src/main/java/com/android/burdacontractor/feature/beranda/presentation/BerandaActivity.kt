@@ -48,6 +48,7 @@ import com.android.burdacontractor.feature.kendaraan.presentation.main.Kendaraan
 import com.android.burdacontractor.feature.perusahaan.presentation.main.PerusahaanActivity
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
+import com.android.burdacontractor.feature.profile.presentation.SignatureActivity
 import com.android.burdacontractor.feature.profile.presentation.users.UsersActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.detail.SuratJalanDetailActivity
 import com.android.burdacontractor.feature.suratjalan.presentation.main.SuratJalanActivity
@@ -94,6 +95,7 @@ class BerandaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         berandaViewModel.user.observe(this) { user ->
             storageViewModel.updateUser(user)
             initAppBar(user)
+            binding.layoutTtd.isVisible = user.ttd == null || storageViewModel.ttd.isBlank()
         }
         berandaViewModel.role.observe(this) {
             it?.let {
@@ -442,6 +444,9 @@ class BerandaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         with(binding) {
             btnDrawer.setOnClickListener {
                 mainLayout.openDrawer(GravityCompat.START)
+            }
+            btnTtd.setOnClickListener {
+                openActivity(SignatureActivity::class.java, false)
             }
             srLayout.setOnRefreshListener {
                 berandaViewModel.getAllData()
