@@ -26,15 +26,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        debug {
-            buildConfigField("String", "BASE_URL", "\"" + localProperties['BASE_URL'] + "\"")
-        }
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -45,6 +36,30 @@ android {
     buildFeatures {
         viewBinding true
         buildConfig true
+    }
+    signingConfigs {
+        release {
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
+            enableV4Signing = true
+
+            storeFile file("${project.rootDir}/burdakey.jks")
+            storePassword 'burdalogistic'
+            keyAlias 'key0'
+            keyPassword 'burdalogistic'
+        }
+    }
+    buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"" + localProperties['BASE_URL'] + "\"")
+        }
+        release {
+            signingConfig signingConfigs.release
+            buildConfigField("String", "BASE_URL", "\"" + localProperties['BASE_URL'] + "\"")
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
 }
 

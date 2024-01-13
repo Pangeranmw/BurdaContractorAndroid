@@ -13,11 +13,9 @@ import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.checkEmail
-import com.android.burdacontractor.core.utils.openActivity
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.FragmentForgetPasswordBinding
-import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -55,7 +53,8 @@ class ForgetPasswordFragment : Fragment() {
                 StateResponse.ERROR -> binding.progressBar.setGone()
                 StateResponse.SUCCESS -> {
                     binding.progressBar.setGone()
-                    requireActivity().openActivity(BerandaActivity::class.java)
+                    requireView().findNavController()
+                        .navigate(R.id.action_forgetPasswordFragment_to_loginAccountFragment)
                 }
             }
         }

@@ -3,13 +3,13 @@ package com.android.burdacontractor.core.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.utils.getDateFromMillis
-import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setImageFromUrl
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ItemPenggunaanBinding
@@ -44,14 +44,14 @@ class ListPenggunaanSuratJalanAdapter(
                 tvKode.text = penggunaan.kode
                 tvNamaAsal.text = penggunaan.asal.nama
 
+                layoutPemberiPenggunaan.isVisible = penggunaan.menanganiAsalUser != null
                 penggunaan.menanganiAsalUser?.let {
-                    layoutPemberi.setVisible()
                     tvNamaPemberi.text = it.nama
                     it.foto?.let { foto ->
                         binding.ivPemberi.imageTintMode = null
                         ivPemberi.setImageFromUrl(foto, itemView.context)
                     }
-                } ?: layoutPemberi.setGone()
+                }
 
                 tvNamaPengaju.text = penggunaan.menanganiUser.nama
                 penggunaan.menanganiUser.foto?.let {

@@ -6,9 +6,11 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#333333</color>
+    <color name="pen_signature">#333333</color>
     <color name="black_trans">#70000000</color>
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="bg_signature">#FFFFFFFF</color>
 
     <color name="shadow_gray_smooth">#FAFAFA</color>
     <color name="shadow_green_smooth">#DCFFE4</color>
@@ -16,6 +18,7 @@
     <color name="gray_dark">#787878</color>
     <color name="gray">#787878</color>
     <color name="input">#F4F4F4</color>
+    <color name="input_ttd">#F4F4F4</color>
     <color name="ttd_background">#F4F4F4</color>
 
     <color name="green_dark_half">#169147</color>

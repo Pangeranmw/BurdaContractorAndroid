@@ -16,31 +16,76 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageButton
-        android:id="@+id/btn_back"
-        android:contentDescription="@string/cd_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="20dp"
-        android:background="@drawable/semi_rounded_white"
-        android:elevation="10dp"
-        android:src="@drawable/ic_back"
-        app:tint="@color/black"
+    <RelativeLayout
+        android:id="@+id/layout_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="16dp"
+        android:gravity="center_vertical">
 
-    <ImageButton
-        android:id="@+id/btn_current_location"
-        android:contentDescription="@string/cd_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="20dp"
-        android:background="@drawable/semi_rounded_white"
-        android:elevation="10dp"
-        android:src="@drawable/ic_tracking_off"
-        app:tint="@color/black"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:contentDescription="@string/cd_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/semi_rounded_white"
+            android:elevation="10dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/black"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
+
+        <com.google.android.material.search.SearchBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchBar"
+            style="@style/Widget.Material3.SearchBar"
+            android:layout_toStartOf="@+id/btn_current_location"
+            app:backgroundTint="@color/white"
+            app:tintNavigationIcon="@color/primary_main"
+            app:navigationIcon="@drawable/baseline_search_24"
+            android:background="@drawable/semi_rounded_outline_main"
+            android:hint="@string/cari_tempat"
+            android:layout_toEndOf="@+id/btn_back"
+            android:paddingHorizontal="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/btn_current_location"
+            android:contentDescription="@string/cd_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/semi_rounded_white"
+            android:elevation="10dp"
+            android:src="@drawable/ic_tracking_off"
+            app:tint="@color/black" />
+    </RelativeLayout>
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/searchView"
+        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+        style="@style/Widget.Material3.SearchView"
+        app:backgroundTint="@color/white"
+        app:queryBackground="@color/input"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:hint="@string/cari_tempat"
+        app:layout_anchor="@id/layout_app_bar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:itemCount="10"
+            app:backgroundTint="@color/white"
+            tools:listitem="@layout/item_find_place" />
+    </com.google.android.material.search.SearchView>
 
     <LinearLayout
         android:id="@+id/linearLayout"

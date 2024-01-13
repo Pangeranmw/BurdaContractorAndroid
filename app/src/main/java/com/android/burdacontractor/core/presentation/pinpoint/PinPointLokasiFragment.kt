@@ -11,9 +11,11 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.PinPoint
 import com.android.burdacontractor.core.presentation.StorageViewModel
+import com.android.burdacontractor.core.presentation.adapter.ListFindPlaceAdapter
 import com.android.burdacontractor.core.presentation.customview.MarkerInfoWindowAdapter
 import com.android.burdacontractor.core.utils.BitmapHelper
 import com.android.burdacontractor.core.utils.emptyData
@@ -139,6 +141,30 @@ class PinPointLokasiFragment : DialogFragment(), OnMapReadyCallback {
 
     private fun initUi() {
         with(binding) {
+            searchView.setupWithSearchBar(searchBar)
+            searchView
+                .editText
+                .setOnEditorActionListener { textView, actionId, event ->
+                    searchBar.setText(searchView.text)
+                    pinPointLokasiViewModel.getPlaceByQuery(searchView.text.toString()) { list ->
+                        val adapter = ListFindPlaceAdapter {
+                            val selectedLat = it.location.latitude.toString()
+                            val selectedLon = it.location.longitude.toString()
+                            val coordinate = LatLng(selectedLat.toDouble(), selectedLon.toDouble())
+                            searchView.hide()
+                            pinPointLokasiViewModel.setAlamat(it.formattedAddress)
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 20f))
+                        }
+                        adapter.submitList(list)
+                        rvSearch.layoutManager = LinearLayoutManager(
+                            requireContext(),
+                            LinearLayoutManager.VERTICAL,
+                            false
+                        )
+                        rvSearch.adapter = adapter
+                    }
+                    false
+                }
             etLongitude.doAfterTextChanged {
                 requireActivity().emptyData(it.toString(), etLongitudeLayout)
                 isInputCorrect()
@@ -156,7 +182,9 @@ class PinPointLokasiFragment : DialogFragment(), OnMapReadyCallback {
             btnSubmit.setOnClickListener {
                 pinPointLokasiViewModel.setLatitude(etLatitude.text.toString())
                 pinPointLokasiViewModel.setLongitude(etLongitude.text.toString())
-                pinPointLokasiViewModel.getLocationFromCoordinate {
+                if (pinPointLokasiViewModel.alamat.value == null) {
+                    pinPointLokasiViewModel.getLocationFromCoordinate { dismiss() }
+                } else {
                     dismiss()
                 }
             }

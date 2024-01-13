@@ -23,6 +23,6 @@ class SuratJalanStatusPagerAdapter(activity: AppCompatActivity) : FragmentStateA
     }
 
     override fun getItemCount(): Int {
-        return 3
+        return 4
     }
 }

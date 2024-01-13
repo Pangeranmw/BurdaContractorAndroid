@@ -82,6 +82,7 @@
     <string name="menunggu_admin_gudang">Menunggu\nAdmin Gudang</string>
     <string name="menunggu_driver">Menunggu\nDriver</string>
     <string name="selesai">Selesai</string>
+    <string name="selesai_surat_jalan">Selesai SJ</string>
     <string name="icon_filter">Icon Filter</string>
     <string name="dalam_nperjalanan">Dalam\nPerjalanan</string>
     <string name="sj_pengiriman_gudang_proyek">Surat Jalan Pengiriman Gudang-Proyek</string>
@@ -201,7 +202,9 @@
     <string name="do_driver_dalam_perjalanan">DO Driver Dalam Perjalanan</string>
     <string name="do_selesai">DO Selesai</string>
     <string name="menunggu_konfirmasi_driver">Menunggu Konfirmasi Driver</string>
+    <string name="menunggu_konfirmasi_driver_surat_jalan">Menunggu Konfirmasi Driver SJ</string>
     <string name="driver_dalam_perjalanan">Driver Dalam Perjalanan</string>
+    <string name="driver_dalam_perjalana_surat_jalan">Driver Dalam Perjalanan SJ</string>
     <string name="dibuat_untuk">Dibuat Untuk</string>
     <string name="filter">Filter</string>
     <string name="diri_sendiri">Diri Sendiri</string>
@@ -343,4 +346,9 @@
     <string name="kembali_ke">Kembali ke</string>
     <string name="submit">Submit</string>
     <string name="lupa_password">Lupa Password</string>
+    <string name="cari_tempat">Cari Tempat</string>
+    <string name="semua_surat_jalan">Semua SJ</string>
+    <string name="two_string_with_one_space">%1$s %2$s</string>
+    <string name="heading_sj_pager">SJ %1$s %2$s</string>
+    <string name="heading_sj_pager_all">Semua SJ %1$s</string>
 </resources>

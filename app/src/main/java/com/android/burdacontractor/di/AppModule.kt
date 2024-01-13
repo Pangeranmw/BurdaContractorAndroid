@@ -8,6 +8,8 @@ import com.android.burdacontractor.core.domain.usecase.GetLocationFromAddressInt
 import com.android.burdacontractor.core.domain.usecase.GetLocationFromAddressUseCase
 import com.android.burdacontractor.core.domain.usecase.GetLocationFromCoordinateInteractor
 import com.android.burdacontractor.core.domain.usecase.GetLocationFromCoordinateUseCase
+import com.android.burdacontractor.core.domain.usecase.GetPlaceByQueryInteractor
+import com.android.burdacontractor.core.domain.usecase.GetPlaceByQueryUseCase
 import com.android.burdacontractor.core.domain.usecase.GetProvinceInteractor
 import com.android.burdacontractor.core.domain.usecase.GetProvinceUseCase
 import com.android.burdacontractor.core.domain.usecase.LogisticFirebaseFirebaseInteractor
@@ -115,6 +117,10 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @Module
 @InstallIn(ViewModelComponent::class)
 abstract class AppModule {
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetPlaceByQueryUseCase(getPlaceByQueryInteractor: GetPlaceByQueryInteractor): GetPlaceByQueryUseCase
 
     @Binds
     @ViewModelScoped

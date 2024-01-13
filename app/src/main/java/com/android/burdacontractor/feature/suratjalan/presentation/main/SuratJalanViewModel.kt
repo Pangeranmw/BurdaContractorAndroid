@@ -40,7 +40,7 @@ class SuratJalanViewModel @Inject constructor(
     private val _createdByOrFor = MutableLiveData(CreatedByOrFor.all)
     val createdByOrFor: LiveData<CreatedByOrFor> = _createdByOrFor
 
-    private val _status = MutableLiveData(SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER)
+    private val _status = MutableLiveData(SuratJalanStatus.SEMUA)
     val status: LiveData<SuratJalanStatus?> = _status
 
     private val _search = MutableLiveData<String?>(null)

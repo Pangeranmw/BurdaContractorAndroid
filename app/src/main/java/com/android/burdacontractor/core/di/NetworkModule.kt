@@ -6,8 +6,7 @@ import com.android.burdacontractor.BuildConfig
 import com.android.burdacontractor.core.data.source.remote.network.DaerahService
 import com.android.burdacontractor.core.data.source.remote.network.DistanceMatrixService
 import com.android.burdacontractor.core.data.source.remote.network.GeoCoderService
-import com.android.burdacontractor.core.data.source.remote.network.PeminjamanService
-import com.android.burdacontractor.core.data.source.remote.network.PengembalianService
+import com.android.burdacontractor.core.data.source.remote.network.PlaceService
 import com.android.burdacontractor.feature.auth.data.source.remote.network.AuthService
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.DeliveryOrderService
 import com.android.burdacontractor.feature.deliveryorder.data.source.remote.network.PreOrderService
@@ -58,8 +57,8 @@ class NetworkModule {
                     HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
                 }
             )
-            .connectTimeout(240, TimeUnit.SECONDS)
-            .readTimeout(240, TimeUnit.SECONDS)
+            .connectTimeout(0, TimeUnit.SECONDS)
+            .readTimeout(0, TimeUnit.SECONDS)
             .build()
     }
 
@@ -71,6 +70,16 @@ class NetworkModule {
             .client(client)
             .build()
         return retrofit.create(DistanceMatrixService::class.java)
+    }
+
+    @Provides
+    fun providePlaceService(client: OkHttpClient): PlaceService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://places.googleapis.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+        return retrofit.create(PlaceService::class.java)
     }
 
     @Provides
@@ -106,15 +115,6 @@ class NetworkModule {
     @Provides
     fun provideDeliveryOrderService(retrofit: Retrofit): DeliveryOrderService {
         return retrofit.create(DeliveryOrderService::class.java)
-    }
-    @Provides
-    fun providePeminjamanService(retrofit: Retrofit): PeminjamanService {
-        return retrofit.create(PeminjamanService::class.java)
-    }
-
-    @Provides
-    fun providePengembalianService(retrofit: Retrofit): PengembalianService {
-        return retrofit.create(PengembalianService::class.java)
     }
 
     @Provides

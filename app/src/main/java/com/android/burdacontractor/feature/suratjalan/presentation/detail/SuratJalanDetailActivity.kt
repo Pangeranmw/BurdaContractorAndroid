@@ -201,6 +201,7 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                 userId = user!!.id
             )
             penggunaanAdapter.submitList(suratJalan!!.penggunaan.sortedBy { it.asal.id })
+
             rvPenggunaan.layoutManager = LinearLayoutManager(
                 this@SuratJalanDetailActivity,
                 LinearLayoutManager.VERTICAL,

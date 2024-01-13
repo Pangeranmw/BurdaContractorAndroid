@@ -123,10 +123,10 @@ class BerandaViewModel @Inject constructor(
         viewModelScope.launch {
             getUserByTokenUseCase.execute().collect {
                 when (it) {
-                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Loading -> _state.postValue(StateResponse.LOADING)
                     is Resource.Success -> {
-                        _state.value = StateResponse.SUCCESS
-                        _user.value = it.data!!
+                        _state.postValue(StateResponse.SUCCESS)
+                        _user.postValue(it.data!!)
                         if (_role.value == null) {
                             setRole(it.data.role)
                         }
@@ -138,8 +138,8 @@ class BerandaViewModel @Inject constructor(
                         }
                     }
                     is Resource.Error -> {
-                        _messageResponse.value = Event(it.message)
-                        _state.value = StateResponse.ERROR
+                        _messageResponse.postValue(Event(it.message))
+                        _state.postValue(StateResponse.ERROR)
                     }
                 }
             }
@@ -149,14 +149,14 @@ class BerandaViewModel @Inject constructor(
         viewModelScope.launch {
             getStatistikMenungguSuratJalanUseCase.execute().collect{
                 when(it){
-                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Loading -> _state.postValue(StateResponse.LOADING)
                     is Resource.Success -> {
-                        _state.value = StateResponse.SUCCESS
-                        _statistikMenungguSuratJalan.value = it.data!!
+                        _state.postValue(StateResponse.SUCCESS)
+                        _statistikMenungguSuratJalan.postValue(it.data!!)
                     }
                     is Resource.Error -> {
-                        _state.value = StateResponse.ERROR
-                        _messageResponse.value = Event(it.message)
+                        _state.postValue(StateResponse.ERROR)
+                        _messageResponse.postValue(Event(it.message))
                     }
                 }
             }
@@ -166,14 +166,14 @@ class BerandaViewModel @Inject constructor(
         viewModelScope.launch {
             getSomeActiveDeliveryOrderUseCase.execute().collect{
                 when(it){
-                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Loading -> _state.postValue(StateResponse.LOADING)
                     is Resource.Success -> {
-                        _state.value = StateResponse.SUCCESS
-                        _deliveryOrder.value = it.data!!
+                        _state.postValue(StateResponse.SUCCESS)
+                        _deliveryOrder.postValue(it.data!!)
                     }
                     is Resource.Error -> {
-                        _state.value = StateResponse.ERROR
-                        _messageResponse.value = Event(it.message)
+                        _state.postValue(StateResponse.ERROR)
+                        _messageResponse.postValue(Event(it.message))
                     }
                 }
             }
@@ -184,14 +184,14 @@ class BerandaViewModel @Inject constructor(
         viewModelScope.launch {
             getAllDeliveryOrderDalamPerjalananByUserUseCase.execute().collect{
                 when(it){
-                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Loading -> _state.postValue(StateResponse.LOADING)
                     is Resource.Success -> {
-                        _state.value = StateResponse.SUCCESS
-                        _doDalamPerjalanan.value = it.data!!
+                        _state.postValue(StateResponse.SUCCESS)
+                        _doDalamPerjalanan.postValue(it.data!!)
                     }
                     is Resource.Error -> {
-                        _state.value = StateResponse.ERROR
-                        _messageResponse.value = Event(it.message)
+                        _state.postValue(StateResponse.ERROR)
+                        _messageResponse.postValue(Event(it.message))
                     }
                 }
             }
@@ -202,24 +202,26 @@ class BerandaViewModel @Inject constructor(
         viewModelScope.launch {
             getSomeActiveSuratJalanUseCase.execute(tipe).collect{
                 when(it){
-                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Loading -> _state.postValue(StateResponse.LOADING)
                     is Resource.Success -> {
-                        _state.value = StateResponse.SUCCESS
+                        _state.postValue(StateResponse.SUCCESS)
                         when (tipe) {
                             SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK -> {
-                                _sjPengirimanGp.value = it.data!!
+                                _sjPengirimanGp.postValue(it.data!!)
                             }
+
                             SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK -> {
-                                _sjPengirimanPp.value = it.data!!
+                                _sjPengirimanPp.postValue(it.data!!)
                             }
+
                             SuratJalanTipe.PENGEMBALIAN -> {
-                                _sjPengembalian.value = it.data!!
+                                _sjPengembalian.postValue(it.data!!)
                             }
                         }
                     }
                     is Resource.Error -> {
-                        _state.value = StateResponse.ERROR
-                        _messageResponse.value = Event(it.message)
+                        _state.postValue(StateResponse.ERROR)
+                        _messageResponse.postValue(Event(it.message))
                     }
                 }
             }
@@ -230,14 +232,14 @@ class BerandaViewModel @Inject constructor(
         viewModelScope.launch {
             getAllSuratJalanDalamPerjalananByUserUseCase.execute().collect{
                 when(it){
-                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Loading -> _state.postValue(StateResponse.LOADING)
                     is Resource.Success -> {
-                        _state.value = StateResponse.SUCCESS
-                        _sjDalamPerjalanan.value = it.data!!
+                        _state.postValue(StateResponse.SUCCESS)
+                        _sjDalamPerjalanan.postValue(it.data!!)
                     }
                     is Resource.Error -> {
-                        _state.value = StateResponse.ERROR
-                        _messageResponse.value = Event(it.message)
+                        _state.postValue(StateResponse.ERROR)
+                        _messageResponse.postValue(Event(it.message))
                     }
                 }
             }
@@ -248,14 +250,16 @@ class BerandaViewModel @Inject constructor(
         viewModelScope.launch {
             getKendaraanByLogisticUseCase.execute().collect{
                 when(it){
-                    is Resource.Loading -> _state.value = StateResponse.LOADING
+                    is Resource.Loading -> _state.postValue(StateResponse.LOADING)
                     is Resource.Success -> {
-                        _state.value = StateResponse.SUCCESS
-                        _kendaraanByLogistic.value = it.data
+                        _state.postValue(StateResponse.SUCCESS)
+                        _kendaraanByLogistic.postValue(
+                            it.data
+                        )
                     }
                     is Resource.Error -> {
-                        _state.value = StateResponse.ERROR
-                        _messageResponse.value = Event(it.message)
+                        _state.postValue(StateResponse.ERROR)
+                        _messageResponse.postValue(Event(it.message))
                     }
                 }
             }

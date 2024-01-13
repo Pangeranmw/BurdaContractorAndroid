@@ -132,7 +132,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/layout_pemberi"
+                android:id="@+id/layout_pemberi_penggunaan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"

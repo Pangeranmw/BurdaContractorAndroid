@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.android.burdacontractor.R
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.BottomNavigationViewModel
@@ -53,6 +54,10 @@ class SuratJalanActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             getString(R.string.no_internet),
             Snackbar.LENGTH_INDEFINITE
         )
+        val selectedTab: String? = intent.getStringExtra(SELECTED_TAB)
+        selectedTab?.let {
+            suratJalanViewModel.setTipe(SuratJalanTipe.valueOf(it))
+        }
         suratJalanViewModel.liveNetworkChecker.observe(this) {
             checkConnection(snackbar, it) { initObserver() }
         }
@@ -228,6 +233,29 @@ class SuratJalanActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                 refreshViewPager(viewPager, viewPager.currentItem)
                 refreshBadgeValue()
             }
+            suratJalanViewModel.status.observe(this@SuratJalanActivity) {
+                when (it) {
+                    SuratJalanStatus.SEMUA -> {
+                        tabs.selectTab(tabs.getTabAt(0))
+                    }
+
+                    SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER -> {
+                        tabs.selectTab(tabs.getTabAt(1))
+                    }
+
+                    SuratJalanStatus.DRIVER_DALAM_PERJALANAN -> {
+                        tabs.selectTab(tabs.getTabAt(2))
+                    }
+
+                    SuratJalanStatus.SELESAI -> {
+                        tabs.selectTab(tabs.getTabAt(3))
+                    }
+
+                    else -> {
+                        tabs.selectTab(tabs.getTabAt(0))
+                    }
+                }
+            }
             suratJalanViewModel.tipe.observe(this@SuratJalanActivity) {
                 when (it) {
                     SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK -> {
@@ -303,9 +331,11 @@ class SuratJalanActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(
+            R.string.semua,
             R.string.menunggu_driver,
             R.string.dalam_nperjalanan,
             R.string.selesai
         )
+        const val SELECTED_TAB = "selected_tab"
     }
 }

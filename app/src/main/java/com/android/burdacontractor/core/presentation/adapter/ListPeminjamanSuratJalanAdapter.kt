@@ -3,13 +3,13 @@ package com.android.burdacontractor.core.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.utils.getDateFromMillis
-import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setImageFromUrl
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ItemPeminjamanBinding
@@ -44,14 +44,15 @@ class ListPeminjamanSuratJalanAdapter(
                 tvKode.text = peminjaman.kode
                 tvNamaAsal.text = peminjaman.asal.nama
 
+                layoutPemberi.isVisible = peminjaman.menanganiAsalUser != null
+
                 peminjaman.menanganiAsalUser?.let {
-                    layoutPemberi.setVisible()
                     tvNamaPemberi.text = it.nama
                     it.foto?.let { foto ->
                         binding.ivPemberi.imageTintMode = null
                         ivPemberi.setImageFromUrl(foto, itemView.context)
                     }
-                } ?: layoutPemberi.setGone()
+                }
 
                 tvNamaPengaju.text = peminjaman.menanganiUser.nama
                 peminjaman.menanganiUser.foto?.let {

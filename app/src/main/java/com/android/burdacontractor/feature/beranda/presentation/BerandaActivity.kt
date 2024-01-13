@@ -24,6 +24,7 @@ import com.android.burdacontractor.core.domain.model.enums.DeliveryOrderStatus
 import com.android.burdacontractor.core.domain.model.enums.JenisKendaraan
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
+import com.android.burdacontractor.core.domain.model.enums.SuratJalanTipe
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.BottomNavigationViewModel
 import com.android.burdacontractor.core.presentation.LogisticFirebaseViewModel
@@ -458,13 +459,25 @@ class BerandaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 openActivity(DeliveryOrderActivity::class.java)
             }
             btnSeeAllSjPengembalian.setOnClickListener {
-                openActivity(SuratJalanActivity::class.java)
+                openActivityWithExtras(SuratJalanActivity::class.java) {
+                    putString(SuratJalanActivity.SELECTED_TAB, SuratJalanTipe.PENGEMBALIAN.name)
+                }
             }
-            btnSeeAllSjPengirimanGp.setOnClickListener{
-                openActivity(SuratJalanActivity::class.java)
+            btnSeeAllSjPengirimanGp.setOnClickListener {
+                openActivityWithExtras(SuratJalanActivity::class.java) {
+                    putString(
+                        SuratJalanActivity.SELECTED_TAB,
+                        SuratJalanTipe.PENGIRIMAN_GUDANG_PROYEK.name
+                    )
+                }
             }
-            btnSeeAllSjPengirimanPp.setOnClickListener{
-                openActivity(SuratJalanActivity::class.java)
+            btnSeeAllSjPengirimanPp.setOnClickListener {
+                openActivityWithExtras(SuratJalanActivity::class.java) {
+                    putString(
+                        SuratJalanActivity.SELECTED_TAB,
+                        SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK.name
+                    )
+                }
             }
         }
     }

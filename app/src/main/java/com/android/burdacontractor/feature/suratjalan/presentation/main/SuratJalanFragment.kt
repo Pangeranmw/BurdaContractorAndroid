@@ -18,6 +18,7 @@ import com.android.burdacontractor.core.domain.model.enums.SuratJalanStatus
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.LoadingStateAdapter
 import com.android.burdacontractor.core.presentation.adapter.PagingListSuratJalanAdapter
+import com.android.burdacontractor.core.utils.enumValueToNormal
 import com.android.burdacontractor.core.utils.openActivityWithExtras
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
@@ -92,7 +93,6 @@ class SuratJalanFragment : Fragment() {
                         suratJalanViewModel.setState(StateResponse.SUCCESS)
                     }
                 }
-
                 is LoadState.Error -> {
                     suratJalanViewModel.setState(StateResponse.ERROR)
                 }
@@ -104,11 +104,11 @@ class SuratJalanFragment : Fragment() {
                 adapter.retry()
             }
         )
-
         when (index) {
             1 -> setAdapter(1)
             2 -> setAdapter(2)
             3 -> setAdapter(3)
+            4 -> setAdapter(4)
         }
     }
 
@@ -124,24 +124,20 @@ class SuratJalanFragment : Fragment() {
             adapter.submitData(lifecycle, PagingData.empty())
         }
         when (index) {
-            1 -> {
-                suratJalanViewModel.setStatus(SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER)
-                binding.tvHeadingStatus.text =
-                    getString(R.string.menunggu_konfirmasi_driver)
-            }
-
-            2 -> {
-                suratJalanViewModel.setStatus(SuratJalanStatus.DRIVER_DALAM_PERJALANAN)
-                binding.tvHeadingStatus.text =
-                    getString(R.string.driver_dalam_perjalanan)
-            }
-
-            3 -> {
-                suratJalanViewModel.setStatus(SuratJalanStatus.SELESAI)
-                binding.tvHeadingStatus.text =
-                    getString(R.string.selesai)
-            }
+            1 -> suratJalanViewModel.setStatus(SuratJalanStatus.SEMUA)
+            2 -> suratJalanViewModel.setStatus(SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER)
+            3 -> suratJalanViewModel.setStatus(SuratJalanStatus.DRIVER_DALAM_PERJALANAN)
+            4 -> suratJalanViewModel.setStatus(SuratJalanStatus.SELESAI)
         }
+        binding.tvHeadingStatus.text =
+            if (suratJalanViewModel.status.value!! != SuratJalanStatus.SEMUA) getString(
+                R.string.heading_sj_pager,
+                enumValueToNormal(suratJalanViewModel.tipe.value!!.name),
+                enumValueToNormal(suratJalanViewModel.status.value!!.name),
+            ) else getString(
+                R.string.heading_sj_pager_all,
+                enumValueToNormal(suratJalanViewModel.tipe.value!!.name)
+            )
         suratJalanViewModel.getAllSuratJalan().observe(viewLifecycleOwner) {
             adapter.submitData(lifecycle, it)
         }
