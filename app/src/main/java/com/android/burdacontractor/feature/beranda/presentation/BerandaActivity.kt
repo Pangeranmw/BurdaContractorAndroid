@@ -98,11 +98,11 @@ class BerandaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             initAppBar(user)
             binding.layoutTtd.isVisible = user.ttd == null || storageViewModel.ttd.isBlank()
         }
-        berandaViewModel.role.observe(this) {
-            it?.let {
+        berandaViewModel.role.observe(this) { role ->
+            if (UserRole.values().any { it.name == role }) {
                 initBadgeAndHideLayout()
-                refreshBadgeValue(it)
-                initLayout(it)
+                refreshBadgeValue(role)
+                initLayout(role)
             }
         }
         snackbar = Snackbar.make(
@@ -280,25 +280,26 @@ class BerandaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         berandaViewModel.sjPengembalian.observe(this){sjPengembalian->
             adapterSjPengembalian = initAdapterSj()
             initRvSj(binding.rvSjPengembalian,adapterSjPengembalian)
-            adapterSjPengembalian.submitList(sjPengembalian.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name})
+            adapterSjPengembalian.submitList(sjPengembalian.suratJalan!!.filterNot { it.status == SuratJalanStatus.SELESAI.name })
             initCountTextAndButton(sjPengembalian.count!!,binding.tvCountSjPengembalian,binding.btnSeeAllSjPengembalian)
         }
         berandaViewModel.sjPengirimanGp.observe(this){sjPengirimanGp->
             adapterSjPengirimanGp = initAdapterSj()
             initRvSj(binding.rvSjPengirimanGp,adapterSjPengirimanGp)
-            adapterSjPengirimanGp.submitList(sjPengirimanGp.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name})
+            adapterSjPengirimanGp.submitList(sjPengirimanGp.suratJalan!!.filterNot { it.status == SuratJalanStatus.SELESAI.name })
             initCountTextAndButton(sjPengirimanGp.count!!,binding.tvCountSjPengirimanGp,binding.btnSeeAllSjPengirimanGp)
         }
         berandaViewModel.sjPengirimanPp.observe(this){sjPengirimanPp->
             adapterSjPengirimanPp = initAdapterSj()
             initRvSj(binding.rvSjPengirimanPp,adapterSjPengirimanPp)
-            adapterSjPengirimanPp.submitList(sjPengirimanPp.suratJalan!!.filterNot{it.status == SuratJalanStatus.DRIVER_DALAM_PERJALANAN.name})
+            adapterSjPengirimanPp.submitList(sjPengirimanPp.suratJalan!!.filterNot { it.status == SuratJalanStatus.SELESAI.name })
             initCountTextAndButton(sjPengirimanPp.count!!,binding.tvCountSjPengirimanPp,binding.btnSeeAllSjPengirimanPp)
         }
         berandaViewModel.deliveryOrder.observe(this){deliveryOrder->
             adapterDeliveryOrder = initAdapterDeliveryOrder()
             initRvDo(binding.rvDeliveryOrder,adapterDeliveryOrder)
-            val createdByOrFor = deliveryOrder.deliveryOrder!!.filterNot{it.status == DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name && it.idPurchasing != storageViewModel.userId}
+            val createdByOrFor =
+                deliveryOrder.deliveryOrder!!.filterNot { it.status == DeliveryOrderStatus.SELESAI.name && it.idPurchasing != storageViewModel.userId }
             adapterDeliveryOrder.submitList(createdByOrFor)
             initCountTextAndButton(
                 deliveryOrder.count!!,
@@ -412,7 +413,7 @@ class BerandaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         binding.tvNamaUser.text = user.nama
         binding.tvRoleUser.text = enumValueToNormal(user.role)
         if (user.foto != null && user.foto.toString().isNotBlank()) {
-            binding.ivUser.setImageFromUrl(user.foto, applicationContext)
+            binding.ivUser.setImageFromUrl(user.foto, this)
         }
         binding.ivUser.setOnClickListener {
             openActivity(ProfileActivity::class.java, false)

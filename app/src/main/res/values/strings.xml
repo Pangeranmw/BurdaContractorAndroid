@@ -198,6 +198,7 @@
     <string name="ulangi">Ulangi</string>
     <string name="tidak_ada_delivery_order">Tidak Ada Delivery Order</string>
     <string name="tidak_ada_users">Tidak Ada Pengguna</string>
+    <string name="do_semua">Semua DO</string>
     <string name="do_menunggu_konfirmasi_driver">DO Menunggu Konfirmasi Driver</string>
     <string name="do_driver_dalam_perjalanan">DO Driver Dalam Perjalanan</string>
     <string name="do_selesai">DO Selesai</string>
@@ -351,4 +352,5 @@
     <string name="two_string_with_one_space">%1$s %2$s</string>
     <string name="heading_sj_pager">SJ %1$s %2$s</string>
     <string name="heading_sj_pager_all">Semua SJ %1$s</string>
+    <string name="pembuat_surat_jalan">Pembuat Surat Jalan</string>
 </resources>

@@ -235,22 +235,15 @@ class SuratJalanActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             }
             suratJalanViewModel.status.observe(this@SuratJalanActivity) {
                 when (it) {
-                    SuratJalanStatus.SEMUA -> {
-                        tabs.selectTab(tabs.getTabAt(0))
-                    }
-
                     SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER -> {
                         tabs.selectTab(tabs.getTabAt(1))
                     }
-
                     SuratJalanStatus.DRIVER_DALAM_PERJALANAN -> {
                         tabs.selectTab(tabs.getTabAt(2))
                     }
-
                     SuratJalanStatus.SELESAI -> {
                         tabs.selectTab(tabs.getTabAt(3))
                     }
-
                     else -> {
                         tabs.selectTab(tabs.getTabAt(0))
                     }

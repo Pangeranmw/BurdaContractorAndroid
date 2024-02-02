@@ -85,12 +85,12 @@ class LocationService: Service() {
                 val accuracy = location.accuracy.toDouble()
                 val speed = location.speed.toDouble()
                 val provider = location.provider
-//                val updatedNotification = notification.setContentText(
-//                    "Location: ($lat, $long)"
-//                )
                 val updatedNotification = notification.setContentText(
-                    "Currently Running"
+                    "Location: ($lat, $long)"
                 )
+//                val updatedNotification = notification.setContentText(
+//                    "Currently Running"
+//                )
                 if (userRole == UserRole.LOGISTIC.name) {
                     val logisticCoordinate = LogisticCoordinate(
                         lat.toDouble(),

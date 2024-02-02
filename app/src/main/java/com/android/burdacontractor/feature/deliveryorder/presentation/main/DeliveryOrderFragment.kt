@@ -88,6 +88,7 @@ class DeliveryOrderFragment : Fragment() {
             1 -> setAdapter(1)
             2 -> setAdapter(2)
             3 -> setAdapter(3)
+            4 -> setAdapter(4)
         }
     }
 
@@ -101,16 +102,24 @@ class DeliveryOrderFragment : Fragment() {
         if(isRefresh) { adapter.submitData(lifecycle,PagingData.empty()) }
         when (index) {
             1 -> {
+                deliveryOrderViewModel.setStatus(DeliveryOrderStatus.SEMUA)
+                binding.tvHeadingStatus.text =
+                    getString(R.string.do_semua)
+            }
+
+            2 -> {
                 deliveryOrderViewModel.setStatus(DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER)
                 binding.tvHeadingStatus.text =
                     getString(R.string.do_menunggu_konfirmasi_driver)
             }
-            2 -> {
+
+            3 -> {
                 deliveryOrderViewModel.setStatus(DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN)
                 binding.tvHeadingStatus.text =
                     getString(R.string.do_driver_dalam_perjalanan)
             }
-            3 -> {
+
+            4 -> {
                 deliveryOrderViewModel.setStatus(DeliveryOrderStatus.SELESAI)
                 binding.tvHeadingStatus.text =
                     getString(R.string.do_selesai)

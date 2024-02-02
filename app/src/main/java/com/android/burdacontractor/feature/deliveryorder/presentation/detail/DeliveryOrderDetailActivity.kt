@@ -287,20 +287,6 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                 }
             }
             when(user!!.role){
-                UserRole.ADMIN_GUDANG.name ->{
-                    when(deliveryOrder!!.status){
-                        DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
-                            btnPantauLokasi.setVisible()
-                            setButtonStyle(btnPantauLokasi, true)
-                        }
-
-                        DeliveryOrderStatus.DRIVER_DALAM_PERJALANAN.name -> {
-                            if(deliveryOrder!!.adminGudang?.id == user!!.id)
-                                btnPantauLokasi.setVisible()
-                        }
-                    }
-                }
-
                 UserRole.LOGISTIC.name ->{
                     btnPantauLokasi.setGone()
                     btnTelusuriLokasi.setVisible()
@@ -344,10 +330,10 @@ class DeliveryOrderDetailActivity : AppCompatActivity() {
                     }
                 }
 
-                UserRole.PURCHASING.name -> {
-                    when(deliveryOrder!!.status){
+                UserRole.PURCHASING.name, UserRole.ADMIN_GUDANG.name, UserRole.ADMIN.name -> {
+                    when (deliveryOrder!!.status) {
                         DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER.name -> {
-                            if(deliveryOrder!!.purchasing.id == user!!.id){
+                            if (deliveryOrder!!.purchasing.id == user!!.id) {
                                 btnUbahDo.setVisible()
                                 btnDelete.setVisible()
                                 btnUbahDo.setOnClickListener {

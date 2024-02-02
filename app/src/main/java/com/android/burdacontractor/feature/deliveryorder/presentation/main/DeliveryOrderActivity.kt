@@ -257,6 +257,7 @@ class DeliveryOrderActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(
+            R.string.semua,
             R.string.menunggu_driver,
             R.string.dalam_nperjalanan,
             R.string.selesai

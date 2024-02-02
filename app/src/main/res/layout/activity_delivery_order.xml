@@ -86,17 +86,23 @@
                     app:tabBackground="@drawable/tab_background"
                     app:tabMode="scrollable"
                     app:tabIndicatorHeight="0dp"
-                    app:tabTextAppearance="@style/TabLayoutFont"
-                    >
+                    app:tabTextAppearance="@style/TabLayoutFont">
+
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/menunggu_driver"
-                        />
+                        android:text="@string/semua" />
+
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/dalam_nperjalanan"/>
+                        android:text="@string/menunggu_driver" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dalam_nperjalanan" />
+
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -42,6 +42,9 @@ data class SuratJalanDetailItem(
     @field:SerializedName("untuk_saya")
     val untukSaya: Boolean,
 
+    @field:SerializedName("menangani_proyek_tujuan")
+    val menanganiProyekTujuan: Boolean,
+
     @field:SerializedName("updated_at")
     val updatedAt: Long,
 

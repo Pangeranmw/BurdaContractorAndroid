@@ -115,8 +115,9 @@ class SuratJalanDetailActivity : AppCompatActivity() {
 
     private fun initBarang() {
         binding.apply {
+            val countBarang = suratJalan!!.peminjaman.size + suratJalan!!.penggunaan.size
             val deleteVisible = suratJalan!!.adminGudang.id == user!!.id
-                    && suratJalan!!.status == SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER.name
+                    && suratJalan!!.status == SuratJalanStatus.MENUNGGU_KONFIRMASI_DRIVER.name && countBarang > 1
 
             val peminjamanAdapter = ListPeminjamanSuratJalanAdapter(
                 deleteVisible = deleteVisible,
@@ -603,7 +604,7 @@ class SuratJalanDetailActivity : AppCompatActivity() {
                                     && (user!!.role == UserRole.SUPERVISOR.name || user!!.role == UserRole.SITE_MANAGER.name))
                             || (suratJalan!!.tipe == SuratJalanTipe.PENGIRIMAN_PROYEK_PROYEK.name
                                     && (user!!.role == UserRole.SUPERVISOR.name || user!!.role == UserRole.SITE_MANAGER.name)
-                                    && suratJalan!!.ttdPenanggungJawab != null)
+                                    && suratJalan!!.ttdPenanggungJawab != null && suratJalan!!.menanganiProyekTujuan)
                         ) {
                             btnTandaiSelesai.setVisible()
                             btnTandaiSelesai.setOnClickListener {

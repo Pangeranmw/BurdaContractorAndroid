@@ -23,7 +23,6 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.URL
-import java.util.Calendar
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -57,10 +56,9 @@ class BurdaFirebaseMessagingService: FirebaseMessagingService() {
         val channelName = getString(R.string.default_notification_channel_name)
         val intent = Intent(clickAction).putExtra(Constant.INTENT_ID, intentId)
         val contentPendingIntent = PendingIntent.getActivity(
-            this, Constant.NOTIFICATION_ID, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            this, messageBody.toString().toIntegerNumber(), intent,
+            PendingIntent.FLAG_IMMUTABLE
         )
-
         val notificationBuilder = NotificationCompat.Builder(this, channelId.toString())
             .setSmallIcon(R.drawable.logo_burda)
             .setContentTitle(title)
@@ -91,7 +89,7 @@ class BurdaFirebaseMessagingService: FirebaseMessagingService() {
         notificationManager.apply {
             notify(
                 intentId!!,
-                Calendar.getInstance().timeInMillis.toInt(),
+                messageBody.toString().toIntegerNumber(),
                 notificationBuilder.build()
             )
             notify(title!!.toIntegerNumber(), notificationSummaryBuilder.build())

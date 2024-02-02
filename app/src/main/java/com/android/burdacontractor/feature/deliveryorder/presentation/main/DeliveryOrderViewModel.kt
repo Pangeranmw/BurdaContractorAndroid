@@ -38,7 +38,7 @@ class DeliveryOrderViewModel @Inject constructor(
     private val _createdByOrFor = MutableLiveData(CreatedByOrFor.all)
     val createdByOrFor: LiveData<CreatedByOrFor> = _createdByOrFor
 
-    private val _status = MutableLiveData(DeliveryOrderStatus.MENUNGGU_KONFIRMASI_DRIVER)
+    private val _status = MutableLiveData(DeliveryOrderStatus.SEMUA)
     val status: LiveData<DeliveryOrderStatus?> = _status
 
     private val _search = MutableLiveData<String?>(null)

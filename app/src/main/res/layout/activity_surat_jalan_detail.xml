@@ -623,7 +623,7 @@
                             <TextView
                                 android:layout_height="wrap_content"
                                 android:layout_width="match_parent"
-                                android:text="@string/admin_gudang"
+                                android:text="@string/pembuat_surat_jalan"
                                 android:fontFamily="@font/inter_semi_bold"
                                 android:textColor="@color/black"
                                 android:textSize="12sp" />
