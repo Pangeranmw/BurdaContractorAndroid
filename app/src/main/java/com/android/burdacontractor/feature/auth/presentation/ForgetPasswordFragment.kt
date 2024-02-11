@@ -53,8 +53,6 @@ class ForgetPasswordFragment : Fragment() {
                 StateResponse.ERROR -> binding.progressBar.setGone()
                 StateResponse.SUCCESS -> {
                     binding.progressBar.setGone()
-                    requireView().findNavController()
-                        .navigate(R.id.action_forgetPasswordFragment_to_loginAccountFragment)
                 }
             }
         }
@@ -66,7 +64,7 @@ class ForgetPasswordFragment : Fragment() {
             isInputCorrect()
         }
         binding.btnSubmit.setOnClickListener {
-            validateLogin()
+            validateForgetPass()
         }
         binding.tvLogin.setOnClickListener {
             it.findNavController()
@@ -74,8 +72,11 @@ class ForgetPasswordFragment : Fragment() {
         }
     }
 
-    private fun validateLogin() {
-        authViewModel.forgetPassword(binding.etEmail.text.toString())
+    private fun validateForgetPass() {
+        authViewModel.forgetPassword(binding.etEmail.text.toString()) {
+            requireView().findNavController()
+                .navigate(R.id.action_forgetPasswordFragment_to_loginAccountFragment)
+        }
     }
 
     private fun isInputCorrect(): Boolean {

@@ -1,8 +1,8 @@
 package com.android.burdacontractor.feature.logistic.data.source.remote.network
 
-import com.android.burdacontractor.feature.proyek.data.source.remote.response.GetActiveSjDoLocationByLogisticResponse
-import com.android.burdacontractor.feature.proyek.data.source.remote.response.GetAllLogisticResponse
-import com.android.burdacontractor.feature.proyek.data.source.remote.response.GetLogisticByIdResponse
+import com.android.burdacontractor.feature.logistic.data.source.remote.response.GetActiveSjDoLocationByLogisticResponse
+import com.android.burdacontractor.feature.logistic.data.source.remote.response.GetAllLogisticResponse
+import com.android.burdacontractor.feature.logistic.data.source.remote.response.GetLogisticByIdResponse
 import retrofit2.http.*
 
 interface LogisticService {
@@ -14,6 +14,7 @@ interface LogisticService {
         @Query("size") size: Int = 5,
         @Query("search") search: String? = null,
         @Query("coordinate") coordinate: String? = null,
+        @Query("isPagination") isPagination: String = "yes",
     ): GetAllLogisticResponse
 
     @Headers("Content-Type: application/json", "Accept: application/json")

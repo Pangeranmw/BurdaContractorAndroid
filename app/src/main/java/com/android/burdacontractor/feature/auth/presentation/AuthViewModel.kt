@@ -78,7 +78,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun forgetPassword(email: String) {
+    fun forgetPassword(email: String, listener: () -> Unit) {
         viewModelScope.launch {
             forgetPasswordUseCase.execute(email).collect {
                 when (it) {
@@ -88,9 +88,9 @@ class AuthViewModel @Inject constructor(
                         val data = it.data
                         if (data != null) {
                             _messageResponse.value = Event(it.message)
+                            listener()
                         }
                     }
-
                     is Resource.Error -> {
                         _state.value = StateResponse.ERROR
                         _messageResponse.value = Event(it.message)

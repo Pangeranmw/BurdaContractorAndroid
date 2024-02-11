@@ -110,6 +110,13 @@ fun ShapeableImageView.setImageFromUrl(
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(this)
+    } else if (url == null) {
+        Glide.with(context)
+            .load(R.drawable.ic_image)
+            .signature(ObjectKey(System.currentTimeMillis().toString()))
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .into(this)
     }
 }
 fun ImageView.setImageFromUrl(
@@ -126,6 +133,13 @@ fun ImageView.setImageFromUrl(
     } else if (url != null && !useLoad) {
         Glide.with(context)
             .load(getPhotoUrl(url))
+            .signature(ObjectKey(System.currentTimeMillis().toString()))
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .into(this)
+    } else if (url == null) {
+        Glide.with(context)
+            .load(R.drawable.ic_image)
             .signature(ObjectKey(System.currentTimeMillis().toString()))
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)

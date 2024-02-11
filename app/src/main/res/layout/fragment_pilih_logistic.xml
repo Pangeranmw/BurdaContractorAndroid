@@ -60,6 +60,16 @@
                 android:layout_marginHorizontal="16dp"
                 android:gravity="center_vertical">
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_lihat_peta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/ButtonSeeAll"
+                    android:fontFamily="@font/inter_regular"
+                    android:paddingVertical="20dp"
+                    android:paddingHorizontal="10dp"
+                    android:text="@string/lihat_peta" />
+
                 <com.google.android.material.search.SearchBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -18,9 +18,6 @@ import com.android.burdacontractor.core.utils.getDistanceMatrixCoordinate
 import com.android.burdacontractor.core.utils.setGone
 import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.FragmentPilihLogisticBinding
-import com.android.burdacontractor.feature.proyek.presentation.LogisticViewModel
-import com.android.burdacontractor.feature.proyek.presentation.PilihLogisticFragment
-import com.android.burdacontractor.feature.proyek.presentation.PilihLogisticViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -108,6 +105,10 @@ class PilihLogisticFragment : DialogFragment() {
             })
             binding.btnClose.setOnClickListener {
                 dismiss()
+            }
+            binding.btnLihatPeta.setOnClickListener {
+                val lokasiLogisticFragment = LokasiLogisticFragment.newInstance()
+                lokasiLogisticFragment.show(requireActivity().supportFragmentManager)
             }
             adapter = PagingListLogisticAdapter { logistic ->
                 pilihLogisticViewModel.setLogistic(logistic)

@@ -323,6 +323,7 @@
     <string name="pilih_penggunaan">Pilih Penggunaan</string>
     <string name="tipe">Tipe</string>
     <string name="tipe_belum_diatur">Tipe Belum Diatur</string>
+    <string name="driver_belum_dipilih">Driver Belum Dipilih</string>
     <string name="proyek_belum_diatur">Proyek Belum Diatur</string>
     <string name="tambah_surat_jalan">Tambah Surat Jalan</string>
     <string name="nomor_seri_format">#%1$s</string>
@@ -353,4 +354,6 @@
     <string name="heading_sj_pager">SJ %1$s %2$s</string>
     <string name="heading_sj_pager_all">Semua SJ %1$s</string>
     <string name="pembuat_surat_jalan">Pembuat Surat Jalan</string>
+    <string name="driver_pililihan_anda">Driver Pililihan Anda</string>
+    <string name="lihat_peta">Lihat Peta</string>
 </resources>

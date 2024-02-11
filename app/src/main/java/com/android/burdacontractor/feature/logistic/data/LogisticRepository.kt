@@ -6,11 +6,11 @@ import androidx.paging.PagingData
 import com.android.burdacontractor.core.data.Resource
 import com.android.burdacontractor.core.data.source.local.StorageDataSource
 import com.android.burdacontractor.core.data.source.remote.network.ApiResponse
-import com.android.burdacontractor.feature.proyek.data.source.remote.LogisticRemoteDataSource
-import com.android.burdacontractor.feature.proyek.domain.model.ActiveSjDoLocation
-import com.android.burdacontractor.feature.proyek.domain.model.AllLogistic
-import com.android.burdacontractor.feature.proyek.domain.model.LogisticById
-import com.android.burdacontractor.feature.proyek.domain.repository.ILogisticRepository
+import com.android.burdacontractor.feature.logistic.data.source.remote.LogisticRemoteDataSource
+import com.android.burdacontractor.feature.logistic.domain.model.ActiveSjDoLocation
+import com.android.burdacontractor.feature.logistic.domain.model.AllLogistic
+import com.android.burdacontractor.feature.logistic.domain.model.LogisticById
+import com.android.burdacontractor.feature.logistic.domain.repository.ILogisticRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -33,6 +33,26 @@ class LogisticRepository @Inject constructor(
         logisticRemoteDataSource.getAllLogistic(
             storageDataSource.getToken(), search, coordinate, size
         ).asLiveData()
+
+    override suspend fun getAllLogisticNoPaging(): Flow<Resource<List<AllLogistic>>> =
+        flow {
+            emit(Resource.Loading())
+            when (val response =
+                logisticRemoteDataSource.getAllLogisticNoPaging(
+                    storageDataSource.getToken()
+                )
+                    .first()) {
+                is ApiResponse.Empty -> {}
+                is ApiResponse.Success -> {
+                    val result = response.data.logistic
+                    emit(Resource.Success(result, response.data.message))
+                }
+
+                is ApiResponse.Error -> emit(Resource.Error(response.errorMessage))
+            }
+        }.catch {
+            emit(Resource.Error(it.message.toString()))
+        }.flowOn(Dispatchers.IO)
 
     override suspend fun getLogisticById(id: String): Flow<Resource<LogisticById>> =
         flow {

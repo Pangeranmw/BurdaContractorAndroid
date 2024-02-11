@@ -64,13 +64,6 @@ class PinPointLokasiViewModel @Inject constructor(
         }
     }
 
-    private val _latitude = MutableLiveData<String?>(null)
-    val latitude: LiveData<String?> = _latitude
-
-    fun setLatitude(latitude: String) {
-        _latitude.value = latitude
-    }
-
     fun setAlamat(alamat: String) {
         _alamat.value = alamat
     }
@@ -80,6 +73,13 @@ class PinPointLokasiViewModel @Inject constructor(
 
     fun setLongitude(longitude: String) {
         _longitude.value = longitude
+    }
+
+    private val _latitude = MutableLiveData<String?>(null)
+    val latitude: LiveData<String?> = _latitude
+
+    fun setLatitude(latitude: String) {
+        _latitude.value = latitude
     }
 }
 

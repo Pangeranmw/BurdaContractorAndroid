@@ -6,11 +6,11 @@ import com.android.burdacontractor.feature.gudang.domain.model.GudangById
 import com.android.burdacontractor.feature.kendaraan.domain.model.AllKendaraan
 import com.android.burdacontractor.feature.kendaraan.domain.model.Kendaraan
 import com.android.burdacontractor.feature.kendaraan.domain.model.KendaraanSimple
+import com.android.burdacontractor.feature.logistic.domain.model.AllLogistic
 import com.android.burdacontractor.feature.perusahaan.domain.model.AllPerusahaan
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
 import com.android.burdacontractor.feature.profile.domain.model.User
 import com.android.burdacontractor.feature.profile.domain.model.UserSimple
-import com.android.burdacontractor.feature.proyek.domain.model.AllLogistic
 import com.android.burdacontractor.feature.suratjalan.domain.model.AddUpdatePeminjamanPenggunaanSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.PeminjamanSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.PenggunaanSuratJalan

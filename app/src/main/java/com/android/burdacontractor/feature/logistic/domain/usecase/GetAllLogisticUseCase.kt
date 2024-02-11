@@ -2,7 +2,7 @@ package com.android.burdacontractor.feature.logistic.domain.usecase
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
-import com.android.burdacontractor.feature.proyek.domain.model.AllLogistic
+import com.android.burdacontractor.feature.logistic.domain.model.AllLogistic
 
 interface GetAllLogisticUseCase {
     fun execute(

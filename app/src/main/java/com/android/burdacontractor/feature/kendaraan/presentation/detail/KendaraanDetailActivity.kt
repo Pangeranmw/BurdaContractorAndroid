@@ -30,8 +30,8 @@ import com.android.burdacontractor.feature.gudang.domain.model.GudangById
 import com.android.burdacontractor.feature.kendaraan.domain.model.Kendaraan
 import com.android.burdacontractor.feature.kendaraan.presentation.pantau.PantauLokasiPengendaraActivity
 import com.android.burdacontractor.feature.kendaraan.presentation.update.UpdateKendaraanActivity
+import com.android.burdacontractor.feature.logistic.domain.model.LogisticById
 import com.android.burdacontractor.feature.profile.data.source.remote.response.UserByTokenItem
-import com.android.burdacontractor.feature.proyek.domain.model.LogisticById
 import com.android.burdacontractor.feature.suratjalan.domain.model.AllSuratJalan
 import com.android.burdacontractor.feature.suratjalan.presentation.detail.SuratJalanDetailActivity
 import com.google.android.material.snackbar.Snackbar

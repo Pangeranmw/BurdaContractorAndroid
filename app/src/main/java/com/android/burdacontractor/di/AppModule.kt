@@ -71,6 +71,14 @@ import com.android.burdacontractor.feature.kendaraan.domain.usecase.ReturnKendar
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.ReturnKendaraanUseCase
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.UpdateKendaraanInteractor
 import com.android.burdacontractor.feature.kendaraan.domain.usecase.UpdateKendaraanUseCase
+import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisticInteractor
+import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisticNoPagingInteractor
+import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisticNoPagingUseCase
+import com.android.burdacontractor.feature.logistic.domain.usecase.GetAllLogisticUseCase
+import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticActiveSjDoLocationInteractor
+import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticActiveSjDoLocationUseCase
+import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticByIdInteractor
+import com.android.burdacontractor.feature.logistic.domain.usecase.GetLogisticByIdUseCase
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.AddPerusahaanInteractor
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.AddPerusahaanUseCase
 import com.android.burdacontractor.feature.perusahaan.domain.usecase.DeletePerusahaanInteractor
@@ -101,12 +109,6 @@ import com.android.burdacontractor.feature.profile.domain.usecase.UploadPhotoInt
 import com.android.burdacontractor.feature.profile.domain.usecase.UploadPhotoUseCase
 import com.android.burdacontractor.feature.profile.domain.usecase.UploadTtdInteractor
 import com.android.burdacontractor.feature.profile.domain.usecase.UploadTtdUseCase
-import com.android.burdacontractor.feature.proyek.domain.usecase.GetAllLogisticInteractor
-import com.android.burdacontractor.feature.proyek.domain.usecase.GetAllLogisticUseCase
-import com.android.burdacontractor.feature.proyek.domain.usecase.GetLogisticActiveSjDoLocationInteractor
-import com.android.burdacontractor.feature.proyek.domain.usecase.GetLogisticActiveSjDoLocationUseCase
-import com.android.burdacontractor.feature.proyek.domain.usecase.GetLogisticByIdInteractor
-import com.android.burdacontractor.feature.proyek.domain.usecase.GetLogisticByIdUseCase
 import com.android.burdacontractor.feature.suratjalan.domain.usecase.*
 import dagger.Binds
 import dagger.Module
@@ -469,6 +471,10 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideGetAllLogisticUseCase(getAllLogisticInteractor: GetAllLogisticInteractor): GetAllLogisticUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideGetAllLogisticNoPagingUseCase(getAllLogisticNoPagingInteractor: GetAllLogisticNoPagingInteractor): GetAllLogisticNoPagingUseCase
 
     @Binds
     @ViewModelScoped

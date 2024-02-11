@@ -2,8 +2,8 @@ package com.android.burdacontractor.core.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.utils.convertDistance
@@ -13,10 +13,11 @@ import com.android.burdacontractor.core.utils.setVisible
 import com.android.burdacontractor.databinding.ItemLogisticBinding
 import com.android.burdacontractor.feature.logistic.domain.model.AllLogistic
 
-class PagingListLogisticAdapter(val listener: (AllLogistic) -> Unit) :
-    PagingDataAdapter<AllLogistic, PagingListLogisticAdapter.ListViewHolder>(
-        DIFF_CALLBACK
-    ) {
+class ListLokasiLogisticAdapter(
+    private val listener: (AllLogistic) -> Unit,
+) : ListAdapter<AllLogistic, ListLokasiLogisticAdapter.ListViewHolder>(
+    DIFF_CALLBACK
+) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding =
             ItemLogisticBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -24,7 +25,7 @@ class PagingListLogisticAdapter(val listener: (AllLogistic) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
+        holder.bind(getItem(position))
     }
 
     inner class ListViewHolder(private val binding: ItemLogisticBinding) :
@@ -78,8 +79,11 @@ class PagingListLogisticAdapter(val listener: (AllLogistic) -> Unit) :
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AllLogistic>() {
-            override fun areItemsTheSame(oldItem: AllLogistic, newItem: AllLogistic): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AllLogistic>() {
+            override fun areItemsTheSame(
+                oldItem: AllLogistic,
+                newItem: AllLogistic
+            ): Boolean {
                 return oldItem == newItem
             }
 
@@ -87,9 +91,8 @@ class PagingListLogisticAdapter(val listener: (AllLogistic) -> Unit) :
                 oldItem: AllLogistic,
                 newItem: AllLogistic
             ): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem == newItem
             }
         }
     }
-
 }

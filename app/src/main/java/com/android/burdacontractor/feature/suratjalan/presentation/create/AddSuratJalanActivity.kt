@@ -26,9 +26,9 @@ import com.android.burdacontractor.databinding.ActivityAddSuratJalanBinding
 import com.android.burdacontractor.feature.kendaraan.domain.model.AllKendaraan
 import com.android.burdacontractor.feature.kendaraan.presentation.PilihKendaraanFragment
 import com.android.burdacontractor.feature.kendaraan.presentation.PilihKendaraanViewModel
+import com.android.burdacontractor.feature.logistic.presentation.PilihLogisticFragment
+import com.android.burdacontractor.feature.logistic.presentation.PilihLogisticViewModel
 import com.android.burdacontractor.feature.profile.presentation.SignatureActivity
-import com.android.burdacontractor.feature.proyek.presentation.PilihLogisticFragment
-import com.android.burdacontractor.feature.proyek.presentation.PilihLogisticViewModel
 import com.android.burdacontractor.feature.suratjalan.presentation.BarangPeminjamanSuratJalanFragment
 import com.android.burdacontractor.feature.suratjalan.presentation.BarangPenggunaanSuratJalanFragment
 import com.android.burdacontractor.feature.suratjalan.presentation.detail.SuratJalanDetailActivity

@@ -16,8 +16,8 @@ import com.android.burdacontractor.core.utils.finishAction
 import com.android.burdacontractor.databinding.ActivityAddDeliveryOrderBinding
 import com.android.burdacontractor.feature.gudang.presentation.PilihGudangViewModel
 import com.android.burdacontractor.feature.kendaraan.presentation.PilihKendaraanViewModel
+import com.android.burdacontractor.feature.logistic.presentation.PilihLogisticViewModel
 import com.android.burdacontractor.feature.perusahaan.presentation.PilihPerusahaanViewModel
-import com.android.burdacontractor.feature.proyek.presentation.PilihLogisticViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
