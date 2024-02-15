@@ -284,13 +284,42 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_ubah_tema"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bottom_outline_gray"
+                android:padding="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rl_ubah_ttd">
+
+                <ImageView
+                    android:id="@+id/iv_ubah_tema"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/baseline_diamond_24"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_ubah_tema"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/iv_ubah_tema"
+                    android:text="@string/ubah_tema"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/rl_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rl_switch_tracking">
+                app:layout_constraintTop_toBottomOf="@+id/rl_ubah_tema">
 
                 <Button
                     android:id="@+id/btn_logout"

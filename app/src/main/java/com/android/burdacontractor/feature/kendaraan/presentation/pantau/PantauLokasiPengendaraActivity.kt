@@ -26,6 +26,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
@@ -36,9 +37,11 @@ class PantauLokasiPengendaraActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityPantauLokasiPengendaraBinding
     private val pantauLokasiPengendaraViewModel: PantauLokasiPengendaraViewModel by viewModels()
     private lateinit var mMap: GoogleMap
+    private var boundsBuilder = LatLngBounds.Builder()
     private var mapView: MapView? = null
     private var driverMarker: Marker? = null
     private var isTrackDriver: Boolean = false
+    private var firstTime: Boolean = true
     private var driverLocation: LatLng? = null
     private var logisticId: String? = null
     private var namaPengendara: String? = null
@@ -138,7 +141,6 @@ class PantauLokasiPengendaraActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.setInfoWindowAdapter(MarkerInfoWindowAdapter(this))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-0.4740344, 112.409006), 5f))
         driverMarker = mMap.addMarker(
             MarkerOptions().position(mMap.cameraPosition.target).icon(driverMarkerIcon)
         )
@@ -190,6 +192,7 @@ class PantauLokasiPengendaraActivity : AppCompatActivity(), OnMapReadyCallback {
                             marker?.setIcon(icon)
                         }
                     }
+                    boundsBuilder.include(position)
                     marker?.tag = PinPoint(data.nama, data.kode)
                 }
             }
@@ -198,6 +201,12 @@ class PantauLokasiPengendaraActivity : AppCompatActivity(), OnMapReadyCallback {
         pantauLokasiPengendaraViewModel.logisticCoordinate.observe(this) {
             if (it != null) {
                 driverLocation = LatLng(it.latitude, it.longitude)
+                if (firstTime) {
+                    boundsBuilder.include(driverLocation!!)
+                    val bounds: LatLngBounds = boundsBuilder.build()
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 64))
+                    firstTime = false
+                }
                 driverMarker?.position = driverLocation!!
                 if (isTrackDriver)
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(driverLocation!!, 20f))

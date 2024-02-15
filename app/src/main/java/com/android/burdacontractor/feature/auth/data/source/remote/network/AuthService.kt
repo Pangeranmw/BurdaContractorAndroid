@@ -24,6 +24,7 @@ interface AuthService {
         @Field("email") email: String,
         @Field("password") password: String,
         @Field("device_token") deviceToken: String,
+        @Field("tipe") tipe: String = "logistic",
     ): LoginResponse
 
     @FormUrlEncoded
@@ -43,5 +44,6 @@ interface AuthService {
     suspend fun logout(
         @Header("Authorization") token: String,
         @Field("device_token") deviceToken: String,
+        @Field("tipe") tipe: String = "logistic",
     ): ErrorMessageResponse
 }

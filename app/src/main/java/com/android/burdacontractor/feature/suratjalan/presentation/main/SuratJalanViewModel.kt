@@ -103,6 +103,7 @@ class SuratJalanViewModel @Inject constructor(
 
     fun getAllSuratJalan(): LiveData<PagingData<AllSuratJalan>> =
         getAllSuratJalanUseCase.execute(
+            size = 30,
             tipe = _tipe.value!!,
             status = _status.value!!,
             dateStart = _dateStart.value,

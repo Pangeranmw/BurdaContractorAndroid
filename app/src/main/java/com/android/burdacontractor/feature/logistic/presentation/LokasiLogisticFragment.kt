@@ -30,6 +30,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +40,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class LokasiLogisticFragment : DialogFragment(), OnMapReadyCallback {
     private var _binding: FragmentLokasiLogisticBinding? = null
     private val binding get() = _binding!!
+    private var boundsBuilder = LatLngBounds.Builder()
     private val pilihLogisticViewModel: PilihLogisticViewModel by activityViewModels()
     private val lokasiLogisticViewModel: LokasiLogisticViewModel by activityViewModels()
     private val storageViewModel: StorageViewModel by activityViewModels()
@@ -48,6 +50,14 @@ class LokasiLogisticFragment : DialogFragment(), OnMapReadyCallback {
     private val driverMarkerIcon: BitmapDescriptor by lazy {
         val color = ContextCompat.getColor(requireContext(), R.color.primary_main)
         BitmapHelper.vectorToBitmap(requireContext(), R.drawable.marker_ic_driver_location, color)
+    }
+    private val destinationMarkerIcon: BitmapDescriptor by lazy {
+        val color = ContextCompat.getColor(requireContext(), R.color.blue)
+        BitmapHelper.vectorToBitmap(requireContext(), R.drawable.marker_ic_marker, color)
+    }
+    private val originMarkerIcon: BitmapDescriptor by lazy {
+        val color = ContextCompat.getColor(requireContext(), R.color.orange_light_half)
+        BitmapHelper.vectorToBitmap(requireContext(), R.drawable.marker_ic_marker, color)
     }
 
     override fun onCreateView(
@@ -70,18 +80,16 @@ class LokasiLogisticFragment : DialogFragment(), OnMapReadyCallback {
             }
             listLogistic.observe(viewLifecycleOwner) {
                 for (allLogistic in it) {
+                    val location = LatLng(allLogistic.latitude!!, allLogistic.longitude!!)
                     val marker = mMap.addMarker(
                         MarkerOptions()
-                            .position(
-                                LatLng(
-                                    allLogistic.latitude!!,
-                                    allLogistic.longitude!!
-                                )
-                            )
+                            .position(location)
                             .icon(driverMarkerIcon)
                     )
+                    boundsBuilder.include(location)
                     marker?.tag = allLogistic
                 }
+                zoomToBound()
             }
             messageResponse.observe(viewLifecycleOwner) {
                 it.getContentIfNotHandled()?.let { messageResponse ->
@@ -92,6 +100,48 @@ class LokasiLogisticFragment : DialogFragment(), OnMapReadyCallback {
                     ).show()
                 }
             }
+        }
+        if (pilihLogisticViewModel.proyek.value != null) {
+            val proyek = pilihLogisticViewModel.proyek.value!!
+            val location = LatLng(proyek.latitude, proyek.longitude)
+            val marker = mMap.addMarker(
+                MarkerOptions()
+                    .title(proyek.namaProyek)
+                    .snippet(proyek.alamat)
+                    .position(location)
+                    .icon(destinationMarkerIcon)
+            )
+            marker?.tag = proyek
+            boundsBuilder.include(location)
+            zoomToBound()
+        }
+        if (pilihLogisticViewModel.perusahaan.value != null) {
+            val perusahaan = pilihLogisticViewModel.perusahaan.value!!
+            val location = LatLng(perusahaan.latitude, perusahaan.longitude)
+            val marker = mMap.addMarker(
+                MarkerOptions()
+                    .title(perusahaan.nama)
+                    .snippet(perusahaan.alamat)
+                    .position(location)
+                    .icon(destinationMarkerIcon)
+            )
+            marker?.tag = perusahaan
+            boundsBuilder.include(location)
+            zoomToBound()
+        }
+        if (pilihLogisticViewModel.gudang.value != null) {
+            val gudang = pilihLogisticViewModel.gudang.value!!
+            val location = LatLng(gudang.latitude, gudang.longitude)
+            val marker = mMap.addMarker(
+                MarkerOptions()
+                    .title(gudang.nama)
+                    .snippet(gudang.alamat)
+                    .position(location)
+                    .icon(originMarkerIcon)
+            )
+            marker?.tag = gudang
+            boundsBuilder.include(location)
+            zoomToBound()
         }
         if (pilihLogisticViewModel.longitude.value != null && pilihLogisticViewModel.latitude.value != null) {
             val selectedDriver = LatLng(
@@ -106,73 +156,84 @@ class LokasiLogisticFragment : DialogFragment(), OnMapReadyCallback {
             }
         }
         mMap.setOnMarkerClickListener { marker ->
-            val logistic = marker.tag as AllLogistic
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 20f))
-            marker.showInfoWindow()
-            selectedLogistic = logistic
-            binding.cvDriver.setVisible()
-            with(binding) {
-                tvNama.text = logistic.nama
-                logistic.kendaraan?.let {
-                    tvKendaraan.setVisible()
-                    tvKendaraan.text =
-                        requireContext().getString(
-                            R.string.merk_plat_kendaraan,
-                            it.merk,
-                            it.platNomor
+            if (marker.tag is AllLogistic) {
+                val logistic = marker.tag as AllLogistic
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 20f))
+                marker.showInfoWindow()
+                selectedLogistic = logistic
+                binding.cvDriver.setVisible()
+                with(binding) {
+                    tvNama.text = logistic.nama
+                    logistic.kendaraan?.let {
+                        tvKendaraan.setVisible()
+                        tvKendaraan.text =
+                            requireContext().getString(
+                                R.string.merk_plat_kendaraan,
+                                it.merk,
+                                it.platNomor
+                            )
+                    } ?: tvKendaraan.setGone()
+
+                    if (logistic.doActive > 0) {
+                        tvDoActive.setVisible()
+                        tvDoActive.text =
+                            requireContext().getString(R.string.active_do, logistic.doActive)
+                    } else tvDoActive.setGone()
+
+                    if (logistic.sjgpActive > 0) {
+                        tvSjgpActive.setVisible()
+                        tvSjgpActive.text =
+                            requireContext().getString(R.string.active_sjgp, logistic.sjgpActive)
+                    } else tvSjgpActive.setGone()
+
+                    if (logistic.sjppActive > 0) {
+                        tvSjppActive.setVisible()
+                        tvSjppActive.text =
+                            requireContext().getString(R.string.active_sjpp, logistic.sjppActive)
+                    } else tvSjppActive.setGone()
+
+                    if (logistic.sjpgActive > 0) {
+                        tvSjpgActive.setVisible()
+                        tvSjpgActive.text =
+                            requireContext().getString(R.string.active_sjpg, logistic.sjpgActive)
+                    } else tvSjpgActive.setGone()
+
+                    ivLogistic.setImageFromUrl(logistic.foto, requireContext())
+
+                    logistic.jarak?.let {
+                        tvJarak.setVisible()
+                        tvJarak.text = requireContext().getString(
+                            R.string.jarak_dari_lokasimu,
+                            it.convertDistance()
                         )
-                } ?: tvKendaraan.setGone()
-
-                if (logistic.doActive > 0) {
-                    tvDoActive.setVisible()
-                    tvDoActive.text =
-                        requireContext().getString(R.string.active_do, logistic.doActive)
-                } else tvDoActive.setGone()
-
-                if (logistic.sjgpActive > 0) {
-                    tvSjgpActive.setVisible()
-                    tvSjgpActive.text =
-                        requireContext().getString(R.string.active_sjgp, logistic.sjgpActive)
-                } else tvSjgpActive.setGone()
-
-                if (logistic.sjppActive > 0) {
-                    tvSjppActive.setVisible()
-                    tvSjppActive.text =
-                        requireContext().getString(R.string.active_sjpp, logistic.sjppActive)
-                } else tvSjppActive.setGone()
-
-                if (logistic.sjpgActive > 0) {
-                    tvSjpgActive.setVisible()
-                    tvSjpgActive.text =
-                        requireContext().getString(R.string.active_sjpg, logistic.sjpgActive)
-                } else tvSjpgActive.setGone()
-
-                ivLogistic.setImageFromUrl(logistic.foto, requireContext())
-
-                logistic.jarak?.let {
-                    tvJarak.setVisible()
-                    tvJarak.text = requireContext().getString(
-                        R.string.jarak_dari_lokasimu,
-                        it.convertDistance()
-                    )
-                } ?: tvJarak.setGone()
+                    } ?: tvJarak.setGone()
+                }
+                binding.tvEmptyDriver.setGone()
+                isInputCorrect()
+            } else {
+                marker.showInfoWindow()
             }
-            binding.tvEmptyDriver.setGone()
-            isInputCorrect()
             true
         }
         initUi()
+    }
+
+    private fun zoomToBound() {
+        val bounds: LatLngBounds = boundsBuilder.build()
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 64))
     }
 
     private fun trackCurrentLocation(listener: () -> Unit) {
         if (storageViewModel.getTracking) {
             val currentLocation =
                 LatLng(storageViewModel.latitude.toDouble(), storageViewModel.longitude.toDouble())
+            boundsBuilder.include(currentLocation)
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 20f))
         } else {
             showSnackbarToProfile()
             listener()
         }
+        zoomToBound()
     }
 
     private fun showSnackbarToProfile() {

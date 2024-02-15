@@ -46,15 +46,7 @@ class PagingListDOAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(deliveryOrder: AllDeliveryOrder) {
             when (role) {
-                UserRole.ADMIN_GUDANG.name -> {
-                    setCardIsForMe(
-                        deliveryOrder.idAdminGudang,
-                        binding.cvDeliveryOrder,
-                        itemView.context
-                    )
-                }
-
-                UserRole.PURCHASING.name -> {
+                UserRole.PURCHASING.name, UserRole.ADMIN_GUDANG.name, UserRole.ADMIN.name -> {
                     setCardIsForMe(
                         deliveryOrder.idPurchasing,
                         binding.cvDeliveryOrder,

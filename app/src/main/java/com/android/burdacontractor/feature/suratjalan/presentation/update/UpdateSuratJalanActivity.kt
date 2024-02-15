@@ -15,6 +15,7 @@ import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListPeminjamanSuratJalanAdapter
 import com.android.burdacontractor.core.presentation.adapter.ListPenggunaanSuratJalanAdapter
 import com.android.burdacontractor.core.utils.DataMapper
+import com.android.burdacontractor.core.utils.DataMapper.toProyek
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.customBackPressed
 import com.android.burdacontractor.core.utils.enumValueToNormal
@@ -85,6 +86,7 @@ class UpdateSuratJalanActivity : AppCompatActivity() {
                 ).show()
             }
         }
+        pilihLogisticViewModel.setProyek(suratJalan!!.tempatTujuan.toProyek())
         binding.btnSubmit.setOnClickListener {
             updateSuratJalanViewModel.updateSuratJalan(
                 suratJalan!!.id,

@@ -129,6 +129,7 @@ class KendaraanViewModel @Inject constructor(
             }
         }
         return getAllKendaraanUseCase.execute(
+            size = 30,
             filter = filterJenis,
             gudang = filterGudang,
             status = filterStatus,

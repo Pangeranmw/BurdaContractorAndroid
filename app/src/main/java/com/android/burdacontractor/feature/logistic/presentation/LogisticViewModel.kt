@@ -51,6 +51,7 @@ class LogisticViewModel @Inject constructor(
 
     fun getAllLogistic(): LiveData<PagingData<AllLogistic>> {
         return getAllLogisticUseCase.execute(
+            size = 30,
             search = _search.value,
             coordinate = _coordinate.value,
         ).cachedIn(viewModelScope)

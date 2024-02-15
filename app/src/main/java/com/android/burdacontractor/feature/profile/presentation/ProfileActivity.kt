@@ -7,12 +7,15 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
 import com.android.burdacontractor.core.presentation.StorageViewModel
+import com.android.burdacontractor.core.presentation.customview.UpdateTemaDialog
 import com.android.burdacontractor.core.service.location.LocationService
 import com.android.burdacontractor.core.utils.checkConnection
 import com.android.burdacontractor.core.utils.customBackPressed
@@ -35,8 +38,10 @@ class ProfileActivity : AppCompatActivity() {
     private val storageViewModel: StorageViewModel by viewModels()
     private var snackbar: Snackbar? = null
     private lateinit var user: UserByTokenItem
+    private lateinit var selectedTheme: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        selectedTheme = storageViewModel.theme
         binding = ActivityProfileBinding.inflate(layoutInflater)
         snackbar= Snackbar.make(findViewById(android.R.id.content), R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
         profileViewModel.liveNetworkChecker.observe(this){
@@ -90,9 +95,13 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun initUi() {
         onBackPressedCallback()
+        binding.rlUbahTema.setOnClickListener {
+            UpdateTemaDialog().show(supportFragmentManager, "UpdateTheme")
+        }
         binding.btnLogout.setOnClickListener {
             stopService()
             profileViewModel.logout {
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
                 openActivity(
                     LoginActivity::class.java,
                     isFinished = true,

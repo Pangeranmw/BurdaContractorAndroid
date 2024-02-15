@@ -17,7 +17,7 @@ import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.FilterSelected
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.domain.model.enums.UserRole
-import com.android.burdacontractor.core.presentation.BottomNavigationViewModel
+import com.android.burdacontractor.core.presentation.SidebarViewModel
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListFilterSelectedAdapter
 import com.android.burdacontractor.core.presentation.adapter.LoadingStateAdapter
@@ -44,7 +44,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class UsersActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private val storageViewModel: StorageViewModel by viewModels()
-    private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
+    private val sidebarViewModel: SidebarViewModel by viewModels()
     private val usersViewModel: UsersViewModel by viewModels()
     private lateinit var filterDialog: FilterUsersFragment
     private lateinit var adapter: PagingListUsersAdapter
@@ -272,7 +272,7 @@ class UsersActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             role == UserRole.ADMIN.name ||
             role == UserRole.PURCHASING.name
         ) {
-            bottomNavigationViewModel.getCountActiveDeliveryOrder()
+            sidebarViewModel.getCountActiveDeliveryOrder()
         }
         if (role == UserRole.LOGISTIC.name ||
             role == UserRole.ADMIN_GUDANG.name ||
@@ -281,12 +281,12 @@ class UsersActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             role == UserRole.PROJECT_MANAGER.name ||
             role == UserRole.SITE_MANAGER.name
         ) {
-            bottomNavigationViewModel.getCountActiveSuratJalan()
+            sidebarViewModel.getCountActiveSuratJalan()
         }
     }
 
     private fun initBadge() {
-        bottomNavigationViewModel.totalActiveSuratJalan.observe(this) {
+        sidebarViewModel.totalActiveSuratJalan.observe(this) {
             val badgeSj = binding.navView.menu.findItem(R.id.nav_surat_jalan).actionView as TextView
             badgeSj.text = it.toString()
             badgeSj.gravity = Gravity.CENTER_VERTICAL
@@ -294,7 +294,7 @@ class UsersActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             if (it > 0) badgeSj.setTextColor(ContextCompat.getColor(this, R.color.secondary_main))
             else badgeSj.setTextColor(ContextCompat.getColor(this, R.color.red))
         }
-        bottomNavigationViewModel.totalActiveDeliveryOrder.observe(this) {
+        sidebarViewModel.totalActiveDeliveryOrder.observe(this) {
             val badgeSj =
                 binding.navView.menu.findItem(R.id.nav_delivery_order).actionView as TextView
             badgeSj.text = it.toString()

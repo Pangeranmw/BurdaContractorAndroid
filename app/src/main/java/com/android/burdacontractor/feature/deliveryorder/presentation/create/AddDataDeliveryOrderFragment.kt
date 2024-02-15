@@ -107,6 +107,7 @@ class AddDataDeliveryOrderFragment : Fragment() {
                 binding.ivPerusahaan.setImageFromUrl(perusahaan.gambar, requireContext())
                 binding.tvAlamatPerusahaan.text = perusahaan.alamat
                 binding.tvNamaPerusahaan.text = perusahaan.nama
+                pilihLogisticViewModel.setPerusahaan(it)
             }
             binding.cvGudang.setOnClickListener {
                 if (perusahaan == null) {
@@ -124,6 +125,7 @@ class AddDataDeliveryOrderFragment : Fragment() {
                     binding.ivGudang.setImageFromUrl(gudang.gambar, requireContext())
                     binding.tvNamaGudang.text = gudang.nama
                     binding.tvAlamatGudang.text = gudang.alamat
+                    pilihLogisticViewModel.setGudang(it)
                 }
                 binding.cvLogistic.setOnClickListener {
                     if (gudang == null || perusahaan == null) {

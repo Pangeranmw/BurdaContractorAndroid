@@ -82,6 +82,7 @@ class GudangViewModel @Inject constructor(
             }
         }
         return getAllGudangUseCase.execute(
+            size = 30,
             filter = filterProv,
             search = _search.value,
             coordinate = _coordinate.value,

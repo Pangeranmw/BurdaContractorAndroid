@@ -72,6 +72,7 @@ class UsersViewModel @Inject constructor(
             }
         }
         return getAllUsers.execute(
+            size = 30,
             filter = filterRole,
             search = _search.value,
         ).cachedIn(viewModelScope)

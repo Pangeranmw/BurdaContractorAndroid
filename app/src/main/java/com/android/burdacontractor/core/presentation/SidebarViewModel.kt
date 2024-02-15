@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BottomNavigationViewModel @Inject constructor(
+class SidebarViewModel @Inject constructor(
     private val getCountActiveSuratJalanUseCase: GetCountActiveSuratJalanUseCase,
     private val getCountActiveDeliveryOrderUseCase: GetCountActiveDeliveryOrderUseCase,
 ) : ViewModel() {

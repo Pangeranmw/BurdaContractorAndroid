@@ -82,6 +82,7 @@ class PerusahaanViewModel @Inject constructor(
             }
         }
         return getAllPerusahaanUseCase.execute(
+            size = 30,
             filter = filterProv,
             search = _search.value,
             coordinate = _coordinate.value,

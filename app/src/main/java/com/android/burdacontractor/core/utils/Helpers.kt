@@ -26,6 +26,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
@@ -35,6 +36,7 @@ import com.android.burdacontractor.BuildConfig
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.data.source.remote.response.Routes
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
+import com.android.burdacontractor.core.domain.model.enums.Tema
 import com.android.burdacontractor.core.presentation.customview.CustomTextInputLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -58,12 +60,32 @@ import java.util.UUID
 
 
 // Extension For Distance Matrix Response
-fun List<Routes>.getDuration(): String{
+fun List<Routes>.getDuration(): String {
     val duration = this[0].duration
-    return when(duration.toInt()){
+    return when (duration.toInt()) {
         in 0..60 -> String.format("%.2f Dtk", duration)
         in 60..3600 -> String.format("%.2f Mnt", duration / 60)
         else -> String.format("%.2f Jam", duration / 3600)
+    }
+}
+
+fun setTheme(currentTheme: String?) {
+    currentTheme?.let {
+        if (it.isNotBlank()) {
+            when (Tema.valueOf(currentTheme)) {
+                Tema.Sistem -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                }
+
+                Tema.Gelap -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+
+                Tema.Terang -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+        }
     }
 }
 

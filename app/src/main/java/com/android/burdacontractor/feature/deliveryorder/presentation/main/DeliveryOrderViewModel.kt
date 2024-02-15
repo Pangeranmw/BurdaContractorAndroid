@@ -94,6 +94,7 @@ class DeliveryOrderViewModel @Inject constructor(
 
     fun getAllDelivery(): LiveData<PagingData<AllDeliveryOrder>> {
         return getAllDeliveryOrderUseCase.execute(
+            size = 30,
             status = _status.value!!,
             search = _search.value,
             dateStart = _dateStart.value,

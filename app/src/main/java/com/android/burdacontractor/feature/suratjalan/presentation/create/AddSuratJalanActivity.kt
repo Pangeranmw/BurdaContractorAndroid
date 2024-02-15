@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.burdacontractor.R
 import com.android.burdacontractor.core.domain.model.Constant.INTENT_ID
+import com.android.burdacontractor.core.domain.model.Proyek
 import com.android.burdacontractor.core.domain.model.enums.StateResponse
 import com.android.burdacontractor.core.presentation.StorageViewModel
 import com.android.burdacontractor.core.presentation.adapter.ListPeminjamanSuratJalanAdapter
@@ -40,6 +41,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AddSuratJalanActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddSuratJalanBinding
+    private var listProyek: List<Proyek> = listOf()
     private val addSuratJalanViewModel: AddSuratJalanViewModel by viewModels()
     private val pilihPenggunaanSuratJalanViewModel: PilihPenggunaanSuratJalanViewModel by viewModels()
     private val pilihPeminjamanSuratJalanViewModel: PilihPeminjamanSuratJalanViewModel by viewModels()
@@ -94,14 +96,19 @@ class AddSuratJalanActivity : AppCompatActivity() {
 
         addSuratJalanViewModel.listProyek.observe(this) { listProyek ->
             val list = listProyek.map { it.namaProyek }
+            this.listProyek = listProyek
             binding.spinnerProyek.setItems(list)
             addSuratJalanViewModel.proyekIndex.value.let {
                 addSuratJalanViewModel.setProyekIndex(it)
                 if (it != null) binding.spinnerProyek.selectItemByIndex(it)
+                it?.let {
+                    pilihLogisticViewModel.setProyek(listProyek[it])
+                }
             }
         }
         binding.spinnerProyek.setOnSpinnerItemSelectedListener(OnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
             addSuratJalanViewModel.setProyekIndex(newIndex)
+            pilihLogisticViewModel.setProyek(listProyek[newIndex])
             pilihPenggunaanSuratJalanViewModel.resetPenggunaan()
             pilihPeminjamanSuratJalanViewModel.resetPeminjaman()
             isInputCorrect()

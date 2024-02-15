@@ -15,6 +15,7 @@ class SessionManager(context: Context) {
         const val KEY_LATITUDE = "latitude"
         const val KEY_LONGITUDE = "longitude"
         const val KEY_TRACKING = "isTracking"
+        const val KEY_THEME = "theme"
     }
 
     private val pref: SharedPreferences = context.getSharedPreferences("Session", Context.MODE_PRIVATE)
@@ -26,7 +27,6 @@ class SessionManager(context: Context) {
     fun setTracking(isTracking: Boolean) {
         editor.putBoolean(KEY_TRACKING, isTracking).commit()
     }
-
     fun logout() {
         editor.remove(KEY_USER_ID)
         editor.remove(KEY_TOKEN)
@@ -38,6 +38,7 @@ class SessionManager(context: Context) {
         editor.remove(KEY_PHOTO)
         editor.remove(KEY_NAME)
         editor.remove(KEY_TRACKING)
+        editor.remove(KEY_THEME)
         editor.apply()
     }
     fun getTracking(): Boolean = pref.getBoolean(KEY_TRACKING, true)

@@ -356,4 +356,6 @@
     <string name="pembuat_surat_jalan">Pembuat Surat Jalan</string>
     <string name="driver_pililihan_anda">Driver Pililihan Anda</string>
     <string name="lihat_peta">Lihat Peta</string>
+    <string name="ubah_tema">Ubah Tema</string>
+    <string name="tema_belum_diatur">Tema Belum Diatur</string>
 </resources>

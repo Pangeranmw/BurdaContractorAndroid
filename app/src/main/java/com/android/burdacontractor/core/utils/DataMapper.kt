@@ -1,5 +1,6 @@
 package com.android.burdacontractor.core.utils
 
+import com.android.burdacontractor.core.domain.model.Proyek
 import com.android.burdacontractor.core.domain.model.TempatSimple
 import com.android.burdacontractor.feature.gudang.domain.model.AllGudang
 import com.android.burdacontractor.feature.gudang.domain.model.GudangById
@@ -14,6 +15,7 @@ import com.android.burdacontractor.feature.profile.domain.model.UserSimple
 import com.android.burdacontractor.feature.suratjalan.domain.model.AddUpdatePeminjamanPenggunaanSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.PeminjamanSuratJalan
 import com.android.burdacontractor.feature.suratjalan.domain.model.PenggunaanSuratJalan
+import com.android.burdacontractor.feature.suratjalan.domain.model.TempatSuratJalan
 
 object DataMapper {
 
@@ -86,6 +88,24 @@ object DataMapper {
         id = gudangById.id,
         durasi = null,
         longitude = gudangById.longitude
+    )
+
+    fun TempatSuratJalan.toProyek(): Proyek = Proyek(
+        provinsi = "",
+        kota = "",
+        latitude = this.coordinate.getLatitude(),
+        createdAt = 0,
+        tglSelesai = 0,
+        alamat = this.alamat,
+        siteManagerId = "",
+        foto = "",
+        updatedAt = 0,
+        selesai = 0,
+        client = "",
+        id = "",
+        namaProyek = this.nama,
+        longitude = this.coordinate.getLongitude()
+
     )
 
     fun tempatSimpleToAllGudang(tempatSimple: TempatSimple): AllGudang = AllGudang(

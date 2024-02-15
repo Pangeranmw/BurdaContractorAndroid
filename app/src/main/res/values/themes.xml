@@ -2,11 +2,11 @@
     <!-- Base application theme. -->
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <!-- Set the splash screen background, animated icon, and animation duration. -->
-        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenBackground">@color/secondary_main</item>
 
         <!-- Use windowSplashScreenAnimatedIcon to add either a drawable or an
              animated drawable. One of these is required. -->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/burda_splash</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_burda</item>
         <!-- Required for animated icons -->
         <item name="windowSplashScreenAnimationDuration">1500</item>
 
