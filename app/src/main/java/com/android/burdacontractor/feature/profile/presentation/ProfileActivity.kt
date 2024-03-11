@@ -7,8 +7,6 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.android.burdacontractor.R
@@ -101,7 +99,6 @@ class ProfileActivity : AppCompatActivity() {
         binding.btnLogout.setOnClickListener {
             stopService()
             profileViewModel.logout {
-                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
                 openActivity(
                     LoginActivity::class.java,
                     isFinished = true,
@@ -109,6 +106,9 @@ class ProfileActivity : AppCompatActivity() {
                 )
             }
         }
+        binding.rlSwitchTracking.isVisible =
+            user.role != UserRole.LOGISTIC.name && user.role != UserRole.USER.name
+
         if(user.role == UserRole.LOGISTIC.name){
             profileViewModel.getIsTrackingRealtime(user.id)
             profileViewModel.isTracking.observe(this){

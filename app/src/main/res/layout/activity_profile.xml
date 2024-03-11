@@ -136,200 +136,189 @@
                 app:layout_constraintStart_toEndOf="@+id/iv_outline"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RelativeLayout
-                android:id="@+id/rl_ubah_profil"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_marginTop="50dp"
-                android:background="@drawable/bottom_outline_gray"
-                android:padding="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_user">
 
-                <ImageView
-                    android:id="@+id/iv_ubah_profil"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_profile"
-                    app:tint="@color/black" />
-
-                <TextView
-                    android:id="@+id/tv_ubah_profil"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/iv_ubah_profil"
-                    android:text="@string/ubah_profil"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_ubah_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bottom_outline_gray"
-                android:padding="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rl_ubah_profil">
-
-                <ImageView
-                    android:id="@+id/iv_ubah_password"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_password"
-                    app:tint="@color/black" />
-
-                <TextView
-                    android:id="@+id/tv_ubah_password"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/iv_ubah_password"
-                    android:text="@string/ubah_password"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_ubah_foto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bottom_outline_gray"
-                android:padding="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rl_ubah_password">
-
-                <ImageView
-                    android:id="@+id/iv_ubah_foto"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_image"
-                    app:tint="@color/black" />
-
-                <TextView
-                    android:id="@+id/tv_ubah_foto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/iv_ubah_foto"
-                    android:text="@string/ubah_foto"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_ubah_ttd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bottom_outline_gray"
-                android:padding="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rl_ubah_foto">
-
-                <ImageView
-                    android:id="@+id/iv_ubah_ttd"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_signature"
-                    app:tint="@color/black" />
-
-                <TextView
-                    android:id="@+id/tv_ubah_ttd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/iv_ubah_ttd"
-                    android:text="@string/atur_tanda_tangan"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_switch_tracking"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bottom_outline_gray"
-                android:padding="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rl_ubah_ttd">
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switch_tracking"
-                    android:layout_width="wrap_content"
-                    android:checked="true"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    app:tint="@color/black" />
-
-                <TextView
-                    android:id="@+id/tv_switch_tracking"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/switch_tracking"
-                    android:layout_centerVertical="true"
-                    android:text="@string/tracking_lokasi_aktif"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_ubah_tema"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bottom_outline_gray"
-                android:padding="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rl_ubah_ttd">
-
-                <ImageView
-                    android:id="@+id/iv_ubah_tema"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/baseline_diamond_24"
-                    app:tint="@color/black" />
-
-                <TextView
-                    android:id="@+id/tv_ubah_tema"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/iv_ubah_tema"
-                    android:text="@string/ubah_tema"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rl_ubah_tema">
-
-                <Button
-                    android:id="@+id/btn_logout"
-                    style="@style/ButtonFullWidth"
+                <RelativeLayout
+                    android:id="@+id/rl_ubah_profil"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/red"
-                    android:background="@drawable/semi_rounded_outline_red"
-                    android:text="@string/keluar" />
-            </RelativeLayout>
+                    android:background="@drawable/bottom_outline_gray"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:id="@+id/iv_ubah_profil"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_profile"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_ubah_profil"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/iv_ubah_profil"
+                        android:text="@string/ubah_profil"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_ubah_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bottom_outline_gray"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:id="@+id/iv_ubah_password"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_password"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_ubah_password"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/iv_ubah_password"
+                        android:text="@string/ubah_password"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_ubah_foto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bottom_outline_gray"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:id="@+id/iv_ubah_foto"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_image"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_ubah_foto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/iv_ubah_foto"
+                        android:text="@string/ubah_foto"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_ubah_ttd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bottom_outline_gray"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:id="@+id/iv_ubah_ttd"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_signature"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_ubah_ttd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/iv_ubah_ttd"
+                        android:text="@string/atur_tanda_tangan"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_ubah_tema"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bottom_outline_gray"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:id="@+id/iv_ubah_tema"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/baseline_diamond_24"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_ubah_tema"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/iv_ubah_tema"
+                        android:text="@string/ubah_tema"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_switch_tracking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bottom_outline_gray"
+                    android:padding="20dp">
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switch_tracking"
+                        android:layout_width="wrap_content"
+                        android:checked="true"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_switch_tracking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/switch_tracking"
+                        android:layout_centerVertical="true"
+                        android:text="@string/tracking_lokasi_aktif"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:gravity="end"
+                    android:id="@+id/rl_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
+
+                    <Button
+                        android:id="@+id/btn_logout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:backgroundTint="@null"
+                        android:textAllCaps="false"
+                        android:textColor="@color/red"
+                        android:background="@drawable/semi_rounded_outline_red"
+                        android:text="@string/keluar" />
+                </RelativeLayout>
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

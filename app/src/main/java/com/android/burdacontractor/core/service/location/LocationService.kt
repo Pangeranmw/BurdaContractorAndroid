@@ -7,6 +7,8 @@ import android.app.Service
 import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION
+import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.android.burdacontractor.R
@@ -15,14 +17,15 @@ import com.android.burdacontractor.core.data.StorageRepository
 import com.android.burdacontractor.core.data.source.local.storage.SessionManager
 import com.android.burdacontractor.core.domain.model.LogisticCoordinate
 import com.android.burdacontractor.core.domain.model.enums.UserRole
-import com.android.burdacontractor.feature.beranda.presentation.BerandaActivity
+import com.android.burdacontractor.feature.profile.presentation.ProfileActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.*
-import java.util.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -63,7 +66,7 @@ class LocationService: Service() {
             .setSmallIcon(R.drawable.logo_burda)
             .setOngoing(true)
 
-        val resultIntent = Intent(this, BerandaActivity::class.java)
+        val resultIntent = Intent(this, ProfileActivity::class.java)
         val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
             addNextIntentWithParentStack(resultIntent)
             getPendingIntent(
@@ -108,7 +111,11 @@ class LocationService: Service() {
                 notificationManager.notify(1000, updatedNotification.build())
             }
             .launchIn(serviceScope)
-        startForeground(1000, notification.build())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(1000, notification.build(), FOREGROUND_SERVICE_TYPE_LOCATION)
+        } else {
+            startForeground(1000, notification.build())
+        }
     }
 
     private fun stop() {

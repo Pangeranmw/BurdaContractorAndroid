@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp">
-
             <ImageButton
                 android:id="@+id/btn_close"
                 android:layout_width="48dp"

@@ -38,7 +38,6 @@ class SessionManager(context: Context) {
         editor.remove(KEY_PHOTO)
         editor.remove(KEY_NAME)
         editor.remove(KEY_TRACKING)
-        editor.remove(KEY_THEME)
         editor.apply()
     }
     fun getTracking(): Boolean = pref.getBoolean(KEY_TRACKING, true)
